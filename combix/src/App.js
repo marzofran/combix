@@ -1,24 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import generateStore from './Redux/store';
+import {Provider} from 'react-redux';
 
 function App() {
+  const store = generateStore();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={"https://pbs.twimg.com/profile_images/1374038263409864714/vN1bxpTr_400x400.jpg"} className="App-logo" alt="logo" />
-        <p>
-          putO el que gira
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className='App'>
+        <header className='App-header'>
+          <h1>app.ssjs</h1>
+        </header>
+      </div>
+    </Provider>
   );
 }
 
