@@ -9,8 +9,8 @@ function App() {
     <Provider store={store}>
       <div className='App'>
         <header className='App-header'>
-          <h1>app.js component</h1>
           <Nav></Nav>
+          <h1>app.js component</h1>
         </header>
       </div>
     </Provider>
