@@ -9,8 +9,7 @@ function App() {
     <Provider store={store}>
       <div className='App'>
         <header className='App-header'>
-          <Nav></Nav>
-          <h1>app.js component</h1>
+          <Nav />
         </header>
       </div>
     </Provider>

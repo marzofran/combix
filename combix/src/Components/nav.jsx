@@ -1,28 +1,23 @@
 import React from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  Form,
-  FormControl,
-  Button,
-} from 'react-bootstrap';
+import {Navbar} from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-
+import Login from './login';
+import Home from './home';
 const Nav = () => {
   return (
     <div>
       <Router>
         <Navbar expand='lg' variant='dark' style={{backgroundColor: '#135671'}}>
-          <Navbar.Brand href='#'>
-            <img
-              src='https://iili.io/BdjqsS.png'
-              width='20%'
-              className='d-inline-block align-top'
-              alt='Combix logo'
-            />
-          </Navbar.Brand>
+          <Link to='/'>
+            <Navbar.Brand>
+              <img
+                src='https://lh4.googleusercontent.com/cwUw5h35sWcSzRtnW4lY_E61MRDDeWE3_lwF86rMESkj-_D6kxIHRAn4jp9tnlpdAbpEm0Hgv9Vr8pjJpB_x=w1919-h969-rw'
+                width='20%'
+                className='d-inline-block align-top'
+                alt='Combix logo'
+              />
+            </Navbar.Brand>
+          </Link>
           <Link className='navbar-brand nav-link ' to='/aboutus'>
             Sobre nosotros
           </Link>
@@ -36,18 +31,21 @@ const Nav = () => {
           >
             Iniciar Sesion
           </Link>
-          <Switch>
-            <Route path='/login'>
-              <h1>iniciarSesion Component</h1>
-            </Route>
-            <Route path='/aboutus'>
-              <h1>aboutus Component</h1>
-            </Route>
-            <Route path='/contact'>
-              <h1>contact Component</h1>
-            </Route>
-          </Switch>
         </Navbar>
+        <Switch>
+          <Route path='/login'>
+            <Login></Login>
+          </Route>
+          <Route path='/aboutus'>
+            <h1>aboutus Component</h1>
+          </Route>
+          <Route path='/contact'>
+            <h1>contact Component</h1>
+          </Route>
+          <Route path='/'>
+            <Home></Home>
+          </Route>
+        </Switch>
       </Router>
     </div>
   );
