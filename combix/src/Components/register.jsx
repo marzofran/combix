@@ -42,14 +42,14 @@ const Register = () => {
               <Form.Label>Contraseña</Form.Label>
               <Form.Control type='password' placeholder='*********' />
             </Form.Group>
-            <Form.Group controlId='contraseña'>
+            <Form.Group controlId='contraseñaRepeat'>
               <Form.Label>Repetir contraseña</Form.Label>
               <Form.Control type='password' placeholder='*********' />
             </Form.Group>
             <Row>
               <Col lg='8'>
                 <button
-                  class='btn btn-primary buttonGradient'
+                  className='btn btn-primary buttonGradient'
                   variant='primary'
                   type='submit'
                 >
@@ -57,10 +57,10 @@ const Register = () => {
                 </button>
               </Col>
               <Col>
-                <Link class='btn btn-outline-light buttonLogin' to='/login'>
+                <Link className='btn btn-outline-light buttonLogin' to='/login'>
                   iniciar sesion
                   <p>
-                    <i class='fa fa-arrow-right' aria-hidden='true'></i>
+                    <i className='fa fa-arrow-right' aria-hidden='true'></i>
                   </p>
                 </Link>
               </Col>
