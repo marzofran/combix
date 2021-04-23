@@ -1,4 +1,12 @@
-const express = require('express'), app = express(), port = 3000
+const express = require('express'), app = express(), PORT = 3000
 app.use(express.json())
 
-app.listen( port, () => console.log("Server live on " + port))
+app.listen( PORT, () => console.log(`Server live on port ${PORT}`))
+
+let users = [
+    
+];
+
+app.post('/users',(request, response) => {
+    response.send({message: 'Hello back!'})
+})

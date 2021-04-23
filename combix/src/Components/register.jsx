@@ -1,12 +1,18 @@
 import React from 'react';
 import {Form, Card, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import Axios from 'axios';
 
 const Register = () => {
-  const handleSubmit = (event) => {
+ const handleSubmit = event => {
     event.preventDefault();
-    alert('Registrado');
-  };
+
+    Axios
+      .post('/users', { message: 'Hello' })
+      .then(response => { 
+        console.log(response)
+      })
+  }
 
   return (
     <div>
