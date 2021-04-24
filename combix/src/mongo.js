@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
-const password = ''
-const connectionString = ''
 
-/*mongoose.connect(connectionString, {
+
+const connectionString = 'mongodb+srv://clovergreen:Kraehe24@peridot.3prtf.mongodb.net/combixdb?retryWrites=true&w=majority'
+
+mongoose.connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -12,4 +13,8 @@ const connectionString = ''
         console.log('Database connected')
     }).catch( err => {
         console.error(err)
-})*/
+})
+
+
+
+
