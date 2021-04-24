@@ -2,6 +2,9 @@ import React from 'react';
 import Register from './register';
 import Footer from './footer';
 import {Row, Container, Col, Image, Button, Card} from 'react-bootstrap';
+import goldUser from '../resources/goldUser.jpeg';
+import covidSecurity from '../resources/covidSecurity.jpg';
+import combi19Logo from '../resources/Combi-19Logo.png';
 
 const Home = () => {
   return (
@@ -33,11 +36,7 @@ const Home = () => {
           <Row>
             <Col>
               <div className='absolute'>
-                <Image
-                  src='https://lh5.googleusercontent.com/ZFQbvDVsrbQdchabgsSlY7EjvO48aguljZGjYTCo2oX340bKa1G1cQFANnYEe8kUSmfgcE8dYQWEFCtO9Ja1=w1920-h969-rw'
-                  alt='Placeholder'
-                  fluid
-                ></Image>
+                <Image src={covidSecurity} alt='Placeholder' fluid></Image>
               </div>
             </Col>
             <Col xl={6}>
@@ -70,11 +69,7 @@ const Home = () => {
             </Col>
             <Col>
               <div className='absolute'>
-                <Image
-                  src='https://lh3.googleusercontent.com/ljDV4GgbBZ_NIXjl6gkroPDNz3wfZvACIFDqe-9-2OtuaGNU7C6YhHNe16Mcr79adAJ22u_vqCh3XjEIgVRw=w1678-h969'
-                  alt='Placeholder'
-                  fluid
-                ></Image>
+                <Image src={goldUser} alt='Placeholder' fluid></Image>
               </div>
             </Col>
           </Row>
@@ -106,11 +101,7 @@ const Home = () => {
             <Card.Body>
               <Row>
                 <Col>
-                  <Image
-                    src='https://lh6.googleusercontent.com/ETmA-CF1SDnYI_D5OMZyuor6jGPAtDoZ2nKPKAoUD3kXwpG0jxp9Y7kyN-C99xAhNgulARnfiUksQApa8ldj=w1678-h969-rw'
-                    fluid
-                    style={{width: '80%'}}
-                  ></Image>
+                  <Image src={combi19Logo} fluid style={{width: '80%'}}></Image>
                 </Col>
                 <Col xl={8}>
                   <Card.Title>

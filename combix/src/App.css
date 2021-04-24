@@ -2,12 +2,12 @@ html {
   scroll-behavior: smooth;
 }
 .imageLanding {
-  background-image: url('https://lh6.googleusercontent.com/PBSVlaQjHxRSrXHvBDkfIBeYxqDB2s9U7pdw2c1MXngyd4QnqvX5_zG5TqARkH0g-tEFAsKDVqYp2JQ2Bt3i=w1919-h1080-rw');
+  background-image: url('./resources/home_Fluid2.png');
   background-repeat: no-repeat;
   background-size: auto;
 }
 .imageLanding2 {
-  background-image: url('https://lh5.googleusercontent.com/MLbrqdIwkpmrIiKboK05uLSdVJDqOh6HqZu1ZezmnVZ3zkLdIyEl9R6qB9XmGs-ekDQWCtumhpI4jZBXULWy=w1468-h912-rw');
+  background-image: url('./resources/patagoniaBottom.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }

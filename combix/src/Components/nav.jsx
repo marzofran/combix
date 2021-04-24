@@ -3,6 +3,9 @@ import {Navbar} from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import Login from './login';
 import Home from './home';
+
+import combixLogo from '../resources/CombixWhite.png';
+
 const Nav = () => {
   return (
     <div>
@@ -11,7 +14,7 @@ const Nav = () => {
           <Link to='/'>
             <Navbar.Brand>
               <img
-                src='https://lh4.googleusercontent.com/cwUw5h35sWcSzRtnW4lY_E61MRDDeWE3_lwF86rMESkj-_D6kxIHRAn4jp9tnlpdAbpEm0Hgv9Vr8pjJpB_x=w1919-h969-rw'
+                src={combixLogo}
                 width='20%'
                 className='d-inline-block align-top'
                 alt='Combix logo'

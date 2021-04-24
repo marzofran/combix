@@ -1,5 +1,6 @@
 import React from 'react';
 import {Container, Row, Col, Image} from 'react-bootstrap';
+import logo from '../resources/ramenWare.png';
 
 const Footer = () => {
   return (
@@ -13,7 +14,7 @@ const Footer = () => {
             <h5>
               Developed by
               <Image
-                src='https://lh4.googleusercontent.com/I4I5REFlxos1ikYNbDOhek3xgQEg_M3cvSqz3XtOn-wRhvfQtDAFaLNA5UpDnxgR-tM7MiPZNK-rJQk38fQG=w1678-h969-rw'
+                src={logo}
                 fluid
                 style={{width: '20%', marginLeft: '10px'}}
               ></Image>
