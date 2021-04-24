@@ -44,7 +44,9 @@ const UserRegisterForm = callback => {
             .post('/users', newUser )
             .then(response => {
                 console.log('El registro fue exitoso')
+                // login
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }},[errors])
 
     return {handleChange, values, handleSubmit, errors}
