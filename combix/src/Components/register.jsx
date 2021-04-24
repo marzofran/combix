@@ -28,32 +28,32 @@ const Register = () => {
               <Col>
                 <Form.Group controlId='dni'>
                   <Form.Label>Dni</Form.Label>
-                  <Form.Control type='text' placeholder='Dni' name='DNI' value={values.DNI} onChange={handleChange}/>
-                  {errors.DNI && <p>{errors.DNI}</p>}
+                  <Form.Control type='text' placeholder='Dni' name='dni' value={values.dni} onChange={handleChange}/>
+                  {errors.dni && <p>{errors.dni}</p>}
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group controlId='nacimiento'>
+                <Form.Group controlId='fechaNacimiento'>
                   <Form.Label>Fecha de nacimiento</Form.Label>
-                  <Form.Control type='date' placeholder='Fecha de nacimiento' name='fecha' value={values.fecha} onChange={handleChange}/>
-                  {errors.fecha && <p>{errors.fecha}</p>}
+                  <Form.Control type='date' placeholder='Fecha de nacimiento' name='fechaNacimiento' value={values.fechaNacimiento} onChange={handleChange}/>
+                  {errors.fechaNacimiento && <p>{errors.fechaNacimiento}</p>}
                 </Form.Group>
               </Col>
             </Row>
-            <Form.Group controlId='email'>
+            <Form.Group controlId='mail'>
               <Form.Label>Email</Form.Label>
-              <Form.Control type='email' placeholder='Email' name='email' value={values.email} onChange={handleChange}/>
-              {errors.email && <p>{errors.email}</p>}
+              <Form.Control type='email' placeholder='Email' name='mail' value={values.mail} onChange={handleChange}/>
+              {errors.mail && <p>{errors.mail}</p>}
             </Form.Group>
-            <Form.Group controlId='contraseña'>
+            <Form.Group controlId='clave'>
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control type='password' placeholder='**********' name='contrasena' value={values.contrasena} onChange={handleChange}/>
-              {errors.contrasena && <p>{errors.contrasena}</p>}
+              <Form.Control type='password' placeholder='**********' name='clave' value={values.clave} onChange={handleChange}/>
+              {errors.clave && <p>{errors.clave}</p>}
             </Form.Group>
-            <Form.Group controlId='contraseñaRepeat'>
+            <Form.Group controlId='repetirClave'>
               <Form.Label>Repetir contraseña</Form.Label>
-              <Form.Control type='password' placeholder='**********' name='repetirContrasena' value={values.repetirContrasena} onChange={handleChange}/>
-              {errors.repetirContrasena && <p>{errors.repetirContrasena}</p>}
+              <Form.Control type='password' placeholder='**********' name='repetirClave' value={values.repetirClave} onChange={handleChange}/>
+              {errors.repetirClave && <p>{errors.repetirClave}</p>}
             </Form.Group>
             <Row>
               <Col lg='8'>

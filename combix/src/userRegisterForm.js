@@ -5,11 +5,11 @@ const UserRegisterForm = callback => {
     const [values, setValues] = useState({
         nombre: '',
         apellido: '',
-        DNI: '',
-        fecha: '',
-        email: '',
-        contrasena: '',
-        repetirContrasena: ''
+        dni: '',
+        fechaNacimiento: '',
+        mail: '',
+        clave: '',
+        repetirClave: ''
     })
     const [errors, setErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -34,10 +34,10 @@ const UserRegisterForm = callback => {
             const newUser = {
                 nombre: values.nombre,
                 apellido: values.apellido,
-                DNI: values.DNI,
-                fecha: values.fecha,
-                email: values.email,
-                contrasena: values.contrasena
+                dni: values.dni,
+                fechaNacimiento: values.fechaNacimiento,
+                mail: values.mail,
+                clave: values.clave
             }
 
             Axios
@@ -60,28 +60,28 @@ function validateInfo(values){
     if(!values.apellido.trim()){
         errors.apellido = "Apellido requerido"
     }
-    if(!values.DNI.trim()){
-        errors.DNI = "DNI requerido"
-    } else if (values.DNI.length < 7){
-        errors.DNI = "DNI invalido"
+    if(!values.dni.trim()){
+        errors.dni = "dni requerido"
+    } else if (values.dni.length < 7){
+        errors.dni = "dni invalido"
     }
-    if(!values.fecha.trim()){
-        errors.fecha = "Fecha de nacimiento requerida"
+    if(!values.fechaNacimiento.trim()){
+        errors.fechaNacimiento = "Fecha de nacimiento requerida"
     }
-    if(!values.email.trim()){
-        errors.email = "Email requerido"
+    if(!values.mail.trim()){
+        errors.mail = "Email requerido"
     } else if ( !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email) ){
-        errors.email = "Email inválido"
+        errors.mail = "Email inválido"
     }
-    if(!values.contrasena){
-        errors.contrasena = "Contraseña requerida"
-    } else if (values.contrasena.length < 6){
-        errors.contrasena = "6 caracteres mínimo"
+    if(!values.clave){
+        errors.clave = "Contraseña requerida"
+    } else if (values.clave.length < 6){
+        errors.clave = "6 caracteres mínimo"
     }
-    if(!values.repetirContrasena){
-        errors.repetirContrasena = "Contraseña requerida"
-    } else if (values.contrasena !== values.repetirContrasena){
-        errors.repetirContrasena = "Las contraseñas no concuerdan"
+    if(!values.repetirClave){
+        errors.repetirClave = "Contraseña requerida"
+    } else if (values.clave !== values.repetirClave){
+        errors.repetirClave = "Las contraseñas no concuerdan"
     }
 
     return errors

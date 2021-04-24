@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-
-
 const connectionString = 'mongodb+srv://clovergreen:Kraehe24@peridot.3prtf.mongodb.net/combixdb?retryWrites=true&w=majority'
 
 mongoose.connect(connectionString, {
