@@ -1,7 +1,7 @@
-import db from './mongo'
+require('./mongo')
 
 const express = require('express'), bodyParser = require('body-parser'), app = express(), PORT = 3000
-const { Usuario } = require('./models/Usuario')
+const { Usuario } = require('./Usuario')
 app.use(express.json())
 app.use(bodyParser.json())
 
