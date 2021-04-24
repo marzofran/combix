@@ -1,10 +1,6 @@
 const express = require('express'), app = express(), PORT = 3000
 app.use(express.json())
 
-let users = [
-    
-];
-
 // Register user 
 app.post('/users',(request, response) => {
     // validate email
