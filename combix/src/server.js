@@ -13,7 +13,7 @@ app.post('/users',(request, response) => {
 })
 
 // Login
-app.post('/users/:id',(request, response) => {
+app.get('/users/:id',(request, response) => {
     // validate user data
     // return login success code
     // return error code if invalid login data
