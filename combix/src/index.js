@@ -16,3 +16,5 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+//esta mal visto tener todo junto, como es una app shiquita "puede" que no traiga problemas. Las sintaxis se cojen entre si

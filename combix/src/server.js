@@ -1,16 +1,20 @@
+const { json: _json } = require('body-parser')
+const express = require('express')
+const {json} = require('express')
 require('./mongo')
+const Usuario = require('./Usuario')
+const app = express()
+const PORT = 3000
 
-const express = require('express'), bodyParser = require('body-parser'), app = express(), PORT = 3000
-const { Usuario } = require('./Usuario')
-app.use(express.json())
-app.use(bodyParser.json())
+app.use(json())
+app.use(_json())
 
 // Register user
 app.post('/users',(request, response) => {
     let user = request.body
     console.log(user.mail, user)
-
-    /*let usuario = new Usuario({
+    console.log(Usuario)
+    let usuario = new Usuario({
         nombre: user.nombre,
         apellido: user.apellido,
         dni: user.dni,
@@ -28,7 +32,7 @@ app.post('/users',(request, response) => {
     })
     .catch(err => {
         console.error(err)
-    })*/
+    })
 
     // si ya esta, decime y le aviso a la interfaz
 })
