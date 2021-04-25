@@ -21,7 +21,8 @@ app.post('/users',(request, response) => {
         mail: user.mail,
         clave: user.clave,
         fechaNacimiento: user.fechaNacimiento,
-        plan: user.plan
+        plan: user.plan,
+        permissions: user.permissions
     })
 
     // si no esta, guardate este nuevo Usuario
