@@ -24,7 +24,6 @@ const Register = () => {
                 value={values.nombre}
                 onChange={handleChange}
               />
-              {errors.nombre && <p>{errors.nombre}</p>}
             </Form.Group>
             <Form.Group controlId='apellido'>
               <Form.Label>Apellido/s </Form.Label>
@@ -36,7 +35,6 @@ const Register = () => {
                 value={values.apellido}
                 onChange={handleChange}
               />
-              {errors.apellido && <p>{errors.apellido}</p>}
             </Form.Group>
             <Row>
               <Col>
@@ -51,7 +49,6 @@ const Register = () => {
                     value={values.dni}
                     onChange={handleChange}
                   />
-                  {errors.dni && <p>{errors.dni}</p>}
                 </Form.Group>
               </Col>
               <Col>
@@ -65,7 +62,6 @@ const Register = () => {
                     value={values.fechaNacimiento}
                     onChange={handleChange}
                   />
-                  {errors.fechaNacimiento && <p>{errors.fechaNacimiento}</p>}
                 </Form.Group>
               </Col>
             </Row>
@@ -79,7 +75,6 @@ const Register = () => {
                 value={values.mail}
                 onChange={handleChange}
               />
-              {errors.mail && <p>{errors.mail}</p>}
             </Form.Group>
             <Form.Group controlId='clave'>
               <Form.Label>Contraseña</Form.Label>
@@ -92,13 +87,11 @@ const Register = () => {
                 value={values.clave}
                 onChange={handleChange}
               />
-              {errors.clave && <p>{errors.clave}</p>}
             </Form.Group>
             <Form.Group controlId='repetirClave'>
               <Form.Label>Repetir contraseña</Form.Label>
               <Form.Control
                 required
-                minLength='6'
                 type='password'
                 placeholder='**********'
                 name='repetirClave'

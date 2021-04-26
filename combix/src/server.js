@@ -21,10 +21,11 @@ app.post('/users',(request, response) => {
         mail: user.mail,
         clave: user.clave,
         fechaNacimiento: user.fechaNacimiento,
-        plan: user.plan,
-        permissions: user.permissions
+        plan: "basico",
+        permissions: "usuario"
     })
 
+    // toma este mail y fijate si ya está
     // si no esta, guardate este nuevo Usuario
     usuario.save()
     .then(result => {
@@ -36,6 +37,7 @@ app.post('/users',(request, response) => {
     })
 
     // si ya esta, decime y le aviso a la interfaz
+    
 })
 
 // Login
