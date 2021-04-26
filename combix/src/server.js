@@ -13,7 +13,6 @@ app.use(_json())
 app.post('/users',(request, response) => {
     let user = request.body
     console.log(user.mail, user)
-    console.log(Usuario)
     let usuario = new Usuario({
         nombre: user.nombre,
         apellido: user.apellido,
@@ -25,18 +24,17 @@ app.post('/users',(request, response) => {
         permissions: "usuario"
     })
 
-    // toma este mail y fijate si ya está
-    // si no esta, guardate este nuevo Usuario
-    usuario.save()
-    .then(result => {
-        console.log(result)
-        require('mongoose').connection.close()
-    })
-    .catch(err => {
-        console.error(err)
+    Usuario.find({ mail: user.mail }).then( result => {
+        response.status(203).end()
+    }).catch(err => {
+        usuario.save()
+            .then(result => {
+                console.log(result)
+            })
+        response.status(202).end()
     })
 
-    // si ya esta, decime y le aviso a la interfaz
+    require('mongoose').connection.close()
     
 })
 

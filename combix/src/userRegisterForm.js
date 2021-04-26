@@ -41,11 +41,19 @@ const UserRegisterForm = (callback) => {
       };
 
       Axios.post('/users', newUser).then((response) => {
-        console.log('El registro fue exitoso');
-        // login
+        switch(response.status){
+          case 202:
+            console.log("El registro fue exitoso")
+            break
+          case 203:
+            console.log("El email ya está registrado")
+            break
+          default:
+            break
+        }
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
   return {handleChange, values, handleSubmit, errors};
