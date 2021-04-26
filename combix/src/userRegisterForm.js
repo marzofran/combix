@@ -56,7 +56,6 @@ function validateInfo(values) {
   if (values.clave !== values.repetirClave) {
     errors.repetirClave = 'Las contraseñas no concuerdan';
   }
-
   return errors;
 }
 
