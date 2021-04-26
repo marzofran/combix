@@ -43,14 +43,14 @@ const UserRegisterForm = (callback) => {
       Axios.post('/users', newUser).then((response) => {
         switch(response.status){
           case 202:
-            console.log("El registro fue exitoso")
+            alert("El registro fue exitoso")
             // Ir a pantalla inicial loggeado
             break
           case 203:
-            console.log("El email ya está registrado")
+            alert("El email ya está registrado")
             break
           default:
-            console.log("Hubo un error con el registro")
+            alert("Hubo un error con el registro")
             break
         }
       });
