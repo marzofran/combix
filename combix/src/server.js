@@ -11,6 +11,7 @@ app.use(_json())
 
 // Register user
 app.post('/users',(request, response) => {
+    let found = false
     let user = request.body
     console.log(user.mail, user)
     let usuario = new Usuario({
@@ -25,17 +26,23 @@ app.post('/users',(request, response) => {
     })
 
     Usuario.find({ mail: user.mail }).then( result => {
-        response.status(203).end()
+        if (Object.entries(result).length === 0) {
+            usuario.save()
+                .then(result => {
+                    console.log(result)
+                    require('mongoose').connection.close()
+                    response.status(202).end()
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        } else {
+            response.status(203).end()
+        }
     }).catch(err => {
-        usuario.save()
-            .then(result => {
-                console.log(result)
-            })
-        response.status(202).end()
+        console.log(err)
+        response.status(204).end()
     })
-
-    require('mongoose').connection.close()
-    
 })
 
 // Login
