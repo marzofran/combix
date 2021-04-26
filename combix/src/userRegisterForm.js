@@ -66,7 +66,22 @@ function validateInfo(values) {
   if (values.clave !== values.repetirClave) {
     errors.repetirClave = 'Las contraseñas no concuerdan';
   }
+  if (!esMayor(values.fechaNacimiento)){
+    errors.fechaNacimiento = 'Debes ser mayor de 18 años';
+  }
   return errors;
+}
+
+function esMayor(date) 
+{
+    var today = new Date();
+    var birthDate = new Date(date);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age > 18;
 }
 
 export default UserRegisterForm;

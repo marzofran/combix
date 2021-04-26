@@ -62,6 +62,7 @@ const Register = () => {
                     value={values.fechaNacimiento}
                     onChange={handleChange}
                   />
+                  {errors.fechaNacimiento && <p>{errors.fechaNacimiento}</p>}
                 </Form.Group>
               </Col>
             </Row>

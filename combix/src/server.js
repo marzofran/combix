@@ -11,7 +11,6 @@ app.use(_json())
 
 // Register user
 app.post('/users',(request, response) => {
-    let found = false
     let user = request.body
     console.log(user.mail, user)
     let usuario = new Usuario({
