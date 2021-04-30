@@ -8,8 +8,8 @@ function App() {
   const store = generateStore();
   return (
     <Provider store={store}>
-      <div className="App">
-        <header className="App-header">
+      <div className='App'>
+        <header className='App-header'>
           <Nav />
         </header>
       </div>

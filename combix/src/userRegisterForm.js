@@ -40,22 +40,22 @@ const UserRegisterForm = (callback) => {
         clave: values.clave,
       };
 
-      Axios.post('/users', newUser).then((response) => {
-        switch(response.status){
+      Axios.post('http://localhost:3030/users', newUser).then((response) => {
+        switch (response.status) {
           case 202:
-            alert("El registro fue exitoso")
+            alert('El registro fue exitoso');
             // Ir a pantalla inicial loggeado
-            break
+            break;
           case 203:
-            alert("El email ya está registrado")
-            break
+            alert('El email ya está registrado');
+            break;
           default:
-            alert("Hubo un error con el registro")
-            break
+            alert('Hubo un error con el registro');
+            break;
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
   return {handleChange, values, handleSubmit, errors};
@@ -66,22 +66,21 @@ function validateInfo(values) {
   if (values.clave !== values.repetirClave) {
     errors.repetirClave = 'Las contraseñas no concuerdan';
   }
-  if (!esMayor(values.fechaNacimiento)){
+  if (!esMayor(values.fechaNacimiento)) {
     errors.fechaNacimiento = 'Debes ser mayor de 18 años';
   }
   return errors;
 }
 
-function esMayor(date) 
-{
-    var today = new Date();
-    var birthDate = new Date(date);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
-    return age > 18;
+function esMayor(date) {
+  var today = new Date();
+  var birthDate = new Date(date);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age > 18;
 }
 
 export default UserRegisterForm;

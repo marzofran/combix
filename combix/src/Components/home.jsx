@@ -93,7 +93,7 @@ const Home = () => {
           </Button>
         </Container>
       </div>
-      <div className={'ultimaseccion imageLanding2'}>
+      <div className={'ultimaseccion imageLanding2'} id={'bottom'}>
         <Container>
           <Card
             style={{padding: '30px', marginTop: '100px', marginBottom: '100px'}}
@@ -107,15 +107,15 @@ const Home = () => {
                   <Card.Title>
                     <h1>Combi-19</h1>
                   </Card.Title>
-                  <Card.Text>
-                    <h4 style={{marginTop: '20px'}}>
+                  <div className={'card-text'}>
+                    <h3 style={{marginTop: '20px'}}>
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Ad tempore dolorum unde quia explicabo soluta molestiae
                       exercitationem inventore vitae, quod labore esse numquam
                       architecto, praesentium neque! Consequatur quisquam ipsum
                       illum.
-                    </h4>
-                  </Card.Text>
+                    </h3>
+                  </div>
                 </Col>
               </Row>
             </Card.Body>
