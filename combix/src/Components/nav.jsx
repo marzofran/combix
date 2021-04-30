@@ -10,7 +10,6 @@ import {useSelector} from 'react-redux';
 
 const Nav = () => {
   const store = useSelector((store) => store.combix.sesion);
-  console.log(store);
   return (
     <div>
       <Router history={history}>
@@ -43,6 +42,7 @@ const Nav = () => {
           ) : (
             <Link
               className='navbar-brand nav-link btn'
+              to='/login'
               style={{backgroundColor: '#0f172e'}}
             >
               <h5> Cerrar sesion</h5>

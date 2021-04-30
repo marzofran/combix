@@ -32,13 +32,11 @@ export const obtenerDatosUsuarioAccion = (email, password) => async (
         switch (response.status) {
           case 400:
             alert('contraseña erronea');
-            console.log(response);
             break;
           case 203:
-            alert('no se encuentra al user');
+            alert('contraseña erronea');
             break;
           case 200:
-            console.log(response.data);
             alert('login exitoso');
             dispatch({
               type: OBETENER_DATOS_USUARIO,
@@ -48,8 +46,6 @@ export const obtenerDatosUsuarioAccion = (email, password) => async (
             break;
           default:
             alert('se produjo un error');
-            console.log(response.data);
-
             break;
         }
       });
