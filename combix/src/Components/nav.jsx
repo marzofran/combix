@@ -6,9 +6,11 @@ import Home from './home';
 import history from './history';
 import Loged from './loged';
 import combixLogo from '../resources/CombixWhite.png';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {cerrarSesion} from '../Redux/combixDucks';
 
 const Nav = () => {
+  const dispatch = useDispatch();
   const store = useSelector((store) => store.combix.sesion);
   return (
     <div>
@@ -42,7 +44,7 @@ const Nav = () => {
           ) : (
             <Link
               className='navbar-brand nav-link btn'
-              to='/login'
+              onClick={() => dispatch(cerrarSesion())}
               style={{backgroundColor: '#0f172e'}}
             >
               <h5> Cerrar sesion</h5>

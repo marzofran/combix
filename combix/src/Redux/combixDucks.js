@@ -7,10 +7,14 @@ const configDuck = {
   sesion: {},
 };
 const OBETENER_DATOS_USUARIO = 'OBTENER DATOS USUARIO';
+const CERRAR_SESION = 'CERRAR SESION';
+
 // reducer
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
     case OBETENER_DATOS_USUARIO:
+      return {...state, sesion: action.payload};
+    case CERRAR_SESION:
       return {...state, sesion: action.payload};
     default:
       return state;
@@ -52,4 +56,14 @@ export const obtenerDatosUsuarioAccion = (email, password) => async (
   } catch (error) {
     console.log(error);
   }
+};
+
+export const cerrarSesion = () => (dispatch, getState) => {
+  const sesion = {};
+  dispatch({
+    type: OBETENER_DATOS_USUARIO,
+    payload: sesion,
+  });
+  alert('sesion cerrada');
+  history.push('/');
 };
