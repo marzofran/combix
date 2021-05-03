@@ -62,6 +62,7 @@ app.get('/login', (request, response) => {
       console.log(user);
       return response.send(user).end();
     }
+    require('mongoose').connection.close();
   });
 });
 
