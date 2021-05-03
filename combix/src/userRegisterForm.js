@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
-import Axios from 'axios';
+import store from './Redux/storeInstance';
 
+import {registrarUsuario} from './Redux/combixDucks';
 const UserRegisterForm = (callback) => {
   const [values, setValues] = useState({
     nombre: '',
@@ -39,21 +40,8 @@ const UserRegisterForm = (callback) => {
         mail: values.mail,
         clave: values.clave,
       };
-
-      Axios.post('http://localhost:3030/users', newUser).then((response) => {
-        switch (response.status) {
-          case 202:
-            alert('El registro fue exitoso');
-            // Ir a pantalla inicial loggeado
-            break;
-          case 203:
-            alert('El email ya está registrado');
-            break;
-          default:
-            alert('Hubo un error con el registro');
-            break;
-        }
-      });
+      store.getState();
+      store.dispatch(registrarUsuario(newUser));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);

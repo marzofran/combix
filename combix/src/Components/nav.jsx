@@ -45,6 +45,7 @@ const Nav = () => {
             <Link
               className='navbar-brand nav-link btn'
               onClick={() => dispatch(cerrarSesion())}
+              to='/login'
               style={{backgroundColor: '#0f172e'}}
             >
               <h5> Cerrar sesion</h5>

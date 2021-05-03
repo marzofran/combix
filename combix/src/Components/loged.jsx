@@ -1,5 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+
 const Loged = () => {
   const store = useSelector((store) => store.combix);
   return (

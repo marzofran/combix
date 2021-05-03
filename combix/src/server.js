@@ -4,7 +4,7 @@ const {json} = require('express');
 require('./mongo');
 const Usuario = require('./Usuario');
 const app = express();
-const PORT = 3030;
+const PORT = 8080;
 
 app.use(json());
 app.use(_json());
@@ -30,9 +30,8 @@ app.post('/users', (request, response) => {
         usuario
           .save()
           .then((result) => {
-            console.log(result);
             require('mongoose').connection.close();
-            response.status(202).end();
+            response.status(202).send(result).end();
           })
           .catch((e) => {
             console.log(e);
@@ -53,6 +52,7 @@ app.get('/login', (request, response) => {
   let password = request.query.clave;
   Usuario.findOne({mail: email, clave: password}, function (err, user) {
     if (err) {
+      console.log(response);
       return response.status(204).end();
     }
     if (!user) {
