@@ -5,6 +5,7 @@ import Login from './login';
 import Home from './home';
 import history from './history';
 import Loged from './loged';
+import VistaAdmin from './vistas/administrador/vistaAdmin';
 import combixLogo from '../resources/CombixWhite.png';
 import {useSelector, useDispatch} from 'react-redux';
 import {cerrarSesion} from '../Redux/combixDucks';
@@ -62,6 +63,11 @@ const Nav = () => {
           <Route path='/contact'>
             <h1>contact Component</h1>
           </Route>
+
+          <Route path='/admin'>
+            <VistaAdmin></VistaAdmin>
+          </Route>
+
           <Route path='/'>
             <Home></Home>
           </Route>

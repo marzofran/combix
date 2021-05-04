@@ -36,10 +36,10 @@ export const obtenerDatosUsuarioAccion = (email, password) => async (
     }).then((response) => {
       switch (response.status) {
         case 400:
-          alert('contraseña erronea');
+          alert('Usuario o contraseña erronea');
           break;
         case 203:
-          alert('contraseña erronea');
+          alert('Usuario o contraseña erronea');
           break;
         case 200:
           alert('login exitoso');
@@ -47,7 +47,21 @@ export const obtenerDatosUsuarioAccion = (email, password) => async (
             type: OBETENER_DATOS_USUARIO,
             payload: response.data,
           });
-          history.push('/loged');
+          switch (response.data.permissions) {
+            case 'usuario':
+              history.push('/loged');
+              break;
+            case 'administrador':
+              history.push('/admin');
+              break;
+            case 'chofer':
+              history.push('/chofer');
+              break;
+            default:
+              console.log('no se tienen permisos');
+              break;
+          }
+
           break;
         default:
           console.log(response);
