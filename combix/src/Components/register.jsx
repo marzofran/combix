@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, Card, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import userRegisterForm from '../userRegisterForm';
+import userRegisterForm from '../scripts/userRegisterForm';
 
 const Register = () => {
   const {handleChange, values, handleSubmit, errors} = userRegisterForm();

@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
-import store from './Redux/storeInstance';
+import store from '../Redux/storeInstance';
+import {registrarUsuario} from '../Redux/combixDucks';
 
-import {registrarUsuario} from './Redux/combixDucks';
 const UserRegisterForm = (callback) => {
   const [values, setValues] = useState({
     nombre: '',
