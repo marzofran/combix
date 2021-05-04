@@ -21,8 +21,8 @@ const Nav = () => {
             <Navbar.Brand>
               <img
                 src={combixLogo}
-                width='20%'
-                className='d-inline-block align-top'
+                width='15%'
+                className='d-inline-block align-top ml-5'
                 alt='Combix logo'
               />
             </Navbar.Brand>
@@ -36,7 +36,7 @@ const Nav = () => {
 
           {Object.keys(store).length === 0 ? (
             <Link
-              className='navbar-brand nav-link btn'
+              className='navbar-brand nav-link btn mr-5'
               style={{backgroundColor: '#0f172e'}}
               to='/login'
             >
@@ -44,10 +44,10 @@ const Nav = () => {
             </Link>
           ) : (
             <Link
-              className='navbar-brand nav-link btn'
+              className='navbar-brand nav-link btn mr-5'
               onClick={() => dispatch(cerrarSesion())}
               to='/login'
-              style={{backgroundColor: '#0f172e'}}
+              style={{backgroundColor: 'red'}}
             >
               <h5> Cerrar sesion</h5>
             </Link>
