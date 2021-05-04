@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import store from '../Redux/storeInstance';
+import {store} from '../Redux/store';
 import {registrarUsuario} from '../Redux/combixDucks';
 
 const UserRegisterForm = (callback) => {
@@ -40,7 +40,7 @@ const UserRegisterForm = (callback) => {
         mail: values.mail,
         clave: values.clave,
       };
-      store.getState();
+
       store.dispatch(registrarUsuario(newUser));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
