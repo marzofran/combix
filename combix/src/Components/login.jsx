@@ -44,7 +44,7 @@ const Login = () => {
           />
         </div>
 
-        <button className={'btn btn-primary'}>Submit</button>
+        <button className={'btn btn-primary'}>Iniciar Sesión</button>
       </form>
     </div>
   );

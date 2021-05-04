@@ -15,8 +15,8 @@ const Home = () => {
             <Row>
               <Col>
                 <h3>
-                  Viajá seguro
-                  <br /> Viajá combix.
+                  Viajá seguro.
+                  <br /> Viajá CombiX.
                 </h3>
               </Col>
               <Col>
@@ -58,7 +58,7 @@ const Home = () => {
           <Row>
             <Col xl={6}>
               <div style={{padding: '20px'}}>
-                <h2>Viajá comodo con GOLD</h2>
+                <h2>Viajá cómodo con GOLD</h2>
                 <h4>
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                   Rerum, enim. Reprehenderit ut quod deleniti, natus beatae

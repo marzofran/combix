@@ -15,6 +15,9 @@ const NavAdmin = () => {
           <div className={'col-2'}>
             <ul className='list-group'>
               <li className='list-group-item'>
+                <Link to='/admin/ciudades'>Ciudades</Link>
+              </li>
+              <li className='list-group-item'>
                 <Link to='/admin/choferes'>Choferes</Link>
               </li>
               <li className='list-group-item'>
@@ -25,9 +28,6 @@ const NavAdmin = () => {
               </li>
               <li className='list-group-item'>
                 <Link to='/admin/rutas'>Rutas</Link>
-              </li>
-              <li className='list-group-item'>
-                <Link to='/admin/ciudades'>Ciudades</Link>
               </li>
               <li className='list-group-item'>
                 <Link to='/admin/viajes'>Viajes</Link>
