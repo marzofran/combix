@@ -89,6 +89,17 @@ app.post('/ciudades', async(request, response) => {
   }
 })
 //Fetch Ciudades
+app.get('/ciudades', async(request, response) => {
+  try{
+    let ciudades = await Ciudad.find({})
+    require('mongoose').connection.close()
+    response.status(200).json(ciudades).end()
+  }
+  catch (err) {
+    console.log(err)
+    response.status(500).send(err.message).end()
+  }
+})
 //Modify Ciudad
 //Disable Ciudad
 
@@ -140,6 +151,17 @@ app.post('/combis', async(request, response) => {
   }
 })
 //Fetch Combis
+app.get('/combis', async(request, response) => {
+  try{
+    let combis = await Combi.find({})
+    require('mongoose').connection.close()
+    response.status(200).json(combis).end()
+  }
+  catch (err) {
+    console.log(err)
+    response.status(500).send(err.message).end()
+  }
+})
 //Modify Combi
 //Disable Combi
 

@@ -1,0 +1,12 @@
+POST http://localhost:3000/ciudades HTTP/1.1
+content-type: application/json
+
+{
+    "lugar": "lugarSample",
+    "provincia": "provinciaSample"
+}
+
+###
+GET http://localhost:3000/ciudades
+
+###
