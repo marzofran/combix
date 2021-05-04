@@ -7,34 +7,45 @@ import history from './history';
 import Loged from './loged';
 import VistaAdmin from './vistas/administrador/vistaAdmin';
 import combixLogo from '../resources/CombixWhite.png';
-import {useSelector, useDispatch} from 'react-redux';
-import {cerrarSesion} from '../Redux/combixDucks';
+import {useSelector} from 'react-redux';
 
+import NavAdminLogeado from './navAdminLogeado';
 const Nav = () => {
-  const dispatch = useDispatch();
   const store = useSelector((store) => store.combix.sesion);
+
+  function RednerNavAdmin() {
+    if (
+      Object.keys(store).length > 0 &&
+      store.permissions === 'administrador'
+    ) {
+      return <NavAdminLogeado></NavAdminLogeado>;
+    }
+    return null;
+  }
+
   return (
     <div>
       <Router history={history}>
-        <Navbar expand='lg' variant='dark' style={{backgroundColor: '#135671'}}>
-          <Link to='/'>
-            <Navbar.Brand>
-              <img
-                src={combixLogo}
-                width='15%'
-                className='d-inline-block align-top ml-5'
-                alt='Combix logo'
-              />
-            </Navbar.Brand>
-          </Link>
-          <a className='navbar-brand nav-link ' href='#bottom'>
-            <h5>Sobre nosotros</h5>
-          </a>
-          <Link className='navbar-brand nav-link ' to='/contact'>
-            <h5>Contactanos</h5>
-          </Link>
+        {Object.keys(store).length === 0 && (
+          <Navbar
+            expand='lg'
+            variant='dark'
+            style={{backgroundColor: '#135671'}}
+          >
+            <Link to='/'>
+              <Navbar.Brand>
+                <img
+                  src={combixLogo}
+                  width='15%'
+                  className='d-inline-block align-top ml-5'
+                  alt='Combix logo'
+                />
+              </Navbar.Brand>
+            </Link>
 
-          {Object.keys(store).length === 0 ? (
+            <Link className='navbar-brand nav-link ' to='/contact'>
+              <h5>Contactanos</h5>
+            </Link>
             <Link
               className='navbar-brand nav-link btn mr-5'
               style={{backgroundColor: '#0f172e'}}
@@ -42,17 +53,9 @@ const Nav = () => {
             >
               <h5> Iniciar Sesion</h5>
             </Link>
-          ) : (
-            <Link
-              className='navbar-brand nav-link btn mr-5'
-              onClick={() => dispatch(cerrarSesion())}
-              to='/login'
-              style={{backgroundColor: 'red'}}
-            >
-              <h5> Cerrar sesion</h5>
-            </Link>
-          )}
-        </Navbar>
+          </Navbar>
+        )}
+        <RednerNavAdmin></RednerNavAdmin>
         <Switch>
           <Route path='/login'>
             <Login></Login>
