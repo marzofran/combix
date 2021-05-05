@@ -1,9 +1,19 @@
 import React from 'react';
+import history from '../../history';
 import NavAdmin from './navAdmin';
-const VistaAdmin = () => {
+
+const VistaAdmin = (props) => {
+  function redireccionar() {
+    history.push('/');
+    alert('no tienes permisos');
+  }
   return (
     <div>
-      <NavAdmin></NavAdmin>
+      {props.permisions === 'administrador' ? (
+        <NavAdmin></NavAdmin>
+      ) : (
+        redireccionar()
+      )}
     </div>
   );
 };
