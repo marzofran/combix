@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.12.4",
     "react": "^17.0.2",
@@ -20,7 +21,6 @@
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "type": "module",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
@@ -28,6 +28,7 @@
     "build": "react-scripts build  ",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "server": "nodemon ./src/server/server.js",
     "dev": "nodemon index.js"
   },
   "eslintConfig": {
