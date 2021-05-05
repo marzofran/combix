@@ -11,8 +11,6 @@ const PORT = 8080
 app.use(json());
 app.use(_json());
 
-
-
 app.post('/combi',async (request, response) => {
     let bus = request.body
     let combi = new Combi ({
