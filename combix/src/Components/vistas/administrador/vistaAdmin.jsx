@@ -8,9 +8,11 @@ const VistaAdmin = (props) => {
     alert('no tienes permisos');
   }
   return (
-    <div>
+    <div style={{backgroundColor: '#71b3ff', height: '100vh'}}>
       {props.permisions === 'administrador' ? (
-        <NavAdmin></NavAdmin>
+        <div>
+          <NavAdmin></NavAdmin>
+        </div>
       ) : (
         redireccionar()
       )}
