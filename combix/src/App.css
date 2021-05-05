@@ -68,3 +68,42 @@ html {
   top: -5%;
   width: 75%;
 }
+.login-padre {
+  display: flex;
+  justify-content: center;
+}
+.login-hijo {
+  width: 40%;
+  padding: 32px;
+  margin-bottom: 230px;
+}
+.btn-login {
+  transition: 1s;
+  background: rgb(19, 86, 114);
+  background: linear-gradient(
+    90deg,
+    rgba(19, 86, 114, 1) 0%,
+    rgba(14, 23, 46, 1) 100%
+  );
+
+  color: white;
+  width: 100%;
+  font-size: 24px;
+}
+.btn-login:hover {
+  color: antiquewhite;
+  width: 100%;
+  font-size: 24px;
+}
+.titulo-login {
+  font-size: 64px;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+.image-login {
+  background-image: url('./resources/loginbg-fluid.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}

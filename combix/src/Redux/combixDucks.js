@@ -79,6 +79,7 @@ export const registrarUsuario = (newUser) => (dispatch, getState) => {
     switch (response.status) {
       case 202:
         alert('El registro fue exitoso');
+
         dispatch({
           type: REGISTRAR_USUARIO,
           payload: response.data,

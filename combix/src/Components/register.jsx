@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, Card, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import userRegisterForm from '../userRegisterForm';
+import userRegisterForm from '../scripts/userRegisterForm';
 
 const Register = () => {
   const {handleChange, values, handleSubmit, errors} = userRegisterForm();
@@ -39,12 +39,12 @@ const Register = () => {
             <Row>
               <Col>
                 <Form.Group controlId='dni'>
-                  <Form.Label>Dni</Form.Label>
+                  <Form.Label>DNI</Form.Label>
                   <Form.Control
                     required
                     type='text'
                     minLength='7'
-                    placeholder='Dni'
+                    placeholder='DNI'
                     name='dni'
                     value={values.dni}
                     onChange={handleChange}
@@ -57,7 +57,6 @@ const Register = () => {
                   <Form.Control
                     required
                     type='date'
-                    placeholder='Fecha de nacimiento'
                     name='fechaNacimiento'
                     value={values.fechaNacimiento}
                     onChange={handleChange}

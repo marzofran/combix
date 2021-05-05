@@ -1,4 +1,4 @@
-import generateStore from './store';
+import {store} from './store';
 
-const storeInstance = generateStore();
+const storeInstance = store;
 export default storeInstance;
