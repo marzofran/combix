@@ -1,0 +1,7 @@
+exports.choferesRouter = require('./choferes')
+exports.ciudadesRouter = require('./ciudades')
+exports.combisRouter = require('./combis')
+exports.insumosRouter = require('./insumos')
+exports.rutasRouter = require('./rutas')
+exports.usuariosRouter = require('./usuarios')
+exports.viajesRouter = require('./viajes')

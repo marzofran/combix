@@ -1,17 +1,21 @@
 const express = require('express');
+// middleware
 const cors = require('cors');
 const {json} = require('express');
+
 require('./mongo');
 const Usuario = require('./schemas/Usuario');
-const Ciudad = require('./schemas/Ciudad');
-const Ruta = require('./schemas/Ruta');
-const Combi = require('./schemas/Combi');
-const Chofer = require('./schemas/Chofer');
-const Insumo = require('./schemas/Insumo');
-const Viaje = require('./schemas/Viaje');
 
-// middleware
-const {userIntegrityValidation} = require('./middleware/validations');
+// Routers
+const {
+  choferesRouter,
+  usuariosRouter,
+  viajesRouter,
+  ciudadesRouter,
+  rutasRouter,
+  insumosRouter,
+  combisRouter,
+} = require('./routes');
 
 const app = express();
 const PORT = 8080;
@@ -19,45 +23,15 @@ const PORT = 8080;
 app.use(cors());
 app.use(json());
 
-// Create Usuario
-app.post(
-  '/users',
-  userIntegrityValidation,
-  async (error, request, response) => {
-    console.log('uwu', error);
-    let user = request.body;
-    console.log(user.mail, user);
-    let usuario = new Usuario({
-      nombre: user.nombre,
-      apellido: user.apellido,
-      dni: user.dni,
-      mail: user.mail,
-      clave: user.clave,
-      fechaNacimiento: user.fechaNacimiento,
-      plan: 'basico',
-      permissions: 'usuario',
-    });
-
-    try {
-      const foundUser = await Usuario.find({mail: user.mail});
-      if (Object.entries(foundUser).length === 0) {
-        await usuario.save();
-        require('mongoose').connection.close();
-        response.status(202).send(usuario).end();
-      } else {
-        throw new Error('Mail repetido capo');
-      }
-    } catch (err) {
-      console.log(err.message);
-      response.status(500).json({message: err.message, state: 505}).end();
-    }
-  }
-);
-//Fetch Usuarios
-//Modify Usuario
+app.use('/choferes', choferesRouter);
+app.use('/usuarios', usuariosRouter);
+app.use('/viajes', viajesRouter);
+app.use('/ciudades', ciudadesRouter);
+app.use('/rutas', rutasRouter);
+app.use('/insumos', insumosRouter);
+app.use('/combis', combisRouter);
 
 // Login
-
 app.get('/login', async (request, response) => {
   let email = request.query.mail;
   let password = request.query.clave;
