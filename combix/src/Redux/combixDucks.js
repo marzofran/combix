@@ -9,6 +9,7 @@ const configDuck = {
 const OBETENER_DATOS_USUARIO = 'OBTENER_DATOS_USUARIO';
 const CERRAR_SESION = 'CERRAR_SESION';
 const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
+const REGISTRAR_CIUDAD = 'REGISTRAR_CIUDAD';
 // reducer
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
@@ -17,6 +18,8 @@ export default function reducer(state = configDuck, action) {
     case CERRAR_SESION:
       return {...state, sesion: action.payload};
     case REGISTRAR_USUARIO:
+      return {...state, sesion: action.payload};
+    case REGISTRAR_CIUDAD:
       return {...state, sesion: action.payload};
     default:
       return state;
@@ -104,4 +107,21 @@ export const cerrarSesion = () => (dispatch, getState) => {
   });
   alert('sesion cerrada');
   history.push('/');
+};
+
+export const registrarCiudad = (lugar, provincia) => () => {
+  const ciudad = {
+    lugar: lugar,
+    provincia: provincia,
+  };
+  Axios.post('http://localhost:8080/ciudades', ciudad).then((response) => {
+    switch (response.status) {
+      case 200:
+        alert('Se guardo la ciudad con exito');
+        break;
+      default:
+        alert('Hubo un error con el registro de la ciudad');
+        break;
+    }
+  });
 };
