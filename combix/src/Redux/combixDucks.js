@@ -5,11 +5,15 @@ import history from '../Components/history.js';
 //constantes
 const configDuck = {
   sesion: {},
+  admin: {
+    ciudades: [],
+  },
 };
 const OBETENER_DATOS_USUARIO = 'OBTENER_DATOS_USUARIO';
 const CERRAR_SESION = 'CERRAR_SESION';
 const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
 const REGISTRAR_CIUDAD = 'REGISTRAR_CIUDAD';
+const CARGAR_CIUDAD = 'CARGAR_CIUDAD';
 // reducer
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
@@ -21,6 +25,8 @@ export default function reducer(state = configDuck, action) {
       return {...state, sesion: action.payload};
     case REGISTRAR_CIUDAD:
       return {...state, sesion: action.payload};
+    case CARGAR_CIUDAD:
+      return {...state, ciudades: action.payload};
     default:
       return state;
   }
@@ -114,14 +120,38 @@ export const registrarCiudad = (lugar, provincia) => () => {
     lugar: lugar,
     provincia: provincia,
   };
-  Axios.post('http://localhost:8080/ciudades', ciudad).then((response) => {
+  Axios.post('http://localhost:8080/cities', ciudad).then((response) => {
     switch (response.status) {
       case 200:
         alert('Se guardo la ciudad con exito');
+        break;
+      case 202:
+        alert('El lugar y la ciudad ya se encuentran creados');
         break;
       default:
         alert('Hubo un error con el registro de la ciudad');
         break;
     }
   });
+};
+
+export const cargarCiudades = () => (dispatch, getState) => {
+  try {
+    Axios.get('http://localhost:8080/cities', {}).then((response) => {
+      switch (response.status) {
+        case 200:
+          console.log(response);
+          dispatch({
+            type: CARGAR_CIUDAD,
+            payload: response.data,
+          });
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
