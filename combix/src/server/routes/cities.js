@@ -2,6 +2,7 @@ const express = require('express')
 const citiesRouter = express.Router();
 const Ciudad = require('../schemas/Ciudad')
 
+//Display
 citiesRouter.get('/', async (request, response) => {
     try {
       let ciudades = await Ciudad.find({});
@@ -13,6 +14,7 @@ citiesRouter.get('/', async (request, response) => {
     }
 });
 
+//Create
 citiesRouter.post('/', async (request, response) => { //middleware!!
     let city = request.body;
     let ciudad = new Ciudad({
@@ -30,6 +32,7 @@ citiesRouter.post('/', async (request, response) => { //middleware!!
     }
   });
 
+//Modify
 citiesRouter.put('/:lugar', '/:provincia', async (req, res) => { //consultar como se compara objeto entero
     const ciudadNueva = req.body;
     try{
@@ -46,6 +49,7 @@ citiesRouter.put('/:lugar', '/:provincia', async (req, res) => { //consultar com
     res.status(200).send('Ciudad modificada con exito').end();
 })
 
+//Delete
 citiesRouter.delete('/', (req, res) => {
     res.status(200).send('delete ciudad').end();
 })

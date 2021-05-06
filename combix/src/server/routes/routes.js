@@ -2,6 +2,7 @@ const express = require('express')
 const routesRouter = express.Router();
 const Ruta = require('../schemas/Ruta')
 
+//Disply
 routesRouter.get('/', async (req, res) => {
     try{
       let rutas = await Ruta.find({});
@@ -14,6 +15,7 @@ routesRouter.get('/', async (req, res) => {
     }
 })
 
+//Create
 routesRouter.post('/rutas', async (request, response) => {
     let route = request.body;
     let ruta = new Ruta({
@@ -33,6 +35,7 @@ routesRouter.post('/rutas', async (request, response) => {
     }
   });
 
+//Modify
 routesRouter.put('/body', async (req, res) => { //dps arreglar de ultima
     const rutaNueva = req;
     try{
@@ -50,6 +53,7 @@ routesRouter.put('/body', async (req, res) => { //dps arreglar de ultima
     res.status(200).send('Ruta modificada con exito').end();
 })
 
+//Delete
 routesRouter.delete('/', (req, res) => {
     res.status(200).send('delete ruta').end();
 })

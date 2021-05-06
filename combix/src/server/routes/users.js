@@ -3,6 +3,7 @@ const usersRouter = express.Router();
 const { userIntegrityValidation } = require('../middleware/validations')
 const Usuario = require('../schemas/Usuario')
 
+//Display
 usersRouter.get('/', async (req, res) => {
   try{
     let usuarios = await Usuario.find({}); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI
@@ -15,6 +16,7 @@ usersRouter.get('/', async (req, res) => {
   }
 })
 
+//Create
 usersRouter.post('/', userIntegrityValidation, async (request, response) => {
     let user = request.body;
     let usuario = new Usuario({
@@ -43,6 +45,7 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
     }
   });
 
+//Modify
 usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad????
     const usuarioNuevo = req.body;
     try{
@@ -63,6 +66,7 @@ usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad??
     res.status(200).send('Usuario modificado con exito').end();
 })
 
+//Delete
 usersRouter.delete('/', (req, res) => {
     res.status(200).send('delete usuario').end();
 })
