@@ -114,7 +114,7 @@ export const registrarCiudad = (lugar, provincia) => () => {
     lugar: lugar,
     provincia: provincia,
   };
-  Axios.post('http://localhost:8080/ciudad', ciudad).then((response) => {
+  Axios.post('http://localhost:8080/ciudades', ciudad).then((response) => {
     switch (response.status) {
       case 200:
         alert('Se guardo la ciudad con exito');
