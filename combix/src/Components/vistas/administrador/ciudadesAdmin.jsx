@@ -6,14 +6,14 @@ import {cargarCiudades} from '../../../Redux/combixDucks';
 
 const CiudadesAdmin = () => {
   const dispatch = useDispatch();
-
+  const [cargar, setCargar] = useState(true);
   useEffect(() => {
-    //dispatch(cargarCiudades());
-  });
+    dispatch(cargarCiudades());
+    setCargar(true);
+  }, [cargar, dispatch]);
 
   const [provincia, setProvincia] = useState('provincia');
   const [lugar, setLugar] = useState('Lugar');
-  const [cargar, setCargar] = useState(true);
 
   const handleChangeLugar = (e) => {
     setLugar(e.target.value);
@@ -24,7 +24,11 @@ const CiudadesAdmin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registrarCiudad(lugar, provincia));
+    setCargar(false);
   };
+  function cambiarEstado() {
+    setCargar(false);
+  }
   const ciudades = useSelector((store) => store.combix.ciudades);
 
   return (
@@ -48,7 +52,7 @@ const CiudadesAdmin = () => {
         </div>
         <div className='row'>
           {ciudades.map((item) => (
-            <Ciudad item={item}></Ciudad>
+            <Ciudad item={item} key={item._id} estado={cambiarEstado}></Ciudad>
           ))}
         </div>
       </div>

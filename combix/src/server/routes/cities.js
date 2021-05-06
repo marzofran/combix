@@ -28,9 +28,7 @@ citiesRouter.post('/', async (request, response) => {
     });
     console.log(ciudadExistente);
     if (Object.entries(ciudadExistente).length === 0) {
-      const savedCiudad = await ciudad.save();
-      console.log(savedCiudad);
-      console.log('guardando');
+      await ciudad.save();
       response.status(200).json('Ciudad guardada con exito').end();
     } else {
       response
@@ -45,7 +43,8 @@ citiesRouter.post('/', async (request, response) => {
 });
 
 //Modify
-citiesRouter.put('/:provincia/:lugar', async (req, res) => {
+/*
+citiesRouter.put('/', async (req, res) => {
   //consultar como se compara objeto entero
   const ciudadNueva = req.body;
   try {
@@ -53,7 +52,8 @@ citiesRouter.put('/:provincia/:lugar', async (req, res) => {
       lugar: req.params.lugar,
       provincia: req.params.provincia,
     });
-    if (!ciudadExistente) throw new Error('Ciudad no encontrada');
+    if (Object.entries(ciudadExistente).length === 0)
+      throw new Error('Ciudad no encontrada');
     ciudadExistente.lugar = ciudadNueva.lugar
       ? ciudadNueva.lugar
       : ciudadExistente.lugar;
@@ -67,9 +67,47 @@ citiesRouter.put('/:provincia/:lugar', async (req, res) => {
   }
   res.status(200).send('Ciudad modificada con exito').end();
 });
-
+*/
+citiesRouter.put('/', async (req, res) => {
+  //consultar como se compara objeto entero
+  const ciudadNueva = req.body.data.ciudad;
+  const idCiudadVieja = req.body.data.idCiudadVieja;
+  console.log(idCiudadVieja);
+  try {
+    Ciudad.updateOne(
+      {_id: idCiudadVieja},
+      {
+        lugar: ciudadNueva.lugar,
+        provincia: ciudadNueva.provincia,
+      },
+      function (err, affected, resp) {
+        console.log(resp);
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err.message).end();
+  }
+  res.status(200).send('Ciudad modificada con exito').end();
+});
 //Delete
 citiesRouter.delete('/', (req, res) => {
+  console.log(req.body.ciudad);
+
+  Ciudad.deleteOne(
+    {
+      lugar: req.body.ciudad.lugar,
+      provincia: req.body.ciudad.provincia,
+    },
+    function (err) {
+      if (!err) {
+        console.log('eliminado');
+      } else {
+        console.log(err);
+      }
+    }
+  );
+
   res.status(200).send('delete ciudad').end();
 });
 
