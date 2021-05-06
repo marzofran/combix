@@ -11,7 +11,7 @@ const Insumo = require('./schemas/Insumo');
 const Viaje = require('./schemas/Viaje');
 
 // middleware
-const { userIntegrityValidation } = require('./middleware/validations');
+const {userIntegrityValidation} = require('./middleware/validations');
 
 const app = express();
 const PORT = 8080;
@@ -20,35 +20,39 @@ app.use(cors());
 app.use(json());
 
 // Create Usuario
-app.post('/users',userIntegrityValidation, async (error, request, response) => {
-  console.log("uwu",error);
-  let user = request.body;
-  console.log(user.mail, user);
-  let usuario = new Usuario({
-    nombre: user.nombre,
-    apellido: user.apellido,
-    dni: user.dni,
-    mail: user.mail,
-    clave: user.clave,
-    fechaNacimiento: user.fechaNacimiento,
-    plan: 'basico',
-    permissions: 'usuario',
-  });
+app.post(
+  '/users',
+  userIntegrityValidation,
+  async (error, request, response) => {
+    console.log('uwu', error);
+    let user = request.body;
+    console.log(user.mail, user);
+    let usuario = new Usuario({
+      nombre: user.nombre,
+      apellido: user.apellido,
+      dni: user.dni,
+      mail: user.mail,
+      clave: user.clave,
+      fechaNacimiento: user.fechaNacimiento,
+      plan: 'basico',
+      permissions: 'usuario',
+    });
 
-  try {
-    const foundUser = await Usuario.find({mail: user.mail});
-    if (Object.entries(foundUser).length === 0) {
-      await usuario.save();
-      require('mongoose').connection.close();
-      response.status(202).send(usuario).end();
-    } else {
-      throw new Error('Mail repetido capo');
+    try {
+      const foundUser = await Usuario.find({mail: user.mail});
+      if (Object.entries(foundUser).length === 0) {
+        await usuario.save();
+        require('mongoose').connection.close();
+        response.status(202).send(usuario).end();
+      } else {
+        throw new Error('Mail repetido capo');
+      }
+    } catch (err) {
+      console.log(err.message);
+      response.status(500).json({message: err.message, state: 505}).end();
     }
-  } catch (err) {
-    console.log(err.message);
-    response.status(500).json({message: err.message, state:  505}).end();
   }
-});
+);
 //Fetch Usuarios
 //Modify Usuario
 
@@ -74,7 +78,7 @@ app.get('/login', async (request, response) => {
 });
 
 //Create Ciudad
-app.post('/ciudades', async (request, response) => {
+app.post('/ciudad', async (request, response) => {
   let bus = request.body;
   let ciudad = new Ciudad({
     lugar: bus.lugar,
@@ -83,7 +87,7 @@ app.post('/ciudades', async (request, response) => {
   try {
     const savedCiudad = await ciudad.save();
     console.log(savedCiudad);
-    require('mongoose').connection.close();
+
     response.status(200).json(savedCiudad).end();
   } catch (err) {
     console.log(err);
