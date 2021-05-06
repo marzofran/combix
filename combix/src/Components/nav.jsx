@@ -68,7 +68,7 @@ const Nav = () => {
           </Route>
 
           <Route path='/admin'>
-            <VistaAdmin></VistaAdmin>
+            <VistaAdmin permisions={store.permissions}></VistaAdmin>
           </Route>
 
           <Route path='/'>

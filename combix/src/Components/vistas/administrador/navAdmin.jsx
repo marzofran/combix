@@ -9,28 +9,34 @@ import ViajesAdmin from './viajesAdmin';
 import history from '../../history';
 const NavAdmin = () => {
   return (
-    <div className='container mt-3'>
+    <div className='container'>
+      <h1 style={{color: 'white', fontSize: '64px'}} className={'pt-3 pb-3'}>
+        Bienvenido, admin
+      </h1>
       <div className={'row'}>
         <Router history={history}>
           <div className={'col-2'}>
-            <ul className='list-group'>
-              <li className='list-group-item'>
+            <ul className='list-group navegacion-admin'>
+              <li className='list-group-item navegacion-admin-list'>
+                <Link to='/admin/viajes'>Viajes</Link>
+              </li>
+              <li className='list-group-item navegacion-admin-list'>
                 <Link to='/admin/ciudades'>Ciudades</Link>
               </li>
-              <li className='list-group-item'>
+              <li className='list-group-item navegacion-admin-list'>
                 <Link to='/admin/choferes'>Choferes</Link>
               </li>
-              <li className='list-group-item'>
+              <li className='list-group-item navegacion-admin-list'>
                 <Link to='/admin/combis'>Combis</Link>
               </li>
-              <li className='list-group-item'>
+              <li className='list-group-item navegacion-admin-list'>
                 <Link to='/admin/insumos'>Insumos</Link>
               </li>
-              <li className='list-group-item'>
+              <li className='list-group-item navegacion-admin-list'>
                 <Link to='/admin/rutas'>Rutas</Link>
               </li>
-              <li className='list-group-item'>
-                <Link to='/admin/viajes'>Viajes</Link>
+              <li className='list-group-item navegacion-admin-list'>
+                <Link to='/admin/usuarios'>Usuarios</Link>
               </li>
             </ul>
           </div>
