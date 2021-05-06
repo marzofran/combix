@@ -33,7 +33,7 @@ citiesRouter.post('/', async (request, response) => { //middleware!!
   });
 
 //Modify
-citiesRouter.put('/:lugar', '/:provincia', async (req, res) => { //consultar como se compara objeto entero
+citiesRouter.put('/:provincia/:lugar', async (req, res) => { //consultar como se compara objeto entero
     const ciudadNueva = req.body;
     try{
       const ciudadExistente = await Ciudad.find({lugar: req.params.lugar, provincia: req.params.provincia});

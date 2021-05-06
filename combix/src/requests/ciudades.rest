@@ -1,4 +1,4 @@
-POST http://localhost:3000/ciudades HTTP/1.1
+POST http://localhost:3000/cities HTTP/1.1
 content-type: application/json
 
 {
@@ -7,6 +7,6 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3000/ciudades
+GET http://localhost:3000/cities
 
 ###
