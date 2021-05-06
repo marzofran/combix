@@ -1,12 +1,12 @@
 const express = require('express')
-const viajesRouter = express.Router();
+const travelsRouter = express.Router();
 const Viaje = require('../schemas/Viaje')
 
-viajesRouter.get('/', (req, res) => {
+travelsRouter.get('/', (req, res) => {
     res.status(200).send('get viaje').end();
 })
 
-viajesRouter.post('/', async (request, response) => {
+travelsRouter.post('/', async (request, response) => {
     let bus = request.body;
     let viaje = new Viaje({
       ruta: bus.ruta,
@@ -25,12 +25,12 @@ viajesRouter.post('/', async (request, response) => {
     }
   });
 
-viajesRouter.put('/', (req, res) => {
+travelsRouter.put('/', (req, res) => {
     res.status(200).send('put viaje').end();
 })
 
-viajesRouter.delete('/', (req, res) => {
+travelsRouter.delete('/', (req, res) => {
     res.status(200).send('delete viaje').end();
 })
 
-module.exports = viajesRouter;
+module.exports = travelsRouter;

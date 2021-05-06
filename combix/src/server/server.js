@@ -7,13 +7,13 @@ require('./mongo');
 const Usuario = require('./schemas/Usuario');
 
 // Routers
-const { choferesRouter, 
-        usuariosRouter,
-        viajesRouter,
-        ciudadesRouter, 
-        rutasRouter, 
-        insumosRouter, 
-        combisRouter } = require('./routes')
+const { driversRouter, 
+        usersRouter,
+        travelsRouter,
+        citiesRouter, 
+        routesRouter, 
+        suppliesRouter, 
+        busesRouter } = require('./routes')
 
 const app = express();
 const PORT = 8080;
@@ -21,13 +21,13 @@ const PORT = 8080;
 app.use(cors());
 app.use(json());
 
-app.use('/choferes', choferesRouter);
-app.use('/usuarios', usuariosRouter);
-app.use('/viajes', viajesRouter);
-app.use('/ciudades', ciudadesRouter);
-app.use('/rutas', rutasRouter);
-app.use('/insumos', insumosRouter);
-app.use('/combis', combisRouter);
+app.use('/drivers', driversRouter);
+app.use('/users', usersRouter);
+app.use('/travels', travelsRouter);
+app.use('/cities', citiesRouter);
+app.use('/routes', routesRouter);
+app.use('/supplies', suppliesRouter);
+app.use('/buses', busesRouter);
 
 // Login
 app.get('/login', async (request, response) => {

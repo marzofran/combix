@@ -1,20 +1,20 @@
 const express = require('express')
-const choferRouter = express.Router();
+const driversRouter = express.Router();
 
-choferRouter.get('/', (req, res) => {
+driversRouter.get('/', (req, res) => {
     res.status(200).send('get chofer').end();
 })
 
-choferRouter.post('/', (req, res) => {
+driversRouter.post('/', (req, res) => {
     res.status(200).send('post chofer').end();
 })
 
-choferRouter.put('/', (req, res) => {
+driversRouter.put('/', (req, res) => {
     res.status(200).send('put chofer').end();
 })
 
-choferRouter.delete('/', (req, res) => {
+driversRouter.delete('/', (req, res) => {
     res.status(200).send('delete chofer').end();
 })
 
-module.exports = choferRouter;
+module.exports = driversRouter;
