@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const Chofer = require('../schemas/Chofer');
 const busesRouter = express.Router();
 const Combi = require('../schemas/Combi')
 
@@ -15,14 +16,16 @@ busesRouter.get('/', async (request, response) => {
 
 busesRouter.post('/', async (request, response) => { //falta middleware para validar
   let bus = request.body;
-  let combi = new Combi({
-    modelo: bus.modelo,
-    patente: bus.patente,
-    cantidadAsientos: bus.cantidadAsientos,
-    tipo: bus.tipo,
-    chofer: bus.chofer,
-  });
   try {
+    let choferExistente = await Chofer.find({_id: bus.chofer._id});
+    if(!choferExistente) throw new Error('Chofer no existe');
+    let combi = new Combi({
+      modelo: bus.modelo,
+      patente: bus.patente,
+      cantidadAsientos: bus.cantidadAsientos,
+      tipo: bus.tipo,
+      chofer: choferExistente,
+    });
     const savedCombi = await combi.save();
     console.log(savedCombi);
     require('mongoose').connection.close();
