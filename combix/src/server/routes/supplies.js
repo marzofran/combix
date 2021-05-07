@@ -6,7 +6,6 @@ const Insumo = require('../schemas/Insumo')
 suppliesRouter.get('/', async (req, res) => {
   try{
     let insumos = await Insumo.find({});
-    require('mongoose').connection.close();
     res.status(200).json(insumos).end();
   }
   catch(err){
@@ -55,7 +54,21 @@ suppliesRouter.put('/:nombre', async(req, res) => {
 
 //Delete
 suppliesRouter.delete('/', (req, res) => {
-  res.status(200).send('delete insumo').end();
+  console.log(req.body.insumo);
+
+  Insumo.deleteOne(
+    {
+      nombre: req.body.insumo.nombre,
+      tipo: req.body.ciudad.tipo,
+      precio: req.body.ciudad.precio
+    },
+    function (err) {
+      if (!err) {
+        console.log('eliminado');
+      } else {
+        console.log(err);
+      }
+    })
 })
 
 module.exports = suppliesRouter;

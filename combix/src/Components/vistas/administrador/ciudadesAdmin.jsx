@@ -36,7 +36,7 @@ const CiudadesAdmin = () => {
       <div className={'viajes-admin'}>
         <div className='row'>
           <div className='col-9'>
-            <h3 style={{color: '#357185'}}>Ciudades</h3>
+            <h3 style={{color: '#357185', padding: '5px 10px'}}>Ciudades</h3>
           </div>
           <div className='col'>
             <button
@@ -50,13 +50,12 @@ const CiudadesAdmin = () => {
             </button>
           </div>
         </div>
-        <div className='row'>
+        <div className='col'>
           {ciudades.map((item) => (
             <Ciudad item={item} key={item._id} estado={cambiarEstado}></Ciudad>
           ))}
         </div>
       </div>
-
       <div
         className='modal fade'
         id='exampleModal'

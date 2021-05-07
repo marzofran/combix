@@ -157,7 +157,11 @@ html {
   padding: 10px;
 }
 
-.element-header {
+.db-element {
+  margin-bottom: 1rem;
+}
+
+.db-element-header {
   background: white;
   padding: .5rem 1rem;
 }
