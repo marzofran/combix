@@ -8,8 +8,8 @@ const CiudadesAdmin = () => {
   const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);
   useEffect(() => {
-    dispatch(cargarCiudades());
     setCargar(true);
+    dispatch(cargarCiudades());
   }, [cargar, dispatch]);
 
   const [provincia, setProvincia] = useState('provincia');

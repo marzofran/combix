@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {borrarCiudad, editarCiudad} from '../../../../Redux/combixDucks';
+
 const Ciudad = (props) => {
   const dispatch = useDispatch();
   const [provincia, setProvincia] = useState('provincia');

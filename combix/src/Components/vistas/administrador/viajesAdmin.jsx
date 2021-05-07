@@ -6,7 +6,7 @@ const ViajesAdmin = () => {
       <div className={'viajes-admin'}>
         <div className='row'>
           <div className='col-9'>
-            <h3 style={{color: '#357185'}}>Viajes</h3>
+            <h3 style={{color: '#357185', padding: '5px 10px'}}>Viajes</h3>
           </div>
           <div className='col'>
             <button
@@ -17,6 +17,11 @@ const ViajesAdmin = () => {
               + Crear nuevo viaje
             </button>
           </div>
+        </div>
+        <div className='row'>
+            <ul>
+
+            </ul>
         </div>
       </div>
     </div>
