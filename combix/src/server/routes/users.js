@@ -1,19 +1,21 @@
 const express = require('express')
 const usersRouter = express.Router();
 const { userIntegrityValidation } = require('../middleware/validations')
-const Usuario = require('../schemas/Usuario')
+const Usuario = require('../schemas/Usuario');
+const HttpError = require('../utils/HttpError');
+
+const hasLegalAge = (dob) => {
+  const date = new Date(dob).getFullYear;
+  if (!date) return false;
+  return (new Date().getFullYear - date) > 18;
+}
+
 
 //Display
 usersRouter.get('/', async (req, res) => {
-  try{
-    let usuarios = await Usuario.find({}); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI
-    require('mongoose').connection.close();
-    res.status(200).json(usuarios).end();
-  }
-  catch(err){
-    console.log(err);
-    res.status(500).send(err.message).end();
-  }
+  let usuarios = await Usuario.find({}); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
+  require('mongoose').connection.close();
+  res.status(200).json(usuarios).end();
 })
 
 //Create
@@ -29,19 +31,13 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
       plan: 'basico',
       permissions: 'usuario',
     });
-  
-    try {
-      const foundUser = await Usuario.find({mail: user.mail});
-      if (Object.entries(foundUser).length === 0) {
-        await usuario.save();
-        require('mongoose').connection.close();
-        response.status(202).send('Usuario creado con exito!').end();
-      } else {
-        throw new Error('El mail ya se encuentra registrado');
-      }
-    } catch (err) {
-      console.log(err.message);
-      response.status(500).json({message: err.message, state:  505}).end();
+    const foundUser = await Usuario.find({mail: user.mail});
+    if (Object.entries(foundUser).length === 0) {
+      await usuario.save();
+      require('mongoose').connection.close();
+      response.status(202).send('Usuario creado con exito!').end();
+    } else {
+      throw new HttpError(203, 'El mail ya se encuentra registrado');
     }
   });
 

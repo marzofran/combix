@@ -1,7 +1,9 @@
+require('express-async-errors');
 const express = require('express');
 // middleware
 const cors = require('cors');
-const {json} = require('express');
+const { json } = require('express');
+const HttpErrorHandler = require('./utils/HttpErrorHandler');
 
 require('./mongo');
 const Usuario = require('./schemas/Usuario');
@@ -48,5 +50,7 @@ app.get('/login', async (request, response) => {
     require('mongoose').connection.close();
   });
 });
+
+app.use(HttpErrorHandler);
 
 app.listen(PORT, () => console.log(`Server live on port ${PORT}`));
