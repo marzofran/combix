@@ -14,7 +14,7 @@ const Home = () => {
           <Container>
             <Row>
               <Col>
-                <h3>
+                <h3 style={{fontFamily: 'Roboto Slab'}}>
                   Viajá seguro.
                   <br /> Viajá CombiX.
                 </h3>

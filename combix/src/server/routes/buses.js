@@ -3,6 +3,7 @@ const Chofer = require('../schemas/Chofer');
 const busesRouter = express.Router();
 const Combi = require('../schemas/Combi')
 
+//Display
 busesRouter.get('/', async (request, response) => {
     try {
       let combis = await Combi.find({});
@@ -14,6 +15,7 @@ busesRouter.get('/', async (request, response) => {
     }
 });
 
+//Create
 busesRouter.post('/', async (request, response) => { //falta middleware para validar
   let bus = request.body;
   try {
@@ -36,6 +38,7 @@ busesRouter.post('/', async (request, response) => { //falta middleware para val
   }
 });
 
+//Modify
 //'localhost:8080/combis/7' { combiNueva }
 busesRouter.put('/:patente', async (req, res) => { //middleware chequear combiNueva
     const combiNueva = req.body;
@@ -53,6 +56,7 @@ busesRouter.put('/:patente', async (req, res) => { //middleware chequear combiNu
     res.status(200).send('Combi modificada con exito').end();
 })
 
+//Delete
 busesRouter.delete('/', (req, res) => {
     res.status(200).send('delete combis').end();
 })

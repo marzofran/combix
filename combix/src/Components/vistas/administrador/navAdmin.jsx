@@ -21,10 +21,10 @@ const NavAdmin = () => {
                 <Link to='/admin/viajes'>Viajes</Link>
               </li>
               <li className='list-group-item navegacion-admin-list'>
-                <Link to='/admin/ciudades'>Ciudades</Link>
+                <Link to='/admin/choferes'>Choferes</Link>
               </li>
               <li className='list-group-item navegacion-admin-list'>
-                <Link to='/admin/choferes'>Choferes</Link>
+                <Link to='/admin/ciudades'>Ciudades</Link>
               </li>
               <li className='list-group-item navegacion-admin-list'>
                 <Link to='/admin/combis'>Combis</Link>

@@ -1,9 +1,17 @@
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {registrarCiudad} from '../../../Redux/combixDucks';
+import Ciudad from './elementos/ciudad';
+import {cargarCiudades} from '../../../Redux/combixDucks';
 
 const CiudadesAdmin = () => {
   const dispatch = useDispatch();
+  const [cargar, setCargar] = useState(true);
+  useEffect(() => {
+    setCargar(true);
+    dispatch(cargarCiudades());
+  }, [cargar, dispatch]);
+
   const [provincia, setProvincia] = useState('provincia');
   const [lugar, setLugar] = useState('Lugar');
 
@@ -13,9 +21,16 @@ const CiudadesAdmin = () => {
   const handleChangeProvincia = (e) => {
     setProvincia(e.target.value);
   };
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     dispatch(registrarCiudad(lugar, provincia));
+    setCargar(false);
   };
+  function cambiarEstado() {
+    setCargar(false);
+  }
+  const ciudades = useSelector((store) => store.combix.ciudades);
+
   return (
     <div className={'col'}>
       <div className={'viajes-admin'}>
@@ -34,6 +49,11 @@ const CiudadesAdmin = () => {
               + Crear nueva ciudad
             </button>
           </div>
+        </div>
+        <div className='row'>
+          {ciudades.map((item) => (
+            <Ciudad item={item} key={item._id} estado={cambiarEstado}></Ciudad>
+          ))}
         </div>
       </div>
 
@@ -65,6 +85,7 @@ const CiudadesAdmin = () => {
                 <div className='form-group'>
                   <label htmlFor='lugar'>Provincia</label>
                   <input
+                    required
                     type='text'
                     className='form-control'
                     id='lugar'
@@ -81,6 +102,7 @@ const CiudadesAdmin = () => {
                     id='lugar'
                     aria-describedby='Lugar'
                     placeholder='Ingresa el lugar'
+                    required
                     onChange={handleChangeLugar}
                   />
                 </div>
@@ -88,8 +110,6 @@ const CiudadesAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => handleSubmit()}
-                  data-dismiss='modal'
                 >
                   Guardar ciudad
                 </button>
