@@ -4,9 +4,8 @@ import history from '../Components/history.js';
 
 //constantes
 const configDuck = {
-  sesion: {},   
-  ciudades: [{}],
-  
+  sesion: {},
+  ciudades: [],
 };
 const OBETENER_DATOS_USUARIO = 'OBTENER_DATOS_USUARIO';
 const CERRAR_SESION = 'CERRAR_SESION';
