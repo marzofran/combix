@@ -47,6 +47,7 @@ usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad??
     try{
       const usuarioExistente = await Usuario.find({mail: req.params.mail});
       if(!usuarioExistente) throw new Error('Usuario no encontrado');
+      if(!hasLegalAge(usuarioNuevo.fechaNacimiento)) throw new Error ('Debe ser mayor de edad');
       usuarioExistente.nombre = usuarioNuevo.nombre ? usuarioNuevo.nombre : usuarioExistente.nombre;
       usuarioExistente.apellido = usuarioNuevo.apellido ? usuarioNuevo.apellido : usuarioExistente.apellido;
       usuarioExistente.fechaNacimiento = usuarioNuevo.fechaNacimiento ? usuarioNuevo.fechaNacimiento : usuarioExistente.fechaNacimiento;
