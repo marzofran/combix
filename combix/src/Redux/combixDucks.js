@@ -16,6 +16,7 @@ const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
 const REGISTRAR_CIUDAD = 'REGISTRAR_CIUDAD';
 const CARGAR_CIUDAD = 'CARGAR_CIUDAD';
 const BORRAR_CIUDAD = 'BORRAR_CIUDAD';
+
 const REGISTRAR_INSUMO = 'REGISTRAR_INSUMO';
 const CARGAR_INSUMO = 'CARGAR_INSUMO';
 const BORRAR_INSUMO = 'BORRAR_INSUMO';
@@ -232,8 +233,8 @@ export const editarCiudad = (lugar, provincia, idCiudadVieja) => (dispatch) => {
 export const registrarInsumo = (nombre, tipo, precio) => () => {
   const insumo = {
     nombre,
-    tipo,
     precio,
+    tipo,
   };
   Axios.post('http://localhost:8080/supplies', insumo).then((response) => {
     switch (response.status) {
@@ -273,8 +274,8 @@ export const cargarInsumos = () => (dispatch, getState) => {
 export const borrarInsumo = (nombre, tipo, precio) => (dispatch) => {
   const insumo = {
     nombre,
-    tipo,
     precio,
+    tipo,
   };
   try {
     Axios.delete('http://localhost:8080/supplies', {data: {insumo}}).then(
@@ -299,8 +300,8 @@ export const editarInsumo = (nombre, tipo, precio, idInsumoViejo) => (
 ) => {
   const insumo = {
     nombre,
-    tipo,
     precio,
+    tipo,
   };
   try {
     Axios.put('http://localhost:8080/supplies', {
@@ -382,6 +383,7 @@ export const cargarCombis = () => (dispatch, getState) => {
     console.log(error);
   }
 };
+
 export const borrarRuta = (_id) => (dispatch) => {
   try {
     Axios.delete('http://localhost:8080/routes', {data: {_id}}).then(
