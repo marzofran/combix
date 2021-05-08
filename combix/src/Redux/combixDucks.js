@@ -304,7 +304,7 @@ export const editarInsumo = (nombre, tipo, precio, idInsumoViejo) => (
     tipo,
   };
   try {
-    Axios.put('http://localhost:8080/supplies', {
+    Axios.put('http://localhost:8080/supplies/' + nombre, {
       data: {insumo, idInsumoViejo},
     }).then((response) => {
       switch (response.status) {

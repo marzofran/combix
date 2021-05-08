@@ -35,10 +35,15 @@ suppliesRouter.post('/', async (request, response) => { //middleware validacion
 });
 
 //Modify
-suppliesRouter.put('/:nombre', async(req, res) => { //no funciona, peligroso
-  const insumoNuevo = req.body;
+suppliesRouter.put('/:nombre', async(req, res) => {
+  const insumoNuevo = req.body.insumo;
   try{
-    const insumoExistente = await Insumo.find({nombre: req.params.nombre});
+    const buffer = await Insumo.find({nombre: req.params.nombre});
+    let insumoExistente = new Insumo({
+      nombre: buffer.nombre,
+      precio: buffer.precio,
+      tipo: buffer.tipo,
+    }) 
     if(!insumoExistente) throw new Error('Insumo no encontrado');
     insumoExistente.nombre = insumoNuevo.nombre ? insumoNuevo.nombre : insumoExistente.nombre;
     insumoExistente.tipo = insumoNuevo.tipo ? insumoNuevo.tipo : insumoExistente.tipo;
