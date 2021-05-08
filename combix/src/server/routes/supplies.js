@@ -59,8 +59,8 @@ suppliesRouter.delete('/', (req, res) => {
   Insumo.deleteOne(
     {
       nombre: req.body.insumo.nombre,
-      tipo: req.body.ciudad.tipo,
-      precio: req.body.ciudad.precio
+      precio: req.body.insumo.precio,
+      tipo: req.body.insumo.tipo
     },
     function (err) {
       if (!err) {
