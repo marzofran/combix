@@ -7,8 +7,8 @@ const usuarioSchema = new Schema({
     mail: String,
     clave: String,
     fechaNacimiento: Date,
-    plan: String,
-    permissions: String
+    telefono: Number,
+    permissions: { type: Schema.ObjectId, ref: "permisos" }
 })
 
 const Usuario = model('Usuario', usuarioSchema)

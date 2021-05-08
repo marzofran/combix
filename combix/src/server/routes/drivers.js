@@ -3,6 +3,11 @@ const driversRouter = express.Router();
 
 //Display
 driversRouter.get('/', (req, res) => {
+    //.find({}, function(err, libros) {
+        //Autor.populate(libros, {path: "autor"},function(err, libros){
+        //res.status(200).send(libros);
+        //}); 
+    //});
     res.status(200).send('get chofer').end();
 })
 

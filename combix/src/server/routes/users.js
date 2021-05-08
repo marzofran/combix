@@ -28,8 +28,8 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
       mail: user.mail,
       clave: user.clave,
       fechaNacimiento: user.fechaNacimiento,
-      plan: 'basico',
-      permissions: 'usuario',
+      telefono: user.telefono,
+      permissions: "6094d56377b5714b3473dbc5",
     });
     const foundUser = await Usuario.find({mail: user.mail});
     if (Object.entries(foundUser).length === 0) {
@@ -53,6 +53,7 @@ usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad??
       usuarioExistente.dni = usuarioNuevo.dni ? usuarioNuevo.dni : usuarioExistente.dni;
       usuarioExistente.mail = usuarioNuevo.mail ? usuarioNuevo.mail : usuarioExistente.mail;
       usuarioExistente.clave = usuarioNuevo.clave ? usuarioNuevo.clave : usuarioExistente.clave;
+      usuarioExistente.telefono = usuarioNuevo.telefono ? usuarioNuevo.telefono : usuarioExistente.telefono;
       await usuarioExistente.save();
     }
     catch(err){
