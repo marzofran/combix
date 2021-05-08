@@ -6,7 +6,8 @@ const combiSchema = new Schema({
     patente: String,
     cantidadAsientos: Number,
     tipo: String,
-    chofer: {type: mongoose.Schema.Types.ObjectId,ref:'Chofer'}
+    chofer: {type: mongoose.Schema.Types.ObjectId,ref:'Chofer'},
+    unavailable: Boolean
 })
 
 const Combi = model('Combi', combiSchema)

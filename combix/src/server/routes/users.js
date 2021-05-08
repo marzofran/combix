@@ -13,7 +13,7 @@ const hasLegalAge = (dob) => {
 
 //Display
 usersRouter.get('/', async (req, res) => {
-  let usuarios = await Usuario.find({ permissions: "6094d56377b5714b3473dbc5" }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
+  let usuarios = await Usuario.find({ permissions: "6094d56377b5714b3473dbc5", unavailable: false }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
   require('mongoose').connection.close();
   res.status(200).json(usuarios).end();
 })
@@ -65,8 +65,12 @@ usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad??
 })
 
 //Delete
-usersRouter.delete('/', (req, res) => {
-    res.status(200).send('delete usuario').end();
+usersRouter.delete('/', async (req, res) => {
+  const usuarioExistente = Usuario.find({_id : req.body._id});
+  if(!usuarioExistente) throw new Error('Usuario no encontrada');
+  usuarioExistente.unavailable = true;
+  await usuarioExistente.save();
+  res.status(200).send('Usuario borrado con exito').end();
 })
 
 module.exports = usersRouter;

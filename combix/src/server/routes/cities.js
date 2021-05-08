@@ -91,24 +91,12 @@ citiesRouter.put('/', async (req, res) => {
   res.status(200).send('Ciudad modificada con exito').end();
 });
 //Delete
-citiesRouter.delete('/', (req, res) => {
-  console.log(req.body.ciudad);
-
-  Ciudad.deleteOne(
-    {
-      lugar: req.body.ciudad.lugar,
-      provincia: req.body.ciudad.provincia,
-    },
-    function (err) {
-      if (!err) {
-        console.log('eliminado');
-      } else {
-        console.log(err);
-      }
-    }
-  );
-
-  res.status(200).send('delete ciudad').end();
+citiesRouter.delete('/', async(req, res) => {
+  const ciudadExistente = Ciudad.find({_id : req.body._id});
+  if(!ciudadExistente) throw new Error('Ciudad no encontrada');
+  ciudadExistente.unavailable = true;
+  await ciudadExistente.save();
+  res.status(200).send('Ciudad borrada con exito').end();
 });
 
 module.exports = citiesRouter;

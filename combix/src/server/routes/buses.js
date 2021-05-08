@@ -27,6 +27,7 @@ busesRouter.post('/', async (request, response) => { //falta middleware para val
       cantidadAsientos: bus.cantidadAsientos,
       tipo: bus.tipo,
       chofer: choferExistente,
+      unavailable: false
     });
     const savedCombi = await combi.save();
     console.log(savedCombi);
@@ -57,8 +58,12 @@ busesRouter.put('/:patente', async (req, res) => { //middleware chequear combiNu
 })
 
 //Delete
-busesRouter.delete('/', (req, res) => {
-    res.status(200).send('delete combis').end();
+busesRouter.delete('/', async(req, res) => {
+    const combiExistente = Combi.find({_id : req.body._id});
+    if(!combiExistente) throw new Error('Combi no encontrada');
+    combiExistente.unavailable = true;
+    await combiExistente.save();
+    res.status(200).send('Combi borrada con exito').end();
 })
 
 module.exports = busesRouter;
