@@ -1,17 +1,13 @@
 const express = require('express')
 const suppliesRouter = express.Router();
 const Insumo = require('../schemas/Insumo')
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
+const HttpError = require('../utils/HttpError')
 
 //Display
 suppliesRouter.get('/', async (req, res) => {
-  try{
-    let insumos = await Insumo.find({});
-    res.status(200).json(insumos).end();
-  }
-  catch(err){
-    console.log(err);
-    res.status(500).send(err.message).end();
-  }
+  let insumos = await Insumo.find({});
+  res.status(200).json(insumos).end();
 })
 
 //Create
@@ -22,48 +18,28 @@ suppliesRouter.post('/', async (request, response) => { //middleware validacion
     precio: supply.precio,
     tipo: supply.tipo,
   });
-  try {
-    const savedInsumo = await insumo.save();
-    console.log(savedInsumo);
-    require('mongoose').connection.close();
-    response.status(200).json(savedInsumo).end();
-  } catch (err) {
-    console.log(err);
-    response.status(500);
-    response.send(err.message).end();
-  }
+  const savedInsumo = await insumo.save();
+  console.log(savedInsumo);
+  require('mongoose').connection.close();
+  response.status(200).json(savedInsumo).end();
 });
 
 //Modify
 suppliesRouter.put('/:nombre', async(req, res) => {
-  const insumoNuevo = req.body.insumo;
-  try{
-    const buffer = await Insumo.find({nombre: req.params.nombre});
-    let insumoExistente = new Insumo({
-      nombre: buffer.nombre,
-      precio: buffer.precio,
-      tipo: buffer.tipo,
-    }) 
-    if(!insumoExistente) throw new Error('Insumo no encontrado');
-    insumoExistente.nombre = insumoNuevo.nombre ? insumoNuevo.nombre : insumoExistente.nombre;
-    insumoExistente.tipo = insumoNuevo.tipo ? insumoNuevo.tipo : insumoExistente.tipo;
-    insumoExistente.precio = insumoNuevo.precio ? insumoNuevo.precio : insumoExistente.precio;
-    await Insumo.findOneAndUpdate({nombre: req.params.nombre}, {insumoExistente})
-    console.log(insumoExistente);
-  }
-  catch(err){
-    console.log(err);
-    res.status(500).send(err.message).end();
-  }
+  const insumoExistente = await Insumo.findOne({nombre: req.params.nombre});
+  if(!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
+  const insumoNuevo = queryBuilder(req.body, ["nombre", "tipo", "precio"])
+  mapAndBuildModel(insumoExistente, insumoNuevo);
+  await insumoExistente.save();
   require('mongoose').connection.close();
   res.status(200).send('Insumo modificado correctamente').end();
 })
 
 //Delete
-suppliesRouter.delete('/', (req, res) => {
+suppliesRouter.delete('/', async (req, res) => {
   console.log(req.body.insumo);
 
-  Insumo.deleteOne(
+  await Insumo.deleteOne(
     {
       nombre: req.body.insumo.nombre,
       precio: req.body.insumo.precio,
@@ -79,10 +55,10 @@ suppliesRouter.delete('/', (req, res) => {
     })
 })
 //delete logico
-suppliesRouter.put('/delete',async (req, res) => {
+suppliesRouter.put('/delete', async (req, res) => {
   console.log(req.body);
   const insumoExistente = await Insumo.findOneAndUpdate({_id: req.body._id}, {unavailable: true});
-  if(!insumoExistente) throw new Error('Insumo no encontrado');
+  if(!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
   require('mongoose').connection.close();
   res.status(200).send('Insumo borrado');
 })

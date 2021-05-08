@@ -44,31 +44,27 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
 //Modify
 usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad????
     const usuarioNuevo = req.body;
-    try{
-      const usuarioExistente = await Usuario.find({mail: req.params.mail});
-      if(!usuarioExistente) throw new Error('Usuario no encontrado');
-      if(!hasLegalAge(usuarioNuevo.fechaNacimiento)) throw new Error ('Debe ser mayor de edad');
-      usuarioExistente.nombre = usuarioNuevo.nombre ? usuarioNuevo.nombre : usuarioExistente.nombre;
-      usuarioExistente.apellido = usuarioNuevo.apellido ? usuarioNuevo.apellido : usuarioExistente.apellido;
-      usuarioExistente.fechaNacimiento = usuarioNuevo.fechaNacimiento ? usuarioNuevo.fechaNacimiento : usuarioExistente.fechaNacimiento;
-      usuarioExistente.dni = usuarioNuevo.dni ? usuarioNuevo.dni : usuarioExistente.dni;
-      usuarioExistente.mail = usuarioNuevo.mail ? usuarioNuevo.mail : usuarioExistente.mail;
-      usuarioExistente.clave = usuarioNuevo.clave ? usuarioNuevo.clave : usuarioExistente.clave;
-      usuarioExistente.telefono = usuarioNuevo.telefono ? usuarioNuevo.telefono : usuarioExistente.telefono;
-      await usuarioExistente.save();
-    }
-    catch(err){
-      console.log(err);
-      res.status(400).send(err.message).end();
-    }
-    require('mongoose').connection.close();
+    const usuarioExistente = await Usuario.find({mail: req.params.mail});
+
+    if(!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
+    if(!hasLegalAge(usuarioNuevo.fechaNacimiento)) throw new Error ('Debe ser mayor de edad');
+
+    usuarioExistente.nombre = usuarioNuevo.nombre ? usuarioNuevo.nombre : usuarioExistente.nombre;
+    usuarioExistente.apellido = usuarioNuevo.apellido ? usuarioNuevo.apellido : usuarioExistente.apellido;
+    usuarioExistente.fechaNacimiento = usuarioNuevo.fechaNacimiento ? usuarioNuevo.fechaNacimiento : usuarioExistente.fechaNacimiento;
+    usuarioExistente.dni = usuarioNuevo.dni ? usuarioNuevo.dni : usuarioExistente.dni;
+    usuarioExistente.mail = usuarioNuevo.mail ? usuarioNuevo.mail : usuarioExistente.mail;
+    usuarioExistente.clave = usuarioNuevo.clave ? usuarioNuevo.clave : usuarioExistente.clave;
+    usuarioExistente.telefono = usuarioNuevo.telefono ? usuarioNuevo.telefono : usuarioExistente.telefono;
+    await usuarioExistente.save();
     res.status(200).send('Usuario modificado con exito').end();
+    require('mongoose').connection.close();
 })
 
 //Delete
 usersRouter.put('/delete', async (req, res) => {
   const usuarioExistente = Usuario.findOneAndUpdate({_id : req.body._id}, {unavailable: true});
-  if(!usuarioExistente) throw new Error('Usuario no encontrada');
+  if(!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
   await usuarioExistente.save();
   require('mongoose').connection.close();
   res.status(200).send('Usuario borrado con exito').end();

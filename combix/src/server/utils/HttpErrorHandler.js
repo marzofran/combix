@@ -6,6 +6,7 @@ const HttpErrorHandler = (err, req, res, next) => {
   } else {
     // no se atrapo el error!  D:
     res.status(500).send('Internal server error');
+    console.log(err);
   }
 };
 

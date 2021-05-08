@@ -1,6 +1,7 @@
 const express = require('express')
 const travelsRouter = express.Router();
 const Viaje = require('../schemas/Viaje')
+const HttpError = require('../utils/HttpError')
 
 //Display
 travelsRouter.get('/', async(req, res) => {
@@ -17,23 +18,17 @@ travelsRouter.post('/', async (request, response) => {
       fecha: bus.fecha,
       precio: bus.precio,
     });
-    try {
-      const savedViaje = await viaje.save();
-      console.log(savedViaje);
-      require('mongoose').connection.close();
-      response.status(200).json(savedViaje).end();
-    } catch (err) {
-      console.log(err);
-      response.status(500);
-      response.send(err.message).end();
-    }
+    const savedViaje = await viaje.save();
+    console.log(savedViaje);
+    require('mongoose').connection.close();
+    response.status(200).json(savedViaje).end();
 });
 
 //Modify
 travelsRouter.put('/', async(req, res) => {
   const viajeNuevo = req.body;
   const viajeExistente = await Viaje.find({mail: req.params.mail});
-  if(!viajeExistente) throw new Error('Viaje no encontrado');
+  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   viajeExistente.ruta = viajeNuevo.ruta ? viajeNuevo.ruta : viajeExistente.ruta;
   viajeExistente.fecha = viajeNuevo.fecha ? viajeNuevo.fecha : viajeExistente.fecha;
   viajeExistente.precio = viajeNuevo.precio ? viajeNuevo.precio : viajeExistente.precio;
@@ -46,7 +41,7 @@ travelsRouter.put('/', async(req, res) => {
 //Delete
 travelsRouter.put('/delete', async (req, res) => {
   const viajeExistente = await Viaje.findOneAndUpdate({_id: req.body._id}, {unavailable: true});
-  if(!viajeExistente) throw new Error('Viaje no encontrado');
+  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   await viajeExistente.save();
   require('mongoose').connection.close();
   res.status(200).send('Viaje borrado');

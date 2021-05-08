@@ -4,14 +4,9 @@ const Ruta = require('../schemas/Ruta');
 
 //Disply
 routesRouter.get('/', async (req, res) => {
-  try {
-    let rutas = await Ruta.find({});
-    require('mongoose').connection.close();
-    res.status(200).json(rutas).end();
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err.message).end();
-  }
+  let rutas = await Ruta.find({}).populate('origen').populate('destino').populate('combi');
+  require('mongoose').connection.close();
+  res.status(200).json(rutas).end();
 });
 
 //Create
@@ -63,30 +58,26 @@ routesRouter.put('/', async (req, res) => {
   const ruta = req.body.data.ruta;
   const idCiudadVieja = req.body.data.idRutaVieja;
   console.log(idCiudadVieja);
-  try {
-    Ruta.updateOne(
-      {_id: idCiudadVieja},
-      {
-        origen: ruta.origen,
-        destino: ruta.destino,
-        combi: ruta.combi,
-        horario: ruta.horario,
-      },
-      function (err, affected, resp) {
-        console.log(resp);
-      }
-    );
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(err.message).end();
-  }
+  await Ruta.updateOne(
+    {_id: idCiudadVieja},
+    {
+      origen: ruta.origen,
+      destino: ruta.destino,
+      combi: ruta.combi,
+      horario: ruta.horario,
+    },
+    function (err, affected, resp) {
+      console.log(resp);
+    }
+  );
   require('mongoose').connection.close();
   res.status(200).send('Ciudad modificada con exito').end();
 });
+
 //Delete
-routesRouter.delete('/', (req, res) => {
+routesRouter.delete('/', async (req, res) => {
   console.log(req.body);
-  Ruta.deleteOne(
+  await Ruta.deleteOne(
     {
       _id: req.body._id,
     },

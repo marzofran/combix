@@ -94,8 +94,8 @@ citiesRouter.put('/', async (req, res) => {
 });
 
 //Delete
-citiesRouter.delete('/', async(req, res) => { //REVISAR MAÑANA
-  const ciudadExistente = Ciudad.findOneAndUpdate({_id : req.body.ciudad._id});
+citiesRouter.delete('/:id', async(req, res) => { //REVISAR MAÑANA
+  const ciudadExistente = Ciudad.findOneAndUpdate({_id : req.params.id});
   if(!ciudadExistente) throw new Error('Ciudad no encontrada');
   require('mongoose').connection.close();
   res.status(200).send('Ciudad borrada con exito').end();

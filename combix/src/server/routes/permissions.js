@@ -14,7 +14,6 @@ permissionsRouter.get('/', (req, res) => {
 
 //Create
 permissionsRouter.post('/', async (req, res) => {
-    try{
     let permission = req.body;
     let permiso = new Permisos({
         tipo: permission.tipo,
@@ -22,11 +21,6 @@ permissionsRouter.post('/', async (req, res) => {
     await permiso.save();
     require('mongoose').connection.close();
     res.status(202).send('Permiso creado con exito!').end();
-    }
-    catch(err){
-        console.log(err.message);
-        res.status(err.status).send(err.message).end();
-    }
 });
 
 

@@ -37,7 +37,7 @@ driversRouter.post('/', async (req, res) => {
 driversRouter.put('/', async (req, res) => {
     const choferNuevo = req.body;
     const choferExistente = await Usuario.find({mail: req.params.mail});
-    if(!choferExistente) throw new Error('Chofer no encontrado');
+    if(!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
     choferExistente.nombre = choferNuevo.nombre ? choferNuevo.nombre : choferExistente.nombre;
     choferExistente.apellido = choferNuevo.apellido ? choferNuevo.apellido : choferExistente.apellido;
     choferExistente.fechaNacimiento = choferNuevo.fechaNacimiento ? choferNuevo.fechaNacimiento : choferExistente.fechaNacimiento;
@@ -53,7 +53,7 @@ driversRouter.put('/', async (req, res) => {
 //Delete
 driversRouter.put('/delete', async (req, res) => {
     const choferExistente = await Usuario.findOneAndUpdate({ _id: req.body._id}, {unavailable: true});
-    if(!choferExistente) throw new Error('Chofer no encontrado');
+    if(!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
     require('mongoose').connection.close();
     res.status(200).send('Chofer eliminado').end();
 })
