@@ -13,7 +13,7 @@ const hasLegalAge = (dob) => {
 
 //Display
 usersRouter.get('/', async (req, res) => {
-  let usuarios = await Usuario.find({}); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
+  let usuarios = await Usuario.find({ permissions: "6094d56377b5714b3473dbc5" }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
   require('mongoose').connection.close();
   res.status(200).json(usuarios).end();
 })
