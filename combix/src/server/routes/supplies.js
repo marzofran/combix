@@ -48,12 +48,14 @@ suppliesRouter.put('/:nombre', async(req, res) => {
     insumoExistente.nombre = insumoNuevo.nombre ? insumoNuevo.nombre : insumoExistente.nombre;
     insumoExistente.tipo = insumoNuevo.tipo ? insumoNuevo.tipo : insumoExistente.tipo;
     insumoExistente.precio = insumoNuevo.precio ? insumoNuevo.precio : insumoExistente.precio;
-    await insumoExistente.save();
+    await Insumo.findOneAndUpdate({nombre: req.params.nombre}, {insumoExistente})
+    console.log(insumoExistente);
   }
   catch(err){
     console.log(err);
     res.status(500).send(err.message).end();
   }
+  require('mongoose').connection.close();
   res.status(200).send('Insumo modificado correctamente').end();
 })
 
@@ -69,6 +71,7 @@ suppliesRouter.delete('/', (req, res) => {
     },
     function (err) {
       if (!err) {
+        require('mongoose').connection.close();
         res.status(200).send('Insumo eliminado').end()
       } else {
         res.status(500).send('Se produjo un error').end();
@@ -76,12 +79,11 @@ suppliesRouter.delete('/', (req, res) => {
     })
 })
 //delete logico
-suppliesRouter.post('/delete',async (req, res) => {
+suppliesRouter.put('/delete',async (req, res) => {
   console.log(req.body);
-  const insumoExistente = await Insumo.findOne({_id: req.body._id});
+  const insumoExistente = await Insumo.findOneAndUpdate({_id: req.body._id}, {unavailable: true});
   if(!insumoExistente) throw new Error('Insumo no encontrado');
-  insumoExistente.unavailable = true;
-  await insumoExistente.save();
+  require('mongoose').connection.close();
   res.status(200).send('Insumo borrado');
 })
 

@@ -39,12 +39,17 @@ travelsRouter.put('/', async(req, res) => {
   viajeExistente.precio = viajeNuevo.precio ? viajeNuevo.precio : viajeExistente.precio;
   
   await viajeExistente.save();
+  require('mongoose').connection.close();
   res.status(200).send('Viaje modificado con exito').end();
 })
 
 //Delete
-travelsRouter.delete('/', (req, res) => {
-    res.status(200).send('delete viaje').end();
+travelsRouter.put('/delete', async (req, res) => {
+  const viajeExistente = await Viaje.findOneAndUpdate({_id: req.body._id}, {unavailable: true});
+  if(!viajeExistente) throw new Error('Viaje no encontrado');
+  await viajeExistente.save();
+  require('mongoose').connection.close();
+  res.status(200).send('Viaje borrado');
 })
 
 module.exports = travelsRouter;

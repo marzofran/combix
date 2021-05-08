@@ -6,6 +6,7 @@ const Ruta = require('../schemas/Ruta');
 routesRouter.get('/', async (req, res) => {
   try {
     let rutas = await Ruta.find({});
+    require('mongoose').connection.close();
     res.status(200).json(rutas).end();
   } catch (err) {
     console.log(err);
@@ -25,6 +26,7 @@ routesRouter.post('/', async (request, response) => {
   try {
     const savedRuta = await ruta.save();
     console.log(savedRuta);
+    require('mongoose').connection.close();
     response.status(200).json(savedRuta).end();
   } catch (err) {
     console.log(err);
@@ -58,7 +60,6 @@ routesRouter.put('/body', async (req, res) => {
 });
 */
 routesRouter.put('/', async (req, res) => {
-  //consultar como se compara objeto entero
   const ruta = req.body.data.ruta;
   const idCiudadVieja = req.body.data.idRutaVieja;
   console.log(idCiudadVieja);
@@ -79,6 +80,7 @@ routesRouter.put('/', async (req, res) => {
     console.log(err);
     res.status(400).send(err.message).end();
   }
+  require('mongoose').connection.close();
   res.status(200).send('Ciudad modificada con exito').end();
 });
 //Delete
@@ -96,8 +98,8 @@ routesRouter.delete('/', (req, res) => {
       }
     }
   );
-
-  res.status(200).send('delete ciudad').end();
+  require('mongoose').connection.close();
+  res.status(200).send('Ciudad eliminada').end();
 });
 
 module.exports = routesRouter;
