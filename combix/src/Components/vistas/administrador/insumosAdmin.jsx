@@ -4,6 +4,7 @@ import {registrarInsumo} from '../../../Redux/combixDucks';
 import Insumo from './elementos/insumo';
 import {cargarInsumos} from '../../../Redux/combixDucks';
 
+//Implementado
 const InsumosAdmin = () => {
   const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);

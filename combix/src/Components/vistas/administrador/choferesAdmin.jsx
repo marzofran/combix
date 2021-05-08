@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Chofer from './elementos/chofer'
 //import {cargarChoferes} from '../../../Redux/combixDucks';
 
+//Implementado, sacar comentarios cuando esten los handlers
 const ChoferesAdmin = () => {
   //const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);

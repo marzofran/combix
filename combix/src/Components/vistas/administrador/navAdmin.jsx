@@ -6,6 +6,7 @@ import CombisAdmin from './combisAdmin';
 import CiudadesAdmin from './ciudadesAdmin';
 import RutasAdmin from './rutasAdmin';
 import ViajesAdmin from './viajesAdmin';
+import UsuariosAdmin from './usuariosAdmin'
 import history from '../../history';
 const NavAdmin = () => {
   return (
@@ -58,6 +59,9 @@ const NavAdmin = () => {
             </Route>
             <Route path='/admin/insumos'>
               <InsumosAdmin></InsumosAdmin>
+            </Route>
+            <Route path='/admin/usuarios'>
+              <UsuariosAdmin></UsuariosAdmin>
             </Route>
           </Switch>
         </Router>
