@@ -6,7 +6,7 @@ const Chofer = (props) => {
     <Accordion className="col">
         <Card>
             <Card.Header className="element-header row">
-                <Accordion.Toggle className="element-header col-11" as={Card.Body} eventKey="1">
+                <Accordion.Toggle className="element-header col-11" as={Card.Body} eventKey="0">
                 <div className='row'>
                     <div className='col field-admin'>
                         <label className="field-label">Nombre:</label>

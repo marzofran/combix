@@ -13,6 +13,9 @@ const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
 const REGISTRAR_CIUDAD = 'REGISTRAR_CIUDAD';
 const CARGAR_CIUDAD = 'CARGAR_CIUDAD';
 const BORRAR_CIUDAD = 'BORRAR_CIUDAD';
+const REGISTRAR_INSUMO = 'REGISTRAR_INSUMO';
+const CARGAR_INSUMO = 'CARGAR_INSUMO';
+const BORRAR_INSUMO = 'BORRAR_INSUMO';
 
 // reducer
 export default function reducer(state = configDuck, action) {
@@ -29,6 +32,12 @@ export default function reducer(state = configDuck, action) {
       return {...state, ciudades: action.payload};
     case BORRAR_CIUDAD:
       return {...state, ciudades: action.payload};
+    case REGISTRAR_INSUMO:
+      return {...state, sesion: action.payload};
+    case CARGAR_INSUMO:
+      return {...state, insumos: action.payload};
+    case BORRAR_INSUMO:
+      return {...state, insumos: action.payload};
     default:
       return state;
   }
@@ -179,6 +188,7 @@ export const borrarCiudad = (lugar, provincia) => (dispatch) => {
     console.log(error);
   }
 };
+
 export const editarCiudad = (lugar, provincia, idCiudadVieja) => (dispatch) => {
   const ciudad = {
     lugar: lugar,
@@ -187,6 +197,95 @@ export const editarCiudad = (lugar, provincia, idCiudadVieja) => (dispatch) => {
   try {
     Axios.put('http://localhost:8080/cities', {
       data: {ciudad: ciudad, idCiudadVieja: idCiudadVieja},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          alert('Se modifico con exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const registrarInsumo = (nombre, tipo, precio) => () => {
+  const insumo = {
+    nombre,
+    tipo,
+    precio
+  };
+  Axios.post('http://localhost:8080/supplies', insumo).then((response) => {
+    switch (response.status) {
+      case 200:
+        alert('Se guardo el insumo con exito');
+        break;
+      case 202:
+        alert('El insumo ya se encuentra creado');
+        break;
+      default:
+        alert('Hubo un error con el registro del insumo');
+        break;
+    }
+  });
+};
+
+export const cargarInsumos = () => (dispatch, getState) => {
+  try {
+    Axios.get('http://localhost:8080/supplies', {}).then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CARGAR_INSUMO,
+            payload: response.data,
+          });
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const borrarInsumo = (nombre, tipo, precio) => (dispatch) => {
+  const insumo = {
+    nombre,
+    tipo,
+    precio
+  };
+  try {
+    Axios.delete('http://localhost:8080/supplies', {data: {insumo}}).then(
+      (response) => {
+        switch (response.status) {
+          case 200:
+            alert('Se elimino con exito');
+            break;
+          default:
+            alert('Ocurrio un error');
+            break;
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editarInsumo = (nombre, tipo, precio, idInsumoViejo) => (dispatch) => {
+  const insumo = {
+    nombre,
+    tipo,
+    precio
+  };
+  try {
+    Axios.put('http://localhost:8080/supplies', {
+      data: {insumo, idInsumoViejo},
     }).then((response) => {
       switch (response.status) {
         case 200:
