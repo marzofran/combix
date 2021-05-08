@@ -61,15 +61,16 @@ usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad??
       console.log(err);
       res.status(400).send(err.message).end();
     }
+    require('mongoose').connection.close();
     res.status(200).send('Usuario modificado con exito').end();
 })
 
 //Delete
-usersRouter.delete('/', async (req, res) => {
-  const usuarioExistente = Usuario.find({_id : req.body._id});
+usersRouter.put('/delete', async (req, res) => {
+  const usuarioExistente = Usuario.findOneAndUpdate({_id : req.body._id}, {unavailable: true});
   if(!usuarioExistente) throw new Error('Usuario no encontrada');
-  usuarioExistente.unavailable = true;
   await usuarioExistente.save();
+  require('mongoose').connection.close();
   res.status(200).send('Usuario borrado con exito').end();
 })
 

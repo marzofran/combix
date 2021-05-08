@@ -7,7 +7,7 @@ const Usuario = require('../schemas/Usuario');
 busesRouter.get('/', async (request, response) => {
   try {
     let combis = await Combi.find({});
-
+    require('mongoose').connection.close();
     response.status(200).json(combis).end();
   } catch (err) {
     console.log(err);
@@ -60,19 +60,19 @@ busesRouter.put('/:patente', async (req, res) => {
     combiExistente.chofer = combiNueva.chofer
       ? combiNueva.chofer
       : combiExistente.chofer;
-    await combiExistente.save();
+    await  Combi.findOneAndUpdate({_id: combiNueva._id}, {combiExistente});
   } catch (err) {
     res.status(400).send(err.message).end();
   }
+  require('mongoose').connection.close();
   res.status(200).send('Combi modificada con exito').end();
 });
 
 //Delete
-busesRouter.delete('/', async(req, res) => {
-    const combiExistente = Combi.find({_id : req.body._id});
+busesRouter.put('/delete', async(req, res) => {
+    const combiExistente = Combi.findOneAndUpdate({_id : req.body._id},{unavailable: true});
     if(!combiExistente) throw new Error('Combi no encontrada');
-    combiExistente.unavailable = true;
-    await combiExistente.save();
+    require('mongoose').connection.close();
     res.status(200).send('Combi borrada con exito').end();
 })
 

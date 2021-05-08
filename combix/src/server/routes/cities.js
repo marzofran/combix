@@ -7,6 +7,7 @@ citiesRouter.get('/', async (request, response) => {
   try {
     let ciudades = await Ciudad.find({});
     response.status(200).json(ciudades).end();
+    require('mongoose').connection.close();
   } catch (err) {
     console.log(err);
     response.status(500).send(err.message).end();
@@ -29,6 +30,7 @@ citiesRouter.post('/', async (request, response) => {
     console.log(ciudadExistente);
     if (Object.entries(ciudadExistente).length === 0) {
       await ciudad.save();
+      require('mongoose').connection.close();
       response.status(200).json('Ciudad guardada con exito').end();
     } else {
       response
@@ -69,7 +71,6 @@ citiesRouter.put('/', async (req, res) => {
 });
 */
 citiesRouter.put('/', async (req, res) => {
-  //consultar como se compara objeto entero
   const ciudadNueva = req.body.data.ciudad;
   const idCiudadVieja = req.body.data.idCiudadVieja;
   console.log(idCiudadVieja);
@@ -88,14 +89,15 @@ citiesRouter.put('/', async (req, res) => {
     console.log(err);
     res.status(400).send(err.message).end();
   }
+  require('mongoose').connection.close();
   res.status(200).send('Ciudad modificada con exito').end();
 });
+
 //Delete
-citiesRouter.delete('/', async(req, res) => {
-  const ciudadExistente = Ciudad.find({_id : req.body._id});
+citiesRouter.delete('/', async(req, res) => { //REVISAR MAÑANA
+  const ciudadExistente = Ciudad.findOneAndUpdate({_id : req.body.ciudad._id});
   if(!ciudadExistente) throw new Error('Ciudad no encontrada');
-  ciudadExistente.unavailable = true;
-  await ciudadExistente.save();
+  require('mongoose').connection.close();
   res.status(200).send('Ciudad borrada con exito').end();
 });
 

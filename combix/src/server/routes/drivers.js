@@ -46,12 +46,16 @@ driversRouter.put('/', async (req, res) => {
     choferExistente.clave = choferNuevo.clave ? choferNuevo.clave : choferExistente.clave;
     choferExistente.telefono = choferNuevo.telefono ? choferNuevo.telefono : choferExistente.telefono;
     await choferExistente.save();
+    require('mongoose').connection.close();
     res.status(200).send('Chofer modificado con exito').end();
 })
 
 //Delete
-driversRouter.delete('/', (req, res) => {
-    res.status(200).send('delete chofer').end();
+driversRouter.put('/delete', async (req, res) => {
+    const choferExistente = await Usuario.findOneAndUpdate({ _id: req.body._id}, {unavailable: true});
+    if(!choferExistente) throw new Error('Chofer no encontrado');
+    require('mongoose').connection.close();
+    res.status(200).send('Chofer eliminado').end();
 })
 
 module.exports = driversRouter;
