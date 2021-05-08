@@ -3,6 +3,8 @@ import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {borrarInsumo, editarInsumo} from '../../../../Redux/combixDucks';
 
+
+//Implementado
 const Insumo = props => {
   const dispatch = useDispatch();
   const [nombre, setNombre] = useState('nombre');

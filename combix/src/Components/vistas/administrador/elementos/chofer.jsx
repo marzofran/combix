@@ -3,6 +3,8 @@ import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 //import {borrarChofer, editarChofer} from '../../../../Redux/combixDucks';
 
+
+//Implementado, sacar comentarios cuando redux esté andando
 const Chofer = (props) => {
   //const dispatch = useDispatch();
   
@@ -95,7 +97,7 @@ const Chofer = (props) => {
             </div>
             <div className='row'>
               <div className='col-6 field-admin'>
-                <label className='field-label'>Fecha de nacimiento:</label>
+                <label className='field-label'>Nacimiento:</label>
                 <h6 className='field-display'>{props.item.fecha}</h6>
               </div>
             </div>

@@ -4,6 +4,7 @@ import {registrarCiudad} from '../../../Redux/combixDucks';
 import Ciudad from './elementos/ciudad';
 import {cargarCiudades} from '../../../Redux/combixDucks';
 
+//Implementado
 const CiudadesAdmin = () => {
   const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);

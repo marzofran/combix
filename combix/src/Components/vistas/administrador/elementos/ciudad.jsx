@@ -3,6 +3,7 @@ import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {borrarCiudad, editarCiudad} from '../../../../Redux/combixDucks';
 
+//Implementado
 const Ciudad = (props) => {
   const dispatch = useDispatch();
   const [provincia, setProvincia] = useState('provincia');
