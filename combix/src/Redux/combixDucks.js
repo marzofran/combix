@@ -88,7 +88,7 @@ export const obtenerDatosUsuarioAccion = (email, password) => async (
             case 'usuario':
               history.push('/loged');
               break;
-            case 'administrador':
+            case '6094d45f56d99b266076c0bf':
               history.push('/admin');
               break;
             case 'chofer':
