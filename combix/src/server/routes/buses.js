@@ -1,7 +1,7 @@
 const express = require('express');
-const Chofer = require('../schemas/Chofer');
 const busesRouter = express.Router();
 const Combi = require('../schemas/Combi');
+const Usuario = require('../schemas/Usuario');
 
 //Display
 busesRouter.get('/', async (request, response) => {
@@ -20,7 +20,7 @@ busesRouter.post('/', async (request, response) => {
   //falta middleware para validar
   let bus = request.body;
   try {
-    let choferExistente = await Chofer.find({_id: bus.chofer._id});
+    let choferExistente = await Usuario.find({_id: bus.chofer._id});
     if (!choferExistente) throw new Error('Chofer no existe');
     let combi = new Combi({
       modelo: bus.modelo,

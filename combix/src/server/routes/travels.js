@@ -3,8 +3,10 @@ const travelsRouter = express.Router();
 const Viaje = require('../schemas/Viaje')
 
 //Display
-travelsRouter.get('/', (req, res) => {
-    res.status(200).send('get viaje').end();
+travelsRouter.get('/', async(req, res) => {
+  let viajes = await Viaje.find({}); 
+  require('mongoose').connection.close();
+  res.status(200).json(viajes).end();
 })
 
 //Create
@@ -28,8 +30,16 @@ travelsRouter.post('/', async (request, response) => {
 });
 
 //Modify
-travelsRouter.put('/', (req, res) => {
-    res.status(200).send('put viaje').end();
+travelsRouter.put('/', async(req, res) => {
+  const viajeNuevo = req.body;
+  const viajeExistente = await Viaje.find({mail: req.params.mail});
+  if(!viajeExistente) throw new Error('Viaje no encontrado');
+  viajeExistente.ruta = viajeNuevo.ruta ? viajeNuevo.ruta : viajeExistente.ruta;
+  viajeExistente.fecha = viajeNuevo.fecha ? viajeNuevo.fecha : viajeExistente.fecha;
+  viajeExistente.precio = viajeNuevo.precio ? viajeNuevo.precio : viajeExistente.precio;
+  
+  await viajeExistente.save();
+  res.status(200).send('Viaje modificado con exito').end();
 })
 
 //Delete

@@ -13,7 +13,7 @@ const hasLegalAge = (dob) => {
 
 //Display
 usersRouter.get('/', async (req, res) => {
-  let usuarios = await Usuario.find({}); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
+  let usuarios = await Usuario.find({ permissions: "6094d56377b5714b3473dbc5" }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
   require('mongoose').connection.close();
   res.status(200).json(usuarios).end();
 })
@@ -28,8 +28,8 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
       mail: user.mail,
       clave: user.clave,
       fechaNacimiento: user.fechaNacimiento,
-      plan: 'basico',
-      permissions: 'usuario',
+      telefono: user.telefono,
+      permissions: "6094d56377b5714b3473dbc5",
     });
     const foundUser = await Usuario.find({mail: user.mail});
     if (Object.entries(foundUser).length === 0) {
@@ -47,12 +47,14 @@ usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad??
     try{
       const usuarioExistente = await Usuario.find({mail: req.params.mail});
       if(!usuarioExistente) throw new Error('Usuario no encontrado');
+      if(!hasLegalAge(usuarioNuevo.fechaNacimiento)) throw new Error ('Debe ser mayor de edad');
       usuarioExistente.nombre = usuarioNuevo.nombre ? usuarioNuevo.nombre : usuarioExistente.nombre;
       usuarioExistente.apellido = usuarioNuevo.apellido ? usuarioNuevo.apellido : usuarioExistente.apellido;
       usuarioExistente.fechaNacimiento = usuarioNuevo.fechaNacimiento ? usuarioNuevo.fechaNacimiento : usuarioExistente.fechaNacimiento;
       usuarioExistente.dni = usuarioNuevo.dni ? usuarioNuevo.dni : usuarioExistente.dni;
       usuarioExistente.mail = usuarioNuevo.mail ? usuarioNuevo.mail : usuarioExistente.mail;
       usuarioExistente.clave = usuarioNuevo.clave ? usuarioNuevo.clave : usuarioExistente.clave;
+      usuarioExistente.telefono = usuarioNuevo.telefono ? usuarioNuevo.telefono : usuarioExistente.telefono;
       await usuarioExistente.save();
     }
     catch(err){

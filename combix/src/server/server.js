@@ -15,7 +15,8 @@ const { driversRouter,
         citiesRouter, 
         routesRouter, 
         suppliesRouter, 
-        busesRouter } = require('./routes')
+        busesRouter,
+        permissionsRouter } = require('./routes')
 
 const app = express();
 const PORT = 8080;
@@ -30,6 +31,7 @@ app.use('/cities', citiesRouter);
 app.use('/routes', routesRouter);
 app.use('/supplies', suppliesRouter);
 app.use('/buses', busesRouter);
+app.use('/permissions', permissionsRouter);
 
 // Login
 app.get('/login', async (request, response) => {
