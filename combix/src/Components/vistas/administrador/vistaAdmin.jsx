@@ -9,7 +9,7 @@ const VistaAdmin = (props) => {
   }
   return (
     <div style={{backgroundColor: '#71b3ff', height: '100vh'}}>
-      {props.permisions === 'administrador' ? (
+      {props.permisions === '6094d45f56d99b266076c0bf' ? (
         <div>
           <NavAdmin></NavAdmin>
         </div>

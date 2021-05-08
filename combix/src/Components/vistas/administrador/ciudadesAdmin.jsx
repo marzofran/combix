@@ -7,7 +7,9 @@ import {cargarCiudades} from '../../../Redux/combixDucks';
 const CiudadesAdmin = () => {
   const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);
+
   useEffect(() => {
+    console.log('me active');
     setCargar(true);
     dispatch(cargarCiudades());
   }, [cargar, dispatch]);

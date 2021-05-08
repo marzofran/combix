@@ -16,7 +16,7 @@ const Nav = () => {
   function RednerNavAdmin() {
     if (
       Object.keys(store).length > 0 &&
-      store.permissions === 'administrador'
+      store.permissions === '6094d45f56d99b266076c0bf'
     ) {
       return <NavAdminLogeado></NavAdminLogeado>;
     }
