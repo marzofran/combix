@@ -6,6 +6,9 @@ import history from '../Components/history.js';
 const configDuck = {
   sesion: {},
   ciudades: [],
+  insumos: [],
+  rutas: [],
+  combis: [],
 };
 const OBETENER_DATOS_USUARIO = 'OBTENER_DATOS_USUARIO';
 const CERRAR_SESION = 'CERRAR_SESION';
@@ -16,6 +19,12 @@ const BORRAR_CIUDAD = 'BORRAR_CIUDAD';
 const REGISTRAR_INSUMO = 'REGISTRAR_INSUMO';
 const CARGAR_INSUMO = 'CARGAR_INSUMO';
 const BORRAR_INSUMO = 'BORRAR_INSUMO';
+
+const REGISTRAR_RUTA = 'REGISTRAR_RUTA';
+const CARGAR_RUTA = 'CARGAR_RUTA';
+const BORRAR_RUTA = 'BORRAR_RUTA';
+
+const CARGAR_COMBI = 'CARGAR_COMBI';
 
 // reducer
 export default function reducer(state = configDuck, action) {
@@ -38,6 +47,14 @@ export default function reducer(state = configDuck, action) {
       return {...state, insumos: action.payload};
     case BORRAR_INSUMO:
       return {...state, insumos: action.payload};
+    case REGISTRAR_RUTA:
+      return {...state, rutas: action.payload};
+    case CARGAR_RUTA:
+      return {...state, rutas: action.payload};
+    case BORRAR_RUTA:
+      return {...state, rutas: action.payload};
+    case CARGAR_COMBI:
+      return {...state, combis: action.payload};
     default:
       return state;
   }
@@ -216,7 +233,7 @@ export const registrarInsumo = (nombre, tipo, precio) => () => {
   const insumo = {
     nombre,
     tipo,
-    precio
+    precio,
   };
   Axios.post('http://localhost:8080/supplies', insumo).then((response) => {
     switch (response.status) {
@@ -257,7 +274,7 @@ export const borrarInsumo = (nombre, tipo, precio) => (dispatch) => {
   const insumo = {
     nombre,
     tipo,
-    precio
+    precio,
   };
   try {
     Axios.delete('http://localhost:8080/supplies', {data: {insumo}}).then(
@@ -277,15 +294,125 @@ export const borrarInsumo = (nombre, tipo, precio) => (dispatch) => {
   }
 };
 
-export const editarInsumo = (nombre, tipo, precio, idInsumoViejo) => (dispatch) => {
+export const editarInsumo = (nombre, tipo, precio, idInsumoViejo) => (
+  dispatch
+) => {
   const insumo = {
     nombre,
     tipo,
-    precio
+    precio,
   };
   try {
     Axios.put('http://localhost:8080/supplies', {
       data: {insumo, idInsumoViejo},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          alert('Se modifico con exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const cargarRutas = () => (dispatch, getState) => {
+  try {
+    Axios.get('http://localhost:8080/routes', {}).then((response) => {
+      switch (response.status) {
+        case 200:
+          console.log(response.data);
+          dispatch({
+            type: CARGAR_RUTA,
+            payload: response.data,
+          });
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const registrarRuta = (origen, destino, combi, horario) => () => {
+  const ruta = {
+    origen,
+    destino,
+    combi,
+    horario,
+  };
+  Axios.post('http://localhost:8080/routes', ruta).then((response) => {
+    switch (response.status) {
+      case 200:
+        alert('Se guardo la ruta con exito');
+        break;
+      case 202:
+        alert('la ruta ya se encuntra creada');
+        break;
+      default:
+        alert('Hubo un error con el registro del insumo');
+        break;
+    }
+  });
+};
+
+export const cargarCombis = () => (dispatch, getState) => {
+  try {
+    Axios.get('http://localhost:8080/buses', {}).then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CARGAR_COMBI,
+            payload: response.data,
+          });
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const borrarRuta = (_id) => (dispatch) => {
+  try {
+    Axios.delete('http://localhost:8080/routes', {data: {_id}}).then(
+      (response) => {
+        switch (response.status) {
+          case 200:
+            alert('Se elimino con exito');
+            break;
+          default:
+            alert('Ocurrio un error');
+            break;
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editarRuta = (origen, destino, combi, horario, idRutaVieja) => (
+  dispatch
+) => {
+  const ruta = {
+    origen,
+    destino,
+    combi,
+    horario,
+  };
+  try {
+    Axios.put('http://localhost:8080/routes', {
+      data: {ruta: ruta, idRutaVieja: idRutaVieja},
     }).then((response) => {
       switch (response.status) {
         case 200:
