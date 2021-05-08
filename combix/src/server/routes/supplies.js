@@ -64,11 +64,20 @@ suppliesRouter.delete('/', (req, res) => {
     },
     function (err) {
       if (!err) {
-        console.log('eliminado');
+        res.status(200).send('Insumo eliminado').end()
       } else {
-        console.log(err);
+        res.status(500).send('Se produjo un error').end();
       }
     })
+})
+//delete logico
+suppliesRouter.post('/delete',async (req, res) => {
+  console.log(req.body);
+  const insumoExistente = await Insumo.findOne({_id: req.body._id});
+  if(!insumoExistente) throw new Error('Insumo no encontrado');
+  insumoExistente.unavailable = true;
+  await insumoExistente.save();
+  res.status(200).send('Insumo borrado');
 })
 
 module.exports = suppliesRouter;
