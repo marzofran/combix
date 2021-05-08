@@ -4,24 +4,24 @@ import {useDispatch} from 'react-redux';
 import {borrarInsumo, editarInsumo} from '../../../../Redux/combixDucks';
 
 const Insumo = props => {
-  const dispatch = useDispatch ();
-  const [nombre, setNombre] = useState ('nombre');
-  const [tipo, setTipo] = useState ('tipo');
-  const [precio, setPrecio] = useState ('precio');
+  const dispatch = useDispatch();
+  const [nombre, setNombre] = useState('nombre');
+  const [tipo, setTipo] = useState('tipo');
+  const [precio, setPrecio] = useState('precio');
 
-  const handleChangeNombre = e => {
-    setNombre (e.target.value);
+  const handleChangeNombre = (e) => {
+    setNombre(e.target.value);
   };
-  const handleChangeTipo = e => {
-    setTipo (e.target.value);
+  const handleChangeTipo = (e) => {
+    setTipo(e.target.value);
   };
-  const handleChangePrecio = e => {
-    setPrecio (e.target.value);
+  const handleChangePrecio = (e) => {
+    setPrecio(e.target.value);
   };
-  const handleSubmit = e => {
-    e.preventDefault ();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     dispatch(editarInsumo(nombre, tipo, precio, props.item._id));
-    props.estado ();
+    props.estado();
   };
 
   return (
@@ -31,7 +31,7 @@ const Insumo = props => {
           <Accordion.Toggle
             className="db-element-header col-11"
             as={Card.Body}
-            eventKey="1"
+            eventKey="0"
           >
             <div className="row">
               <div className="col field-admin">
@@ -41,12 +41,6 @@ const Insumo = props => {
               <div className="col field-admin">
                 <label className="field-label">Tipo:</label>
                 <h7 className="field-display">{props.item.tipo}</h7>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6 field-admin">
-                <label className="field-label">Precio:</label>
-                <h7 className="field-display">{props.item.precio}</h7>
               </div>
             </div>
           </Accordion.Toggle>
@@ -76,7 +70,15 @@ const Insumo = props => {
           </div>
         </Card.Header>
         <Accordion.Collapse eventKey="0">
-          <Card.Body>I have no body</Card.Body>
+          <Card.Body>
+            
+          <div className="row">
+              <div className="col-6 field-admin">
+                <label className="field-label">Precio:</label>
+                <h7 className="field-display">{props.item.precio}</h7>
+              </div>
+            </div>
+          </Card.Body>
         </Accordion.Collapse>
       </Card>
       <div
@@ -111,7 +113,7 @@ const Insumo = props => {
                     type="text"
                     className="form-control"
                     id="nombre"
-                    aria-describedby="NOmbre"
+                    aria-describedby="Nombre"
                     onChange={handleChangeNombre}
                   />
                 </div>
