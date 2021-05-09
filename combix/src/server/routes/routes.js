@@ -1,12 +1,15 @@
 const express = require('express');
 const routesRouter = express.Router();
 const Ruta = require('../schemas/Ruta');
-const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
+const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
 
 //Disply
 routesRouter.get('/', async (req, res) => {
-  let rutas = await Ruta.find({}).populate('origen').populate('destino').populate('combi');
+  let rutas = await Ruta.find({})
+    .populate('origen')
+    .populate('destino')
+    .populate('combi');
   require('mongoose').connection.close();
   res.status(200).json(rutas).end();
 });
@@ -23,7 +26,6 @@ routesRouter.post('/', async (request, response) => {
   try {
     const savedRuta = await ruta.save();
     console.log(savedRuta);
-    require('mongoose').connection.close();
     response.status(200).json(savedRuta).end();
   } catch (err) {
     console.log(err);
@@ -72,16 +74,17 @@ routesRouter.put('/', async (req, res) => {
       console.log(resp);
     }
   );
-  require('mongoose').connection.close();
   res.status(200).send('Ciudad modificada con exito').end();
 });
 
 //Delete
 routesRouter.put('/delete', async (req, res) => {
-  const rutaExistente = await Ruta.findOneAndUpdate({ _id: req.body._id}, {unavailable: true});
-    if(!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
-    require('mongoose').connection.close();
-    res.status(200).send('Ruta eliminada').end();
+  const rutaExistente = await Ruta.findOneAndUpdate(
+    {_id: req.body._id},
+    {unavailable: true}
+  );
+  if (!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
+  res.status(200).send('Ruta eliminada').end();
 });
 
 module.exports = routesRouter;
