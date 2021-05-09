@@ -6,7 +6,7 @@ const HttpError = require('../utils/HttpError');
 
 //Disply
 routesRouter.get('/', async (req, res) => {
-  let rutas = await Ruta.find({}).populate('origen').populate('destino').populate('combi');
+  let rutas = await Ruta.find({unavailable: false}).populate('origen').populate('destino').populate('combi');
   console.log(rutas);
   res.status(200).json(rutas).end();
 });
@@ -55,31 +55,20 @@ routesRouter.put('/body', async (req, res) => {
   res.status(200).send('Ruta modificada con exito').end();
 });
 */
-routesRouter.put('/', async (req, res) => {
-  const ruta = req.body.data.ruta;
-  const idCiudadVieja = req.body.data.idRutaVieja;
-  console.log(idCiudadVieja);
-  await Ruta.updateOne(
-    {_id: idCiudadVieja},
-    {
-      origen: ruta.origen,
-      destino: ruta.destino,
-      combi: ruta.combi,
-      horario: ruta.horario,
-    },
-    function (err, affected, resp) {
-      console.log(resp);
-    }
-  );
-   
-  res.status(200).send('Ciudad modificada con exito').end();
+routesRouter.put('/:id', async (req, res) => {
+  const rutaExistente = await Ruta.findOne({_id: req.params.id, unavailable: false });
+  if(!rutaExistente) throw new Error('Ruta no encontrada');
+  const rutaNueva = queryBuilder(req.body, ["origen", "destino", "horario", "combi"]);
+  mapAndBuildModel(rutaExistente, rutaNueva);
+  await rutaExistente.save();
+  res.status(200).send('Ruta modificada correctamente').end();
 });
 
 //Delete
-routesRouter.put('/delete', async (req, res) => {
-  const rutaExistente = await Ruta.findOneAndUpdate({ _id: req.body._id}, {unavailable: true});
-    if(!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
-    res.status(200).send('Ruta eliminada').end();
+routesRouter.delete('/:id', async (req, res) => {
+  const rutaExistente = await Ruta.findOneAndUpdate({ _id: req.params.id, unavailable: false}, {unavailable: true});
+  if(!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
+  res.status(200).send('Ruta eliminada').end();
 });
 
 module.exports = routesRouter;

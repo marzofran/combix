@@ -7,7 +7,6 @@ const HttpError = require('../utils/HttpError')
 //Display
 suppliesRouter.get('/', async (req, res) => {
   let insumos = await Insumo.find({});
-  require('mongoose').connection.close();
   res.status(200).json(insumos).end();
 })
 
@@ -21,34 +20,27 @@ suppliesRouter.post('/', async (request, response) => { //middleware validacion
   });
   const savedInsumo = await insumo.save();
   console.log(savedInsumo);
-   
   response.status(200).json(savedInsumo).end();
 });
 
 //Modify
-suppliesRouter.put('/:nombre', async(req, res) => {
-  const insumoExistente = await Insumo.findOne({nombre: req.params.nombre});
+suppliesRouter.put('/:id', async(req, res) => {
+  const insumoExistente = await Insumo.findOne({_id: req.params.id});
   if(!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
   const insumoNuevo = queryBuilder(req.body, ["nombre", "tipo", "precio"])
   mapAndBuildModel(insumoExistente, insumoNuevo);
   await insumoExistente.save();
-   
   res.status(200).send('Insumo modificado correctamente').end();
 })
 
 //Delete
-suppliesRouter.delete('/', async (req, res) => {
-  console.log(req.body.insumo);
-
+suppliesRouter.delete('/:id', async (req, res) => {
   await Insumo.deleteOne(
     {
-      nombre: req.body.insumo.nombre,
-      precio: req.body.insumo.precio,
-      tipo: req.body.insumo.tipo
+      _id: req.params.id
     },
     function (err) {
       if (!err) {
-         
         res.status(200).send('Insumo eliminado').end()
       } else {
         res.status(500).send('Se produjo un error').end();
@@ -56,12 +48,11 @@ suppliesRouter.delete('/', async (req, res) => {
     })
 })
 //delete logico
-suppliesRouter.put('/delete', async (req, res) => {
-  console.log(req.body);
-  const insumoExistente = await Insumo.findOneAndUpdate({_id: req.body._id}, {unavailable: true});
-  if(!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
-   
-  res.status(200).send('Insumo borrado');
-})
+// suppliesRouter.delete('/:id', async (req, res) => {
+//   console.log(req.body);
+//   const insumoExistente = await Insumo.findOneAndUpdate({_id: req.body._id}, {unavailable: true});
+//   if(!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
+//   res.status(200).send('Insumo borrado');
+// })
 
 module.exports = suppliesRouter;

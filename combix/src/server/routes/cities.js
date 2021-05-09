@@ -7,7 +7,6 @@ citiesRouter.get('/', async (request, response) => {
   try {
     let ciudades = await Ciudad.find({unavailable: false});
     response.status(200).json(ciudades).end();
-     
   } catch (err) {
     console.log(err);
     response.status(500).send(err.message).end();
@@ -30,7 +29,6 @@ citiesRouter.post('/', async (request, response) => {
     console.log(ciudadExistente);
     if (Object.entries(ciudadExistente).length === 0) {
       await ciudad.save();
-       
       response.status(200).json('Ciudad guardada con exito').end();
     } else {
       response
@@ -89,15 +87,13 @@ citiesRouter.put('/', async (req, res) => {
     console.log(err);
     res.status(400).send(err.message).end();
   }
-   
   res.status(200).send('Ciudad modificada con exito').end();
 });
 
 //Delete logico
-citiesRouter.put('/delete', async(req, res) => {
-  const ciudadExistente = Ciudad.findOneAndUpdate({_id: req.body._id});
+citiesRouter.delete('/:id', async(req, res) => {
+  const ciudadExistente = Ciudad.findOneAndUpdate({_id: req.params.id}, {unavailable: true});
   if(!ciudadExistente) throw new Error('Ciudad no encontrada');
-   
   res.status(200).send('Ciudad borrada con exito').end();
 });
 
