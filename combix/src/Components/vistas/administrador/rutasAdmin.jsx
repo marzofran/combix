@@ -50,6 +50,7 @@ const RutasAdmin = () => {
   const rutas = useSelector((store) => store.combix.rutas);
   const ciudades = useSelector((store) => store.combix.ciudades);
   const combis = useSelector((store) => store.combix.combis);
+
   return (
     <div className={'col'}>
       <div className={'viajes-admin'}>
@@ -150,6 +151,7 @@ const RutasAdmin = () => {
                       required
                       class='form-control'
                     >
+                      <option>Seleccione una combi</option>
                       {combis.map((item) => (
                         <option value={JSON.stringify(item)}>
                           {item.modelo}, {item.patente}, {item.asientos}
