@@ -1,6 +1,7 @@
 const express = require('express');
 const routesRouter = express.Router();
 const Ruta = require('../schemas/Ruta');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 
 //Disply
 routesRouter.get('/', async (req, res) => {
@@ -75,22 +76,11 @@ routesRouter.put('/', async (req, res) => {
 });
 
 //Delete
-routesRouter.delete('/', async (req, res) => {
-  console.log(req.body);
-  await Ruta.deleteOne(
-    {
-      _id: req.body._id,
-    },
-    function (err) {
-      if (!err) {
-        console.log('eliminado');
-      } else {
-        console.log(err);
-      }
-    }
-  );
-  require('mongoose').connection.close();
-  res.status(200).send('Ciudad eliminada').end();
+routesRouter.put('/delete', async (req, res) => {
+  const rutaExistente = await Ruta.findOneAndUpdate({ _id: req.body._id}, {unavailable: true});
+    if(!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
+    require('mongoose').connection.close();
+    res.status(200).send('Ruta eliminada').end();
 });
 
 module.exports = routesRouter;

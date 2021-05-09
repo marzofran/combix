@@ -2,10 +2,11 @@ const express = require('express');
 const Usuario = require('../schemas/Usuario');
 const HttpError = require('../utils/HttpError');
 const driversRouter = express.Router();
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 
 //Display
 driversRouter.get('/', async (req, res) => {
-    let choferes = await Usuario.find({ permissions: "6094d50128e541353c8cf122" }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
+    let choferes = await Usuario.find({ permissions: "6094d50128e541353c8cf122", unavailable: false }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
     require('mongoose').connection.close();
     res.status(200).json(choferes).end();
 })
@@ -27,27 +28,21 @@ driversRouter.post('/', async (req, res) => {
         if (Object.entries(foundDriver).length === 0) {
           await chofer.save();
           require('mongoose').connection.close();
-          res.status(202).send('Usuario creado con exito!').end();
+          res.status(202).send('Chofer creado con exito!').end();
         } else {
           throw new HttpError(203, 'El mail ya se encuentra registrado');
         }
 });
 
 //Modify
-driversRouter.put('/', async (req, res) => {
-    const choferNuevo = req.body;
-    const choferExistente = await Usuario.find({mail: req.params.mail});
-    if(!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
-    choferExistente.nombre = choferNuevo.nombre ? choferNuevo.nombre : choferExistente.nombre;
-    choferExistente.apellido = choferNuevo.apellido ? choferNuevo.apellido : choferExistente.apellido;
-    choferExistente.fechaNacimiento = choferNuevo.fechaNacimiento ? choferNuevo.fechaNacimiento : choferExistente.fechaNacimiento;
-    choferExistente.dni = choferNuevo.dni ? choferNuevo.dni : choferExistente.dni;
-    choferExistente.mail = choferNuevo.mail ? choferNuevo.mail : choferExistente.mail;
-    choferExistente.clave = choferNuevo.clave ? choferNuevo.clave : choferExistente.clave;
-    choferExistente.telefono = choferNuevo.telefono ? choferNuevo.telefono : choferExistente.telefono;
-    await choferExistente.save();
-    require('mongoose').connection.close();
-    res.status(200).send('Chofer modificado con exito').end();
+driversRouter.put('/:mail', async (req, res) => {
+  const choferExistente = await Usuario.findOne({mail: req.params.mail});
+  if(!choferExistente) throw new Error('Chofer no encontrado');
+  const choferNuevo = queryBuilder(req.body, ["nombre", "apellido", "dni", "mail", "telefono", "clave", "fechaNacimiento"]);
+  mapAndBuildModel(choferExistente, choferNuevo);
+  await choferExistente.save();
+  require('mongoose').connection.close();
+  res.status(200).send('Chofer modificado correctamente').end();
 })
 
 //Delete

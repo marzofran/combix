@@ -43,7 +43,7 @@ busesRouter.put('/:patente', async (req, res) => {
   //middleware chequear combiNueva
   const combiExistente = await Combi.findOne({patente: req.params.patente});
   if(!combiExistente) throw new Error('Combi no encontrado');
-  const combiNuevo = queryBuilder(req.body, ["patente", "modelo", "cantidadAsientos", "tipo", "chofer"])
+  const combiNuevo = queryBuilder(req.body, ["patente", "modelo", "cantidadAsientos", "tipo", "chofer"]);
   mapAndBuildModel(combiExistente, combiNuevo);
   await combiExistente.save();
   require('mongoose').connection.close();

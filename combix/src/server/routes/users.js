@@ -3,6 +3,7 @@ const usersRouter = express.Router();
 const { userIntegrityValidation } = require('../middleware/validations')
 const Usuario = require('../schemas/Usuario');
 const HttpError = require('../utils/HttpError');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 
 const hasLegalAge = (dob) => {
   const date = new Date(dob).getFullYear;
