@@ -6,8 +6,8 @@ const Ciudad = require('../schemas/Ciudad');
 citiesRouter.get('/', async (request, response) => {
   try {
     let ciudades = await Ciudad.find({unavailable: false});
-    response.status(200).json(ciudades).end();
     require('mongoose').connection.close();
+    response.status(200).json(ciudades).end();
   } catch (err) {
     console.log(err);
     response.status(500).send(err.message).end();

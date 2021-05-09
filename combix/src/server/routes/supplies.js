@@ -7,6 +7,7 @@ const HttpError = require('../utils/HttpError')
 //Display
 suppliesRouter.get('/', async (req, res) => {
   let insumos = await Insumo.find({});
+  require('mongoose').connection.close();
   res.status(200).json(insumos).end();
 })
 

@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {borrarRuta, editarRuta} from '../../../../Redux/combixDucks';
 import {cargarCombis} from '../../../../Redux/combixDucks';
 
+//Implementado
 const Ruta = (props) => {
   const dispatch = useDispatch();
 
@@ -48,17 +49,19 @@ const Ruta = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Salida:</label>
-                <h6 className='field-display'>{props.item.origen.provincia}</h6>
+                <h6 className='field-display'>{props.item.origen?.provincia}</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Destino:</label>
                 <h6 className='field-display'>
-                  {props.item.destino.provincia}
+                  {props.item.destino?.provincia}
                 </h6>
               </div>
-              <div className='col field-admin'>
+            </div>
+            <div className='row'>
+            <div className='col field-admin'>
                 <label className='field-label'>Combi:</label>
-                <h6 className='field-display'>{props.item.combi.modelo}</h6>
+                <h6 className='field-display'>{props.item.combi?.modelo} ({props.item.combi?.patente})</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Horario:</label>

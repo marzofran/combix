@@ -5,6 +5,7 @@ import Combi from './elementos/combi';
 import {cargarCombis} from '../../../Redux/combixDucks';
 //import {cargarChoferes} from '../../../Redux/combixDucks';
 
+//Implementado, faltan cruds
 const CombisAdmin = () => {
   const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);
@@ -31,6 +32,7 @@ const CombisAdmin = () => {
   };
   const handleChangeTipo = (e) => {
     setTipo(e.target.value);
+    dispatch(cargarCombis());
   };
   const handleChangeChofer = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -86,15 +88,7 @@ const CombisAdmin = () => {
         aria-labelledby='modalCombis'
         aria-hidden='true'
       >
-      
-      </div>
-    </div>
-  );
-};
-
-export default CombisAdmin;
-
-/*<div className='modal-dialog modal-dialog-centered' role='document'>
+      <div className='modal-dialog modal-dialog-centered' role='document'>
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCombis'>
@@ -125,61 +119,61 @@ export default CombisAdmin;
                 </div>
                 {patente !== 'patente' && (
                   <div className='form-group'>
-                  <label htmlFor='patente'>Patente:</label>
+                  <label htmlFor='modelo'>Modelo:</label>
                   <input
                       type='text'
                       className='form-control'
-                      id='patente'
-                      aria-describedby='Patente'
-                      placeholder='Seleccione la patente'
+                      id='modelo'
+                      aria-describedby='Modelo'
+                      placeholder='Seleccione el modelo'
                       required
-                      onChange={handleChangePatente}
+                      onChange={handleChangeModelo}
                   />
                 </div>
                 )}
-                {destino !== 'destino' && (
+                {modelo !== 'modelo' && (
                   <div className='form-group'>
-                  <label htmlFor='patente'>Patente:</label>
+                  <label htmlFor='asientos'>Cantidad de asientos:</label>
                   <input
                       type='text'
                       className='form-control'
-                      id='patente'
-                      aria-describedby='Patente'
-                      placeholder='Seleccione la patente'
+                      id='asientos'
+                      aria-describedby='Asientos'
+                      placeholder='Seleccione la cantidad'
                       required
-                      onChange={handleChangePatente}
+                      onChange={handleChangeAsientos}
                   />
                 </div>
                 )}
-                {destino !== 'destino' && (
+                {asientos !== 'asientos' && (
                   <div className='form-group'>
-                  <label htmlFor='patente'>Patente:</label>
+                  <label htmlFor='tipo'>Tipo:</label>
                   <input
                       type='text'
                       className='form-control'
-                      id='patente'
-                      aria-describedby='Patente'
-                      placeholder='Seleccione la patente'
+                      id='tipo'
+                      aria-describedby='Tipo'
+                      placeholder='Seleccione el tipo'
                       required
-                      onChange={handleChangePatente}
+                      onChange={handleChangeTipo}
                   />
                 </div>
                 )}
-                {combi !== 'combi' && (
+                {tipo !== 'tipo' && (
                 <div className='form-group'>
-                  <label htmlFor='patente'>Origen</label>
+                  <label htmlFor='chofer'>Chofer:</label>
                   <select
-                    onChange={handleChangeOrigen}
-                    id='origen'
+                    onChange={handleChangeChofer}
+                    id='chofer'
                     required
                     class='form-control'
                   >
-                    <option>Seleccione un origen</option>
-                    {ciudades.map((item, index) => (
+                    <option>Seleccione un chofer</option>
+                    {/* {choferes.map((item) => (
                       <option value={JSON.stringify(item)}>
-                        {item.provincia}, {item.lugar}
+                        {item.apellido}, {item.DNI}
                       </option>
-                    ))}
+                    ))} */}
                   </select>
                 </div>
                 )}
@@ -202,4 +196,12 @@ export default CombisAdmin;
               </button>
             </div>
           </div>
-        </div>*/
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CombisAdmin;
+
+/**/

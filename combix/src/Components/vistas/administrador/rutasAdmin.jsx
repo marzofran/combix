@@ -6,6 +6,7 @@ import {cargarRutas} from '../../../Redux/combixDucks';
 import {cargarCiudades} from '../../../Redux/combixDucks';
 import {cargarCombis} from '../../../Redux/combixDucks';
 
+//Implementado
 const RutasAdmin = () => {
   const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);
@@ -179,7 +180,7 @@ const RutasAdmin = () => {
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
                 >
-                  Guardar ciudad
+                  Guardar ruta
                 </button>
               </form>
             </div>
