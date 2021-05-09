@@ -144,6 +144,11 @@ export const cerrarSesion = () => (dispatch, getState) => {
   history.push('/');
 };
 
+export const cargarUsuarios = () => (dispatch, getState) => {
+  //Implementar
+}
+
+//Ciudades
 export const registrarCiudad = (lugar, provincia) => () => {
   const ciudad = {
     lugar: lugar,
@@ -230,6 +235,7 @@ export const editarCiudad = (lugar, provincia, idCiudadVieja) => (dispatch) => {
   }
 };
 
+//Insumos
 export const registrarInsumo = (nombre, tipo, precio) => () => {
   const insumo = {
     nombre,
@@ -321,6 +327,7 @@ export const editarInsumo = (nombre, tipo, precio, idInsumoViejo) => (
   }
 };
 
+//Rutas
 export const cargarRutas = () => (dispatch, getState) => {
   try {
     Axios.get('http://localhost:8080/routes', {}).then((response) => {
@@ -364,26 +371,6 @@ export const registrarRuta = (origen, destino, combi, horario) => () => {
   });
 };
 
-export const cargarCombis = () => (dispatch, getState) => {
-  try {
-    Axios.get('http://localhost:8080/buses', {}).then((response) => {
-      switch (response.status) {
-        case 200:
-          dispatch({
-            type: CARGAR_COMBI,
-            payload: response.data,
-          });
-          break;
-        default:
-          alert('Ocurrio un error');
-          break;
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const borrarRuta = (_id) => (dispatch) => {
   try {
     Axios.delete('http://localhost:8080/routes', {data: {_id}}).then(
@@ -419,6 +406,27 @@ export const editarRuta = (origen, destino, combi, horario, idRutaVieja) => (
       switch (response.status) {
         case 200:
           alert('Se modifico con exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//Combis
+export const cargarCombis = () => (dispatch, getState) => {
+  try {
+    Axios.get('http://localhost:8080/buses', {}).then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CARGAR_COMBI,
+            payload: response.data,
+          });
           break;
         default:
           alert('Ocurrio un error');
