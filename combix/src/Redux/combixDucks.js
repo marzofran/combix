@@ -9,6 +9,7 @@ const configDuck = {
   insumos: [],
   rutas: [],
   combis: [],
+  choferes: [],
 };
 const OBETENER_DATOS_USUARIO = 'OBTENER_DATOS_USUARIO';
 const CERRAR_SESION = 'CERRAR_SESION';
@@ -26,6 +27,8 @@ const CARGAR_RUTA = 'CARGAR_RUTA';
 const BORRAR_RUTA = 'BORRAR_RUTA';
 
 const CARGAR_COMBI = 'CARGAR_COMBI';
+
+const CARGAR_CHOFER = 'CARGAR_CHOFER';
 
 // reducer
 export default function reducer(state = configDuck, action) {
@@ -56,6 +59,8 @@ export default function reducer(state = configDuck, action) {
       return {...state, rutas: action.payload};
     case CARGAR_COMBI:
       return {...state, combis: action.payload};
+    case CARGAR_CHOFER:
+      return {...state, choferes: action.payload};
     default:
       return state;
   }
@@ -146,7 +151,7 @@ export const cerrarSesion = () => (dispatch, getState) => {
 
 export const cargarUsuarios = () => (dispatch, getState) => {
   //Implementar
-}
+};
 
 //Ciudades
 export const registrarCiudad = (lugar, provincia) => () => {
@@ -334,6 +339,7 @@ export const cargarRutas = () => (dispatch, getState) => {
       switch (response.status) {
         case 200:
           console.log(response.data);
+          console.log(response.data);
           dispatch({
             type: CARGAR_RUTA,
             payload: response.data,
@@ -427,6 +433,111 @@ export const cargarCombis = () => (dispatch, getState) => {
             type: CARGAR_COMBI,
             payload: response.data,
           });
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const cargarChoferes = () => (dispatch, getState) => {
+  try {
+    Axios.get('http://localhost:8080/drivers', {}).then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CARGAR_CHOFER,
+            payload: response.data,
+          });
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const registrarChofer = (
+  nombre,
+  apellido,
+  mail,
+  DNI,
+  telefono,
+  fecha
+) => () => {
+  const chofer = {
+    nombre,
+    apellido,
+    mail,
+    DNI,
+    telefono,
+    fecha,
+  };
+  Axios.post('http://localhost:8080/drivers', chofer).then((response) => {
+    switch (response.status) {
+      case 200:
+        alert('Se guardo el chofer con exito');
+        break;
+      case 203:
+        alert('el chofer ya se encuntra creada');
+        break;
+      default:
+        alert('Hubo un error con el registro del chofer');
+        break;
+    }
+  });
+};
+
+export const editarChofer = (
+  nombre,
+  apellido,
+  mail,
+  DNI,
+  telefono,
+  fecha,
+  idVieja
+) => (dispatch) => {
+  const chofer = {
+    nombre,
+    apellido,
+    mail,
+    DNI,
+    telefono,
+    fecha,
+  };
+  try {
+    Axios.put('http://localhost:8080/drivers', {
+      data: {chofer: chofer, idChoferVieja: idVieja},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          alert('Se modifico con exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const borrarChofer = (id) => (dispatch) => {
+  try {
+    Axios.put('http://localhost:8080/drivers' + id, {
+      data: {id: id},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          alert('Se elimino con exito');
           break;
         default:
           alert('Ocurrio un error');

@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-//import {registrarChofer} from '../../../Redux/combixDucks';
-import Chofer from './elementos/chofer'
-//import {cargarChoferes} from '../../../Redux/combixDucks';
+import {registrarChofer} from '../../../Redux/combixDucks';
+import Chofer from './elementos/chofer';
+import {cargarChoferes} from '../../../Redux/combixDucks';
 
 //Implementado, falta crud
 const ChoferesAdmin = () => {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);
 
-  /* useEffect(() => {
+  useEffect(() => {
     console.log('me active');
     setCargar(true);
-    dispatch(cargarCiudades());
-  }, [cargar, dispatch]); */
+    dispatch(cargarChoferes());
+  }, [cargar, dispatch]);
 
   const [nombre, setNombre] = useState('Nombre');
   const [apellido, setApellido] = useState('Apellido');
@@ -21,7 +21,9 @@ const ChoferesAdmin = () => {
   const [DNI, setDNI] = useState('DNI');
   const [telefono, setTelefono] = useState('Telefono');
   const [fecha, setFecha] = useState('Fecha');
-
+  function cambiarEstado() {
+    setCargar(false);
+  }
   const handleChangeNombre = (e) => {
     setNombre(e.target.value);
   };
@@ -42,10 +44,10 @@ const ChoferesAdmin = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    //dispatch(registrarChofer(nombre, apellido, mail, DNI, telefono, fecha));
+    dispatch(registrarChofer(nombre, apellido, mail, DNI, telefono, fecha));
     setCargar(false);
   };
-  //const choferes = useSelector((store) => store.combix.choferes);
+  const choferes = useSelector((store) => store.combix.choferes);
 
   return (
     <div className={'col'}>
@@ -67,7 +69,9 @@ const ChoferesAdmin = () => {
           </div>
         </div>
         <div className='col'>
-          <Chofer item={{ nombre: 'Place', apellido: 'Holder'}}></Chofer>
+          {choferes.map((item) => (
+            <Chofer item={item} key={item._id} estado={cambiarEstado}></Chofer>
+          ))}
         </div>
       </div>
       <div

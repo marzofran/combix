@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
-//import {borrarChofer, editarChofer} from '../../../../Redux/combixDucks';
-
+import {borrarChofer, editarChofer} from '../../../../Redux/combixDucks';
 
 //Implementado, falta crud
 const Chofer = (props) => {
-  //const dispatch = useDispatch();
-  
+  const dispatch = useDispatch();
+
   const [nombre, setNombre] = useState('Nombre');
   const [apellido, setApellido] = useState('Apellido');
   const [mail, setMail] = useState('Mail');
@@ -36,7 +35,9 @@ const Chofer = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //dispatch(editarCiudad(lugar, provincia, props.item._id));
+    dispatch(
+      editarChofer(nombre, apellido, mail, DNI, telefono, fecha, props.item._id)
+    );
     props.estado();
   };
 
@@ -52,7 +53,9 @@ const Chofer = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Nombre:</label>
-                <h6 className='field-display'>{props.item.nombre} {props.item.apellido}</h6>
+                <h6 className='field-display'>
+                  {props.item.nombre} {props.item.apellido}
+                </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Mail:</label>
@@ -73,7 +76,8 @@ const Chofer = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                //dispatch(borrarCiudad(props.item.lugar, props.item.provincia));
+                dispatch(borrarChofer(props.item._id));
+
                 props.estado();
               }}
             >
@@ -88,7 +92,7 @@ const Chofer = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>DNI:</label>
-                <h6 className='field-display'>{props.item.DNI}</h6>
+                <h6 className='field-display'>{props.item.dni}</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Telefono:</label>
@@ -98,7 +102,7 @@ const Chofer = (props) => {
             <div className='row'>
               <div className='col-6 field-admin'>
                 <label className='field-label'>Nacimiento:</label>
-                <h6 className='field-display'>{props.item.fecha}</h6>
+                <h6 className='field-display'>{props.item.fechaNacimiento}</h6>
               </div>
             </div>
           </Card.Body>
@@ -106,7 +110,7 @@ const Chofer = (props) => {
       </Card>
       <div
         className='modal fade'
-        id={props.item.lugar}
+        id={props.item.nombre}
         tabIndex='-1'
         role='dialog'
         aria-labelledby='modalChofer'

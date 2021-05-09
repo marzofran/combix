@@ -1,7 +1,7 @@
 const express = require('express');
 const busesRouter = express.Router();
 const Combi = require('../schemas/Combi');
-const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
+const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 
 //Display
 busesRouter.get('/', async (request, response) => {
@@ -26,7 +26,7 @@ busesRouter.post('/', async (request, response) => {
       cantidadAsientos: bus.cantidadAsientos,
       tipo: bus.tipo,
       chofer: bus.chofer,
-      unavailable: false
+      unavailable: false,
     });
     const savedCombi = await combi.save();
     console.log(savedCombi);

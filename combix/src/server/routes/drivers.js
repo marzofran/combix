@@ -2,7 +2,7 @@ const express = require('express');
 const Usuario = require('../schemas/Usuario');
 const HttpError = require('../utils/HttpError');
 const driversRouter = express.Router();
-const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
+const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 
 //Display
 driversRouter.get('/', async (req, res) => {
@@ -40,7 +40,34 @@ driversRouter.put('/:id', async (req, res) => {
   mapAndBuildModel(choferExistente, choferNuevo);
   await choferExistente.save();
   res.status(200).send('Chofer modificado correctamente').end();
-})
+});
+*/
+
+driversRouter.put('/', async (req, res) => {
+  const choferNuevo = req.body.data.chofer;
+  const idChoferViejo = req.body.data.idChoferVieja;
+  try {
+    await Usuario.findOneAndUpdate(
+      {_id: idChoferViejo},
+      {
+        nombre: choferNuevo.nombre,
+        apellido: choferNuevo.apellido,
+        dni: choferNuevo.DNI,
+        mail: choferNuevo.mail,
+        fechaNacimiento: choferNuevo.fecha,
+        telefono: choferNuevo.telefono,
+      },
+      function (err, affected, resp) {
+        console.log(resp);
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err.message).end();
+  }
+
+  res.status(200).send('chofer modificada con exito').end();
+});
 
 //Delete
 driversRouter.delete('/:id', async (req, res) => {

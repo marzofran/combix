@@ -1,7 +1,7 @@
 const express = require('express');
 const routesRouter = express.Router();
 const Ruta = require('../schemas/Ruta');
-const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
+const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
 
 //Disply

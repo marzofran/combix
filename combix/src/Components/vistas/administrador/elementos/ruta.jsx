@@ -49,7 +49,9 @@ const Ruta = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Salida:</label>
-                <h6 className='field-display'>{props.item.origen?.provincia}</h6>
+                <h6 className='field-display'>
+                  {props.item.origen?.provincia}
+                </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Destino:</label>
@@ -59,9 +61,11 @@ const Ruta = (props) => {
               </div>
             </div>
             <div className='row'>
-            <div className='col field-admin'>
+              <div className='col field-admin'>
                 <label className='field-label'>Combi:</label>
-                <h6 className='field-display'>{props.item.combi?.modelo} ({props.item.combi?.patente})</h6>
+                <h6 className='field-display'>
+                  {props.item.combi?.modelo} ({props.item.combi?.patente})
+                </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Horario:</label>
@@ -108,7 +112,8 @@ const Ruta = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCiudad'>
-                Cargar nueva ruta
+                Editar ruta: {props.item.origen?.provincia}
+                {props.item.destino?.provincia}
               </h5>
               <button
                 type='button'

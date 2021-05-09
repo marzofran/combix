@@ -41,6 +41,7 @@ const CombisAdmin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    alert('Xd');
     console.log(patente, modelo, asientos, tipo.replace, chofer);
     //dispatch(registrarCombi(patente, modelo, asientos, tipo, chofer));
     setCargar(false);
@@ -88,7 +89,7 @@ const CombisAdmin = () => {
         aria-labelledby='modalCombis'
         aria-hidden='true'
       >
-      <div className='modal-dialog modal-dialog-centered' role='document'>
+        <div className='modal-dialog modal-dialog-centered' role='document'>
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCombis'>
@@ -108,58 +109,56 @@ const CombisAdmin = () => {
                 <div className='form-group'>
                   <label htmlFor='patente'>Patente:</label>
                   <input
-                      type='text'
-                      className='form-control'
-                      id='patente'
-                      aria-describedby='Patente'
-                      placeholder='Seleccione la patente'
-                      required
-                      onChange={handleChangePatente}
+                    type='text'
+                    className='form-control'
+                    id='patente'
+                    aria-describedby='Patente'
+                    placeholder='Ingrese la patente'
+                    required
+                    onChange={handleChangePatente}
                   />
                 </div>
-                {patente !== 'patente' && (
-                  <div className='form-group'>
+
+                <div className='form-group'>
                   <label htmlFor='modelo'>Modelo:</label>
                   <input
-                      type='text'
-                      className='form-control'
-                      id='modelo'
-                      aria-describedby='Modelo'
-                      placeholder='Seleccione el modelo'
-                      required
-                      onChange={handleChangeModelo}
+                    type='text'
+                    className='form-control'
+                    id='modelo'
+                    aria-describedby='Modelo'
+                    placeholder='Ingrese el modelo'
+                    required
+                    onChange={handleChangeModelo}
                   />
                 </div>
-                )}
-                {modelo !== 'modelo' && (
-                  <div className='form-group'>
+
+                <div className='form-group'>
                   <label htmlFor='asientos'>Cantidad de asientos:</label>
                   <input
-                      type='text'
-                      className='form-control'
-                      id='asientos'
-                      aria-describedby='Asientos'
-                      placeholder='Seleccione la cantidad'
-                      required
-                      onChange={handleChangeAsientos}
+                    type='text'
+                    className='form-control'
+                    id='asientos'
+                    aria-describedby='Asientos'
+                    placeholder='Ingrese la cantidad'
+                    required
+                    onChange={handleChangeAsientos}
                   />
                 </div>
-                )}
+
                 {asientos !== 'asientos' && (
                   <div className='form-group'>
-                  <label htmlFor='tipo'>Tipo:</label>
-                  <input
+                    <label htmlFor='tipo'>Tipo:</label>
+                    <input
                       type='text'
                       className='form-control'
                       id='tipo'
                       aria-describedby='Tipo'
-                      placeholder='Seleccione el tipo'
+                      placeholder='Ingrese el tipo'
                       required
                       onChange={handleChangeTipo}
-                  />
-                </div>
+                    />
+                  </div>
                 )}
-                {tipo !== 'tipo' && (
                 <div className='form-group'>
                   <label htmlFor='chofer'>Chofer:</label>
                   <select
@@ -176,7 +175,7 @@ const CombisAdmin = () => {
                     ))} */}
                   </select>
                 </div>
-                )}
+
                 <button
                   type='submit'
                   className='btn btn-primary'

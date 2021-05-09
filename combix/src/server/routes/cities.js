@@ -20,6 +20,7 @@ citiesRouter.post('/', async (request, response) => {
   let ciudad = new Ciudad({
     lugar: city.lugar,
     provincia: city.provincia,
+    unavailable: false,
   });
   try {
     const ciudadExistente = await Ciudad.find({
@@ -68,6 +69,7 @@ citiesRouter.put('/', async (req, res) => {
   res.status(200).send('Ciudad modificada con exito').end();
 });
 */
+
 citiesRouter.put('/', async (req, res) => {
   const ciudadNueva = req.body.data.ciudad;
   const idCiudadVieja = req.body.data.idCiudadVieja;
