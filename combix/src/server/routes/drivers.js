@@ -41,7 +41,6 @@ driversRouter.put('/:id', async (req, res) => {
   await choferExistente.save();
   res.status(200).send('Chofer modificado correctamente').end();
 });
-*/
 
 driversRouter.put('/', async (req, res) => {
   const choferNuevo = req.body.data.chofer;
