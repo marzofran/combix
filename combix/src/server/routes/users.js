@@ -15,7 +15,6 @@ const hasLegalAge = (dob) => {
 //Display
 usersRouter.get('/', async (req, res) => {
   let usuarios = await Usuario.find({ permissions: "6094d56377b5714b3473dbc5", unavailable: false }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
-  require('mongoose').connection.close();
   res.status(200).json(usuarios).end();
 })
 
@@ -35,7 +34,6 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
     const foundUser = await Usuario.find({mail: user.mail});
     if (Object.entries(foundUser).length === 0) {
       await usuario.save();
-      require('mongoose').connection.close();
       response.status(202).send('Usuario creado con exito!').end();
     } else {
       throw new HttpError(203, 'El mail ya se encuentra registrado');
@@ -59,7 +57,7 @@ usersRouter.put('/:mail', async (req, res) => { //validaciones?? menor de edad??
     usuarioExistente.telefono = usuarioNuevo.telefono ? usuarioNuevo.telefono : usuarioExistente.telefono;
     await usuarioExistente.save();
     res.status(200).send('Usuario modificado con exito').end();
-    require('mongoose').connection.close();
+     
 })
 
 //Delete
@@ -67,7 +65,7 @@ usersRouter.put('/delete', async (req, res) => {
   const usuarioExistente = Usuario.findOneAndUpdate({_id : req.body._id}, {unavailable: true});
   if(!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
   await usuarioExistente.save();
-  require('mongoose').connection.close();
+   
   res.status(200).send('Usuario borrado con exito').end();
 })
 
