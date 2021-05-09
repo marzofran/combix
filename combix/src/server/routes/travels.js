@@ -2,10 +2,11 @@ const express = require('express')
 const travelsRouter = express.Router();
 const Viaje = require('../schemas/Viaje')
 const HttpError = require('../utils/HttpError')
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 
 //Display
 travelsRouter.get('/', async(req, res) => {
-  let viajes = await Viaje.find({}); 
+  let viajes = await Viaje.find({unavailable: false}).populate('ruta'); 
   require('mongoose').connection.close();
   res.status(200).json(viajes).end();
 })
@@ -25,17 +26,14 @@ travelsRouter.post('/', async (request, response) => {
 });
 
 //Modify
-travelsRouter.put('/', async(req, res) => {
-  const viajeNuevo = req.body;
-  const viajeExistente = await Viaje.find({mail: req.params.mail});
-  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
-  viajeExistente.ruta = viajeNuevo.ruta ? viajeNuevo.ruta : viajeExistente.ruta;
-  viajeExistente.fecha = viajeNuevo.fecha ? viajeNuevo.fecha : viajeExistente.fecha;
-  viajeExistente.precio = viajeNuevo.precio ? viajeNuevo.precio : viajeExistente.precio;
-  
+travelsRouter.put('/:id', async(req, res) => {
+  const viajeExistente = await Viaje.findOne({_id: req.params.id});
+  if(!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
+  const viajeNuevo = queryBuilder(req.body, ["ruta", "fecha", "precio"]);
+  mapAndBuildModel(viajeExistente, viajeNuevo);
   await viajeExistente.save();
   require('mongoose').connection.close();
-  res.status(200).send('Viaje modificado con exito').end();
+  res.status(200).send('Viaje modificado correctamente').end();
 })
 
 //Delete

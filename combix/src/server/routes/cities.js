@@ -5,7 +5,7 @@ const Ciudad = require('../schemas/Ciudad');
 //Display
 citiesRouter.get('/', async (request, response) => {
   try {
-    let ciudades = await Ciudad.find({});
+    let ciudades = await Ciudad.find({unavailable: false});
     response.status(200).json(ciudades).end();
     require('mongoose').connection.close();
   } catch (err) {
@@ -93,9 +93,9 @@ citiesRouter.put('/', async (req, res) => {
   res.status(200).send('Ciudad modificada con exito').end();
 });
 
-//Delete
-citiesRouter.delete('/:id', async(req, res) => { //REVISAR MAÑANA
-  const ciudadExistente = Ciudad.findOneAndUpdate({_id : req.params.id});
+//Delete logico
+citiesRouter.put('/delete', async(req, res) => {
+  const ciudadExistente = Ciudad.findOneAndUpdate({_id: req.body._id});
   if(!ciudadExistente) throw new Error('Ciudad no encontrada');
   require('mongoose').connection.close();
   res.status(200).send('Ciudad borrada con exito').end();
