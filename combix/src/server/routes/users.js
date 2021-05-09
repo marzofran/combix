@@ -44,8 +44,8 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
 usersRouter.put('/:id', async (req, res) => { //validaciones?? menor de edad????
     const usuarioExistente = await Usuario.find({_id: req.params.id});
     if(!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
+    const usuarioNuevo = queryBuilder(req.body, ["nombre", "apellido", "mail", "telefono", "dni", "mail", "clave", "fechaNacimiento"]);
     if(!hasLegalAge(usuarioNuevo.fechaNacimiento)) throw new Error ('Debe ser mayor de edad');
-    const usuarioNuevo = queryBuilder(req.body, ["nombre", "apellido", "mail", "telefono", "dni", "mail", "clave", "fechaNacimiento");
     mapAndBuildModel(usuarioExistente, usuarioNuevo);
     await usuarioExistente.save();
     res.status(200).send('Usuario modificado con exito').end();
