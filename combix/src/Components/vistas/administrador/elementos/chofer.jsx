@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 //import {borrarChofer, editarChofer} from '../../../../Redux/combixDucks';
 
 
-//Implementado, sacar comentarios cuando redux esté andando
+//Implementado, falta crud
 const Chofer = (props) => {
   //const dispatch = useDispatch();
   

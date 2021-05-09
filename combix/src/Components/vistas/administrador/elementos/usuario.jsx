@@ -1,6 +1,7 @@
 import React from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 
+//Implementado
 const Usuario = (props) => {
   return (
     <Accordion className="row db-element">
