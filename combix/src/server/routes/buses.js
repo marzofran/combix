@@ -6,8 +6,9 @@ const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 //Display
 busesRouter.get('/', async (request, response) => {
   try {
-    let combis = await Combi.find({}).populate('chofer');
-    require('mongoose').connection.close();
+    
+    let combis = await Combi.find({ unavailable: false}).populate('chofer');
+    
     response.status(200).json(combis).end();
   } catch (err) {
     console.log(err);
@@ -30,7 +31,7 @@ busesRouter.post('/', async (request, response) => {
     });
     const savedCombi = await combi.save();
     console.log(savedCombi);
-    require('mongoose').connection.close();
+     
     response.status(200).json(savedCombi).end(); //por que devuelve un json??
   } catch (err) {
     console.log(err);
@@ -46,15 +47,15 @@ busesRouter.put('/:patente', async (req, res) => {
   const combiNuevo = queryBuilder(req.body, ["patente", "modelo", "cantidadAsientos", "tipo", "chofer"]);
   mapAndBuildModel(combiExistente, combiNuevo);
   await combiExistente.save();
-  require('mongoose').connection.close();
+   
   res.status(200).send('Combi modificado correctamente').end();
 });
 
-//Delete
-busesRouter.put('/delete', async(req, res) => {
-    const combiExistente = Combi.findOneAndUpdate({_id : req.body._id},{unavailable: true});
+//Delete logico
+busesRouter.delete('/:id', async(req, res) => {
+    const combiExistente = Combi.findOneAndUpdate({_id : req.params.id},{unavailable: true});
     if(!combiExistente) throw new Error('Combi no encontrada');
-    require('mongoose').connection.close();
+     
     res.status(200).send('Combi borrada con exito').end();
 })
 

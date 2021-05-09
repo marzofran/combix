@@ -6,8 +6,8 @@ const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 
 //Display
 travelsRouter.get('/', async(req, res) => {
-  let viajes = await Viaje.find({unavailable: false}).populate('ruta'); 
-  require('mongoose').connection.close();
+  let viajes =  Viaje.find({unavailable: false}).populate('ruta'); 
+   
   res.status(200).json(viajes).end();
 })
 
@@ -21,7 +21,7 @@ travelsRouter.post('/', async (request, response) => {
     });
     const savedViaje = await viaje.save();
     console.log(savedViaje);
-    require('mongoose').connection.close();
+     
     response.status(200).json(savedViaje).end();
 });
 
@@ -32,7 +32,7 @@ travelsRouter.put('/:id', async(req, res) => {
   const viajeNuevo = queryBuilder(req.body, ["ruta", "fecha", "precio"]);
   mapAndBuildModel(viajeExistente, viajeNuevo);
   await viajeExistente.save();
-  require('mongoose').connection.close();
+   
   res.status(200).send('Viaje modificado correctamente').end();
 })
 
@@ -41,7 +41,7 @@ travelsRouter.put('/delete', async (req, res) => {
   const viajeExistente = await Viaje.findOneAndUpdate({_id: req.body._id}, {unavailable: true});
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   await viajeExistente.save();
-  require('mongoose').connection.close();
+   
   res.status(200).send('Viaje borrado');
 })
 

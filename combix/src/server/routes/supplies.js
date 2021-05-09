@@ -20,7 +20,7 @@ suppliesRouter.post('/', async (request, response) => { //middleware validacion
   });
   const savedInsumo = await insumo.save();
   console.log(savedInsumo);
-  require('mongoose').connection.close();
+   
   response.status(200).json(savedInsumo).end();
 });
 
@@ -31,7 +31,7 @@ suppliesRouter.put('/:nombre', async(req, res) => {
   const insumoNuevo = queryBuilder(req.body, ["nombre", "tipo", "precio"])
   mapAndBuildModel(insumoExistente, insumoNuevo);
   await insumoExistente.save();
-  require('mongoose').connection.close();
+   
   res.status(200).send('Insumo modificado correctamente').end();
 })
 
@@ -47,7 +47,7 @@ suppliesRouter.delete('/', async (req, res) => {
     },
     function (err) {
       if (!err) {
-        require('mongoose').connection.close();
+         
         res.status(200).send('Insumo eliminado').end()
       } else {
         res.status(500).send('Se produjo un error').end();
@@ -59,7 +59,7 @@ suppliesRouter.put('/delete', async (req, res) => {
   console.log(req.body);
   const insumoExistente = await Insumo.findOneAndUpdate({_id: req.body._id}, {unavailable: true});
   if(!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
-  require('mongoose').connection.close();
+   
   res.status(200).send('Insumo borrado');
 })
 

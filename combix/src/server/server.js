@@ -4,9 +4,12 @@ const express = require('express');
 const cors = require('cors');
 const { json } = require('express');
 const HttpErrorHandler = require('./utils/HttpErrorHandler');
+const mongoose = require('mongoose')
+const connectionString = 'mongodb+srv://clovergreen:Kraehe24@peridot.3prtf.mongodb.net/test?authSource=admin&replicaSet=atlas-12mbsv-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true'
+mongoose.set('bufferCommands', false);
+require('./mongo.js');
 
-require('./mongo');
-const Usuario = require('./schemas/Usuario');
+//const Usuario = require('./schemas/Usuario');
 
 // Routers
 const { driversRouter, 
@@ -34,24 +37,24 @@ app.use('/buses', busesRouter);
 app.use('/permissions', permissionsRouter);
 
 // Login
-app.get('/login', async (request, response) => {
-  let email = request.query.mail;
-  let password = request.query.clave;
-  Usuario.findOne({mail: email, clave: password}, function (err, user) {
-    if (err) {
-      console.log(response);
-      return response.status(204).end();
-    }
-    if (!user) {
-      return response.status(203).end();
-    }
-    if (user) {
-      console.log(user);
-      return response.send(user).end();
-    }
-    require('mongoose').connection.close();
-  });
-});
+// app.get('/login', async (request, response) => {
+//   let email = request.query.mail;
+//   let password = request.query.clave;
+//   Usuario.findOne({mail: email, clave: password}, function (err, user) {
+//     if (err) {
+//       console.log(response);
+//       return response.status(204).end();
+//     }
+//     if (!user) {
+//       return response.status(203).end();
+//     }
+//     if (user) {
+//       console.log(user);
+//       return response.send(user).end();
+//     }
+//      
+//   });
+// });
 
 app.use(HttpErrorHandler);
 

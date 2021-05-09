@@ -19,7 +19,7 @@ permissionsRouter.post('/', async (req, res) => {
         tipo: permission.tipo,
     });
     await permiso.save();
-    require('mongoose').connection.close();
+     
     res.status(202).send('Permiso creado con exito!').end();
 });
 
