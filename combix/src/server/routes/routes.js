@@ -59,9 +59,9 @@ routesRouter.put('/body', async (req, res) => {
 });
 */
 routesRouter.put('/:id', async (req, res) => {
-  console.log(req.params);
+  console.log(req.body);
   const ruta = req.body.data.ruta;
-  const idCiudadVieja = req.body.data.idRutaVieja;
+  const idCiudadVieja = req.params.id;
   const rutaExistente = await Ruta.findOne({
     _id: idCiudadVieja,
     unavailable: false,
