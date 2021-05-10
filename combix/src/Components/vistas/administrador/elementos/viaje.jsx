@@ -3,12 +3,14 @@ import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 //import {borrarViaje, editarViaje} from '../../../../Redux/combixDucks';
 import {cargarCombis} from '../../../../Redux/combixDucks';
-//import {cargarChoferes} from '../../../../Redux/combixDucks';
+import {cargarChoferes} from '../../../../Redux/combixDucks';
 import {cargarRutas} from '../../../../Redux/combixDucks';
+import dateFormat from '../../../../scripts/dateFormat'
 
 //Implementado, faltan cruds
 const Viaje = (props) => {
   const dispatch = useDispatch();
+  const fechaViaje = Date.parse(props.item.fecha)
 
   const [ruta, setRuta] = useState('ruta');
   const [fecha, setFecha] = useState('fecha');
@@ -37,7 +39,7 @@ const Viaje = (props) => {
   const handleChangeCombi = (e) => {
     let obj = JSON.parse(e.target.value);
     setCombi(obj);
-    //dispatch(cargarChoferes());
+    dispatch(cargarChoferes());
   };
   const handleChangeChofer = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -73,7 +75,7 @@ const Viaje = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Fecha:</label>
-                <h6 className='field-display'>{props.item.fecha}</h6>
+                <h6 className='field-display'>{dateFormat(fechaViaje,"dd/mm/yyyy")}</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Horario:</label>
