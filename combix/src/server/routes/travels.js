@@ -19,7 +19,7 @@ travelsRouter.post('/', async (request, response) => {
   let viaje = new Viaje({
     ruta: travel.ruta,
     fecha: travel.fecha,
-    precio: travel.precio,
+    precio: parseInt(travel.precio),
     unavailable: false,
   });
   const savedViaje = await viaje.save();

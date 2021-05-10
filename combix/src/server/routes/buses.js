@@ -25,7 +25,7 @@ busesRouter.post('/', async (request, response) => {
     let combi = new Combi({
       modelo: bus.modelo,
       patente: bus.patente,
-      cantidadAsientos: bus.cantidadAsientos,
+      cantidadAsientos: parseInt(bus.cantidadAsientos),
       tipo: bus.tipo,
       chofer: bus.chofer,
       unavailable: false,

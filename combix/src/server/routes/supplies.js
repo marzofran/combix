@@ -18,7 +18,7 @@ suppliesRouter.post('/', async (request, response) => {
   if(repetido) throw new HttpError('Insumo ya se encuentra cargado');
   let insumo = new Insumo({
     nombre: supply.nombre,
-    precio: supply.precio,
+    precio: parseInt(supply.precio),
     tipo: supply.tipo,
   });
   const savedInsumo = await insumo.save();

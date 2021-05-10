@@ -9,7 +9,7 @@ const UsuariosAdmin = () => {
 
   useEffect(() => {
     dispatch(cargarUsuarios());
-  }, []);
+  }, [dispatch]);
 
   const usuarios = useSelector((store) => store.combix.usuarios);
 

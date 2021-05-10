@@ -3,19 +3,16 @@ import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarViaje, editarViaje} from '../../../../Redux/combixDucks';
 import {cargarCombis} from '../../../../Redux/combixDucks';
-//import {cargarChoferes} from '../../../../Redux/combixDucks';
-import {cargarRutas} from '../../../../Redux/combixDucks';
+import dateFormat from '../../../../scripts/dateFormat'
 
 //Implementado, faltan cruds
 const Viaje = (props) => {
   const dispatch = useDispatch();
+  const fechaViaje = Date.parse(props.item.fecha)
 
   const [ruta, setRuta] = useState('ruta');
   const [fecha, setFecha] = useState('fecha');
-  const [horario, setHorario] = useState('horario');
   const [precio, setPrecio] = useState('precio');
-  const [combi, setCombi] = useState('combi');
-  const [chofer, setChofer] = useState('chofer');
 
   const handleChangeRuta = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -24,23 +21,10 @@ const Viaje = (props) => {
   const handleChangeFecha = (e) => {
     setFecha(e.target.value);
   };
-  const handleChangeHorario = (e) => {
-    let obj = JSON.parse(e.target.value);
-    setHorario(obj);
-  };
   const handleChangePrecio = (e) => {
     let obj = JSON.parse(e.target.value);
     setPrecio(obj);
     dispatch(cargarCombis());
-  };
-  const handleChangeCombi = (e) => {
-    let obj = JSON.parse(e.target.value);
-    setCombi(obj);
-    //dispatch(cargarChoferes());
-  };
-  const handleChangeChofer = (e) => {
-    let obj = JSON.parse(e.target.value);
-    setChofer(obj);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,8 +33,6 @@ const Viaje = (props) => {
   };
 
   const rutas = useSelector((store) => store.combix.rutas);
-  const combis = useSelector((store) => store.combix.combis);
-  const choferes = useSelector((store) => store.combix.choferes);
 
   return (
     <Accordion className='row db-element'>
@@ -65,21 +47,19 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Ruta:</label>
                 <h6 className='field-display'>
-                  {props.item.ruta?.origen.lugar}(
-                  {props.item.ruta?.origen.provincia}) {'->'}
-                  {props.item.ruta?.destino.lugar}(
-                  {props.item.ruta?.destino.provincia})
+                  {props.item.ruta?.origen?.lugar}, {props.item.ruta?.origen?.provincia} {'->'}
+                  {props.item.ruta?.destino?.lugar}, {props.item.ruta?.destino?.provincia}
                 </h6>
               </div>
             </div>
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Fecha:</label>
-                <h6 className='field-display'>{props.item.fecha}</h6>
+                <h6 className='field-display'>{dateFormat(fechaViaje,"dd/mm/yyyy")}</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Horario:</label>
-                <h6 className='field-display'>{props.item.horario}</h6>
+                <h6 className='field-display'>{props.item.ruta?.horario}</h6>
               </div>
             </div>
           </Accordion.Toggle>
@@ -111,12 +91,12 @@ const Viaje = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Precio:</label>
-                <h6 className='field-display'>{props.item.precio}</h6>
+                <h6 className='field-display'>${props.item.precio}</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Combi:</label>
                 <h6 className='field-display'>
-                  {props.item.combi?.modelo}({props.item.combi?.patente})
+                  {props.item.ruta?.combi?.modelo}({props.item.ruta?.combi?.patente})
                 </h6>
               </div>
             </div>
@@ -124,8 +104,8 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Chofer:</label>
                 <h6 className='field-display'>
-                  {props.item.chofer?.nombre} {props.item.chofer?.apellido} (
-                  {props.item.chofer?.mail})
+                  {props.item.ruta?.combi?.chofer?.nombre} {props.item.ruta?.combi?.chofer?.apellido} (
+                  {props.item.ruta?.combi?.chofer?.mail})
                 </h6>
               </div>
             </div>

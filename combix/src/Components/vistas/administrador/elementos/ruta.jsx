@@ -50,13 +50,13 @@ const Ruta = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Salida:</label>
                 <h6 className='field-display'>
-                  {props.item.origen?.provincia}
+                {props.item.origen?.lugar}, {props.item.origen?.provincia}
                 </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Destino:</label>
                 <h6 className='field-display'>
-                  {props.item.destino?.provincia}
+                {props.item.destino?.lugar}, {props.item.destino?.provincia}
                 </h6>
               </div>
             </div>
