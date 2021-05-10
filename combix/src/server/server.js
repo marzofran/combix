@@ -2,24 +2,27 @@ require('express-async-errors');
 const express = require('express');
 // middleware
 const cors = require('cors');
-const { json } = require('express');
+const {json} = require('express');
 const HttpErrorHandler = require('./utils/HttpErrorHandler');
-const mongoose = require('mongoose')
-const connectionString = 'mongodb+srv://clovergreen:Kraehe24@peridot.3prtf.mongodb.net/test?authSource=admin&replicaSet=atlas-12mbsv-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true'
+const mongoose = require('mongoose');
+const connectionString =
+  'mongodb+srv://clovergreen:Kraehe24@peridot.3prtf.mongodb.net/test?authSource=admin&replicaSet=atlas-12mbsv-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true';
 mongoose.set('bufferCommands', false);
 require('./mongo.js');
 
-//const Usuario = require('./schemas/Usuario');
+const Usuario = require('./schemas/Usuario');
 
 // Routers
-const { driversRouter, 
-        usersRouter,
-        travelsRouter,
-        citiesRouter, 
-        routesRouter, 
-        suppliesRouter, 
-        busesRouter,
-        permissionsRouter } = require('./routes')
+const {
+  driversRouter,
+  usersRouter,
+  travelsRouter,
+  citiesRouter,
+  routesRouter,
+  suppliesRouter,
+  busesRouter,
+  permissionsRouter,
+} = require('./routes');
 
 const app = express();
 const PORT = 8080;
@@ -36,25 +39,24 @@ app.use('/supplies', suppliesRouter);
 app.use('/buses', busesRouter);
 app.use('/permissions', permissionsRouter);
 
-// Login
-// app.get('/login', async (request, response) => {
-//   let email = request.query.mail;
-//   let password = request.query.clave;
-//   Usuario.findOne({mail: email, clave: password}, function (err, user) {
-//     if (err) {
-//       console.log(response);
-//       return response.status(204).end();
-//     }
-//     if (!user) {
-//       return response.status(203).end();
-//     }
-//     if (user) {
-//       console.log(user);
-//       return response.send(user).end();
-//     }
-//      
-//   });
-// });
+//Login
+app.get('/login', async (request, response) => {
+  let email = request.query.mail;
+  let password = request.query.clave;
+  Usuario.findOne({mail: email, clave: password}, function (err, user) {
+    if (err) {
+      console.log(response);
+      return response.status(204).end();
+    }
+    if (!user) {
+      return response.status(203).end();
+    }
+    if (user) {
+      console.log(user);
+      return response.send(user).end();
+    }
+  });
+});
 
 app.use(HttpErrorHandler);
 

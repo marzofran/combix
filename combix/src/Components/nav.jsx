@@ -8,7 +8,7 @@ import Loged from './loged';
 import VistaAdmin from './vistas/administrador/vistaAdmin';
 import combixLogo from '../resources/CombixWhite.png';
 import {useSelector} from 'react-redux';
-
+import NavUsuarioLogeado from './navUsuarioLogeado';
 import NavAdminLogeado from './navAdminLogeado';
 const Nav = () => {
   const store = useSelector((store) => store.combix.sesion);
@@ -20,6 +20,13 @@ const Nav = () => {
     ) {
       return <NavAdminLogeado></NavAdminLogeado>;
     }
+    if (
+      Object.keys(store).length > 0 &&
+      store.permissions === '6094d56377b5714b3473dbc5'
+    ) {
+      return <NavUsuarioLogeado></NavUsuarioLogeado>;
+    }
+    console.log(store.apellido);
     return null;
   }
 
