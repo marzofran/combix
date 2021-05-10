@@ -9,7 +9,7 @@ const connectionString = 'mongodb+srv://clovergreen:Kraehe24@peridot.3prtf.mongo
 mongoose.set('bufferCommands', false);
 require('./mongo.js');
 
-//const Usuario = require('./schemas/Usuario');
+const Usuario = require('./schemas/Usuario');
 
 // Routers
 const { driversRouter, 
@@ -37,24 +37,24 @@ app.use('/buses', busesRouter);
 app.use('/permissions', permissionsRouter);
 
 // Login
-// app.get('/login', async (request, response) => {
-//   let email = request.query.mail;
-//   let password = request.query.clave;
-//   Usuario.findOne({mail: email, clave: password}, function (err, user) {
-//     if (err) {
-//       console.log(response);
-//       return response.status(204).end();
-//     }
-//     if (!user) {
-//       return response.status(203).end();
-//     }
-//     if (user) {
-//       console.log(user);
-//       return response.send(user).end();
-//     }
-//      
-//   });
-// });
+app.get('/login', async (request, response) => {
+  let email = request.query.mail;
+  let password = request.query.clave;
+  Usuario.findOne({mail: email, clave: password}, function (err, user) {
+    if (err) {
+      console.log(response);
+      return response.status(204).end();
+    }
+    if (!user) {
+      return response.status(203).end();
+    }
+    if (user) {
+      console.log(user);
+      return response.send(user).end();
+    }
+     
+  });
+});
 
 app.use(HttpErrorHandler);
 
