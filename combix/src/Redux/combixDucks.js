@@ -34,6 +34,7 @@ const CARGAR_COMBI = 'CARGAR_COMBI';
 
 const CARGAR_CHOFER = 'CARGAR_CHOFER';
 
+const CARGAR_VIAJES = 'CARGAR_VIAJES';
 // reducer
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
@@ -67,6 +68,8 @@ export default function reducer(state = configDuck, action) {
       return {...state, combis: action.payload};
     case CARGAR_CHOFER:
       return {...state, choferes: action.payload};
+    case CARGAR_VIAJES:
+      return {...state, viajes: action.payload};
     default:
       return state;
   }
@@ -184,7 +187,7 @@ export const registrarCiudad = (lugar, provincia) => () => {
   Axios.post('http://localhost:8080/cities', ciudad).then((response) => {
     switch (response.status) {
       case 200:
-        alert('Se guardo la ciudad con exito');
+        alert('Se registro la ciudad con exito');
         break;
       case 202:
         alert('El lugar y la ciudad ya se encuentran creados');
@@ -219,7 +222,7 @@ export const cargarCiudades = () => (dispatch, getState) => {
 export const borrarCiudad = (id) => (dispatch) => {
   try {
     Axios.delete('http://localhost:8080/cities/' + id, {
-      data: {id: id},
+      params: {id: id},
     }).then((response) => {
       switch (response.status) {
         case 200:
@@ -236,18 +239,21 @@ export const borrarCiudad = (id) => (dispatch) => {
   }
 };
 
-export const editarCiudad = (lugar, provincia, idCiudadVieja) => (dispatch) => {
+export const editarCiudad = (lugar, provincia, id) => (dispatch) => {
   const ciudad = {
     lugar: lugar,
     provincia: provincia,
   };
   try {
-    Axios.put('http://localhost:8080/cities', {
-      data: {ciudad: ciudad, idCiudadVieja: idCiudadVieja},
+    Axios.put('http://localhost:8080/cities/' + id, {
+      ciudad,
+      params: {
+        id: id,
+      },
     }).then((response) => {
       switch (response.status) {
         case 200:
-          alert('Se modifico con exito');
+          alert('Se modifico la ciudad con exito');
           break;
         default:
           alert('Ocurrio un error');
@@ -269,7 +275,7 @@ export const registrarInsumo = (nombre, tipo, precio) => () => {
   Axios.post('http://localhost:8080/supplies', insumo).then((response) => {
     switch (response.status) {
       case 200:
-        alert('Se guardo el insumo con exito');
+        alert('Se registro el insumo con exito');
         break;
       case 202:
         alert('El insumo ya se encuentra creado');
@@ -307,7 +313,7 @@ export const borrarInsumo = (id) => (dispatch) => {
       (response) => {
         switch (response.status) {
           case 200:
-            alert('Se elimino con exito');
+            alert('Se elimino el insumo con exito');
             break;
           default:
             alert('Ocurrio un error');
@@ -323,17 +329,19 @@ export const borrarInsumo = (id) => (dispatch) => {
 export const editarInsumo = (nombre, tipo, precio, id) => (dispatch) => {
   const insumo = {
     nombre,
-    precio,
     tipo,
+    precio,
   };
   try {
-    Axios.put('http://localhost:8080/supplies/' + nombre, {
-      insumo,
-      id,
+    Axios.put('http://localhost:8080/supplies/' + id, {
+      insumo: insumo,
+      params: {
+        id: id,
+      },
     }).then((response) => {
       switch (response.status) {
         case 200:
-          alert('Se modifico con exito');
+          alert('Se modifico el insumo con exito');
           break;
         default:
           alert('Ocurrio un error');
@@ -394,7 +402,7 @@ export const borrarRuta = (_id) => (dispatch) => {
       (response) => {
         switch (response.status) {
           case 200:
-            alert('Se elimino con exito');
+            alert('Se elimino la ruta con exito');
             break;
           default:
             alert('Ocurrio un error');
@@ -422,7 +430,7 @@ export const editarRuta = (origen, destino, combi, horario, idRutaVieja) => (
     }).then((response) => {
       switch (response.status) {
         case 200:
-          alert('Se modifico con exito');
+          alert('Se modifico la ruta con exito');
           break;
         default:
           alert('Ocurrio un error');
@@ -459,15 +467,15 @@ export const registrarCombi = (
   patente,
   modelo,
   cantidadAsientos,
-  chofer,
-  tipo
+  tipo,
+  chofer
 ) => () => {
   const combi = {
     patente,
     modelo,
     cantidadAsientos,
-    chofer,
     tipo,
+    chofer,
   };
 
   Axios.post('http://localhost:8080/buses', combi).then((response) => {
@@ -476,10 +484,10 @@ export const registrarCombi = (
         alert('Se guardo la combi con exito');
         break;
       case 202:
-        alert('la ruta ya se encuntra creada');
+        alert('la combi ya se encuntra creada');
         break;
       default:
-        alert('Hubo un error con el registro del insumo');
+        alert('Hubo un error con el registro de la combi');
         break;
     }
   });
@@ -488,26 +496,27 @@ export const registrarCombi = (
 export const editarCombi = (
   patente,
   modelo,
-  cantAsientos,
-  chofer,
+  cantidadAsientos,
   tipo,
+  chofer,
   idVieja
 ) => (dispatch) => {
   const combi = {
     patente,
     modelo,
-    cantAsientos,
-    chofer,
+    cantidadAsientos,
     tipo,
+    chofer,
   };
 
   try {
     Axios.put('http://localhost:8080/buses/' + idVieja, {
-      data: {combi: combi, idCombiVieja: idVieja},
+      params: {id: idVieja},
+      combi,
     }).then((response) => {
       switch (response.status) {
         case 200:
-          alert('Se modifico con exito');
+          alert('Se modifico la combi con exito');
           break;
         default:
           alert('Ocurrio un error');
@@ -528,7 +537,7 @@ export const borrarCombi = (id) => (dispatch) => {
       switch (response.status) {
         case 200:
           console.log(response);
-          alert('Se elimino con todo exito');
+          alert('Se elimino la combi con  exito');
           break;
         default:
           alert('Ocurrio un error');
@@ -539,7 +548,6 @@ export const borrarCombi = (id) => (dispatch) => {
     console.log(error);
   }
 };
-
 
 export const cargarChoferes = () => (dispatch, getState) => {
   try {
@@ -580,7 +588,7 @@ export const registrarChofer = (
   Axios.post('http://localhost:8080/drivers', chofer).then((response) => {
     switch (response.status) {
       case 202:
-        alert('Se guardo el chofer con exito');
+        alert('Se registro el chofer con exito');
         break;
       case 203:
         alert('el chofer ya se encuntra creada');
@@ -596,22 +604,23 @@ export const editarChofer = (
   nombre,
   apellido,
   mail,
-  DNI,
+  dni,
   telefono,
-  fecha,
+  fechaNacimiento,
   idVieja
 ) => (dispatch) => {
   const chofer = {
     nombre,
     apellido,
     mail,
-    DNI,
     telefono,
-    fecha,
+    dni,
+    fechaNacimiento,
   };
   try {
-    Axios.put('http://localhost:8080/drivers', {
-      data: {chofer: chofer, idChoferVieja: idVieja},
+    Axios.put('http://localhost:8080/drivers/' + idVieja, {
+      params: {id: idVieja},
+      chofer: chofer,
     }).then((response) => {
       switch (response.status) {
         case 200:
@@ -635,7 +644,7 @@ export const borrarChofer = (id) => (dispatch) => {
       switch (response.status) {
         case 200:
           console.log(response);
-          alert('Se elimino con todo exito');
+          alert('Se elimino el chofer con  exito');
           break;
         default:
           alert('Ocurrio un error');
@@ -647,4 +656,86 @@ export const borrarChofer = (id) => (dispatch) => {
   }
 };
 
+export const registrarViaje = (ruta, fecha, precio) => () => {
+  const viaje = {
+    ruta,
+    fecha,
+    precio,
+  };
 
+  Axios.post('http://localhost:8080/travels', viaje).then((response) => {
+    switch (response.status) {
+      case 200:
+        alert('Se registro el viaje con exito');
+        break;
+
+      default:
+        alert('Hubo un error con el registro del insumo');
+        break;
+    }
+  });
+};
+
+export const cargarViajes = () => (dispatch, getState) => {
+  try {
+    Axios.get('http://localhost:8080/travels').then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CARGAR_VIAJES,
+            payload: response.data,
+          });
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const borrarViaje = (id) => (dispatch) => {
+  try {
+    Axios.delete('http://localhost:8080/travels/' + id, {
+      data: {id: id},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          console.log(response);
+          alert('Se elimino el viaje con exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const editarViaje = (ruta, fecha, precio, idVieja) => (dispatch) => {
+  const viaje = {
+    ruta,
+    fecha,
+    precio,
+  };
+  try {
+    Axios.put('http://localhost:8080/travels/' + idVieja, {
+      params: {id: idVieja},
+      viaje,
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          alert('Se modifico el viaje con exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
