@@ -59,7 +59,7 @@ routesRouter.put('/body', async (req, res) => {
 });
 */
 routesRouter.put('/:id', async (req, res) => {
-  const rutaExistente = await Ruta.findOne({_id: req.params.id});
+  const rutaExistente = await Ruta.findOne({_id: req.params.id, unavailable: false});
   if (!rutaExistente) throw new HttpError(404, 'Ruta no encontrada');
   const rutaNueva = queryBuilder(req.body.data.ruta, [
     'origen',

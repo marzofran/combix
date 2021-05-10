@@ -26,7 +26,7 @@ travelsRouter.post('/', async (request, response) => {
 
 //Modify
 travelsRouter.put('/:id', async(req, res) => {
-  const viajeExistente = await Viaje.findOne({_id: req.params.id});
+  const viajeExistente = await Viaje.findOne({_id: req.params.id, unavailable: false});
   if(!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   const viajeNuevo = queryBuilder(req.body, ["ruta", "fecha", "precio"]);
   mapAndBuildModel(viajeExistente, viajeNuevo);

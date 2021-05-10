@@ -46,7 +46,7 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
 //Modify
 usersRouter.put('/:id', async (req, res) => {
   //validaciones?? menor de edad????
-  const usuarioExistente = await Usuario.find({_id: req.params.id});
+  const usuarioExistente = await Usuario.find({_id: req.params.id, unavailable: false});
   if (!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
   const usuarioNuevo = queryBuilder(req.body, [
     'nombre',

@@ -26,9 +26,9 @@ suppliesRouter.post('/', async (request, response) => {
 
 //Modify
 suppliesRouter.put('/:id', async (req, res) => {
-  const insumoExistente = await Insumo.findOne({_id: req.body.id});
+  const insumoExistente = await Insumo.findOne({_id: req.params.id, unavailable: false});
   if (!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
-  const insumoNuevo = queryBuilder(req.body.insumo, [
+  const insumoNuevo = queryBuilder(req.body, [
     'nombre',
     'tipo',
     'precio',
