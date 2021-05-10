@@ -33,7 +33,7 @@ suppliesRouter.put('/:id', async(req, res) => {
   res.status(200).send('Insumo modificado correctamente').end();
 })
 
-//Delete
+//Delete fisico
 suppliesRouter.delete('/:id', async (req, res) => {
   await Insumo.deleteOne(
     {

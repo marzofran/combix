@@ -30,6 +30,7 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
       fechaNacimiento: user.fechaNacimiento,
       telefono: user.telefono,
       permissions: "6094d56377b5714b3473dbc5",
+      unavailable: false
     });
     const foundUser = await Usuario.find({mail: user.mail});
     if (Object.entries(foundUser).length === 0) {

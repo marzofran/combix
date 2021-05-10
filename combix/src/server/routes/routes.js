@@ -19,6 +19,7 @@ routesRouter.post('/', async (request, response) => {
     destino: route.destino,
     combi: route.combi,
     horario: route.horario,
+    unavailable: false
   });
   try {
     const savedRuta = await ruta.save();
