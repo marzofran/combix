@@ -37,10 +37,12 @@ const Chofer = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      editarChofer(nombre, apellido, mail, DNI, telefono, fecha, props.item._id)
-    );
-    props.estado();
+    if(esMayor(fecha)){  
+      dispatch(editarChofer(nombre, apellido, mail, DNI, telefono, fecha, props.item._id));
+      props.estado();
+    } else {
+      alert("No es mayor de edad")
+    }
   };
 
   return (
@@ -229,4 +231,16 @@ const Chofer = (props) => {
     </Accordion>
   );
 };
+
+function esMayor(date) {
+  var today = new Date();
+  var birthDate = new Date(date);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age > 18;
+}
+
 export default Chofer;

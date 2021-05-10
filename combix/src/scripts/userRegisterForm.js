@@ -39,6 +39,7 @@ const UserRegisterForm = (callback) => {
         fechaNacimiento: values.fechaNacimiento,
         mail: values.mail,
         clave: values.clave,
+        telefono: 0
       };
 
       store.dispatch(registrarUsuario(newUser));
