@@ -6,8 +6,8 @@ import {borrarCiudad, editarCiudad} from '../../../../Redux/combixDucks';
 //Implementado
 const Ciudad = (props) => {
   const dispatch = useDispatch();
-  const [provincia, setProvincia] = useState('provincia');
-  const [lugar, setLugar] = useState('Lugar');
+  const [provincia, setProvincia] = useState(props.item.provincia);
+  const [lugar, setLugar] = useState(props.item.lugar);
 
   const handleChangeLugar = (e) => {
     setLugar(e.target.value);
@@ -100,6 +100,7 @@ const Ciudad = (props) => {
                     className='form-control'
                     id='lugar'
                     aria-describedby='Lugar'
+                    value={provincia}
                     onChange={handleChangeProvincia}
                   />
                 </div>
@@ -111,6 +112,7 @@ const Ciudad = (props) => {
                     id='lugar'
                     aria-describedby='Lugar'
                     required
+                    value={lugar}
                     onChange={handleChangeLugar}
                   />
                 </div>
