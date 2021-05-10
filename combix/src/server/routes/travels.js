@@ -52,10 +52,13 @@ travelsRouter.put('/:id', async (req, res) => {
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   const viajeNuevo = queryBuilder(req.body.viaje, ['ruta', 'fecha', 'precio']);
   mapAndBuildModel(viajeExistente, viajeNuevo);
-  await viajeExistente.save();
-  console.log(req.body);
-
-  res.status(200).send('Viaje modificado correctamente').end();
+  const foundTravel = await Viaje.find({ruta: viajeExistente.ruta, fecha: viajeExistente.fecha, unavailable: false});
+  if (Object.entries(foundTravel).length === 0) {
+    await viajeExistente.save();
+    res.status(202).send('Viaje modificado con exito!').end();
+  } else {
+    throw new HttpError(203, 'Ya hay otro viaje con los mismos datos');
+  }
 });
 
 //Delete
