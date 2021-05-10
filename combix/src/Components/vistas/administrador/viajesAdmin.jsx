@@ -110,8 +110,8 @@ const ViajesAdmin = () => {
                     <option>Seleccione una ruta</option>
                     {rutas.map((item, index) => (
                       <option value={JSON.stringify(item)}>
-                        {item.origen.lugar} ({item.origen.provincia}) {'->'}
-                        {item.destino.lugar} ({item.destino.provincia})
+                        {item.origen.lugar}, {item.origen.provincia} {'->'}
+                        {item.destino.lugar}, {item.destino.provincia}
                       </option>
                     ))}
                   </select>
