@@ -30,7 +30,7 @@ busesRouter.post('/', async (request, response) => {
     });
     const savedCombi = await combi.save();
     console.log(savedCombi);
-    response.status(200).json(savedCombi).end(); //por que devuelve un json??
+    response.status(200).json(savedCombi).end();
   } catch (err) {
     console.log(err);
     response.status(500).send(err.message).end();
@@ -45,7 +45,7 @@ busesRouter.put('/:id', async (req, res) => {
   const combiNuevo = queryBuilder(req.body, ["patente", "modelo", "cantidadAsientos", "tipo", "chofer"]);
   mapAndBuildModel(combiExistente, combiNuevo);
   await combiExistente.save();
-  res.status(200).send('Combi modificado correctamente').end();
+  res.status(200).send('Combi modificada correctamente').end();
 });
 
 //Delete logico

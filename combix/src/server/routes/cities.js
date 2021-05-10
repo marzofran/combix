@@ -1,6 +1,7 @@
 const express = require('express');
 const citiesRouter = express.Router();
 const Ciudad = require('../schemas/Ciudad');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 
 //Display
 citiesRouter.get('/', async (request, response) => {
@@ -70,31 +71,18 @@ citiesRouter.put('/', async (req, res) => {
 });
 */
 
-citiesRouter.put('/', async (req, res) => {
-  const ciudadNueva = req.body.data.ciudad;
-  const idCiudadVieja = req.body.data.idCiudadVieja;
-  console.log(idCiudadVieja);
-  try {
-    Ciudad.updateOne(
-      {_id: idCiudadVieja},
-      {
-        lugar: ciudadNueva.lugar,
-        provincia: ciudadNueva.provincia,
-      },
-      function (err, affected, resp) {
-        console.log(resp);
-      }
-    );
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(err.message).end();
-  }
-  res.status(200).send('Ciudad modificada con exito').end();
+citiesRouter.put('/:id', async (req, res) => {
+  const ciudadExistente = await Ciudad.findOne({_id: req.params.id, unavailable: false});
+  if(!ciudadExistente) throw new Error('ciudad no encontrado');
+  const ciudadNueva = queryBuilder(req.body, ["lugar", "provincia"]);
+  mapAndBuildModel(ciudadExistente, ciudadNueva);
+  await ciudadExistente.save();
+  res.status(200).send('ciudad modificada correctamente').end();
 });
 
 //Delete logico
 citiesRouter.delete('/:id', async(req, res) => {
-  const ciudadExistente = Ciudad.findOneAndUpdate({_id: req.params.id}, {unavailable: true});
+  const ciudadExistente = Ciudad.findOneAndUpdate({_id: req.params.id, unavailable: false}, {unavailable: true});
   if(!ciudadExistente) throw new Error('Ciudad no encontrada');
   res.status(200).send('Ciudad borrada con exito').end();
 });
