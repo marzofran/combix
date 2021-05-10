@@ -29,18 +29,20 @@ var dateFormat = function () {
 		var dF = dateFormat;
 
 		// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+		// eslint-disable-next-line eqeqeq
 		if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
 			mask = date;
 			date = undefined;
 		}
 
 		// Passing date through Date applies Date.parse, if necessary
-		date = date ? new Date(date) : new Date;
+		date = date ? new Date(date) : new Date();
 		if (isNaN(date)) throw SyntaxError("invalid date");
 
 		mask = String(dF.masks[mask] || mask || dF.masks["default"]);
 
 		// Allow setting the utc argument via the mask
+		// eslint-disable-next-line eqeqeq
 		if (mask.slice(0, 4) == "UTC:") {
 			mask = mask.slice(4);
 			utc = true;
@@ -83,6 +85,7 @@ var dateFormat = function () {
 				TT:   H < 12 ? "AM" : "PM",
 				Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
 				o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+				// eslint-disable-next-line eqeqeq
 				S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
 			};
 

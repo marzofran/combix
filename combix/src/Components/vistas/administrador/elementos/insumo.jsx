@@ -108,7 +108,6 @@ const Insumo = (props) => {
                   <label htmlFor='nombre'>Nuevo, Nombre</label>
                   <input
                     required
-                    value={props.item.nombre}
                     type='text'
                     className='form-control'
                     id='nombre'

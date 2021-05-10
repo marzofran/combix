@@ -3,8 +3,6 @@ import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarViaje, editarViaje} from '../../../../Redux/combixDucks';
 import {cargarCombis} from '../../../../Redux/combixDucks';
-import {cargarChoferes} from '../../../../Redux/combixDucks';
-import {cargarRutas} from '../../../../Redux/combixDucks';
 import dateFormat from '../../../../scripts/dateFormat'
 
 //Implementado, faltan cruds
