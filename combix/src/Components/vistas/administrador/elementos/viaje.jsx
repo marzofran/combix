@@ -10,9 +10,9 @@ const Viaje = (props) => {
   const dispatch = useDispatch();
   const fechaViaje = Date.parse(props.item.fecha)
 
-  const [ruta, setRuta] = useState('ruta');
-  const [fecha, setFecha] = useState('fecha');
-  const [precio, setPrecio] = useState('precio');
+  const [ruta, setRuta] = useState(props.item.ruta);
+  const [fecha, setFecha] = useState(props.item.fecha);
+  const [precio, setPrecio] = useState(props.item.precio);
 
   const handleChangeRuta = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -146,8 +146,13 @@ const Viaje = (props) => {
                     required
                     class='form-control'
                   >
-                    <option>Seleccione una ruta</option>
                     {rutas.map((item, index) => (
+                      item.ruta === ruta ?
+                      <option value={JSON.stringify(item)} selected>
+                        {item.origen.lugar} ({item.origen.provincia}) {'->'}
+                        {item.destino.lugar} ({item.destino.provincia})
+                      </option>
+                    :
                       <option value={JSON.stringify(item)}>
                         {item.origen.lugar} ({item.origen.provincia}) {'->'}
                         {item.destino.lugar} ({item.destino.provincia})
@@ -162,6 +167,7 @@ const Viaje = (props) => {
                     type='date'
                     className='form-control'
                     id='fecha'
+                    value={fecha}
                     aria-describedby='Fecha'
                     placeholder='Seleccione la fecha'
                     required
@@ -175,6 +181,7 @@ const Viaje = (props) => {
                     type='text'
                     className='form-control'
                     id='precio'
+                    value={precio}
                     aria-describedby='Precio'
                     placeholder='Seleccione el precio'
                     required

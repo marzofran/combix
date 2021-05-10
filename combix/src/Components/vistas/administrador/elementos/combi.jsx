@@ -1,19 +1,18 @@
 import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-//
-//import {cargarChoferes} from '../../../../Redux/combixDucks';
 import {editarCombi} from '../../../../Redux/combixDucks';
 import {borrarCombi} from '../../../../Redux/combixDucks';
-//Implementado, faltan cruds
+
+//Implementado
 const Combi = (props) => {
   const dispatch = useDispatch();
 
-  const [patente, setPatente] = useState('patente');
-  const [modelo, setModelo] = useState('modelo');
-  const [asientos, setAsientos] = useState('asientos');
-  const [tipo, setTipo] = useState('tipo');
-  const [chofer, setChofer] = useState('chofer');
+  const [patente, setPatente] = useState(props.item.patente);
+  const [modelo, setModelo] = useState(props.item.modelo);
+  const [asientos, setAsientos] = useState(props.item.cantidadAsientos);
+  const [tipo, setTipo] = useState(props.item.tipo);
+  const [chofer, setChofer] = useState(props.item.chofer);
 
   const handleChangePatente = (e) => {
     setPatente(e.target.value);
@@ -138,6 +137,7 @@ const Combi = (props) => {
                     type='text'
                     className='form-control'
                     id='patente'
+                    value={patente}
                     aria-describedby='Patente'
                     placeholder='Seleccione la patente'
                     required
@@ -151,6 +151,7 @@ const Combi = (props) => {
                     type='text'
                     className='form-control'
                     id='modelo'
+                    value={modelo}
                     aria-describedby='Modelo'
                     placeholder='Seleccione el modelo'
                     required
@@ -164,6 +165,7 @@ const Combi = (props) => {
                     type='text'
                     className='form-control'
                     id='asientos'
+                    value={asientos}
                     aria-describedby='Asientos'
                     placeholder='Seleccione la cantidad'
                     required
@@ -177,6 +179,7 @@ const Combi = (props) => {
                     type='text'
                     className='form-control'
                     id='tipo'
+                    value={tipo}
                     aria-describedby='Tipo'
                     placeholder='Seleccione el tipo'
                     required
@@ -192,11 +195,15 @@ const Combi = (props) => {
                     required
                     class='form-control'
                   >
-                    <option>Seleccione un chofer</option>
                     {choferes.map((item) => (
-                      <option value={JSON.stringify(item)}>
-                        {item.apellido}, {item.nombre}
-                      </option>
+                      item.apellido === chofer.apellido && item.nombre === chofer.nombre ?
+                        <option value={JSON.stringify(item)} selected>
+                          {item.apellido}, {item.nombre}
+                        </option>
+                      :
+                        <option value={JSON.stringify(item)}>
+                          {item.apellido}, {item.nombre}
+                        </option>
                     ))}
                   </select>
                 </div>

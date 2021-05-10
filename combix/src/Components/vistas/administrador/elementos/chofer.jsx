@@ -9,12 +9,12 @@ const Chofer = (props) => {
   const dispatch = useDispatch();
   const fechaNacimiento = Date.parse(props.item.fechaNacimiento)
 
-  const [nombre, setNombre] = useState('Nombre');
-  const [apellido, setApellido] = useState('Apellido');
-  const [mail, setMail] = useState('Mail');
-  const [DNI, setDNI] = useState('DNI');
-  const [telefono, setTelefono] = useState('Telefono');
-  const [fecha, setFecha] = useState('Fecha');
+  const [nombre, setNombre] = useState(props.item.nombre);
+  const [apellido, setApellido] = useState(props.item.apellido);
+  const [mail, setMail] = useState(props.item.mail);
+  const [DNI, setDNI] = useState(props.item.dni);
+  const [telefono, setTelefono] = useState(props.item.telefono);
+  const [fecha, setFecha] = useState(props.item.fechaNacimiento);
 
   const handleChangeNombre = (e) => {
     setNombre(e.target.value);
@@ -138,6 +138,7 @@ const Chofer = (props) => {
                   <label htmlFor='nombre'>Nuevo, nombre</label>
                   <input
                     required
+                    value={nombre}
                     type='text'
                     className='form-control'
                     id='nombre'
@@ -149,6 +150,7 @@ const Chofer = (props) => {
                   <label htmlFor='apellido'>Nuevo, apellido</label>
                   <input
                     type='text'
+                    value={apellido}
                     className='form-control'
                     id='apellido'
                     aria-describedby='Apellido'
@@ -160,6 +162,7 @@ const Chofer = (props) => {
                   <label htmlFor='mail'>Nuevo, mail</label>
                   <input
                     type='email'
+                    value={mail}
                     className='form-control'
                     id='mail'
                     aria-describedby='Mail'
@@ -172,6 +175,7 @@ const Chofer = (props) => {
                   <input
                     type='text'
                     className='form-control'
+                    value={DNI}
                     id='DNI'
                     aria-describedby='DNI'
                     required
@@ -183,6 +187,7 @@ const Chofer = (props) => {
                   <input
                     type='text'
                     className='form-control'
+                    value={telefono}
                     id='telefono'
                     aria-describedby='Telefono'
                     required

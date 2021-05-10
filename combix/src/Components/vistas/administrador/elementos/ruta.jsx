@@ -8,10 +8,10 @@ import {cargarCombis} from '../../../../Redux/combixDucks';
 const Ruta = (props) => {
   const dispatch = useDispatch();
 
-  const [origen, setOrigen] = useState('origen');
-  const [destino, setDestino] = useState('destino');
-  const [combi, setCombi] = useState('combi');
-  const [horario, setHorario] = useState('Horario');
+  const [origen, setOrigen] = useState(props.item.origen);
+  const [destino, setDestino] = useState(props.item.destino);
+  const [combi, setCombi] = useState(props.item.combi);
+  const [horario, setHorario] = useState(props.item.horario);
 
   const handleChangeOrigen = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -135,11 +135,15 @@ const Ruta = (props) => {
                     required
                     class='form-control'
                   >
-                    <option>Seleccione un origen</option>
                     {ciudades.map((item, index) => (
-                      <option value={JSON.stringify(item)}>
-                        {item.provincia}, {item.lugar}
-                      </option>
+                      item.provincia === origen.provincia && item.lugar === origen.lugar ?
+                      <option value={JSON.stringify(item)} selected>
+                          {item.lugar}, {item.provincia}
+                        </option>
+                        :
+                        <option value={JSON.stringify(item)}>
+                          {item.lugar}, {item.provincia}
+                        </option>
                     ))}
                   </select>
                 </div>
@@ -152,12 +156,16 @@ const Ruta = (props) => {
                       required
                       class='form-control'
                     >
-                      <option>Seleccione un destino</option>
-                      {ciudades.map((item) => (
-                        <option value={JSON.stringify(item)}>
-                          {item.provincia}, {item.lugar}
+                      {ciudades.map((item, index) => (
+                      item.provincia === destino.provincia && item.lugar === destino.lugar ?
+                      <option value={JSON.stringify(item)} selected>
+                          {item.lugar}, {item.provincia}
                         </option>
-                      ))}
+                        :
+                        <option value={JSON.stringify(item)}>
+                          {item.lugar}, {item.provincia}
+                        </option>
+                    ))}
                     </select>
                   </div>
                 )}
@@ -170,10 +178,14 @@ const Ruta = (props) => {
                     required
                     class='form-control'
                   >
-                    <option>Seleccione una combi</option>
                     {combis.map((item) => (
+                      item.patente === combi.patente ?
+                      <option value={JSON.stringify(item)} selected>
+                          {item.modelo} ({item.patente})
+                        </option>
+                        :
                       <option value={JSON.stringify(item)}>
-                        {item.modelo}, {item.patente}, {item.asientos}
+                        {item.modelo} ({item.patente})
                       </option>
                     ))}
                   </select>
@@ -185,6 +197,7 @@ const Ruta = (props) => {
                     type='text'
                     className='form-control'
                     id='lugar'
+                    value={horario}
                     aria-describedby='Lugar'
                     placeholder='Ingrese el horario'
                     required

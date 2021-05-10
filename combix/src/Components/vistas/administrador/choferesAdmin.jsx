@@ -44,8 +44,12 @@ const ChoferesAdmin = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registrarChofer(nombre, apellido, mail, DNI, telefono, fecha));
-    setCargar(false);
+    if(esMayor(fecha)){   
+      dispatch(registrarChofer(nombre, apellido, mail, DNI, telefono, fecha));
+      setCargar(false);
+    } else {
+      alert("No es mayor de edad")
+    }
   };
   const choferes = useSelector((store) => store.combix.choferes);
 
@@ -198,5 +202,16 @@ const ChoferesAdmin = () => {
     </div>
   );
 };
+
+function esMayor(date) {
+  var today = new Date();
+  var birthDate = new Date(date);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age > 18;
+}
 
 export default ChoferesAdmin;

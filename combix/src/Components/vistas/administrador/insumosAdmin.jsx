@@ -8,6 +8,7 @@ import {cargarInsumos} from '../../../Redux/combixDucks';
 const InsumosAdmin = () => {
   const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);
+  
   useEffect(() => {
     setCargar(true);
     dispatch(cargarInsumos());

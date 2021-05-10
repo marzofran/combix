@@ -6,9 +6,9 @@ import {borrarInsumo, editarInsumo} from '../../../../Redux/combixDucks';
 //Implementado
 const Insumo = (props) => {
   const dispatch = useDispatch();
-  const [nombre, setNombre] = useState('nombre');
-  const [tipo, setTipo] = useState('tipo');
-  const [precio, setPrecio] = useState('precio');
+  const [nombre, setNombre] = useState(props.item.nombre);
+  const [tipo, setTipo] = useState(props.item.tipo);
+  const [precio, setPrecio] = useState(props.item.precio);
 
   const handleChangeNombre = (e) => {
     setNombre(e.target.value);
@@ -108,6 +108,7 @@ const Insumo = (props) => {
                   <label htmlFor='nombre'>Nuevo, Nombre</label>
                   <input
                     required
+                    value={nombre}
                     type='text'
                     className='form-control'
                     id='nombre'
@@ -119,6 +120,7 @@ const Insumo = (props) => {
                   <label htmlFor='tipo'>Nuevo, Tipo</label>
                   <input
                     type='text'
+                    value={tipo}
                     className='form-control'
                     id='tipo'
                     aria-describedby='Tipo'
@@ -130,6 +132,7 @@ const Insumo = (props) => {
                   <label htmlFor='precio'>Nuevo, Precio</label>
                   <input
                     type='text'
+                    value={precio}
                     className='form-control'
                     id='precio'
                     aria-describedby='Precio'
