@@ -73,7 +73,7 @@ const Insumo = (props) => {
             <div className='row'>
               <div className='col-6 field-admin'>
                 <label className='field-label'>Precio:</label>
-                <h7 className='field-display'>{props.item.precio}</h7>
+                <h7 className='field-display'>${props.item.precio}</h7>
               </div>
             </div>
           </Card.Body>
@@ -108,6 +108,7 @@ const Insumo = (props) => {
                   <label htmlFor='nombre'>Nuevo, Nombre</label>
                   <input
                     required
+                    value={props.item.nombre}
                     type='text'
                     className='form-control'
                     id='nombre'

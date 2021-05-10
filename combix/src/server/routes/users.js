@@ -26,11 +26,11 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
     let usuario = new Usuario({
       nombre: user.nombre,
       apellido: user.apellido,
-      dni: user.dni,
+      dni: parseInt(user.dni),
       mail: user.mail,
       clave: user.clave,
       fechaNacimiento: user.fechaNacimiento,
-      telefono: user.telefono,
+      telefono: parseInt(user.telefono),
       permissions: "6094d56377b5714b3473dbc5",
       unavailable: false
     });

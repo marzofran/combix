@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-//import {cargarViajes, registrarViaje} from '../../../Redux/combixDucks';
 import Viaje from './elementos/viaje';
 import {cargarViajes} from '../../../Redux/combixDucks';
 import {cargarRutas} from '../../../Redux/combixDucks';
 import {registrarViaje} from '../../../Redux/combixDucks';
-//import {cargarChoferes} from '../../../Redux/combixDucks';
 
 //Implementado, faltan cruds
 const ViajesAdmin = () => {
@@ -13,6 +11,7 @@ const ViajesAdmin = () => {
   const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
+    setCargar(true);
     dispatch(cargarRutas());
     dispatch(cargarViajes());
     console.log('brus');
@@ -20,10 +19,7 @@ const ViajesAdmin = () => {
 
   const [ruta, setRuta] = useState('ruta');
   const [fecha, setFecha] = useState('fecha');
-  const [horario, setHorario] = useState('horario');
   const [precio, setPrecio] = useState('precio');
-  const [combi, setCombi] = useState('combi');
-  const [chofer, setChofer] = useState('chofer');
 
   const handleChangeRuta = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -33,26 +29,14 @@ const ViajesAdmin = () => {
     setFecha(e.target.value);
     console.log(Date.parse(e.target.value));
   };
-  const handleChangeHorario = (e) => {
-    let obj = JSON.parse(e.target.value);
-    setHorario(obj);
-  };
   const handleChangePrecio = (e) => {
     let obj = JSON.parse(e.target.value);
     setPrecio(obj);
   };
-  const handleChangeCombi = (e) => {
-    let obj = JSON.parse(e.target.value);
-    setCombi(obj);
-  };
-  const handleChangeChofer = (e) => {
-    let obj = JSON.parse(e.target.value);
-    setChofer(obj);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(ruta, fecha, horario, precio, combi, chofer);
+    console.log(ruta, fecha, precio);
     dispatch(registrarViaje(ruta, fecha, precio));
     cambiarEstado();
   };
@@ -63,8 +47,6 @@ const ViajesAdmin = () => {
 
   const rutas = useSelector((store) => store.combix.rutas);
   const viajes = useSelector((store) => store.combix.viajes);
-  const combis = useSelector((store) => store.combix.combis);
-  const choferes = useSelector((store) => store.combix.choferes);
 
   return (
     <div className={'col'}>

@@ -25,11 +25,11 @@ driversRouter.post('/', async (req, res) => {
   let chofer = new Usuario({
     nombre: driver.nombre,
     apellido: driver.apellido,
-    dni: driver.DNI,
+    dni: parseInt(driver.DNI),
     mail: driver.mail,
     clave: driver.clave,
     fechaNacimiento: driver.fecha,
-    telefono: driver.telefono,
+    telefono: parseInt(driver.telefono),
     permissions: '6094d50128e541353c8cf122',
     unavailable: false,
   });

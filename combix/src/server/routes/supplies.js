@@ -16,7 +16,7 @@ suppliesRouter.post('/', async (request, response) => {
   let supply = request.body;
   let insumo = new Insumo({
     nombre: supply.nombre,
-    precio: supply.precio,
+    precio: parseInt(supply.precio),
     tipo: supply.tipo,
   });
   const savedInsumo = await insumo.save();
