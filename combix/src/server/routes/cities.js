@@ -2,6 +2,7 @@ const express = require('express');
 const citiesRouter = express.Router();
 const Ciudad = require('../schemas/Ciudad');
 const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const HttpError = require('../utils/HttpError');
 
 //Display
 citiesRouter.get('/', async (request, response) => {
@@ -18,6 +19,8 @@ citiesRouter.get('/', async (request, response) => {
 citiesRouter.post('/', async (request, response) => {
   //middleware!!
   let city = request.body;
+  const repetido = await Ciudad.find({lugar: city.lugar, provincia: city.provincia, unavailable:false });
+  if(repetido) throw new HttpError('Ciudad ya se encuentra cargada');
   let ciudad = new Ciudad({
     lugar: city.lugar,
     provincia: city.provincia,

@@ -16,6 +16,8 @@ routesRouter.get('/', async (req, res) => {
 //Create
 routesRouter.post('/', async (request, response) => {
   let route = request.body;
+  const repetido = await Ruta.find({origen: route.origen, destino: route.destino, combi: route.combi,horario: route.horario, unavailable:false });
+  if(repetido) throw new HttpError('Ruta ya se encuentra cargada');
   let ruta = new Ruta({
     origen: route.origen,
     destino: route.destino,

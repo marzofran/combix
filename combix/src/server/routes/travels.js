@@ -13,11 +13,13 @@ travelsRouter.get('/', async (req, res) => {
 
 //Create
 travelsRouter.post('/', async (request, response) => {
-  let bus = request.body;
+  let travel = request.body;
+  const repetido = await Viaje.find({ruta: travel.ruta, fecha: travel.fecha, precio: travel.precio, unavailable:false });
+  if(repetido) throw new HttpError('Viaje ya se encuentra cargado');
   let viaje = new Viaje({
-    ruta: bus.ruta,
-    fecha: bus.fecha,
-    precio: bus.precio,
+    ruta: travel.ruta,
+    fecha: travel.fecha,
+    precio: travel.precio,
     unavailable: false,
   });
   const savedViaje = await viaje.save();
