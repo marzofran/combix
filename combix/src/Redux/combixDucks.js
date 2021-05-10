@@ -186,10 +186,10 @@ export const registrarCiudad = (lugar, provincia) => () => {
   };
   Axios.post('http://localhost:8080/cities', ciudad).then((response) => {
     switch (response.status) {
-      case 200:
+      case 202:
         alert('Se registro la ciudad con exito');
         break;
-      case 202:
+      case 203:
         alert('Esa provincia y ese lugar ya se encuentran creados');
         break;
       default:
@@ -274,10 +274,10 @@ export const registrarInsumo = (nombre, tipo, precio) => () => {
   };
   Axios.post('http://localhost:8080/supplies', insumo).then((response) => {
     switch (response.status) {
-      case 200:
+      case 202:
         alert('Se registro el insumo con exito');
         break;
-      case 202:
+      case 203:
         alert('El insumo ya se encuentra creado');
         break;
       default:
@@ -383,10 +383,10 @@ export const registrarRuta = (origen, destino, combi, horario) => () => {
   };
   Axios.post('http://localhost:8080/routes', ruta).then((response) => {
     switch (response.status) {
-      case 200:
+      case 202:
         alert('Se guardo la ruta con exito');
         break;
-      case 202:
+      case 203:
         alert('la ruta ya se encuntra creada');
         break;
       default:
@@ -480,10 +480,10 @@ export const registrarCombi = (
 
   Axios.post('http://localhost:8080/buses', combi).then((response) => {
     switch (response.status) {
-      case 200:
+      case 202:
         alert('Se guardo la combi con exito');
         break;
-      case 202:
+      case 203:
         alert('la combi ya se encuntra creada');
         break;
       default:
@@ -591,7 +591,7 @@ export const registrarChofer = (
         alert('Se registro el chofer con exito');
         break;
       case 203:
-        alert('el chofer ya se encuntra creada');
+        alert('el chofer ya se encuntra registrado');
         break;
       default:
         alert('Hubo un error con el registro del chofer');
@@ -665,12 +665,14 @@ export const registrarViaje = (ruta, fecha, precio) => () => {
 
   Axios.post('http://localhost:8080/travels', viaje).then((response) => {
     switch (response.status) {
-      case 200:
+      case 202:
         alert('Se registro el viaje con exito');
         break;
-
+      case 203:
+        alert('El viaje ya se encuentra registrado');
+        break;
       default:
-        alert('Hubo un error con el registro del insumo');
+        alert('Hubo un error con el registro del del viaje');
         break;
     }
   });
