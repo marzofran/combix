@@ -152,7 +152,7 @@ const RutasAdmin = () => {
                     <option>Seleccione una combi</option>
                     {combis.map((item) => (
                       <option value={JSON.stringify(item)}>
-                        {item.modelo}, {item.patente}, {item.asientos}
+                        {item.modelo} ({item.patente})
                       </option>
                     ))}
                   </select>

@@ -121,7 +121,7 @@ const Chofer = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalChofer'>
-                Editar chofer, {props.item.nombre} {props.item.apellido}
+                Editar chofer: {props.item.nombre} {props.item.apellido}
               </h5>
               <button
                 type='button'

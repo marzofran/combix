@@ -91,7 +91,7 @@ const Insumo = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalInsumo'>
-                Editar insumo, {props.item.nombre}
+                Editar insumo: {props.item.nombre}
               </h5>
               <button
                 type='button'
