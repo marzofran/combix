@@ -190,7 +190,7 @@ export const registrarCiudad = (lugar, provincia) => () => {
         alert('Se registro la ciudad con exito');
         break;
       case 202:
-        alert('El lugar y la ciudad ya se encuentran creados');
+        alert('Esa provincia y ese lugar ya se encuentran creados');
         break;
       default:
         alert('Hubo un error con el registro de la ciudad');
