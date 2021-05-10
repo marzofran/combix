@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-//import {borrarViaje, editarViaje} from '../../../../Redux/combixDucks';
+import {borrarViaje, editarViaje} from '../../../../Redux/combixDucks';
 import {cargarCombis} from '../../../../Redux/combixDucks';
 import {cargarChoferes} from '../../../../Redux/combixDucks';
 import {cargarRutas} from '../../../../Redux/combixDucks';
@@ -24,8 +24,7 @@ const Viaje = (props) => {
     setRuta(obj);
   };
   const handleChangeFecha = (e) => {
-    let obj = JSON.parse(e.target.value);
-    setFecha(obj);
+    setFecha(e.target.value);
   };
   const handleChangeHorario = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -47,7 +46,7 @@ const Viaje = (props) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    //dispatch(editarViaje(ruta, fecha, horario, precio, combi, chofer, props.item._id));
+    dispatch(editarViaje(ruta, fecha, precio, props.item._id));
     props.estado();
   };
 
@@ -68,7 +67,10 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Ruta:</label>
                 <h6 className='field-display'>
-                  {props.item.ruta?.origen.lugar}({props.item.ruta?.origen.provincia}) -> {props.item.ruta?.destino.lugar}({props.item.ruta?.destino.provincia})
+                  {props.item.ruta?.origen.lugar}(
+                  {props.item.ruta?.origen.provincia}) {'->'}
+                  {props.item.ruta?.destino.lugar}(
+                  {props.item.ruta?.destino.provincia})
                 </h6>
               </div>
             </div>
@@ -96,7 +98,7 @@ const Viaje = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                //dispatch(borrarViaje(props.item._id));
+                dispatch(borrarViaje(props.item._id));
                 props.estado();
               }}
             >
@@ -108,20 +110,25 @@ const Viaje = (props) => {
         </Card.Header>
         <Accordion.Collapse eventKey='0'>
           <Card.Body>
-          <div className="row">
-              <div className="col field-admin">
-                <label className="field-label">Precio:</label>
-                <h6 className="field-display">{props.item.precio}</h6>
+            <div className='row'>
+              <div className='col field-admin'>
+                <label className='field-label'>Precio:</label>
+                <h6 className='field-display'>{props.item.precio}</h6>
               </div>
-              <div className="col field-admin">
-                <label className="field-label">Combi:</label>
-                <h6 className="field-display">{props.item.combi?.modelo}({props.item.combi?.patente})</h6>
+              <div className='col field-admin'>
+                <label className='field-label'>Combi:</label>
+                <h6 className='field-display'>
+                  {props.item.combi?.modelo}({props.item.combi?.patente})
+                </h6>
               </div>
             </div>
-            <div className="row">
-              <div className="col field-admin">
-                <label className="field-label">Chofer:</label>
-                <h6 className="field-display">{props.item.chofer?.nombre} {props.item.chofer?.apellido} ({props.item.chofer?.mail})</h6>
+            <div className='row'>
+              <div className='col field-admin'>
+                <label className='field-label'>Chofer:</label>
+                <h6 className='field-display'>
+                  {props.item.chofer?.nombre} {props.item.chofer?.apellido} (
+                  {props.item.chofer?.mail})
+                </h6>
               </div>
             </div>
           </Card.Body>
@@ -139,7 +146,7 @@ const Viaje = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalViaje'>
-                Cargar nuevo viaje
+                Editar viaje, {props.item._id}
               </h5>
               <button
                 type='button'
@@ -164,93 +171,44 @@ const Viaje = (props) => {
                     <option>Seleccione una ruta</option>
                     {rutas.map((item, index) => (
                       <option value={JSON.stringify(item)}>
-                        {item.origen.lugar} ({item.origen.provincia}) -> {item.destino.lugar} ({item.destino.provincia})
+                        {item.origen.lugar} ({item.origen.provincia}) {'->'}
+                        {item.destino.lugar} ({item.destino.provincia})
                       </option>
                     ))}
                   </select>
                 </div>
-                {ruta !== 'ruta' && (
-                  <div className='form-group'>
-                    <label htmlFor='fecha'>Fecha:</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='fecha'
-                      aria-describedby='Fecha'
-                      placeholder='Seleccione la fecha'
-                      required
-                      onChange={handleChangeFecha}
-                    />
-                  </div>
-                )}
-                {fecha !== 'fecha' && (
-                  <div className='form-group'>
-                    <label htmlFor='horario'>Horario:</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='horario'
-                      aria-describedby='Horario'
-                      placeholder='Seleccione el horario'
-                      required
-                      onChange={handleChangeHorario}
-                    />
-                  </div>
-                )}
-                {horario !== 'horario' && (
-                  <div className='form-group'>
-                    <label htmlFor='precio'>Precio:</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='precio'
-                      aria-describedby='Precio'
-                      placeholder='Seleccione el precio'
-                      required
-                      onChange={handleChangePrecio}
-                    />
-                  </div>
-                )}
-                {precio !== 'precio' && (
-                  <div className='form-group'>
-                    <label htmlFor='combi'>Combi:</label>
-                    <select
-                      onChange={handleChangeCombi}
-                      id='combi'
-                      required
-                      class='form-control'
-                    >
-                      <option>Seleccione una combi</option>
-                      {combis.map((item) => (
-                        <option value={JSON.stringify(item)}>
-                          {item.modelo}, {item.patente}, {item.asientos}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-                {combi !== 'combi' && (
-                  <div className='form-group'>
-                  <label htmlFor='lugar'>Chofer:</label>
-                  <select
-                    onChange={handleChangeChofer}
-                    id='chofer'
+
+                <div className='form-group'>
+                  <label htmlFor='fecha'>Fecha:</label>
+                  <input
+                    type='date'
+                    className='form-control'
+                    id='fecha'
+                    aria-describedby='Fecha'
+                    placeholder='Seleccione la fecha'
                     required
-                    class='form-control'
-                  >
-                    <option>Seleccione una chofer</option>
-                    {choferes.map((item) => (
-                      <option value={JSON.stringify(item)}>
-                        {item.nombre} {item.apellido} ({item.mail})
-                      </option>
-                    ))}
-                  </select>
+                    onChange={handleChangeFecha}
+                  />
                 </div>
-                )}
+
+                <div className='form-group'>
+                  <label htmlFor='precio'>Precio:</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='precio'
+                    aria-describedby='Precio'
+                    placeholder='Seleccione el precio'
+                    required
+                    onChange={handleChangePrecio}
+                  />
+                </div>
+
                 <button
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
+                  onClick={() => props.estado()}
                 >
                   Guardar viaje
                 </button>

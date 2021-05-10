@@ -132,35 +132,32 @@ const RutasAdmin = () => {
                       class='form-control'
                     >
                       <option>Seleccione un destino</option>
-                      {ciudades.map(
-                        (item) =>
-                          origen.provincia !== item.provincia && (
-                            <option value={JSON.stringify(item)}>
-                              {item.provincia}, {item.lugar}
-                            </option>
-                          )
-                      )}
-                    </select>
-                  </div>
-                )}
-                {destino !== 'destino' && (
-                  <div className='form-group'>
-                    <label htmlFor='lugar'>Combi:</label>
-                    <select
-                      onChange={handleChangeCombi}
-                      id='combi'
-                      required
-                      class='form-control'
-                    >
-                      <option>Seleccione una combi</option>
-                      {combis.map((item) => (
+                      {ciudades.map((item) => (
                         <option value={JSON.stringify(item)}>
-                          {item.modelo}, {item.patente}, {item.asientos}
+                          {item.provincia}, {item.lugar}
                         </option>
                       ))}
                     </select>
                   </div>
                 )}
+
+                <div className='form-group'>
+                  <label htmlFor='lugar'>Combi:</label>
+                  <select
+                    onChange={handleChangeCombi}
+                    id='combi'
+                    required
+                    class='form-control'
+                  >
+                    <option>Seleccione una combi</option>
+                    {combis.map((item) => (
+                      <option value={JSON.stringify(item)}>
+                        {item.modelo}, {item.patente}, {item.asientos}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 {combi !== 'combi' && (
                   <div className='form-group'>
                     <label htmlFor='lugar'>Horario:</label>
@@ -179,6 +176,9 @@ const RutasAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
+                  onClick={() => {
+                    cambiarEstado();
+                  }}
                 >
                   Guardar ruta
                 </button>

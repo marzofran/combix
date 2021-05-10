@@ -20,7 +20,7 @@ const CombisAdmin = () => {
   const [cantidadAsientos, setCantidadAsientos] = useState('cantidadAsientos');
   const [tipo, setTipo] = useState('tipo');
   const [chofer, setChofer] = useState('chofer');
-  
+
   function cambiarEstado() {
     setCargar(false);
   }
@@ -43,8 +43,7 @@ const CombisAdmin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(chofer);
-    dispatch(registrarCombi(patente, modelo, cantidadAsientos, chofer, tipo));
+    dispatch(registrarCombi(patente, modelo, cantidadAsientos, tipo, chofer));
     setCargar(false);
   };
 
@@ -177,6 +176,9 @@ const CombisAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
+                  onClick={() => {
+                    cambiarEstado();
+                  }}
                 >
                   Guardar combi
                 </button>

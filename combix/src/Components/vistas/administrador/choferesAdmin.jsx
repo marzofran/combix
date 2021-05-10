@@ -175,6 +175,9 @@ const ChoferesAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
+                  onClick={() => {
+                    cambiarEstado();
+                  }}
                 >
                   Guardar chofer
                 </button>

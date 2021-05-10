@@ -1,7 +1,7 @@
 const express = require('express');
 const citiesRouter = express.Router();
 const Ciudad = require('../schemas/Ciudad');
-const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
+const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 
 //Display
 citiesRouter.get('/', async (request, response) => {
@@ -72,18 +72,25 @@ citiesRouter.put('/', async (req, res) => {
 */
 
 citiesRouter.put('/:id', async (req, res) => {
-  const ciudadExistente = await Ciudad.findOne({_id: req.params.id, unavailable: false});
-  if(!ciudadExistente) throw new Error('ciudad no encontrado');
-  const ciudadNueva = queryBuilder(req.body, ["lugar", "provincia"]);
+  const ciudadExistente = await Ciudad.findOne({
+    _id: req.params.id,
+    unavailable: false,
+  });
+  if (!ciudadExistente) throw new Error('ciudad no encontrado');
+  const ciudadNueva = queryBuilder(req.body.ciudad, ['lugar', 'provincia']);
   mapAndBuildModel(ciudadExistente, ciudadNueva);
   await ciudadExistente.save();
   res.status(200).send('Ciudad modificada correctamente').end();
 });
 
 //Delete logico
-citiesRouter.delete('/:id', async(req, res) => {
-  const ciudadExistente = Ciudad.findOneAndUpdate({_id: req.params.id, unavailable: false}, {unavailable: true});
-  if(!ciudadExistente) throw new Error('Ciudad no encontrada');
+// faltaba el await me cachis
+citiesRouter.delete('/:id', async (req, res) => {
+  const ciudadExistente = await Ciudad.findOneAndUpdate(
+    {_id: req.params.id, unavailable: false},
+    {unavailable: true}
+  );
+  if (!ciudadExistente) throw new Error('Ciudad no encontrada');
   res.status(200).send('Ciudad borrada con exito').end();
 });
 

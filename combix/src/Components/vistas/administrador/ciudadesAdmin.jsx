@@ -10,7 +10,6 @@ const CiudadesAdmin = () => {
   const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
-    console.log('me active');
     setCargar(true);
     dispatch(cargarCiudades());
   }, [cargar, dispatch]);
@@ -112,6 +111,9 @@ const CiudadesAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
+                  onClick={() => {
+                    cambiarEstado();
+                  }}
                 >
                   Guardar ciudad
                 </button>
