@@ -88,10 +88,10 @@ export const obtenerDatosUsuarioAccion = (email, password) => async (
     }).then((response) => {
       switch (response.status) {
         case 400:
-          alert('Usuario o contraseña erronea');
+          alert('Usuario o contraseña incorrecta');
           break;
         case 203:
-          alert('Usuario o contraseña erronea');
+          alert('Usuario o contraseña incorrecta');
           break;
         case 200:
           alert('login exitoso');
