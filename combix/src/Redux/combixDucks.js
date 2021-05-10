@@ -301,14 +301,9 @@ export const cargarInsumos = () => (dispatch, getState) => {
   }
 };
 
-export const borrarInsumo = (nombre, tipo, precio) => (dispatch) => {
-  const insumo = {
-    nombre,
-    precio,
-    tipo,
-  };
+export const borrarInsumo = (id) => (dispatch) => {
   try {
-    Axios.delete('http://localhost:8080/supplies', {data: {insumo}}).then(
+    Axios.delete('http://localhost:8080/supplies/' + id, {id}).then(
       (response) => {
         switch (response.status) {
           case 200:
@@ -325,9 +320,7 @@ export const borrarInsumo = (nombre, tipo, precio) => (dispatch) => {
   }
 };
 
-export const editarInsumo = (nombre, tipo, precio, idInsumoViejo) => (
-  dispatch
-) => {
+export const editarInsumo = (nombre, tipo, precio, id) => (dispatch) => {
   const insumo = {
     nombre,
     precio,
@@ -335,7 +328,8 @@ export const editarInsumo = (nombre, tipo, precio, idInsumoViejo) => (
   };
   try {
     Axios.put('http://localhost:8080/supplies/' + nombre, {
-      data: {insumo, idInsumoViejo},
+      insumo,
+      id,
     }).then((response) => {
       switch (response.status) {
         case 200:

@@ -3,9 +3,8 @@ import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {borrarInsumo, editarInsumo} from '../../../../Redux/combixDucks';
 
-
 //Implementado
-const Insumo = props => {
+const Insumo = (props) => {
   const dispatch = useDispatch();
   const [nombre, setNombre] = useState('nombre');
   const [tipo, setTipo] = useState('tipo');
@@ -27,134 +26,131 @@ const Insumo = props => {
   };
 
   return (
-    <Accordion className="row db-element">
-      <Card className="col">
-        <Card.Header className="db-element-header row">
+    <Accordion className='row db-element'>
+      <Card className='col'>
+        <Card.Header className='db-element-header row'>
           <Accordion.Toggle
-            className="db-element-header col-11"
+            className='db-element-header col-11'
             as={Card.Body}
-            eventKey="0"
+            eventKey='0'
           >
-            <div className="row">
-              <div className="col field-admin">
-                <label className="field-label">Nombre:</label>
-                <h7 className="field-display">{props.item.nombre}</h7>
+            <div className='row'>
+              <div className='col field-admin'>
+                <label className='field-label'>Nombre:</label>
+                <h7 className='field-display'>{props.item.nombre}</h7>
               </div>
-              <div className="col field-admin">
-                <label className="field-label">Tipo:</label>
-                <h7 className="field-display">{props.item.tipo}</h7>
+              <div className='col field-admin'>
+                <label className='field-label'>Tipo:</label>
+                <h7 className='field-display'>{props.item.tipo}</h7>
               </div>
             </div>
           </Accordion.Toggle>
-          <div className="col-1">
+          <div className='col-1'>
             <button
-              data-toggle="modal"
+              data-toggle='modal'
               data-target={'#' + props.item.nombre}
-              className="field-btn edit-btn box square"
+              className='field-btn edit-btn box square'
             >
-              <div className="content">
-                <i class="fa fa-pencil" aria-hidden="true" />
+              <div className='content'>
+                <i class='fa fa-pencil' aria-hidden='true' />
               </div>
             </button>
             <button
-              className="field-btn delete-btn box square"
+              className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch (
-                  borrarInsumo (props.item.nombre, props.item.tipo, props.item.precio)
-                );
-                props.estado ();
+                dispatch(borrarInsumo(props.item._id));
+                props.estado();
               }}
             >
-              <div className="content">
-                <i class="fa fa-trash" aria-hidden="true" />
+              <div className='content'>
+                <i class='fa fa-trash' aria-hidden='true' />
               </div>
             </button>
           </div>
         </Card.Header>
-        <Accordion.Collapse eventKey="0">
+        <Accordion.Collapse eventKey='0'>
           <Card.Body>
-            
-          <div className="row">
-              <div className="col-6 field-admin">
-                <label className="field-label">Precio:</label>
-                <h7 className="field-display">{props.item.precio}</h7>
+            <div className='row'>
+              <div className='col-6 field-admin'>
+                <label className='field-label'>Precio:</label>
+                <h7 className='field-display'>{props.item.precio}</h7>
               </div>
             </div>
           </Card.Body>
         </Accordion.Collapse>
       </Card>
       <div
-        className="modal fade"
+        className='modal fade'
         id={props.item.nombre}
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="modalInsumo"
-        aria-hidden="true"
+        tabIndex='-1'
+        role='dialog'
+        aria-labelledby='modalInsumo'
+        aria-hidden='true'
       >
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="modalInsumo">
+        <div className='modal-dialog modal-dialog-centered' role='document'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5 className='modal-title' id='modalInsumo'>
                 Editar insumo, {props.item.nombre}
               </h5>
               <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
+                type='button'
+                className='close'
+                data-dismiss='modal'
+                aria-label='Close'
               >
-                <span aria-hidden="true">&times;</span>
+                <span aria-hidden='true'>&times;</span>
               </button>
             </div>
-            <div className="modal-body">
+            <div className='modal-body'>
               <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="nombre">Nuevo, Nombre</label>
+                <div className='form-group'>
+                  <label htmlFor='nombre'>Nuevo, Nombre</label>
                   <input
                     required
-                    type="text"
-                    className="form-control"
-                    id="nombre"
-                    aria-describedby="Nombre"
+                    type='text'
+                    className='form-control'
+                    id='nombre'
+                    aria-describedby='Nombre'
                     onChange={handleChangeNombre}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="tipo">Nuevo, Tipo</label>
+                <div className='form-group'>
+                  <label htmlFor='tipo'>Nuevo, Tipo</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    id="tipo"
-                    aria-describedby="Tipo"
+                    type='text'
+                    className='form-control'
+                    id='tipo'
+                    aria-describedby='Tipo'
                     required
                     onChange={handleChangeTipo}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="precio">Nuevo, Precio</label>
+                <div className='form-group'>
+                  <label htmlFor='precio'>Nuevo, Precio</label>
                   <input
-                    type="text"
-                    className="form-control"
-                    id="precio"
-                    aria-describedby="Precio"
+                    type='text'
+                    className='form-control'
+                    id='precio'
+                    aria-describedby='Precio'
                     required
                     onChange={handleChangePrecio}
                   />
                 </div>
                 <button
-                  type="submit"
-                  className="btn btn-primary"
+                  type='submit'
+                  className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
                 >
                   Guardar insumo editado.
                 </button>
               </form>
             </div>
-            <div className="modal-footer">
+            <div className='modal-footer'>
               <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
+                type='button'
+                className='btn btn-secondary'
+                data-dismiss='modal'
               >
                 Cerrar
               </button>
