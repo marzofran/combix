@@ -19,15 +19,18 @@ citiesRouter.get('/', async (request, response) => {
 citiesRouter.post('/', async (request, response) => {
   //middleware!!
   let city = request.body;
-  const repetido = await Ciudad.find({lugar: city.lugar, provincia: city.provincia, unavailable:false });
-  if(repetido) throw new HttpError(203,'Ciudad ya se encuentra cargada');
   let ciudad = new Ciudad({
     lugar: city.lugar,
     provincia: city.provincia,
     unavailable: false,
   });
-  await ciudad.save();
-  response.status(200).json('Ciudad guardada con exito').end();
+  const foundCity = await Ciudad.find({nombre: ciudad.mail, provincia: ciudad.provincia, unavailable: false});
+  if (Object.entries(foundCity).length === 0) {
+    await ciudad.save();
+    response.status(202).send('Ciudad creada con exito!').end();
+  } else {
+    throw new HttpError(203, 'La ciudad ya se encuentra registrada');
+  }
 });
 
 //Modify

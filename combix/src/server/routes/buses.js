@@ -19,8 +19,6 @@ busesRouter.get('/', async (request, response) => {
 //Create
 busesRouter.post('/', async (request, response) => {
   let bus = request.body;
-  const repetido = await Combi.find({patente: bus.patente, unavailable:false });
-  if(repetido) throw new HttpError(203,'Combi ya se encuentra cargada');
   try {
     let combi = new Combi({
       modelo: bus.modelo,
@@ -30,9 +28,13 @@ busesRouter.post('/', async (request, response) => {
       chofer: bus.chofer,
       unavailable: false,
     });
-    const savedCombi = await combi.save();
-    console.log(savedCombi);
-    response.status(200).json(savedCombi).end();
+    const foundBus = await Combi.find({patente: bus.patente, unavailable: false});
+    if (Object.entries(foundBus).length === 0) {
+      await combi.save();
+      response.status(202).send('Combi creada con exito!').end();
+    } else {
+      throw new HttpError(203, 'La combi ya se encuentra registrada');
+    }
   } catch (err) {
     console.log(err);
     response.status(500).send(err.message).end();

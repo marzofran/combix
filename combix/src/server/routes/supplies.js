@@ -14,16 +14,18 @@ suppliesRouter.get('/', async (req, res) => {
 suppliesRouter.post('/', async (request, response) => {
   //middleware validacion
   let supply = request.body;
-  const repetido = await Insumo.find({nombre: supply.nombre, unavailable:false });
-  if(repetido) throw new HttpError(203,'Insumo ya se encuentra cargado');
   let insumo = new Insumo({
     nombre: supply.nombre,
     precio: parseInt(supply.precio),
     tipo: supply.tipo,
   });
-  const savedInsumo = await insumo.save();
-  console.log(savedInsumo);
-  response.status(200).json(savedInsumo).end();
+  const foundSupply = await Insumo.find({nombre: insumo.nombre});
+  if (Object.entries(foundSupply).length === 0) {
+    await insumo.save();
+    response.status(202).send('Insumo creado con exito!').end();
+  } else {
+    throw new HttpError(203, 'El insumo ya se encuentra registrado');
+  }
 });
 
 //Modify

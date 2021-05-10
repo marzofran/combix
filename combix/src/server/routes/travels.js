@@ -6,7 +6,7 @@ const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 
 //Display
 travelsRouter.get('/', async (req, res) => {
-  let viajes = await Viaje.find({unavailable: false}).populate({path: 'ruta', model: 'Ruta', populate: [{path: 'origen', model: 'Ciudad'}, {path:'destino', model: 'Ciudad'}, {path:'combi', model: 'Combi', populate: {path:'chofer', model: 'Usuario'}}]});
+  let viajes = await Viaje.find({unavailable: false}).populate({path: 'ruta', model: 'Ruta', populate: [{path: 'origen', model: 'Ciudad'}, {path:'destino', model: 'Ciudad'}, {path:'combi', model: 'Combi', populate: {path:'chofer', model: 'Viaje'}}]});
   console.log(viajes);
   res.status(200).json(viajes).end();
 });
@@ -14,17 +14,19 @@ travelsRouter.get('/', async (req, res) => {
 //Create
 travelsRouter.post('/', async (request, response) => {
   let travel = request.body;
-  const repetido = await Viaje.find({ruta: travel.ruta, fecha: travel.fecha, unavailable:false });
-  if(repetido) throw new HttpError(203,'Viaje ya se encuentra cargado');
   let viaje = new Viaje({
     ruta: travel.ruta,
     fecha: travel.fecha,
     precio: parseInt(travel.precio),
     unavailable: false,
   });
-  const savedViaje = await viaje.save();
-  console.log(savedViaje);
-  response.status(200).json(savedViaje).end();
+  const foundTravel = await Viaje.find({ruta: viaje.ruta, fecha: viaje.fecha, unavailable: false});
+  if (Object.entries(foundTravel).length === 0) {
+    await viaje.save();
+    response.status(202).send('Viaje creado con exito!').end();
+  } else {
+    throw new HttpError(203, 'El viaje ya se encuentra registrado');
+  }
 });
 
 //Modify
