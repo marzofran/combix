@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Usuario from './elementos/usuario';
 import {cargarUsuarios} from '../../../Redux/combixDucks';
 
 //Implementado, falta cargar
 const UsuariosAdmin = () => {
-  //dispatch(cargarUsuarios());   como se haria esto?
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(cargarUsuarios());
+  }, []);
+
   const usuarios = useSelector((store) => store.combix.usuarios);
 
   return (

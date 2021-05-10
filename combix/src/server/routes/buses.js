@@ -37,10 +37,8 @@ busesRouter.post('/', async (request, response) => {
 });
 
 //Modify
-/*
 busesRouter.put('/:id', async (req, res) => {
-  //middleware chequear combiNueva
-  const combiExistente = await Combi.findOne({_id: req.params.id});
+  const combiExistente = await Combi.findOne({_id: req.params.id, unavailable: false});
   if (!combiExistente) throw new Error('Combi no encontrado');
   const combiNuevo = queryBuilder(req.body, [
     'patente',
@@ -52,32 +50,6 @@ busesRouter.put('/:id', async (req, res) => {
   mapAndBuildModel(combiExistente, combiNuevo);
   await combiExistente.save();
   res.status(200).send('Combi modificada correctamente').end();
-});
-*/
-busesRouter.put('/:id', async (req, res) => {
-  const combiNueva = req.body.data.combi;
-  const idCombiVieja = req.params.idCombiVieja;
-
-  try {
-    await Combi.updateOne(
-      {_id: idCombiVieja},
-      {
-        modelo: combiNueva.modelo,
-        patente: combiNueva.patente,
-        cantidadAsientos: combiNueva.cantAsientos,
-        tipo: combiNueva.tipo,
-        chofer: combiNueva.chofer,
-        unavailable: false,
-      },
-      function (err, affected, resp) {
-        console.log(err);
-      }
-    );
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(err.message).end();
-  }
-  res.status(200).send('chofer modificada con exito').end();
 });
 
 //Delete logico

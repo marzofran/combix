@@ -17,22 +17,24 @@ const CombisAdmin = () => {
 
   const [patente, setPatente] = useState('patente');
   const [modelo, setModelo] = useState('modelo');
-  const [asientos, setAsientos] = useState('asientos');
+  const [cantidadAsientos, setCantidadAsientos] = useState('cantidadAsientos');
   const [tipo, setTipo] = useState('tipo');
   const [chofer, setChofer] = useState('chofer');
-
+  
+  function cambiarEstado() {
+    setCargar(false);
+  }
   const handleChangePatente = (e) => {
     setPatente(e.target.value);
   };
   const handleChangeModelo = (e) => {
     setModelo(e.target.value);
   };
-  const handleChangeAsientos = (e) => {
-    setAsientos(e.target.value);
+  const handleChangeCantidadAsientos = (e) => {
+    setCantidadAsientos(e.target.value);
   };
   const handleChangeTipo = (e) => {
     setTipo(e.target.value);
-    dispatch(cargarCombis());
   };
   const handleChangeChofer = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -42,12 +44,9 @@ const CombisAdmin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(chofer);
-    dispatch(registrarCombi(patente, modelo, asientos, chofer, tipo));
+    dispatch(registrarCombi(patente, modelo, cantidadAsientos, chofer, tipo));
     setCargar(false);
   };
-  function cambiarEstado() {
-    setCargar(false);
-  }
 
   const choferes = useSelector((store) => store.combix.choferes);
   const combis = useSelector((store) => store.combix.combis);
@@ -66,9 +65,9 @@ const CombisAdmin = () => {
               style={{backgroundColor: '#145572'}}
               data-toggle='modal'
               data-target='#exampleModal'
-              /*onClick={() => {
+              onClick={() => {
                 dispatch(cargarChoferes());
-              }}*/
+              }}
             >
               + Crear nueva combi
             </button>
@@ -140,7 +139,7 @@ const CombisAdmin = () => {
                     aria-describedby='Asientos'
                     placeholder='Ingrese la cantidad'
                     required
-                    onChange={handleChangeAsientos}
+                    onChange={handleChangeCantidadAsientos}
                   />
                 </div>
 
