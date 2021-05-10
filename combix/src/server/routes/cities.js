@@ -93,10 +93,24 @@ citiesRouter.put('/', async (req, res) => {
 });
 
 //Delete logico
-citiesRouter.delete('/:id', async(req, res) => {
-  const ciudadExistente = Ciudad.findOneAndUpdate({_id: req.params.id}, {unavailable: true});
-  if(!ciudadExistente) throw new Error('Ciudad no encontrada');
-  res.status(200).send('Ciudad borrada con exito').end();
+//Lo cambie findandupdateone por updateone --> ni idea por que no andaba el otro xD
+citiesRouter.delete('/:id', async (req, res) => {
+  try {
+    Ciudad.updateOne(
+      {_id: req.params.id},
+      {
+        unavailable: true,
+      },
+      function (err, affected, resp) {
+        console.log(resp);
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err.message).end();
+  }
+  res.status(200).send('Ciudad modificada con exito').end();
+  console.log(req.params.id);
 });
 
 module.exports = citiesRouter;

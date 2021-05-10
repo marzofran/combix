@@ -37,6 +37,7 @@ driversRouter.post('/', async (req, res) => {
 });
 
 //Modify
+/*
 driversRouter.put('/:id', async (req, res) => {
   const choferExistente = await Usuario.findOne({
     _id: req.params.id,
@@ -57,6 +58,7 @@ driversRouter.put('/:id', async (req, res) => {
   await choferExistente.save();
   res.status(200).send('Chofer modificado correctamente').end();
 });
+*/
 
 driversRouter.put('/', async (req, res) => {
   const choferNuevo = req.body.data.chofer;
@@ -98,7 +100,7 @@ driversRouter.delete('/:id', async (req, res) => {
     }
   );
   if (!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
-  res.status(202).send('Chofer eliminado').end();
+  res.status(200).send('Chofer eliminado').end();
 });
 
 module.exports = driversRouter;

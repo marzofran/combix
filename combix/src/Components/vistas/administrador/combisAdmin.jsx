@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-//import {registrarCombi} from '../../../Redux/combixDucks';
+import {registrarCombi} from '../../../Redux/combixDucks';
 import Combi from './elementos/combi';
 import {cargarCombis} from '../../../Redux/combixDucks';
-//import {cargarChoferes} from '../../../Redux/combixDucks';
+import {cargarChoferes} from '../../../Redux/combixDucks';
 
 //Implementado, faltan cruds
 const CombisAdmin = () => {
@@ -41,16 +41,15 @@ const CombisAdmin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Xd');
-    console.log(patente, modelo, asientos, tipo.replace, chofer);
-    //dispatch(registrarCombi(patente, modelo, asientos, tipo, chofer));
+    console.log(chofer);
+    dispatch(registrarCombi(patente, modelo, asientos, chofer, tipo));
     setCargar(false);
   };
   function cambiarEstado() {
     setCargar(false);
   }
 
-  //const choferes = useSelector((store) => store.combix.choferes)
+  const choferes = useSelector((store) => store.combix.choferes);
   const combis = useSelector((store) => store.combix.combis);
 
   return (
@@ -145,20 +144,19 @@ const CombisAdmin = () => {
                   />
                 </div>
 
-                {asientos !== 'asientos' && (
-                  <div className='form-group'>
-                    <label htmlFor='tipo'>Tipo:</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='tipo'
-                      aria-describedby='Tipo'
-                      placeholder='Ingrese el tipo'
-                      required
-                      onChange={handleChangeTipo}
-                    />
-                  </div>
-                )}
+                <div className='form-group'>
+                  <label htmlFor='tipo'>Tipo:</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='tipo'
+                    aria-describedby='Tipo'
+                    placeholder='Ingrese el tipo'
+                    required
+                    onChange={handleChangeTipo}
+                  />
+                </div>
+
                 <div className='form-group'>
                   <label htmlFor='chofer'>Chofer:</label>
                   <select
@@ -168,11 +166,11 @@ const CombisAdmin = () => {
                     class='form-control'
                   >
                     <option>Seleccione un chofer</option>
-                    {/* {choferes.map((item) => (
+                    {choferes.map((item) => (
                       <option value={JSON.stringify(item)}>
-                        {item.apellido}, {item.DNI}
+                        {item.apellido}, {item.nombre}
                       </option>
-                    ))} */}
+                    ))}
                   </select>
                 </div>
 
