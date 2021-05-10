@@ -124,7 +124,8 @@ const Viaje = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalViaje'>
-                Editar viaje, {props.item._id}
+                Editar viaje: {props.item.ruta?.origen?.lugar} {" -> "}
+                {props.item.ruta?.destino?.lugar}, {dateFormat(props.item.fecha,"dd/mm/yyyy")}
               </h5>
               <button
                 type='button'

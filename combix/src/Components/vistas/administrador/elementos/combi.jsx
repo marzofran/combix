@@ -118,7 +118,7 @@ const Combi = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCombis'>
-                Editar combi, {props.item.patente}
+                Editar combi: {props.item.patente}
               </h5>
               <button
                 type='button'
