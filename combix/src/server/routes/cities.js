@@ -77,7 +77,7 @@ citiesRouter.put('/:id', async (req, res) => {
   const ciudadNueva = queryBuilder(req.body, ["lugar", "provincia"]);
   mapAndBuildModel(ciudadExistente, ciudadNueva);
   await ciudadExistente.save();
-  res.status(200).send('ciudad modificada correctamente').end();
+  res.status(200).send('Ciudad modificada correctamente').end();
 });
 
 //Delete logico
