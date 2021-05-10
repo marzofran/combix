@@ -28,12 +28,15 @@ busesRouter.post('/', async (request, response) => {
       chofer: bus.chofer,
       unavailable: false,
     });
-    const foundBus = await Combi.find({patente: bus.patente, unavailable: false});
+    const foundBus = await Combi.find({
+      patente: bus.patente,
+      unavailable: false,
+    });
     if (Object.entries(foundBus).length === 0) {
       await combi.save();
       response.status(202).send('Combi creada con exito!').end();
     } else {
-      throw new HttpError(203, 'La combi ya se encuentra registrada');
+      response.status(203).send('Combi creada con exito!').end();
     }
   } catch (err) {
     console.log(err);

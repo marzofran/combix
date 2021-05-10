@@ -112,8 +112,8 @@ const Ruta = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCiudad'>
-                Editar ruta: {props.item.origen?.provincia}
-                {props.item.destino?.provincia}
+                Editar ruta: {props.item.origen?.lugar} {" -> "}
+                {props.item.destino?.lugar}
               </h5>
               <button
                 type='button'
@@ -210,7 +210,7 @@ const Ruta = (props) => {
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
                 >
-                  Guardar ciudad
+                  Guardar ruta editada
                 </button>
               </form>
             </div>

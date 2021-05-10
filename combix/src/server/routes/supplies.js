@@ -19,12 +19,14 @@ suppliesRouter.post('/', async (request, response) => {
     precio: parseInt(supply.precio),
     tipo: supply.tipo,
   });
-  const foundSupply = await Insumo.find({nombre: insumo.nombre, unavailable: false});
+  const foundSupply = await Insumo.find({
+    nombre: insumo.nombre,
+  });
   if (Object.entries(foundSupply).length === 0) {
     await insumo.save();
     response.status(202).send('Insumo creado con exito!').end();
   } else {
-    throw new HttpError(203, 'El insumo ya se encuentra registrado');
+    response.status(203).send('Insumo ya creado').end();
   }
 });
 

@@ -79,7 +79,7 @@ const Ciudad = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCiudad'>
-                Editar provincia, {props.item.provincia} {props.item.lugar}
+                Editar provincia, {props.item.lugar}, {props.item.provincia}
               </h5>
               <button
                 type='button'
