@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   combix: reducer,
 });
 const persistConfig = {
-  key: 'main',
+  key: 'Demo1',
   storage,
 };
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -34,7 +34,7 @@ const Combi = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      editarCombi(patente, modelo, asientos, chofer, tipo, props.item._id)
+      editarCombi(patente, modelo, asientos, tipo, chofer, props.item._id)
     );
     props.estado();
   };
@@ -205,6 +205,7 @@ const Combi = (props) => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
+                  onClick={() => props.estado()}
                 >
                   Guardar combi
                 </button>

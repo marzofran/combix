@@ -22,7 +22,7 @@ busesRouter.post('/', async (request, response) => {
     let combi = new Combi({
       modelo: bus.modelo,
       patente: bus.patente,
-      cantidadAsientos: bus.cantAsientos,
+      cantidadAsientos: bus.cantidadAsientos,
       tipo: bus.tipo,
       chofer: bus.chofer,
       unavailable: false,
@@ -38,15 +38,18 @@ busesRouter.post('/', async (request, response) => {
 
 //Modify
 busesRouter.put('/:id', async (req, res) => {
-  const combiExistente = await Combi.findOne({_id: req.params.id, unavailable: false});
+  const combiExistente = await Combi.findOne({
+    _id: req.params.id,
+  });
   if (!combiExistente) throw new Error('Combi no encontrado');
-  const combiNuevo = queryBuilder(req.body, [
+  const combiNuevo = queryBuilder(req.body.combi, [
     'patente',
     'modelo',
     'cantidadAsientos',
     'tipo',
     'chofer',
   ]);
+  console.log(req.body.combi);
   mapAndBuildModel(combiExistente, combiNuevo);
   await combiExistente.save();
   res.status(200).send('Combi modificada correctamente').end();
