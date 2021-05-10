@@ -17,6 +17,7 @@ travelsRouter.post('/', async (request, response) => {
       ruta: bus.ruta,
       fecha: bus.fecha,
       precio: bus.precio,
+      unavailable: false
     });
     const savedViaje = await viaje.save();
     console.log(savedViaje);

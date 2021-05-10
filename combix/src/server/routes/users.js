@@ -22,25 +22,26 @@ usersRouter.get('/', async (req, res) => {
 
 //Create
 usersRouter.post('/', userIntegrityValidation, async (request, response) => {
-  let user = request.body;
-  let usuario = new Usuario({
-    nombre: user.nombre,
-    apellido: user.apellido,
-    dni: user.dni,
-    mail: user.mail,
-    clave: user.clave,
-    fechaNacimiento: user.fechaNacimiento,
-    telefono: user.telefono,
-    permissions: '6094d56377b5714b3473dbc5',
+    let user = request.body;
+    let usuario = new Usuario({
+      nombre: user.nombre,
+      apellido: user.apellido,
+      dni: user.dni,
+      mail: user.mail,
+      clave: user.clave,
+      fechaNacimiento: user.fechaNacimiento,
+      telefono: user.telefono,
+      permissions: "6094d56377b5714b3473dbc5",
+      unavailable: false
+    });
+    const foundUser = await Usuario.find({mail: user.mail});
+    if (Object.entries(foundUser).length === 0) {
+      await usuario.save();
+      response.status(202).send('Usuario creado con exito!').end();
+    } else {
+      throw new HttpError(203, 'El mail ya se encuentra registrado');
+    }
   });
-  const foundUser = await Usuario.find({mail: user.mail});
-  if (Object.entries(foundUser).length === 0) {
-    await usuario.save();
-    response.status(202).send('Usuario creado con exito!').end();
-  } else {
-    throw new HttpError(203, 'El mail ya se encuentra registrado');
-  }
-});
 
 //Modify
 usersRouter.put('/:id', async (req, res) => {

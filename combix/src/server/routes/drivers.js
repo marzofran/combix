@@ -15,25 +15,25 @@ driversRouter.get('/', async (req, res) => {
 
 //Create
 driversRouter.post('/', async (req, res) => {
-  let driver = req.body;
-  let chofer = new Usuario({
-    nombre: driver.nombre,
-    apellido: driver.apellido,
-    dni: driver.dni,
-    mail: driver.mail,
-    clave: driver.clave,
-    fechaNacimiento: driver.fechaNacimiento,
-    telefono: driver.telefono,
-    permissions: '6094d50128e541353c8cf122',
-    unavailable: false,
-  });
-  const foundDriver = await Usuario.find({mail: driver.mail});
-  if (Object.entries(foundDriver).length === 0) {
-    await chofer.save();
-    res.status(202).send('Chofer creado con exito!').end();
-  } else {
-    throw new HttpError(203, 'El mail ya se encuentra registrado');
-  }
+        let driver = req.body;
+        let chofer = new Usuario({
+          nombre: driver.nombre,
+          apellido: driver.apellido,
+          dni: driver.dni,
+          mail: driver.mail,
+          clave: driver.clave,
+          fechaNacimiento: driver.fechaNacimiento,
+          telefono: driver.telefono,
+          permissions: "6094d50128e541353c8cf122",
+          unavailable: false
+        });
+        const foundDriver = await Usuario.find({mail: driver.mail});
+        if (Object.entries(foundDriver).length === 0) {
+          await chofer.save();
+          res.status(202).send('Chofer creado con exito!').end();
+        } else {
+          throw new HttpError(203, 'El mail ya se encuentra registrado');
+        }
 });
 
 //Modify
