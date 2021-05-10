@@ -24,7 +24,7 @@ citiesRouter.post('/', async (request, response) => {
     provincia: city.provincia,
     unavailable: false,
   });
-  const foundCity = await Ciudad.find({nombre: ciudad.mail, provincia: ciudad.provincia, unavailable: false});
+  const foundCity = await Ciudad.find({lugar: ciudad.mail, provincia: ciudad.provincia, unavailable: false});
   if (Object.entries(foundCity).length === 0) {
     await ciudad.save();
     response.status(202).send('Ciudad creada con exito!').end();
