@@ -214,7 +214,7 @@ const Combi = (props) => {
                   style={{backgroundColor: '#145572'}}
                   onClick={() => props.estado()}
                 >
-                  Guardar combi
+                  Guardar combi editada
                 </button>
               </form>
             </div>

@@ -47,8 +47,8 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Ruta:</label>
                 <h6 className='field-display'>
-                  {props.item.ruta?.origen?.lugar}, {props.item.ruta?.origen?.provincia} {'->'}
-                  {props.item.ruta?.destino?.lugar}, {props.item.ruta?.destino?.provincia}
+                  {props.item.ruta?.origen?.lugar}, {props.item.ruta?.origen?.provincia} {' -> '} 
+                   {props.item.ruta?.destino?.lugar}, {props.item.ruta?.destino?.provincia}
                 </h6>
               </div>
             </div>
@@ -149,13 +149,13 @@ const Viaje = (props) => {
                     {rutas.map((item, index) => (
                       item.ruta === ruta ?
                       <option value={JSON.stringify(item)} selected>
-                        {item.origen.lugar} ({item.origen.provincia}) {'->'}
-                        {item.destino.lugar} ({item.destino.provincia})
+                        {item.origen.lugar}, {item.origen.provincia} {' -> '} 
+                         {item.destino.lugar}, ({item.destino.provincia}
                       </option>
                     :
                       <option value={JSON.stringify(item)}>
-                        {item.origen.lugar} ({item.origen.provincia}) {'->'}
-                        {item.destino.lugar} ({item.destino.provincia})
+                        {item.origen.lugar}, {item.origen.provincia} {' -> '} 
+                         {item.destino.lugar}, {item.destino.provincia}
                       </option>
                     ))}
                   </select>
@@ -195,7 +195,7 @@ const Viaje = (props) => {
                   style={{backgroundColor: '#145572'}}
                   onClick={() => props.estado()}
                 >
-                  Guardar viaje
+                  Guardar viaje editado
                 </button>
               </form>
             </div>
