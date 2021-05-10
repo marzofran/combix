@@ -6,8 +6,10 @@ const HttpError = require('../utils/HttpError');
 
 //Disply
 routesRouter.get('/', async (req, res) => {
-  let rutas = await Ruta.find({unavailable: false}).populate('origen').populate('destino').populate('combi');
-  console.log(rutas);
+  let rutas = await Ruta.find({unavailable: false})
+    .populate('origen')
+    .populate('destino')
+    .populate('combi');
   res.status(200).json(rutas).end();
 });
 
@@ -19,7 +21,7 @@ routesRouter.post('/', async (request, response) => {
     destino: route.destino,
     combi: route.combi,
     horario: route.horario,
-    unavailable: false
+    unavailable: false,
   });
   try {
     const savedRuta = await ruta.save();
@@ -57,18 +59,53 @@ routesRouter.put('/body', async (req, res) => {
 });
 */
 routesRouter.put('/:id', async (req, res) => {
-  const rutaExistente = await Ruta.findOne({_id: req.params.id, unavailable: false });
-  if(!rutaExistente) throw new Error('Ruta no encontrada');
-  const rutaNueva = queryBuilder(req.body, ["origen", "destino", "horario", "combi"]);
+  console.log(req.params);
+  const ruta = req.body.data.ruta;
+  const idCiudadVieja = req.body.data.idRutaVieja;
+  const rutaExistente = await Ruta.findOne({
+    _id: idCiudadVieja,
+    unavailable: false,
+  });
+  if (!rutaExistente) throw new Error('Ruta no encontrada');
+  const rutaNueva = queryBuilder(ruta, [
+    'origen',
+    'destino',
+    'horario',
+    'combi',
+  ]);
   mapAndBuildModel(rutaExistente, rutaNueva);
   await rutaExistente.save();
   res.status(200).send('Ruta modificada correctamente').end();
 });
+/*
+routesRouter.put('/:id', async (req, res) => {
+  const ruta = req.body.data.ruta;
+  const idCiudadVieja = req.body.data.idRutaVieja;
+  console.log(ruta);
+  await Ruta.updateOne(
+    {_id: idCiudadVieja},
+    {
+      origen: ruta.origen,
+      destino: ruta.destino,
+      combi: ruta.combi,
+      horario: ruta.horario,
+    },
+    function (err, affected, resp) {
+      console.log(resp);
+    }
+  );
+
+  res.status(200).send('Ciudad modificada con exito').end();
+});
+*/
 
 //Delete
 routesRouter.delete('/:id', async (req, res) => {
-  const rutaExistente = await Ruta.findOneAndUpdate({ _id: req.params.id, unavailable: false}, {unavailable: true});
-  if(!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
+  const rutaExistente = await Ruta.findOneAndUpdate(
+    {_id: req.params.id, unavailable: false},
+    {unavailable: true}
+  );
+  if (!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
   res.status(200).send('Ruta eliminada').end();
 });
 

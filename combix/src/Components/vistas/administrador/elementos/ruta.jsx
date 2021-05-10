@@ -181,20 +181,20 @@ const Ruta = (props) => {
                     </select>
                   </div>
                 )}
-                {combi !== 'combi' && (
-                  <div className='form-group'>
-                    <label htmlFor='lugar'>Horario:</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='lugar'
-                      aria-describedby='Lugar'
-                      placeholder='Seleccion el horario'
-                      required
-                      onChange={handleChangeHorario}
-                    />
-                  </div>
-                )}
+
+                <div className='form-group'>
+                  <label htmlFor='lugar'>Horario:</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='lugar'
+                    aria-describedby='Lugar'
+                    placeholder='Ingrese el horario'
+                    required
+                    onChange={handleChangeHorario}
+                  />
+                </div>
+
                 <button
                   type='submit'
                   className='btn btn-primary'

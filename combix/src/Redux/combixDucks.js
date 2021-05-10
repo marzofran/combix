@@ -216,24 +216,21 @@ export const cargarCiudades = () => (dispatch, getState) => {
   }
 };
 
-export const borrarCiudad = (lugar, provincia) => (dispatch) => {
-  const ciudad = {
-    lugar: lugar,
-    provincia: provincia,
-  };
+export const borrarCiudad = (id) => (dispatch) => {
   try {
-    Axios.delete('http://localhost:8080/cities', {data: {ciudad: ciudad}}).then(
-      (response) => {
-        switch (response.status) {
-          case 200:
-            alert('Se elimino con exito');
-            break;
-          default:
-            alert('Ocurrio un error');
-            break;
-        }
+    Axios.delete('http://localhost:8080/cities/' + id, {
+      data: {id: id},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          console.log(response);
+          alert(response.data);
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
       }
-    );
+    });
   } catch (error) {
     console.log(error);
   }
@@ -360,8 +357,6 @@ export const cargarRutas = () => (dispatch, getState) => {
     Axios.get('http://localhost:8080/routes', {}).then((response) => {
       switch (response.status) {
         case 200:
-          console.log(response.data);
-          console.log(response.data);
           dispatch({
             type: CARGAR_RUTA,
             payload: response.data,
@@ -401,7 +396,7 @@ export const registrarRuta = (origen, destino, combi, horario) => () => {
 
 export const borrarRuta = (_id) => (dispatch) => {
   try {
-    Axios.delete('http://localhost:8080/routes', {data: {_id}}).then(
+    Axios.delete('http://localhost:8080/routes/' + _id, {data: {_id}}).then(
       (response) => {
         switch (response.status) {
           case 200:
@@ -428,7 +423,7 @@ export const editarRuta = (origen, destino, combi, horario, idRutaVieja) => (
     horario,
   };
   try {
-    Axios.put('http://localhost:8080/routes', {
+    Axios.put('http://localhost:8080/routes/' + idRutaVieja, {
       data: {ruta: ruta, idRutaVieja: idRutaVieja},
     }).then((response) => {
       switch (response.status) {
@@ -504,7 +499,7 @@ export const registrarChofer = (
   };
   Axios.post('http://localhost:8080/drivers', chofer).then((response) => {
     switch (response.status) {
-      case 200:
+      case 202:
         alert('Se guardo el chofer con exito');
         break;
       case 203:
@@ -554,12 +549,97 @@ export const editarChofer = (
 
 export const borrarChofer = (id) => (dispatch) => {
   try {
-    Axios.put('http://localhost:8080/drivers/' + id, {
+    Axios.delete('http://localhost:8080/drivers/' + id, {
       data: {id: id},
     }).then((response) => {
       switch (response.status) {
         case 200:
-          alert('Se elimino con exito');
+          console.log(response);
+          alert('Se elimino con todo exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const registrarCombi = (
+  patente,
+  modelo,
+  cantAsientos,
+  chofer,
+  tipo
+) => () => {
+  const combi = {
+    patente,
+    modelo,
+    cantAsientos,
+    chofer,
+    tipo,
+  };
+
+  Axios.post('http://localhost:8080/buses', combi).then((response) => {
+    switch (response.status) {
+      case 200:
+        alert('Se guardo la combi con exito');
+        break;
+      case 202:
+        alert('la ruta ya se encuntra creada');
+        break;
+      default:
+        alert('Hubo un error con el registro del insumo');
+        break;
+    }
+  });
+};
+
+export const editarCombi = (
+  patente,
+  modelo,
+  cantAsientos,
+  chofer,
+  tipo,
+  idVieja
+) => (dispatch) => {
+  const combi = {
+    patente,
+    modelo,
+    cantAsientos,
+    chofer,
+    tipo,
+  };
+
+  try {
+    Axios.put('http://localhost:8080/buses/' + idVieja, {
+      data: {combi: combi, idCombiVieja: idVieja},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          alert('Se modifico con exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+      console.log(response);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const borrarCombi = (id) => (dispatch) => {
+  try {
+    Axios.delete('http://localhost:8080/buses/' + id, {
+      data: {id: id},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          console.log(response);
+          alert('Se elimino con todo exito');
           break;
         default:
           alert('Ocurrio un error');

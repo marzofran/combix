@@ -53,7 +53,7 @@ const Ciudad = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarCiudad(props.item.lugar, props.item.provincia));
+                dispatch(borrarCiudad(props.item._id));
                 props.estado();
               }}
             >
