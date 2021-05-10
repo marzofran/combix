@@ -6,7 +6,8 @@ const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 
 //Display
 travelsRouter.get('/', async (req, res) => {
-  let viajes = await Viaje.find({unavailable: false}).populate('ruta');
+  let viajes = await Viaje.find({unavailable: false}).populate({path: 'ruta', model: 'Ruta', populate: [{path: 'origen', model: 'Ciudad'}, {path:'destino', model: 'Ciudad'}, {path:'combi', model: 'Combi', populate: {path:'chofer', model: 'Usuario'}}]});
+  console.log(viajes);
   res.status(200).json(viajes).end();
 });
 
