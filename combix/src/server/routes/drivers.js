@@ -33,7 +33,7 @@ driversRouter.post('/', async (req, res) => {
     permissions: '6094d50128e541353c8cf122',
     unavailable: false,
   });
-  const foundDriver = await Usuario.find({mail: driver.mail});
+  const foundDriver = await Usuario.find({mail: driver.mail, unavailable: false});
   if (Object.entries(foundDriver).length === 0) {
     await chofer.save();
     res.status(202).send('Chofer creado con exito!').end();

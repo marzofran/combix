@@ -19,7 +19,7 @@ suppliesRouter.post('/', async (request, response) => {
     precio: parseInt(supply.precio),
     tipo: supply.tipo,
   });
-  const foundSupply = await Insumo.find({nombre: insumo.nombre});
+  const foundSupply = await Insumo.find({nombre: insumo.nombre, unavailable: false});
   if (Object.entries(foundSupply).length === 0) {
     await insumo.save();
     response.status(202).send('Insumo creado con exito!').end();
