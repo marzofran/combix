@@ -15,7 +15,7 @@ suppliesRouter.post('/', async (request, response) => {
   //middleware validacion
   let supply = request.body;
   const repetido = await Insumo.find({nombre: supply.nombre, unavailable:false });
-  if(repetido) throw new HttpError('Insumo ya se encuentra cargado');
+  if(repetido) throw new HttpError(203,'Insumo ya se encuentra cargado');
   let insumo = new Insumo({
     nombre: supply.nombre,
     precio: parseInt(supply.precio),

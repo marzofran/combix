@@ -20,7 +20,7 @@ busesRouter.get('/', async (request, response) => {
 busesRouter.post('/', async (request, response) => {
   let bus = request.body;
   const repetido = await Combi.find({patente: bus.patente, unavailable:false });
-  if(repetido) throw new HttpError('Combi ya se encuentra cargada');
+  if(repetido) throw new HttpError(203,'Combi ya se encuentra cargada');
   try {
     let combi = new Combi({
       modelo: bus.modelo,

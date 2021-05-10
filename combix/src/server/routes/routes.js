@@ -17,7 +17,7 @@ routesRouter.get('/', async (req, res) => {
 routesRouter.post('/', async (request, response) => {
   let route = request.body;
   const repetido = await Ruta.find({origen: route.origen, destino: route.destino, combi: route.combi,horario: route.horario, unavailable:false });
-  if(repetido) throw new HttpError('Ruta ya se encuentra cargada');
+  if(repetido) throw new HttpError(409,'Ruta ya se encuentra cargada');
   let ruta = new Ruta({
     origen: route.origen,
     destino: route.destino,
@@ -25,6 +25,7 @@ routesRouter.post('/', async (request, response) => {
     horario: route.horario,
     unavailable: false,
   });
+  if(ruta.origen === ruta.destino) throw new HttpError(406,'La ruta no puede ser dentro de la misma ciudad');
   try {
     const savedRuta = await ruta.save();
     console.log(savedRuta);

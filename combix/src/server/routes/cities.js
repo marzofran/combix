@@ -20,31 +20,14 @@ citiesRouter.post('/', async (request, response) => {
   //middleware!!
   let city = request.body;
   const repetido = await Ciudad.find({lugar: city.lugar, provincia: city.provincia, unavailable:false });
-  if(repetido) throw new HttpError('Ciudad ya se encuentra cargada');
+  if(repetido) throw new HttpError(203,'Ciudad ya se encuentra cargada');
   let ciudad = new Ciudad({
     lugar: city.lugar,
     provincia: city.provincia,
     unavailable: false,
   });
-  try {
-    const ciudadExistente = await Ciudad.find({
-      lugar: ciudad.lugar,
-      provincia: ciudad.provincia,
-    });
-    console.log(ciudadExistente);
-    if (Object.entries(ciudadExistente).length === 0) {
-      await ciudad.save();
-      response.status(200).json('Ciudad guardada con exito').end();
-    } else {
-      response
-        .status(202)
-        .json('ya existe una ciudad con esos parametros')
-        .end();
-    }
-  } catch (err) {
-    console.log(err);
-    response.status(500).send(err.message).end();
-  }
+  await ciudad.save();
+  response.status(200).json('Ciudad guardada con exito').end();
 });
 
 //Modify

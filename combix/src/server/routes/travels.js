@@ -14,8 +14,8 @@ travelsRouter.get('/', async (req, res) => {
 //Create
 travelsRouter.post('/', async (request, response) => {
   let travel = request.body;
-  const repetido = await Viaje.find({ruta: travel.ruta, fecha: travel.fecha, precio: travel.precio, unavailable:false });
-  if(repetido) throw new HttpError('Viaje ya se encuentra cargado');
+  const repetido = await Viaje.find({ruta: travel.ruta, fecha: travel.fecha, unavailable:false });
+  if(repetido) throw new HttpError(203,'Viaje ya se encuentra cargado');
   let viaje = new Viaje({
     ruta: travel.ruta,
     fecha: travel.fecha,
