@@ -461,6 +461,92 @@ export const cargarCombis = () => (dispatch, getState) => {
   }
 };
 
+export const registrarCombi = (
+  patente,
+  modelo,
+  cantidadAsientos,
+  chofer,
+  tipo
+) => () => {
+  const combi = {
+    patente,
+    modelo,
+    cantidadAsientos,
+    chofer,
+    tipo,
+  };
+
+  Axios.post('http://localhost:8080/buses', combi).then((response) => {
+    switch (response.status) {
+      case 200:
+        alert('Se guardo la combi con exito');
+        break;
+      case 202:
+        alert('la ruta ya se encuntra creada');
+        break;
+      default:
+        alert('Hubo un error con el registro del insumo');
+        break;
+    }
+  });
+};
+
+export const editarCombi = (
+  patente,
+  modelo,
+  cantAsientos,
+  chofer,
+  tipo,
+  idVieja
+) => (dispatch) => {
+  const combi = {
+    patente,
+    modelo,
+    cantAsientos,
+    chofer,
+    tipo,
+  };
+
+  try {
+    Axios.put('http://localhost:8080/buses/' + idVieja, {
+      data: {combi: combi, idCombiVieja: idVieja},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          alert('Se modifico con exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+      console.log(response);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const borrarCombi = (id) => (dispatch) => {
+  try {
+    Axios.delete('http://localhost:8080/buses/' + id, {
+      data: {id: id},
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          console.log(response);
+          alert('Se elimino con todo exito');
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 export const cargarChoferes = () => (dispatch, getState) => {
   try {
     Axios.get('http://localhost:8080/drivers', {}).then((response) => {
@@ -567,86 +653,4 @@ export const borrarChofer = (id) => (dispatch) => {
   }
 };
 
-export const registrarCombi = (
-  patente,
-  modelo,
-  cantAsientos,
-  chofer,
-  tipo
-) => () => {
-  const combi = {
-    patente,
-    modelo,
-    cantAsientos,
-    chofer,
-    tipo,
-  };
 
-  Axios.post('http://localhost:8080/buses', combi).then((response) => {
-    switch (response.status) {
-      case 200:
-        alert('Se guardo la combi con exito');
-        break;
-      case 202:
-        alert('la ruta ya se encuntra creada');
-        break;
-      default:
-        alert('Hubo un error con el registro del insumo');
-        break;
-    }
-  });
-};
-
-export const editarCombi = (
-  patente,
-  modelo,
-  cantAsientos,
-  chofer,
-  tipo,
-  idVieja
-) => (dispatch) => {
-  const combi = {
-    patente,
-    modelo,
-    cantAsientos,
-    chofer,
-    tipo,
-  };
-
-  try {
-    Axios.put('http://localhost:8080/buses/' + idVieja, {
-      data: {combi: combi, idCombiVieja: idVieja},
-    }).then((response) => {
-      switch (response.status) {
-        case 200:
-          alert('Se modifico con exito');
-          break;
-        default:
-          alert('Ocurrio un error');
-          break;
-      }
-      console.log(response);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const borrarCombi = (id) => (dispatch) => {
-  try {
-    Axios.delete('http://localhost:8080/buses/' + id, {
-      data: {id: id},
-    }).then((response) => {
-      switch (response.status) {
-        case 200:
-          console.log(response);
-          alert('Se elimino con todo exito');
-          break;
-        default:
-          alert('Ocurrio un error');
-          break;
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
