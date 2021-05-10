@@ -52,14 +52,10 @@ travelsRouter.put('/:id', async (req, res) => {
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   const viajeNuevo = queryBuilder(req.body.viaje, ['ruta', 'fecha', 'precio']);
   mapAndBuildModel(viajeExistente, viajeNuevo);
-  const foundTravel = await Viaje.find({ruta: viajeExistente.ruta, fecha: viajeExistente.fecha, unavailable: false});
-  if (Object.entries(foundTravel).length === 0) {
-    await viajeExistente.save();
-    res.status(202).send('Viaje modificado con exito!').end();
-  } else {
-    throw new HttpError(203, 'Ya hay otro viaje con los mismos datos');
+  await viajeExistente.save();
+  res.status(202).send('Viaje modificado con exito!').end();
   }
-});
+);
 
 //Delete
 //Le molesta tener como condicion el unavalide

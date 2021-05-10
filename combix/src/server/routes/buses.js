@@ -36,7 +36,7 @@ busesRouter.post('/', async (request, response) => {
       await combi.save();
       response.status(202).send('Combi creada con exito!').end();
     } else {
-      response.status(203).send('Combi creada con exito!').end();
+      response.status(203).send('Ya hay una combi con esos datos!').end();
     }
   } catch (err) {
     console.log(err);

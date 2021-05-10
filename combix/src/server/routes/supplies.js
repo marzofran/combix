@@ -41,7 +41,7 @@ suppliesRouter.put('/:id', async (req, res) => {
   ]);
   mapAndBuildModel(insumoExistente, insumoNuevo);
   await insumoExistente.save();
-  res.status(200).send('Insumo modificado correctamente').end();
+  res.status(202).send('Insumo modificado con exito!').end();
 });
 
 //Delete fisico

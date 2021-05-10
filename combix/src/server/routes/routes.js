@@ -23,7 +23,6 @@ routesRouter.post('/', async (request, response) => {
     horario: route.horario,
     unavailable: false,
   });
-  if(ruta.origen === ruta.destino) throw new HttpError(406,'La ruta no puede ser dentro de la misma ciudad');
   const foundRoute = await Ruta.find({origen: ruta.origen, destino: ruta.destino, combi: ruta.combi, horario: ruta.horario, unavailable: false});
   if (Object.entries(foundRoute).length === 0) {
     await ruta.save();
