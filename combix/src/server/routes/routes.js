@@ -59,19 +59,13 @@ routesRouter.put('/body', async (req, res) => {
 });
 */
 routesRouter.put('/:id', async (req, res) => {
-  console.log(req.body);
-  const ruta = req.body.data.ruta;
-  const idCiudadVieja = req.params.id;
-  const rutaExistente = await Ruta.findOne({
-    _id: idCiudadVieja,
-    unavailable: false,
-  });
-  if (!rutaExistente) throw new Error('Ruta no encontrada');
-  const rutaNueva = queryBuilder(ruta, [
+  const rutaExistente = await Ruta.findOne({_id: req.params.id});
+  if (!rutaExistente) throw new HttpError(404, 'Ruta no encontrada');
+  const rutaNueva = queryBuilder(req.body, [
     'origen',
     'destino',
-    'horario',
     'combi',
+    'horario',
   ]);
   mapAndBuildModel(rutaExistente, rutaNueva);
   await rutaExistente.save();
