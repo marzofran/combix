@@ -39,7 +39,7 @@ app.use('/supplies', suppliesRouter);
 app.use('/buses', busesRouter);
 app.use('/permissions', permissionsRouter);
 
-//Login
+// Login
 app.get('/login', async (request, response) => {
   let email = request.query.mail;
   let password = request.query.clave;
