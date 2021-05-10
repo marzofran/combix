@@ -10,10 +10,14 @@ const configDuck = {
   rutas: [],
   combis: [],
   choferes: [],
+  usuarios: [],
+  viajes: [],
 };
 const OBETENER_DATOS_USUARIO = 'OBTENER_DATOS_USUARIO';
 const CERRAR_SESION = 'CERRAR_SESION';
 const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
+const CARGAR_USUARIO = 'CARGAR_USUARIO';
+
 const REGISTRAR_CIUDAD = 'REGISTRAR_CIUDAD';
 const CARGAR_CIUDAD = 'CARGAR_CIUDAD';
 const BORRAR_CIUDAD = 'BORRAR_CIUDAD';
@@ -41,6 +45,8 @@ export default function reducer(state = configDuck, action) {
       return {...state, sesion: action.payload};
     case REGISTRAR_CIUDAD:
       return {...state, sesion: action.payload};
+    case CARGAR_USUARIO:
+      return {...state, usuarios: action.payload};
     case CARGAR_CIUDAD:
       return {...state, ciudades: action.payload};
     case BORRAR_CIUDAD:
@@ -150,7 +156,23 @@ export const cerrarSesion = () => (dispatch, getState) => {
 };
 
 export const cargarUsuarios = () => (dispatch, getState) => {
-  //Implementar
+  try {
+    Axios.get('http://localhost:8080/users', {}).then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CARGAR_USUARIO,
+            payload: response.data,
+          });
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 //Ciudades
@@ -532,7 +554,7 @@ export const editarChofer = (
 
 export const borrarChofer = (id) => (dispatch) => {
   try {
-    Axios.put('http://localhost:8080/drivers' + id, {
+    Axios.put('http://localhost:8080/drivers/' + id, {
       data: {id: id},
     }).then((response) => {
       switch (response.status) {

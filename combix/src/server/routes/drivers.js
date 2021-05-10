@@ -6,9 +6,12 @@ const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 
 //Display
 driversRouter.get('/', async (req, res) => {
-    let choferes = await Usuario.find({ permissions: "6094d50128e541353c8cf122", unavailable: false }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI 
-    res.status(200).json(choferes).end();
-})
+  let choferes = await Usuario.find({
+    permissions: '6094d50128e541353c8cf122',
+    unavailable: false,
+  }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI
+  res.status(200).json(choferes).end();
+});
 
 //Create
 driversRouter.post('/', async (req, res) => {
@@ -35,9 +38,21 @@ driversRouter.post('/', async (req, res) => {
 
 //Modify
 driversRouter.put('/:id', async (req, res) => {
-  const choferExistente = await Usuario.findOne({_id: req.params.id, permissions: "6094d50128e541353c8cf122", unavailable: false });
-  if(!choferExistente) throw new Error('Chofer no encontrado');
-  const choferNuevo = queryBuilder(req.body, ["nombre", "apellido", "dni", "mail", "telefono", "clave", "fechaNacimiento"]);
+  const choferExistente = await Usuario.findOne({
+    _id: req.params.id,
+    permissions: '6094d50128e541353c8cf122',
+    unavailable: false,
+  });
+  if (!choferExistente) throw new Error('Chofer no encontrado');
+  const choferNuevo = queryBuilder(req.body, [
+    'nombre',
+    'apellido',
+    'dni',
+    'mail',
+    'telefono',
+    'clave',
+    'fechaNacimiento',
+  ]);
   mapAndBuildModel(choferExistente, choferNuevo);
   await choferExistente.save();
   res.status(200).send('Chofer modificado correctamente').end();
@@ -71,9 +86,19 @@ driversRouter.put('/', async (req, res) => {
 
 //Delete
 driversRouter.delete('/:id', async (req, res) => {
-    const choferExistente = await Usuario.findOneAndUpdate({ _id: req.params.id, permissions: "6094d50128e541353c8cf122", unavailable: false}, {unavailable: true});
-    if(!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
-    res.status(200).send('Chofer eliminado').end();
-})
+  const choferExistente = await Usuario.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      permissions: '6094d50128e541353c8cf122',
+      unavailable: false,
+    },
+    {unavailable: true},
+    function (err, affected, resp) {
+      console.log(resp);
+    }
+  );
+  if (!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
+  res.status(202).send('Chofer eliminado').end();
+});
 
 module.exports = driversRouter;

@@ -77,7 +77,6 @@ const Chofer = (props) => {
               className='field-btn delete-btn box square'
               onClick={() => {
                 dispatch(borrarChofer(props.item._id));
-
                 props.estado();
               }}
             >
