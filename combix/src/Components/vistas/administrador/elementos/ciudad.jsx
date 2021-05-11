@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
-import {borrarCiudad, editarCiudad} from '../../../../Redux/combixDucks';
+import {
+  borrarCiudad,
+  editarCiudad,
+} from '../../../../Redux/Admin/ciudadesDucks';
 
 //Implementado
 const Ciudad = (props) => {

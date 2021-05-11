@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {borrarRuta, editarRuta} from '../../../../Redux/combixDucks';
-import {cargarCombis} from '../../../../Redux/combixDucks';
+import {borrarRuta, editarRuta} from '../../../../Redux/Admin/rutasDucks';
+import {cargarCombis} from '../../../../Redux/Admin/combisDucks';
 
 //Implementado
 const Ruta = (props) => {
@@ -35,8 +35,8 @@ const Ruta = (props) => {
     props.estado();
   };
 
-  const ciudades = useSelector((store) => store.combix.ciudades);
-  const combis = useSelector((store) => store.combix.combis);
+  const ciudades = useSelector((store) => store.ciudades.elementos);
+  const combis = useSelector((store) => store.combis.elementos);
   return (
     <Accordion className='row db-element'>
       <Card className='col'>
@@ -50,13 +50,13 @@ const Ruta = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Salida:</label>
                 <h6 className='field-display'>
-                {props.item.origen?.lugar}, {props.item.origen?.provincia}
+                  {props.item.origen?.lugar}, {props.item.origen?.provincia}
                 </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Destino:</label>
                 <h6 className='field-display'>
-                {props.item.destino?.lugar}, {props.item.destino?.provincia}
+                  {props.item.destino?.lugar}, {props.item.destino?.provincia}
                 </h6>
               </div>
             </div>
@@ -112,7 +112,7 @@ const Ruta = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCiudad'>
-                Editar ruta: {props.item.origen?.lugar} {" -> "}
+                Editar ruta: {props.item.origen?.lugar} {' -> '}
                 {props.item.destino?.lugar}
               </h5>
               <button
@@ -135,16 +135,18 @@ const Ruta = (props) => {
                     required
                     class='form-control'
                   >
-                    {ciudades.map((item, index) => (
-                      item.provincia === origen.provincia && item.lugar === origen.lugar ?
-                      <option value={JSON.stringify(item)} selected>
+                    {ciudades.map((item, index) =>
+                      item.provincia === origen.provincia &&
+                      item.lugar === origen.lugar ? (
+                        <option value={JSON.stringify(item)} selected>
                           {item.lugar}, {item.provincia}
                         </option>
-                        :
+                      ) : (
                         <option value={JSON.stringify(item)}>
                           {item.lugar}, {item.provincia}
                         </option>
-                    ))}
+                      )
+                    )}
                   </select>
                 </div>
                 {origen !== 'origen' && (
@@ -156,16 +158,18 @@ const Ruta = (props) => {
                       required
                       class='form-control'
                     >
-                      {ciudades.map((item, index) => (
-                      item.provincia === destino.provincia && item.lugar === destino.lugar ?
-                      <option value={JSON.stringify(item)} selected>
-                          {item.lugar}, {item.provincia}
-                        </option>
-                        :
-                        <option value={JSON.stringify(item)}>
-                          {item.lugar}, {item.provincia}
-                        </option>
-                    ))}
+                      {ciudades.map((item, index) =>
+                        item.provincia === destino.provincia &&
+                        item.lugar === destino.lugar ? (
+                          <option value={JSON.stringify(item)} selected>
+                            {item.lugar}, {item.provincia}
+                          </option>
+                        ) : (
+                          <option value={JSON.stringify(item)}>
+                            {item.lugar}, {item.provincia}
+                          </option>
+                        )
+                      )}
                     </select>
                   </div>
                 )}
@@ -178,16 +182,17 @@ const Ruta = (props) => {
                     required
                     class='form-control'
                   >
-                    {combis.map((item) => (
-                      item.patente === combi.patente ?
-                      <option value={JSON.stringify(item)} selected>
+                    {combis.map((item) =>
+                      item.patente === combi.patente ? (
+                        <option value={JSON.stringify(item)} selected>
                           {item.modelo} ({item.patente})
                         </option>
-                        :
-                      <option value={JSON.stringify(item)}>
-                        {item.modelo} ({item.patente})
-                      </option>
-                    ))}
+                      ) : (
+                        <option value={JSON.stringify(item)}>
+                          {item.modelo} ({item.patente})
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
 

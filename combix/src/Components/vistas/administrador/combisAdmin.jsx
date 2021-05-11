@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarCombi} from '../../../Redux/combixDucks';
 import Combi from './elementos/combi';
-import {cargarCombis} from '../../../Redux/combixDucks';
-import {cargarChoferes} from '../../../Redux/combixDucks';
+import {cargarCombis, registrarCombi} from '../../../Redux/Admin/combisDucks';
+import {cargarChoferes} from '../../../Redux/Admin/choferesDucks';
 
 //Implementado, faltan cruds
 const CombisAdmin = () => {
@@ -47,8 +46,8 @@ const CombisAdmin = () => {
     setCargar(false);
   };
 
-  const choferes = useSelector((store) => store.combix.choferes);
-  const combis = useSelector((store) => store.combix.combis);
+  const choferes = useSelector((store) => store.choferes.elementos);
+  const combis = useSelector((store) => store.combis.elementos);
 
   return (
     <div className={'col'}>

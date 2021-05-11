@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarInsumo} from '../../../Redux/combixDucks';
 import Insumo from './elementos/insumo';
-import {cargarInsumos} from '../../../Redux/combixDucks';
+import {
+  cargarInsumos,
+  registrarInsumo,
+} from '../../../Redux/Admin/insumosDucks';
 
 //Implementado
 const InsumosAdmin = () => {
   const dispatch = useDispatch();
   const [cargar, setCargar] = useState(true);
-  
+
   useEffect(() => {
     setCargar(true);
     dispatch(cargarInsumos());
@@ -35,7 +37,7 @@ const InsumosAdmin = () => {
   function cambiarEstado() {
     setCargar(false);
   }
-  const insumos = useSelector((store) => store.combix.insumos);
+  const insumos = useSelector((store) => store.insumos.elementos);
 
   return (
     <div className={'col'}>

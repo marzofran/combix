@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
-import {borrarChofer, editarChofer} from '../../../../Redux/combixDucks';
-import dateFormat from '../../../../scripts/dateFormat'
+import {
+  borrarChofer,
+  editarChofer,
+} from '../../../../Redux/Admin/choferesDucks';
+import dateFormat from '../../../../scripts/dateFormat';
 
 //Implementado, falta crud
 const Chofer = (props) => {
   const dispatch = useDispatch();
-  const fechaNacimiento = Date.parse(props.item.fechaNacimiento)
+  const fechaNacimiento = Date.parse(props.item.fechaNacimiento);
 
   const [nombre, setNombre] = useState(props.item.nombre);
   const [apellido, setApellido] = useState(props.item.apellido);
@@ -37,11 +40,21 @@ const Chofer = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(esMayor(fecha)){  
-      dispatch(editarChofer(nombre, apellido, mail, DNI, telefono, fecha, props.item._id));
+    if (esMayor(fecha)) {
+      dispatch(
+        editarChofer(
+          nombre,
+          apellido,
+          mail,
+          DNI,
+          telefono,
+          fecha,
+          props.item._id
+        )
+      );
       props.estado();
     } else {
-      alert("No es mayor de edad")
+      alert('No es mayor de edad');
     }
   };
 
@@ -105,7 +118,9 @@ const Chofer = (props) => {
             <div className='row'>
               <div className='col-6 field-admin'>
                 <label className='field-label'>Nacimiento:</label>
-                <h6 className='field-display'>{dateFormat(fechaNacimiento, "dd/mm/yyyy")}</h6>
+                <h6 className='field-display'>
+                  {dateFormat(fechaNacimiento, 'dd/mm/yyyy')}
+                </h6>
               </div>
             </div>
           </Card.Body>

@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {editarCombi} from '../../../../Redux/combixDucks';
-import {borrarCombi} from '../../../../Redux/combixDucks';
+import {editarCombi, borrarCombi} from '../../../../Redux/Admin/combisDucks';
 
 //Implementado
 const Combi = (props) => {
@@ -38,7 +37,7 @@ const Combi = (props) => {
     props.estado();
   };
 
-  const choferes = useSelector((store) => store.combix.choferes);
+  const choferes = useSelector((store) => store.choferes.elementos);
   return (
     <Accordion className='row db-element'>
       <Card className='col'>
@@ -195,16 +194,18 @@ const Combi = (props) => {
                     required
                     class='form-control'
                   >
-                    {choferes.map((item) => (
-                      item.apellido === chofer.apellido && item.nombre === chofer.nombre ?
+                    {choferes.map((item) =>
+                      item.apellido === chofer.apellido &&
+                      item.nombre === chofer.nombre ? (
                         <option value={JSON.stringify(item)} selected>
                           {item.apellido}, {item.nombre}
                         </option>
-                      :
+                      ) : (
                         <option value={JSON.stringify(item)}>
                           {item.apellido}, {item.nombre}
                         </option>
-                    ))}
+                      )
+                    )}
                   </select>
                 </div>
 

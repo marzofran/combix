@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
-import {borrarInsumo, editarInsumo} from '../../../../Redux/combixDucks';
+import {borrarInsumo, editarInsumo} from '../../../../Redux/Admin/insumosDucks';
 
 //Implementado
 const Insumo = (props) => {

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarCiudad} from '../../../Redux/combixDucks';
+import {registrarCiudad} from '../../../Redux/Admin/ciudadesDucks';
 import Ciudad from './elementos/ciudad';
-import {cargarCiudades} from '../../../Redux/combixDucks';
+import {cargarCiudades} from '../../../Redux/Admin/ciudadesDucks';
 
 //Implementado
 const CiudadesAdmin = () => {
@@ -31,7 +31,7 @@ const CiudadesAdmin = () => {
   function cambiarEstado() {
     setCargar(false);
   }
-  const ciudades = useSelector((store) => store.combix.ciudades);
+  const ciudades = useSelector((store) => store.ciudades.elementos);
 
   return (
     <div className={'col'}>

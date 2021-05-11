@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Viaje from './elementos/viaje';
-import {cargarViajes} from '../../../Redux/combixDucks';
-import {cargarRutas} from '../../../Redux/combixDucks';
-import {registrarViaje} from '../../../Redux/combixDucks';
+import {cargarViajes, registrarViaje} from '../../../Redux/Admin/viajesDucks';
+import {cargarRutas} from '../../../Redux/Admin/rutasDucks';
 
 //Implementado, faltan cruds
 const ViajesAdmin = () => {
@@ -14,7 +13,6 @@ const ViajesAdmin = () => {
     setCargar(true);
     dispatch(cargarRutas());
     dispatch(cargarViajes());
-    console.log('brus');
   }, [dispatch, cargar]);
 
   const [ruta, setRuta] = useState('ruta');
@@ -45,8 +43,8 @@ const ViajesAdmin = () => {
     console.log('xd');
   }
 
-  const rutas = useSelector((store) => store.combix.rutas);
-  const viajes = useSelector((store) => store.combix.viajes);
+  const rutas = useSelector((store) => store.rutas.elementos);
+  const viajes = useSelector((store) => store.viajes.elementos);
 
   return (
     <div className={'col'}>

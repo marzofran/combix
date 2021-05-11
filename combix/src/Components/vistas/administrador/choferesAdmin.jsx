@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarChofer} from '../../../Redux/combixDucks';
+
 import Chofer from './elementos/chofer';
-import {cargarChoferes} from '../../../Redux/combixDucks';
+import {
+  cargarChoferes,
+  registrarChofer,
+} from '../../../Redux/Admin/choferesDucks';
 
 //Implementado, falta crud
 const ChoferesAdmin = () => {
@@ -44,14 +47,14 @@ const ChoferesAdmin = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(esMayor(fecha)){   
+    if (esMayor(fecha)) {
       dispatch(registrarChofer(nombre, apellido, mail, DNI, telefono, fecha));
       setCargar(false);
     } else {
-      alert("No es mayor de edad")
+      alert('No es mayor de edad');
     }
   };
-  const choferes = useSelector((store) => store.combix.choferes);
+  const choferes = useSelector((store) => store.choferes.elementos);
 
   return (
     <div className={'col'}>

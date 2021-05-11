@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarRuta} from '../../../Redux/combixDucks';
+
 import Ruta from './elementos/ruta';
-import {cargarRutas} from '../../../Redux/combixDucks';
-import {cargarCiudades} from '../../../Redux/combixDucks';
-import {cargarCombis} from '../../../Redux/combixDucks';
+
+import {cargarRutas, registrarRuta} from '../../../Redux/Admin/rutasDucks';
+import {cargarCombis} from '../../../Redux/Admin/combisDucks';
+import {cargarCiudades} from '../../../Redux/Admin/ciudadesDucks';
 
 //Implementado
 const RutasAdmin = () => {
@@ -48,9 +49,9 @@ const RutasAdmin = () => {
     setCargar(false);
   }
 
-  const rutas = useSelector((store) => store.combix.rutas);
-  const ciudades = useSelector((store) => store.combix.ciudades);
-  const combis = useSelector((store) => store.combix.combis);
+  const rutas = useSelector((store) => store.rutas.elementos);
+  const ciudades = useSelector((store) => store.ciudades.elementos);
+  const combis = useSelector((store) => store.combis.elementos);
 
   return (
     <div className={'col'}>
