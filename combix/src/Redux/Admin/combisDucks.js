@@ -24,8 +24,8 @@ export default function reducerCombis(state = configDuck, action) {
 }
 //Combis
 export const cargarCombis = () => (dispatch, getState) => {
-  try {
-    Axios.get('http://localhost:8080/buses', {}).then((response) => {
+  traerCombis()
+    .then((response) => {
       switch (response.status) {
         case 200:
           dispatch({
@@ -34,17 +34,17 @@ export const cargarCombis = () => (dispatch, getState) => {
           });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
+    })
+    .catch(function (err) {
+      alert(err);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 export const registrarCombi =
-  (patente, modelo, cantidadAsientos, tipo, chofer) => () => {
+  (patente, modelo, cantidadAsientos, tipo, chofer) => (dispatch) => {
     const combi = {
       patente,
       modelo,
@@ -53,19 +53,37 @@ export const registrarCombi =
       chofer,
     };
 
-    Axios.post('http://localhost:8080/buses', combi).then((response) => {
-      switch (response.status) {
-        case 202:
-          alert('Se guardo la combi con exito');
-          break;
-        case 203:
-          alert('la combi ya se encuntra creada');
-          break;
-        default:
-          alert('Hubo un error con el registro de la combi');
-          break;
-      }
-    });
+    Axios.post('http://localhost:8080/buses', combi)
+      .then((response) => {
+        switch (response.status) {
+          case 202:
+            alert(response.data);
+            traerCombis()
+              .then((response) => {
+                switch (response.status) {
+                  case 200:
+                    dispatch({
+                      type: REGISTRAR_COMBI,
+                      payload: response.data,
+                    });
+                    break;
+                  default:
+                    alert(response.data);
+                    break;
+                }
+              })
+              .catch(function (err) {
+                alert(err);
+              });
+            break;
+          default:
+            alert(response.data);
+            break;
+        }
+      })
+      .catch(function (err) {
+        alert(err);
+      });
   };
 
 export const editarCombi =
@@ -77,43 +95,80 @@ export const editarCombi =
       tipo,
       chofer,
     };
-
-    try {
-      Axios.put('http://localhost:8080/buses/' + idVieja, {
-        params: {id: idVieja},
-        combi,
-      }).then((response) => {
-        switch (response.status) {
-          case 200:
-            alert('Se modifico la combi con exito');
-            break;
-          default:
-            alert('Ocurrio un error');
-            break;
-        }
-        console.log(response);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-export const borrarCombi = (id) => (dispatch) => {
-  try {
-    Axios.delete('http://localhost:8080/buses/' + id, {
-      data: {id: id},
+    Axios.put('http://localhost:8080/buses/' + idVieja, {
+      params: {id: idVieja},
+      combi,
     }).then((response) => {
       switch (response.status) {
         case 200:
-          console.log(response);
-          alert('Se elimino la combi con  exito');
+          alert(response.data);
+          traerCombis()
+            .then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: EDITAR_COMBI,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert(response.data);
+                  break;
+              }
+            })
+            .catch(function (err) {
+              alert(err);
+            });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
     });
-  } catch (error) {
-    console.log(error);
-  }
+  };
+
+export const borrarCombi = (id) => (dispatch) => {
+  Axios.delete('http://localhost:8080/buses/' + id, {
+    params: {id: id},
+  })
+    .then((response) => {
+      switch (response.status) {
+        case 200:
+          alert(response.data);
+          traerCombis()
+            .then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: ELIMINAR_COMBI,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert(response.data);
+                  break;
+              }
+            })
+            .catch(function (err) {
+              alert(err);
+            });
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (err) {
+      alert(err);
+    });
 };
+
+async function traerCombis() {
+  return await Axios.get('http://localhost:8080/buses', {})
+    .then((response) => {
+      return response;
+    })
+    .catch(function (error) {
+      return error;
+    });
+}

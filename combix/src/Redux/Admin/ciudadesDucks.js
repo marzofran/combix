@@ -6,7 +6,7 @@ const configDuck = {
 
 const REGISTRAR_CIUDAD = 'REGISTRAR_CIUDAD';
 const CARGAR_CIUDAD = 'CARGAR_CIUDAD';
-const EDITAR_CIUDAD = 'CARGAR_CIUDAD';
+const EDITAR_CIUDAD = 'EDITAR_CIUDAD';
 const BORRAR_CIUDAD = 'BORRAR_CIUDAD';
 
 export default function reducerCiudades(state = configDuck, action) {
@@ -25,87 +25,137 @@ export default function reducerCiudades(state = configDuck, action) {
 }
 
 //Acciones
-export const registrarCiudad = (lugar, provincia) => () => {
+export const registrarCiudad = (lugar, provincia) => (dispatch) => {
   const ciudad = {
     lugar: lugar,
     provincia: provincia,
   };
-  Axios.post('http://localhost:8080/cities', ciudad).then((response) => {
-    switch (response.status) {
-      case 202:
-        alert('Se registro la ciudad con exito');
-        break;
-      case 203:
-        alert('Esa provincia y ese lugar ya se encuentran creados');
+  Axios.post('http://localhost:8080/cities', ciudad)
+    .then((response) => {
+      switch (response.status) {
+        case 202:
+          alert(response.data);
+          traerCiudades().then((ciudades) => {
+            switch (ciudades.status) {
+              case 200:
+                dispatch({
+                  type: REGISTRAR_CIUDAD,
+                  payload: ciudades.data,
+                });
+                break;
+              default:
+                console.log(ciudades.data);
+                break;
+            }
+          });
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+
+export const cargarCiudades = () => (dispatch, getState) => {
+  traerCiudades().then((ciudades) => {
+    switch (ciudades.status) {
+      case 200:
+        dispatch({
+          type: CARGAR_CIUDAD,
+          payload: ciudades.data,
+        });
         break;
       default:
-        alert('Hubo un error con el registro de la ciudad');
+        console.log(ciudades.data);
         break;
     }
   });
 };
 
-export const cargarCiudades = () => (dispatch, getState) => {
-  try {
-    Axios.get('http://localhost:8080/cities', {}).then((response) => {
-      switch (response.status) {
-        case 200:
-          dispatch({
-            type: CARGAR_CIUDAD,
-            payload: response.data,
-          });
-          break;
-        default:
-          alert('Ocurrio un error');
-          break;
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const borrarCiudad = (id) => (dispatch) => {
-  try {
-    Axios.delete('http://localhost:8080/cities/' + id, {
-      params: {id: id},
-    }).then((response) => {
+  Axios.delete('http://localhost:8080/cities/' + id, {
+    params: {id: id},
+  })
+    .then((response) => {
       switch (response.status) {
         case 200:
           console.log(response);
           alert(response.data);
+          traerCiudades().then((ciudades) => {
+            switch (ciudades.status) {
+              case 200:
+                dispatch({
+                  type: BORRAR_CIUDAD,
+                  payload: ciudades.data,
+                });
+                break;
+              default:
+                console.log(ciudades.data);
+                break;
+            }
+          });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
+    })
+    .catch(function (error) {
+      alert(error);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
+
 export const editarCiudad = (lugar, provincia, id) => (dispatch) => {
   const ciudad = {
     lugar: lugar,
     provincia: provincia,
   };
-  try {
-    Axios.put('http://localhost:8080/cities/' + id, {
-      ciudad,
-      params: {
-        id: id,
-      },
-    }).then((response) => {
+
+  Axios.put('http://localhost:8080/cities/' + id, {
+    ciudad,
+    params: {
+      id: id,
+    },
+  })
+    .then((response) => {
       switch (response.status) {
         case 200:
           alert('Se modifico la ciudad con exito');
+          traerCiudades().then((ciudades) => {
+            switch (ciudades.status) {
+              case 200:
+                dispatch({
+                  type: EDITAR_CIUDAD,
+                  payload: ciudades.data,
+                });
+                break;
+              default:
+                console.log(ciudades.data);
+                break;
+            }
+          });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
+    })
+    .catch(function (error) {
+      alert(error);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
+
+//get
+
+async function traerCiudades() {
+  return await Axios.get('http://localhost:8080/cities', {})
+    .then((response) => {
+      return response;
+    })
+    .catch(function (error) {
+      return error;
+    });
+}

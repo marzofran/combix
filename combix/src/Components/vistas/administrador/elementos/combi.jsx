@@ -34,7 +34,6 @@ const Combi = (props) => {
     dispatch(
       editarCombi(patente, modelo, asientos, tipo, chofer, props.item._id)
     );
-    props.estado();
   };
 
   const choferes = useSelector((store) => store.choferes.elementos);
@@ -72,7 +71,6 @@ const Combi = (props) => {
               className='field-btn delete-btn box square'
               onClick={() => {
                 dispatch(borrarCombi(props.item._id));
-                props.estado();
               }}
             >
               <div className='content'>
@@ -213,7 +211,6 @@ const Combi = (props) => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => props.estado()}
                 >
                   Guardar combi editada
                 </button>

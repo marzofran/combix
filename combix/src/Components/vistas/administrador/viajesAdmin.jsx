@@ -7,13 +7,11 @@ import {cargarRutas} from '../../../Redux/Admin/rutasDucks';
 //Implementado, faltan cruds
 const ViajesAdmin = () => {
   const dispatch = useDispatch();
-  const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
-    setCargar(true);
     dispatch(cargarRutas());
     dispatch(cargarViajes());
-  }, [dispatch, cargar]);
+  }, []);
 
   const [ruta, setRuta] = useState('ruta');
   const [fecha, setFecha] = useState('fecha');
@@ -36,12 +34,7 @@ const ViajesAdmin = () => {
     e.preventDefault();
     console.log(ruta, fecha, precio);
     dispatch(registrarViaje(ruta, fecha, precio));
-    cambiarEstado();
   };
-  function cambiarEstado() {
-    setCargar(false);
-    console.log('xd');
-  }
 
   const rutas = useSelector((store) => store.rutas.elementos);
   const viajes = useSelector((store) => store.viajes.elementos);
@@ -67,7 +60,7 @@ const ViajesAdmin = () => {
         </div>
         <div className='col'>
           {viajes.map((item) => (
-            <Viaje estado={cambiarEstado} item={item} key={item._id}></Viaje>
+            <Viaje item={item} key={item._id}></Viaje>
           ))}
         </div>
       </div>
@@ -145,7 +138,6 @@ const ViajesAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => cambiarEstado()}
                 >
                   Guardar viaje
                 </button>

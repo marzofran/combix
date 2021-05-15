@@ -22,7 +22,6 @@ const Insumo = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editarInsumo(nombre, tipo, precio, props.item._id));
-    props.estado();
   };
 
   return (
@@ -59,7 +58,6 @@ const Insumo = (props) => {
               className='field-btn delete-btn box square'
               onClick={() => {
                 dispatch(borrarInsumo(props.item._id));
-                props.estado();
               }}
             >
               <div className='content'>

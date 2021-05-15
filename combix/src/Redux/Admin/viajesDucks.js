@@ -22,7 +22,7 @@ export default function reducer(state = configDuck, action) {
   }
 }
 
-export const registrarViaje = (ruta, fecha, precio) => () => {
+export const registrarViaje = (ruta, fecha, precio) => (dispatch) => {
   const viaje = {
     ruta,
     fecha,
@@ -32,21 +32,35 @@ export const registrarViaje = (ruta, fecha, precio) => () => {
   Axios.post('http://localhost:8080/travels', viaje).then((response) => {
     switch (response.status) {
       case 202:
-        alert('Se registro el viaje con exito');
-        break;
-      case 203:
-        alert('El viaje ya se encuentra registrado');
+        alert(response.data);
+        traerViajes()
+          .then((response) => {
+            switch (response.status) {
+              case 200:
+                dispatch({
+                  type: REGISTRAR_VIAJES,
+                  payload: response.data,
+                });
+                break;
+              default:
+                alert(response.data);
+                break;
+            }
+          })
+          .catch(function (err) {
+            alert(err);
+          });
         break;
       default:
-        alert('Hubo un error con el registro del del viaje');
+        alert(response.data);
         break;
     }
   });
 };
 
 export const cargarViajes = () => (dispatch, getState) => {
-  try {
-    Axios.get('http://localhost:8080/travels').then((response) => {
+  traerViajes()
+    .then((response) => {
       switch (response.status) {
         case 200:
           dispatch({
@@ -55,33 +69,49 @@ export const cargarViajes = () => (dispatch, getState) => {
           });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
+    })
+    .catch(function (err) {
+      alert(err);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 export const borrarViaje = (id) => (dispatch) => {
-  try {
-    Axios.delete('http://localhost:8080/travels/' + id, {
-      data: {id: id},
-    }).then((response) => {
+  Axios.delete('http://localhost:8080/travels/' + id, {
+    params: {id: id},
+  })
+    .then((response) => {
       switch (response.status) {
         case 200:
-          console.log(response);
-          alert('Se elimino el viaje con exito');
+          alert(response.data);
+          traerViajes()
+            .then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: BORRAR_VIAJES,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert(response.data);
+                  break;
+              }
+            })
+            .catch(function (err) {
+              alert(err);
+            });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
+    })
+    .catch(function (err) {
+      alert(err);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
 export const editarViaje = (ruta, fecha, precio, idVieja) => (dispatch) => {
   const viaje = {
@@ -89,21 +119,49 @@ export const editarViaje = (ruta, fecha, precio, idVieja) => (dispatch) => {
     fecha,
     precio,
   };
-  try {
-    Axios.put('http://localhost:8080/travels/' + idVieja, {
-      params: {id: idVieja},
-      viaje,
-    }).then((response) => {
+
+  Axios.put('http://localhost:8080/travels/' + idVieja, {
+    params: {id: idVieja},
+    viaje,
+  })
+    .then((response) => {
       switch (response.status) {
-        case 200:
-          alert('Se modifico el viaje con exito');
+        case 202:
+          alert(response.data);
+          traerViajes()
+            .then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: EDITAR_VIAJES,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert(response.data);
+                  break;
+              }
+            })
+            .catch(function (err) {
+              alert(err);
+            });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
+    })
+    .catch(function (err) {
+      alert(err);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
+
+async function traerViajes() {
+  return await Axios.get('http://localhost:8080/travels', {})
+    .then((response) => {
+      return response;
+    })
+    .catch(function (error) {
+      return error;
+    });
+}

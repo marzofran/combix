@@ -52,7 +52,6 @@ const Chofer = (props) => {
           props.item._id
         )
       );
-      props.estado();
     } else {
       alert('No es mayor de edad');
     }
@@ -94,7 +93,6 @@ const Chofer = (props) => {
               className='field-btn delete-btn box square'
               onClick={() => {
                 dispatch(borrarChofer(props.item._id));
-                props.estado();
               }}
             >
               <div className='content'>

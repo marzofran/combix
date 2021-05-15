@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarRuta, editarRuta} from '../../../../Redux/Admin/rutasDucks';
-import {cargarCombis} from '../../../../Redux/Admin/combisDucks';
 
 //Implementado
 const Ruta = (props) => {
@@ -20,7 +19,6 @@ const Ruta = (props) => {
   const handleChangeDestino = (e) => {
     let obj = JSON.parse(e.target.value);
     setDestino(obj);
-    dispatch(cargarCombis());
   };
   const handleChangeCombi = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -30,9 +28,13 @@ const Ruta = (props) => {
     setHorario(e.target.value);
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(editarRuta(origen, destino, combi, horario, props.item._id));
-    props.estado();
+    if (origen._id === destino._id) {
+      e.preventDefault();
+      alert('Origen y destino no pueden ser iguales');
+    } else {
+      e.preventDefault();
+      dispatch(editarRuta(origen, destino, combi, horario, props.item._id));
+    }
   };
 
   const ciudades = useSelector((store) => store.ciudades.elementos);
@@ -87,7 +89,6 @@ const Ruta = (props) => {
               className='field-btn delete-btn box square'
               onClick={() => {
                 dispatch(borrarRuta(props.item._id));
-                props.estado();
               }}
             >
               <div className='content'>

@@ -10,13 +10,10 @@ import {
 //Implementado, falta crud
 const ChoferesAdmin = () => {
   const dispatch = useDispatch();
-  const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
-    console.log('me active');
-    setCargar(true);
     dispatch(cargarChoferes());
-  }, [cargar, dispatch]);
+  }, []);
 
   const [nombre, setNombre] = useState('Nombre');
   const [apellido, setApellido] = useState('Apellido');
@@ -24,9 +21,7 @@ const ChoferesAdmin = () => {
   const [DNI, setDNI] = useState('DNI');
   const [telefono, setTelefono] = useState('Telefono');
   const [fecha, setFecha] = useState('Fecha');
-  function cambiarEstado() {
-    setCargar(false);
-  }
+
   const handleChangeNombre = (e) => {
     setNombre(e.target.value);
   };
@@ -49,7 +44,6 @@ const ChoferesAdmin = () => {
     e.preventDefault();
     if (esMayor(fecha)) {
       dispatch(registrarChofer(nombre, apellido, mail, DNI, telefono, fecha));
-      setCargar(false);
     } else {
       alert('No es mayor de edad');
     }
@@ -77,7 +71,7 @@ const ChoferesAdmin = () => {
         </div>
         <div className='col'>
           {choferes.map((item) => (
-            <Chofer item={item} key={item._id} estado={cambiarEstado}></Chofer>
+            <Chofer item={item} key={item._id}></Chofer>
           ))}
         </div>
       </div>
@@ -182,9 +176,6 @@ const ChoferesAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => {
-                    cambiarEstado();
-                  }}
                 >
                   Guardar chofer
                 </button>

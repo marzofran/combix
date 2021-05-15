@@ -9,12 +9,10 @@ import {
 //Implementado
 const InsumosAdmin = () => {
   const dispatch = useDispatch();
-  const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
-    setCargar(true);
     dispatch(cargarInsumos());
-  }, [cargar, dispatch]);
+  }, []);
 
   const [nombre, setNombre] = useState('nombre');
   const [tipo, setTipo] = useState('tipo');
@@ -32,11 +30,8 @@ const InsumosAdmin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registrarInsumo(nombre, tipo, precio));
-    setCargar(false);
   };
-  function cambiarEstado() {
-    setCargar(false);
-  }
+
   const insumos = useSelector((store) => store.insumos.elementos);
 
   return (
@@ -60,7 +55,7 @@ const InsumosAdmin = () => {
         </div>
         <div className='col'>
           {insumos.map((item) => (
-            <Insumo item={item} key={item._id} estado={cambiarEstado}></Insumo>
+            <Insumo item={item} key={item._id}></Insumo>
           ))}
         </div>
       </div>
@@ -129,9 +124,6 @@ const InsumosAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => {
-                    cambiarEstado();
-                  }}
                 >
                   Guardar insumo
                 </button>

@@ -23,8 +23,8 @@ export default function reducerChoferes(state = configDuck, action) {
 }
 
 export const cargarChoferes = () => (dispatch, getState) => {
-  try {
-    Axios.get('http://localhost:8080/drivers', {}).then((response) => {
+  traerChoferes()
+    .then((response) => {
       switch (response.status) {
         case 200:
           dispatch({
@@ -33,17 +33,17 @@ export const cargarChoferes = () => (dispatch, getState) => {
           });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
+    })
+    .catch(function (error) {
+      alert(error);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 export const registrarChofer =
-  (nombre, apellido, mail, DNI, telefono, fecha) => () => {
+  (nombre, apellido, mail, DNI, telefono, fecha) => (dispatch) => {
     const chofer = {
       nombre,
       apellido,
@@ -52,19 +52,33 @@ export const registrarChofer =
       telefono,
       fecha,
     };
-    Axios.post('http://localhost:8080/drivers', chofer).then((response) => {
-      switch (response.status) {
-        case 202:
-          alert('Se registro el chofer con exito');
-          break;
-        case 203:
-          alert('el chofer ya se encuntra registrado');
-          break;
-        default:
-          alert('Hubo un error con el registro del chofer');
-          break;
-      }
-    });
+    Axios.post('http://localhost:8080/drivers', chofer)
+      .then((response) => {
+        switch (response.status) {
+          case 202:
+            alert(response.data);
+            traerChoferes().then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: REGISTRAR_CHOFER,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert(response.data);
+                  break;
+              }
+            });
+            break;
+          default:
+            alert(response.data);
+            break;
+        }
+      })
+      .catch(function (err) {
+        alert(err);
+      });
   };
 
 export const editarChofer =
@@ -78,41 +92,76 @@ export const editarChofer =
       dni,
       fechaNacimiento,
     };
-    try {
-      Axios.put('http://localhost:8080/drivers/' + idVieja, {
-        params: {id: idVieja},
-        chofer: chofer,
-      }).then((response) => {
+    Axios.put('http://localhost:8080/drivers/' + idVieja, {
+      params: {id: idVieja},
+      chofer: chofer,
+    })
+      .then((response) => {
         switch (response.status) {
           case 200:
-            alert('Se modifico con exito');
+            alert(response.data);
+            traerChoferes().then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: EDITAR_CHOFER,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert(response.data);
+                  break;
+              }
+            });
             break;
           default:
-            alert('Ocurrio un error');
+            alert(response.data);
             break;
         }
+      })
+      .catch(function (err) {
+        alert(err);
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
 export const borrarChofer = (id) => (dispatch) => {
-  try {
-    Axios.delete('http://localhost:8080/drivers/' + id, {
-      data: {id: id},
-    }).then((response) => {
+  Axios.delete('http://localhost:8080/drivers/' + id, {
+    params: {id: id},
+  })
+    .then((response) => {
+      console.log(response);
       switch (response.status) {
         case 200:
-          console.log(response);
-          alert('Se elimino el chofer con  exito');
+          alert(response.data);
+          traerChoferes().then((response) => {
+            switch (response.status) {
+              case 200:
+                dispatch({
+                  type: BORRAR_CHOFER,
+                  payload: response.data,
+                });
+                break;
+              default:
+                alert(response.data);
+                break;
+            }
+          });
           break;
         default:
-          alert('Ocurrio un error');
+          alert(response.data);
           break;
       }
+    })
+    .catch(function (err) {
+      alert(err);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
+async function traerChoferes() {
+  return await Axios.get('http://localhost:8080/drivers', {})
+    .then((response) => {
+      return response;
+    })
+    .catch(function (error) {
+      return error;
+    });
+}

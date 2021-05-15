@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Accordion, Card} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarViaje, editarViaje} from '../../../../Redux/Admin/viajesDucks';
-import {cargarCombis} from '../../../../Redux/Admin/combisDucks';
 import dateFormat from '../../../../scripts/dateFormat';
 
 //Implementado, faltan cruds
@@ -23,12 +22,10 @@ const Viaje = (props) => {
   const handleChangePrecio = (e) => {
     let obj = JSON.parse(e.target.value);
     setPrecio(obj);
-    dispatch(cargarCombis());
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editarViaje(ruta, fecha, precio, props.item._id));
-    props.estado();
   };
 
   const rutas = useSelector((store) => store.rutas.elementos);
@@ -80,7 +77,6 @@ const Viaje = (props) => {
               className='field-btn delete-btn box square'
               onClick={() => {
                 dispatch(borrarViaje(props.item._id));
-                props.estado();
               }}
             >
               <div className='content'>
@@ -201,7 +197,6 @@ const Viaje = (props) => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => props.estado()}
                 >
                   Guardar viaje editado
                 </button>

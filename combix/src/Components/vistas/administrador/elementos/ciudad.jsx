@@ -21,7 +21,6 @@ const Ciudad = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editarCiudad(lugar, provincia, props.item._id));
-    props.estado();
   };
   return (
     <Accordion className='row db-element'>
@@ -57,7 +56,6 @@ const Ciudad = (props) => {
               className='field-btn delete-btn box square'
               onClick={() => {
                 dispatch(borrarCiudad(props.item._id));
-                props.estado();
               }}
             >
               <div className='content'>
