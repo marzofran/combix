@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarRuta, editarRuta} from '../../../../Redux/Admin/rutasDucks';
 
@@ -11,6 +11,12 @@ const Ruta = (props) => {
   const [destino, setDestino] = useState(props.item.destino);
   const [combi, setCombi] = useState(props.item.combi);
   const [horario, setHorario] = useState(props.item.horario);
+
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChangeOrigen = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -88,7 +94,7 @@ const Ruta = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarRuta(props.item._id));
+                handleShow();
               }}
             >
               <div className='content'>
@@ -231,6 +237,30 @@ const Ruta = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea dar de baja esta ruta?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarRuta(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarViaje, editarViaje} from '../../../../Redux/Admin/viajesDucks';
 import dateFormat from '../../../../scripts/dateFormat';
@@ -11,6 +11,12 @@ const Viaje = (props) => {
   const [ruta, setRuta] = useState(props.item.ruta);
   const [fecha, setFecha] = useState(props.item.fecha);
   const [precio, setPrecio] = useState(props.item.precio);
+
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChangeRuta = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -76,7 +82,7 @@ const Viaje = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarViaje(props.item._id));
+                handleShow();
               }}
             >
               <div className='content'>
@@ -213,6 +219,30 @@ const Viaje = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea eliminar este viaje?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarViaje(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );

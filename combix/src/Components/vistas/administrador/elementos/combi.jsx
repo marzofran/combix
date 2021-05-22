@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {editarCombi, borrarCombi} from '../../../../Redux/Admin/combisDucks';
 
@@ -12,6 +12,12 @@ const Combi = (props) => {
   const [asientos, setAsientos] = useState(props.item.cantidadAsientos);
   const [tipo, setTipo] = useState(props.item.tipo);
   const [chofer, setChofer] = useState(props.item.chofer);
+
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChangePatente = (e) => {
     setPatente(e.target.value);
@@ -70,7 +76,7 @@ const Combi = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarCombi(props.item._id));
+                handleShow();
               }}
             >
               <div className='content'>
@@ -227,6 +233,30 @@ const Combi = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea dar de baja esta combi?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarCombi(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );
