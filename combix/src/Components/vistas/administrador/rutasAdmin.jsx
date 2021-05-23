@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarRuta} from '../../../Redux/combixDucks';
+
 import Ruta from './elementos/ruta';
-import {cargarRutas} from '../../../Redux/combixDucks';
-import {cargarCiudades} from '../../../Redux/combixDucks';
-import {cargarCombis} from '../../../Redux/combixDucks';
+
+import {cargarRutas, registrarRuta} from '../../../Redux/Admin/rutasDucks';
+
+import {cargarCiudades} from '../../../Redux/Admin/ciudadesDucks';
+import {cargarCombis} from '../../../Redux/Admin/combisDucks';
 
 //Implementado
 const RutasAdmin = () => {
   const dispatch = useDispatch();
-  const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
-    setCargar(true);
     dispatch(cargarRutas());
-  }, [cargar, dispatch]);
+    dispatch(cargarCiudades());
+    dispatch(cargarCombis());
+  }, []);
 
   const [origen, setOrigen] = useState('origen');
   const [destino, setDestino] = useState('destino');
@@ -28,7 +30,6 @@ const RutasAdmin = () => {
   const handleChangeDestino = (e) => {
     let obj = JSON.parse(e.target.value);
     setDestino(obj);
-    dispatch(cargarCombis());
   };
   const handleChangeCombi = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -39,18 +40,18 @@ const RutasAdmin = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(origen, destino, combi, horario);
-    dispatch(registrarRuta(origen, destino, combi, horario));
-    setCargar(false);
+    if (origen._id === destino._id) {
+      e.preventDefault();
+      alert('Origen y destino no pueden ser iguales');
+    } else {
+      e.preventDefault();
+      dispatch(registrarRuta(origen, destino, combi, horario));
+    }
   };
-  function cambiarEstado() {
-    setCargar(false);
-  }
 
-  const rutas = useSelector((store) => store.combix.rutas);
-  const ciudades = useSelector((store) => store.combix.ciudades);
-  const combis = useSelector((store) => store.combix.combis);
+  const rutas = useSelector((store) => store.rutas.elementos);
+  const ciudades = useSelector((store) => store.ciudades.elementos);
+  const combis = useSelector((store) => store.combis.elementos);
 
   return (
     <div className={'col'}>
@@ -66,9 +67,7 @@ const RutasAdmin = () => {
               style={{backgroundColor: '#145572'}}
               data-toggle='modal'
               data-target='#exampleModal'
-              onClick={() => {
-                dispatch(cargarCiudades());
-              }}
+              onClick={() => {}}
             >
               + Crear nueva ruta
             </button>
@@ -76,7 +75,7 @@ const RutasAdmin = () => {
         </div>
         <div className='col'>
           {rutas.map((item) => (
-            <Ruta item={item} key={item._id} estado={cambiarEstado}></Ruta>
+            <Ruta item={item} key={item._id}></Ruta>
           ))}
         </div>
       </div>
@@ -176,9 +175,6 @@ const RutasAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => {
-                    cambiarEstado();
-                  }}
                 >
                   Guardar ruta
                 </button>

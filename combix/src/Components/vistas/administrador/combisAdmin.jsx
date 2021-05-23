@@ -1,19 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarCombi} from '../../../Redux/combixDucks';
 import Combi from './elementos/combi';
-import {cargarCombis} from '../../../Redux/combixDucks';
-import {cargarChoferes} from '../../../Redux/combixDucks';
+import {cargarCombis, registrarCombi} from '../../../Redux/Admin/combisDucks';
+import {cargarChoferes} from '../../../Redux/Admin/choferesDucks';
 
 //Implementado, faltan cruds
 const CombisAdmin = () => {
   const dispatch = useDispatch();
-  const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
-    setCargar(true);
     dispatch(cargarCombis());
-  }, [cargar, dispatch]);
+    dispatch(cargarChoferes());
+  }, []);
 
   const [patente, setPatente] = useState('patente');
   const [modelo, setModelo] = useState('modelo');
@@ -21,9 +19,6 @@ const CombisAdmin = () => {
   const [tipo, setTipo] = useState('tipo');
   const [chofer, setChofer] = useState('chofer');
 
-  function cambiarEstado() {
-    setCargar(false);
-  }
   const handleChangePatente = (e) => {
     setPatente(e.target.value);
   };
@@ -44,11 +39,10 @@ const CombisAdmin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registrarCombi(patente, modelo, cantidadAsientos, tipo, chofer));
-    setCargar(false);
   };
 
-  const choferes = useSelector((store) => store.combix.choferes);
-  const combis = useSelector((store) => store.combix.combis);
+  const choferes = useSelector((store) => store.choferes.elementos);
+  const combis = useSelector((store) => store.combis.elementos);
 
   return (
     <div className={'col'}>
@@ -64,9 +58,6 @@ const CombisAdmin = () => {
               style={{backgroundColor: '#145572'}}
               data-toggle='modal'
               data-target='#exampleModal'
-              onClick={() => {
-                dispatch(cargarChoferes());
-              }}
             >
               + Crear nueva combi
             </button>
@@ -74,7 +65,7 @@ const CombisAdmin = () => {
         </div>
         <div className='col'>
           {combis.map((item) => (
-            <Combi item={item} key={item._id} estado={cambiarEstado}></Combi>
+            <Combi item={item} key={item._id}></Combi>
           ))}
         </div>
       </div>
@@ -176,9 +167,6 @@ const CombisAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => {
-                    cambiarEstado();
-                  }}
                 >
                   Guardar combi
                 </button>

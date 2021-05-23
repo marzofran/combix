@@ -26,7 +26,6 @@ const Nav = () => {
     ) {
       return <NavUsuarioLogeado></NavUsuarioLogeado>;
     }
-    console.log(store.apellido);
     return null;
   }
 

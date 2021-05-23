@@ -1,13 +1,22 @@
 import React, {useState} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
-import {borrarCiudad, editarCiudad} from '../../../../Redux/combixDucks';
+import {
+  borrarCiudad,
+  editarCiudad,
+} from '../../../../Redux/Admin/ciudadesDucks';
 
 //Implementado
 const Ciudad = (props) => {
   const dispatch = useDispatch();
   const [provincia, setProvincia] = useState(props.item.provincia);
   const [lugar, setLugar] = useState(props.item.lugar);
+
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChangeLugar = (e) => {
     setLugar(e.target.value);
@@ -18,7 +27,6 @@ const Ciudad = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editarCiudad(lugar, provincia, props.item._id));
-    props.estado();
   };
   return (
     <Accordion className='row db-element'>
@@ -53,8 +61,7 @@ const Ciudad = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarCiudad(props.item._id));
-                props.estado();
+                handleShow();
               }}
             >
               <div className='content'>
@@ -136,6 +143,30 @@ const Ciudad = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea eliminar esta ciudad?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarCiudad(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );

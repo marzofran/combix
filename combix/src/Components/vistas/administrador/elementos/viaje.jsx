@@ -1,18 +1,22 @@
-import React, {useState} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {borrarViaje, editarViaje} from '../../../../Redux/combixDucks';
-import {cargarCombis} from '../../../../Redux/combixDucks';
-import dateFormat from '../../../../scripts/dateFormat'
+import {borrarViaje, editarViaje} from '../../../../Redux/Admin/viajesDucks';
+import dateFormat from '../../../../scripts/dateFormat';
 
 //Implementado, faltan cruds
 const Viaje = (props) => {
   const dispatch = useDispatch();
-  const fechaViaje = Date.parse(props.item.fecha)
-
+  const fechaViaje = Date.parse(props.item.fecha);
   const [ruta, setRuta] = useState(props.item.ruta);
   const [fecha, setFecha] = useState(props.item.fecha);
   const [precio, setPrecio] = useState(props.item.precio);
+
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChangeRuta = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -24,15 +28,13 @@ const Viaje = (props) => {
   const handleChangePrecio = (e) => {
     let obj = JSON.parse(e.target.value);
     setPrecio(obj);
-    dispatch(cargarCombis());
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editarViaje(ruta, fecha, precio, props.item._id));
-    props.estado();
   };
 
-  const rutas = useSelector((store) => store.combix.rutas);
+  const rutas = useSelector((store) => store.rutas.elementos);
 
   return (
     <Accordion className='row db-element'>
@@ -47,19 +49,23 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Ruta:</label>
                 <h6 className='field-display'>
-                  {props.item.ruta?.origen?.lugar}, {props.item.ruta?.origen?.provincia} {' -> '} 
-                   {props.item.ruta?.destino?.lugar}, {props.item.ruta?.destino?.provincia}
+                  {props.item?.ruta.origen?.lugar},{' '}
+                  {props.item?.ruta.origen?.provincia} {' -> '}
+                  {props.item?.ruta.destino?.lugar},{' '}
+                  {props.item?.ruta.destino?.provincia}
                 </h6>
               </div>
             </div>
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Fecha:</label>
-                <h6 className='field-display'>{dateFormat(fechaViaje,"dd/mm/yyyy")}</h6>
+                <h6 className='field-display'>
+                  {dateFormat(fechaViaje, 'dd/mm/yyyy')}
+                </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Horario:</label>
-                <h6 className='field-display'>{props.item.ruta?.horario}</h6>
+                <h6 className='field-display'>{props.item.ruta.horario}</h6>
               </div>
             </div>
           </Accordion.Toggle>
@@ -76,8 +82,7 @@ const Viaje = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarViaje(props.item._id));
-                props.estado();
+                handleShow();
               }}
             >
               <div className='content'>
@@ -96,7 +101,8 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Combi:</label>
                 <h6 className='field-display'>
-                  {props.item.ruta?.combi?.modelo}({props.item.ruta?.combi?.patente})
+                  {props.item.ruta.combi?.modelo}(
+                  {props.item.ruta.combi?.patente})
                 </h6>
               </div>
             </div>
@@ -104,8 +110,9 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Chofer:</label>
                 <h6 className='field-display'>
-                  {props.item.ruta?.combi?.chofer?.nombre} {props.item.ruta?.combi?.chofer?.apellido} (
-                  {props.item.ruta?.combi?.chofer?.mail})
+                  {props.item.ruta.combi?.chofer?.nombre}{' '}
+                  {props.item.ruta.combi?.chofer?.apellido} (
+                  {props.item.ruta.combi?.chofer?.mail})
                 </h6>
               </div>
             </div>
@@ -124,8 +131,9 @@ const Viaje = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalViaje'>
-                Editar viaje: {props.item.ruta?.origen?.lugar} {" -> "}
-                {props.item.ruta?.destino?.lugar}, {dateFormat(props.item.fecha,"dd/mm/yyyy")}
+                Editar viaje: {props.item.ruta?.origen?.lugar} {' -> '}
+                {props.item.ruta?.destino?.lugar},{' '}
+                {dateFormat(props.item.fecha, 'dd/mm/yyyy')}
               </h5>
               <button
                 type='button'
@@ -147,18 +155,19 @@ const Viaje = (props) => {
                     required
                     class='form-control'
                   >
-                    {rutas.map((item, index) => (
-                      item.ruta === ruta ?
-                      <option value={JSON.stringify(item)} selected>
-                        {item.origen.lugar}, {item.origen.provincia} {' -> '} 
-                         {item.destino.lugar}, ({item.destino.provincia}
-                      </option>
-                    :
-                      <option value={JSON.stringify(item)}>
-                        {item.origen.lugar}, {item.origen.provincia} {' -> '} 
-                         {item.destino.lugar}, {item.destino.provincia}
-                      </option>
-                    ))}
+                    {rutas.map((item, index) =>
+                      item.ruta === ruta ? (
+                        <option value={JSON.stringify(item)} selected>
+                          {item.origen.lugar}, {item.origen.provincia} {' -> '}
+                          {item.destino.lugar}, ({item.destino.provincia}
+                        </option>
+                      ) : (
+                        <option value={JSON.stringify(item)}>
+                          {item.origen.lugar}, {item.origen.provincia} {' -> '}
+                          {item.destino.lugar}, {item.destino.provincia}
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
 
@@ -194,7 +203,6 @@ const Viaje = (props) => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => props.estado()}
                 >
                   Guardar viaje editado
                 </button>
@@ -211,6 +219,30 @@ const Viaje = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea eliminar este viaje?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarViaje(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );

@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {borrarRuta, editarRuta} from '../../../../Redux/combixDucks';
-import {cargarCombis} from '../../../../Redux/combixDucks';
+import {borrarRuta, editarRuta} from '../../../../Redux/Admin/rutasDucks';
 
 //Implementado
 const Ruta = (props) => {
@@ -13,6 +12,12 @@ const Ruta = (props) => {
   const [combi, setCombi] = useState(props.item.combi);
   const [horario, setHorario] = useState(props.item.horario);
 
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const handleChangeOrigen = (e) => {
     let obj = JSON.parse(e.target.value);
     setOrigen(obj);
@@ -20,7 +25,6 @@ const Ruta = (props) => {
   const handleChangeDestino = (e) => {
     let obj = JSON.parse(e.target.value);
     setDestino(obj);
-    dispatch(cargarCombis());
   };
   const handleChangeCombi = (e) => {
     let obj = JSON.parse(e.target.value);
@@ -30,13 +34,17 @@ const Ruta = (props) => {
     setHorario(e.target.value);
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(editarRuta(origen, destino, combi, horario, props.item._id));
-    props.estado();
+    if (origen._id === destino._id) {
+      e.preventDefault();
+      alert('Origen y destino no pueden ser iguales');
+    } else {
+      e.preventDefault();
+      dispatch(editarRuta(origen, destino, combi, horario, props.item._id));
+    }
   };
 
-  const ciudades = useSelector((store) => store.combix.ciudades);
-  const combis = useSelector((store) => store.combix.combis);
+  const ciudades = useSelector((store) => store.ciudades.elementos);
+  const combis = useSelector((store) => store.combis.elementos);
   return (
     <Accordion className='row db-element'>
       <Card className='col'>
@@ -50,13 +58,13 @@ const Ruta = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Salida:</label>
                 <h6 className='field-display'>
-                {props.item.origen?.lugar}, {props.item.origen?.provincia}
+                  {props.item.origen?.lugar}, {props.item.origen?.provincia}
                 </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Destino:</label>
                 <h6 className='field-display'>
-                {props.item.destino?.lugar}, {props.item.destino?.provincia}
+                  {props.item.destino?.lugar}, {props.item.destino?.provincia}
                 </h6>
               </div>
             </div>
@@ -86,8 +94,7 @@ const Ruta = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarRuta(props.item._id));
-                props.estado();
+                handleShow();
               }}
             >
               <div className='content'>
@@ -112,7 +119,7 @@ const Ruta = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCiudad'>
-                Editar ruta: {props.item.origen?.lugar} {" -> "}
+                Editar ruta: {props.item.origen?.lugar} {' -> '}
                 {props.item.destino?.lugar}
               </h5>
               <button
@@ -135,16 +142,18 @@ const Ruta = (props) => {
                     required
                     class='form-control'
                   >
-                    {ciudades.map((item, index) => (
-                      item.provincia === origen.provincia && item.lugar === origen.lugar ?
-                      <option value={JSON.stringify(item)} selected>
+                    {ciudades.map((item, index) =>
+                      item.provincia === origen.provincia &&
+                      item.lugar === origen.lugar ? (
+                        <option value={JSON.stringify(item)} selected>
                           {item.lugar}, {item.provincia}
                         </option>
-                        :
+                      ) : (
                         <option value={JSON.stringify(item)}>
                           {item.lugar}, {item.provincia}
                         </option>
-                    ))}
+                      )
+                    )}
                   </select>
                 </div>
                 {origen !== 'origen' && (
@@ -156,16 +165,18 @@ const Ruta = (props) => {
                       required
                       class='form-control'
                     >
-                      {ciudades.map((item, index) => (
-                      item.provincia === destino.provincia && item.lugar === destino.lugar ?
-                      <option value={JSON.stringify(item)} selected>
-                          {item.lugar}, {item.provincia}
-                        </option>
-                        :
-                        <option value={JSON.stringify(item)}>
-                          {item.lugar}, {item.provincia}
-                        </option>
-                    ))}
+                      {ciudades.map((item, index) =>
+                        item.provincia === destino.provincia &&
+                        item.lugar === destino.lugar ? (
+                          <option value={JSON.stringify(item)} selected>
+                            {item.lugar}, {item.provincia}
+                          </option>
+                        ) : (
+                          <option value={JSON.stringify(item)}>
+                            {item.lugar}, {item.provincia}
+                          </option>
+                        )
+                      )}
                     </select>
                   </div>
                 )}
@@ -178,16 +189,17 @@ const Ruta = (props) => {
                     required
                     class='form-control'
                   >
-                    {combis.map((item) => (
-                      item.patente === combi.patente ?
-                      <option value={JSON.stringify(item)} selected>
+                    {combis.map((item) =>
+                      item.patente === combi.patente ? (
+                        <option value={JSON.stringify(item)} selected>
                           {item.modelo} ({item.patente})
                         </option>
-                        :
-                      <option value={JSON.stringify(item)}>
-                        {item.modelo} ({item.patente})
-                      </option>
-                    ))}
+                      ) : (
+                        <option value={JSON.stringify(item)}>
+                          {item.modelo} ({item.patente})
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
 
@@ -225,6 +237,30 @@ const Ruta = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea dar de baja esta ruta?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarRuta(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );

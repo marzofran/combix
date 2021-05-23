@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarInsumo} from '../../../Redux/combixDucks';
 import Insumo from './elementos/insumo';
-import {cargarInsumos} from '../../../Redux/combixDucks';
+import {
+  cargarInsumos,
+  registrarInsumo,
+} from '../../../Redux/Admin/insumosDucks';
 
 //Implementado
 const InsumosAdmin = () => {
   const dispatch = useDispatch();
-  const [cargar, setCargar] = useState(true);
-  
+
   useEffect(() => {
-    setCargar(true);
     dispatch(cargarInsumos());
-  }, [cargar, dispatch]);
+  }, []);
 
   const [nombre, setNombre] = useState('nombre');
   const [tipo, setTipo] = useState('tipo');
@@ -30,12 +30,9 @@ const InsumosAdmin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registrarInsumo(nombre, tipo, precio));
-    setCargar(false);
   };
-  function cambiarEstado() {
-    setCargar(false);
-  }
-  const insumos = useSelector((store) => store.combix.insumos);
+
+  const insumos = useSelector((store) => store.insumos.elementos);
 
   return (
     <div className={'col'}>
@@ -58,7 +55,7 @@ const InsumosAdmin = () => {
         </div>
         <div className='col'>
           {insumos.map((item) => (
-            <Insumo item={item} key={item._id} estado={cambiarEstado}></Insumo>
+            <Insumo item={item} key={item._id}></Insumo>
           ))}
         </div>
       </div>
@@ -127,9 +124,6 @@ const InsumosAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => {
-                    cambiarEstado();
-                  }}
                 >
                   Guardar insumo
                 </button>

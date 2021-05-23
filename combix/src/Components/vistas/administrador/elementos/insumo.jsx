@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
-import {borrarInsumo, editarInsumo} from '../../../../Redux/combixDucks';
+import {borrarInsumo, editarInsumo} from '../../../../Redux/Admin/insumosDucks';
 
 //Implementado
 const Insumo = (props) => {
@@ -9,6 +9,12 @@ const Insumo = (props) => {
   const [nombre, setNombre] = useState(props.item.nombre);
   const [tipo, setTipo] = useState(props.item.tipo);
   const [precio, setPrecio] = useState(props.item.precio);
+
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChangeNombre = (e) => {
     setNombre(e.target.value);
@@ -22,7 +28,6 @@ const Insumo = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editarInsumo(nombre, tipo, precio, props.item._id));
-    props.estado();
   };
 
   return (
@@ -58,8 +63,7 @@ const Insumo = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarInsumo(props.item._id));
-                props.estado();
+                handleShow();
               }}
             >
               <div className='content'>
@@ -160,6 +164,30 @@ const Insumo = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea eliminar este insumo?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarInsumo(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );

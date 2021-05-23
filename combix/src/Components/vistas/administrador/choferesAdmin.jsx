@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarChofer} from '../../../Redux/combixDucks';
+
 import Chofer from './elementos/chofer';
-import {cargarChoferes} from '../../../Redux/combixDucks';
+import {
+  cargarChoferes,
+  registrarChofer,
+} from '../../../Redux/Admin/choferesDucks';
 
 //Implementado, falta crud
 const ChoferesAdmin = () => {
   const dispatch = useDispatch();
-  const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
-    console.log('me active');
-    setCargar(true);
     dispatch(cargarChoferes());
-  }, [cargar, dispatch]);
+  }, []);
 
   const [nombre, setNombre] = useState('Nombre');
   const [apellido, setApellido] = useState('Apellido');
@@ -21,9 +21,7 @@ const ChoferesAdmin = () => {
   const [DNI, setDNI] = useState('DNI');
   const [telefono, setTelefono] = useState('Telefono');
   const [fecha, setFecha] = useState('Fecha');
-  function cambiarEstado() {
-    setCargar(false);
-  }
+
   const handleChangeNombre = (e) => {
     setNombre(e.target.value);
   };
@@ -44,14 +42,13 @@ const ChoferesAdmin = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(esMayor(fecha)){   
+    if (esMayor(fecha)) {
       dispatch(registrarChofer(nombre, apellido, mail, DNI, telefono, fecha));
-      setCargar(false);
     } else {
-      alert("No es mayor de edad")
+      alert('No es mayor de edad');
     }
   };
-  const choferes = useSelector((store) => store.combix.choferes);
+  const choferes = useSelector((store) => store.choferes.elementos);
 
   return (
     <div className={'col'}>
@@ -74,7 +71,7 @@ const ChoferesAdmin = () => {
         </div>
         <div className='col'>
           {choferes.map((item) => (
-            <Chofer item={item} key={item._id} estado={cambiarEstado}></Chofer>
+            <Chofer item={item} key={item._id}></Chofer>
           ))}
         </div>
       </div>
@@ -179,9 +176,6 @@ const ChoferesAdmin = () => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => {
-                    cambiarEstado();
-                  }}
                 >
                   Guardar chofer
                 </button>

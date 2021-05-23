@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {editarCombi} from '../../../../Redux/combixDucks';
-import {borrarCombi} from '../../../../Redux/combixDucks';
+import {editarCombi, borrarCombi} from '../../../../Redux/Admin/combisDucks';
 
 //Implementado
 const Combi = (props) => {
@@ -13,6 +12,12 @@ const Combi = (props) => {
   const [asientos, setAsientos] = useState(props.item.cantidadAsientos);
   const [tipo, setTipo] = useState(props.item.tipo);
   const [chofer, setChofer] = useState(props.item.chofer);
+
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChangePatente = (e) => {
     setPatente(e.target.value);
@@ -35,10 +40,9 @@ const Combi = (props) => {
     dispatch(
       editarCombi(patente, modelo, asientos, tipo, chofer, props.item._id)
     );
-    props.estado();
   };
 
-  const choferes = useSelector((store) => store.combix.choferes);
+  const choferes = useSelector((store) => store.choferes.elementos);
   return (
     <Accordion className='row db-element'>
       <Card className='col'>
@@ -72,8 +76,7 @@ const Combi = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarCombi(props.item._id));
-                props.estado();
+                handleShow();
               }}
             >
               <div className='content'>
@@ -195,16 +198,18 @@ const Combi = (props) => {
                     required
                     class='form-control'
                   >
-                    {choferes.map((item) => (
-                      item.apellido === chofer.apellido && item.nombre === chofer.nombre ?
+                    {choferes.map((item) =>
+                      item.apellido === chofer.apellido &&
+                      item.nombre === chofer.nombre ? (
                         <option value={JSON.stringify(item)} selected>
                           {item.apellido}, {item.nombre}
                         </option>
-                      :
+                      ) : (
                         <option value={JSON.stringify(item)}>
                           {item.apellido}, {item.nombre}
                         </option>
-                    ))}
+                      )
+                    )}
                   </select>
                 </div>
 
@@ -212,7 +217,6 @@ const Combi = (props) => {
                   type='submit'
                   className='btn btn-primary'
                   style={{backgroundColor: '#145572'}}
-                  onClick={() => props.estado()}
                 >
                   Guardar combi editada
                 </button>
@@ -229,6 +233,30 @@ const Combi = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea dar de baja esta combi?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarCombi(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );

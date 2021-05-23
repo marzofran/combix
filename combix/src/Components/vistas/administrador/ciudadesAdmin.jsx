@@ -1,18 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {registrarCiudad} from '../../../Redux/combixDucks';
+import {registrarCiudad} from '../../../Redux/Admin/ciudadesDucks';
 import Ciudad from './elementos/ciudad';
-import {cargarCiudades} from '../../../Redux/combixDucks';
-
+import {cargarCiudades} from '../../../Redux/Admin/ciudadesDucks';
+import {Toast} from 'react-bootstrap';
 //Implementado
 const CiudadesAdmin = () => {
   const dispatch = useDispatch();
-  const [cargar, setCargar] = useState(true);
 
   useEffect(() => {
-    setCargar(true);
     dispatch(cargarCiudades());
-  }, [cargar, dispatch]);
+  }, []);
 
   const [provincia, setProvincia] = useState('provincia');
   const [lugar, setLugar] = useState('Lugar');
@@ -26,12 +24,9 @@ const CiudadesAdmin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registrarCiudad(lugar, provincia));
-    setCargar(false);
   };
-  function cambiarEstado() {
-    setCargar(false);
-  }
-  const ciudades = useSelector((store) => store.combix.ciudades);
+  function cambiarEstado() {}
+  const ciudades = useSelector((store) => store.ciudades.elementos);
 
   return (
     <div className={'col'}>
@@ -54,7 +49,7 @@ const CiudadesAdmin = () => {
         </div>
         <div className='col'>
           {ciudades.map((item) => (
-            <Ciudad item={item} key={item._id} estado={cambiarEstado}></Ciudad>
+            <Ciudad item={item} key={item._id}></Ciudad>
           ))}
         </div>
       </div>

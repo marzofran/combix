@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
-import {Accordion, Card} from 'react-bootstrap';
+import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
-import {borrarChofer, editarChofer} from '../../../../Redux/combixDucks';
-import dateFormat from '../../../../scripts/dateFormat'
+import {
+  borrarChofer,
+  editarChofer,
+} from '../../../../Redux/Admin/choferesDucks';
+import dateFormat from '../../../../scripts/dateFormat';
 
 //Implementado, falta crud
 const Chofer = (props) => {
   const dispatch = useDispatch();
-  const fechaNacimiento = Date.parse(props.item.fechaNacimiento)
+  const fechaNacimiento = Date.parse(props.item.fechaNacimiento);
 
   const [nombre, setNombre] = useState(props.item.nombre);
   const [apellido, setApellido] = useState(props.item.apellido);
@@ -15,6 +18,12 @@ const Chofer = (props) => {
   const [DNI, setDNI] = useState(props.item.dni);
   const [telefono, setTelefono] = useState(props.item.telefono);
   const [fecha, setFecha] = useState(props.item.fechaNacimiento);
+
+  //Handlers del  modal de elimar
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChangeNombre = (e) => {
     setNombre(e.target.value);
@@ -37,10 +46,21 @@ const Chofer = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      editarChofer(nombre, apellido, mail, DNI, telefono, fecha, props.item._id)
-    );
-    props.estado();
+    if (esMayor(fecha)) {
+      dispatch(
+        editarChofer(
+          nombre,
+          apellido,
+          mail,
+          DNI,
+          telefono,
+          fecha,
+          props.item._id
+        )
+      );
+    } else {
+      alert('No es mayor de edad');
+    }
   };
 
   return (
@@ -78,8 +98,7 @@ const Chofer = (props) => {
             <button
               className='field-btn delete-btn box square'
               onClick={() => {
-                dispatch(borrarChofer(props.item._id));
-                props.estado();
+                handleShow();
               }}
             >
               <div className='content'>
@@ -103,7 +122,9 @@ const Chofer = (props) => {
             <div className='row'>
               <div className='col-6 field-admin'>
                 <label className='field-label'>Nacimiento:</label>
-                <h6 className='field-display'>{dateFormat(fechaNacimiento, "dd/mm/yyyy")}</h6>
+                <h6 className='field-display'>
+                  {dateFormat(fechaNacimiento, 'dd/mm/yyyy')}
+                </h6>
               </div>
             </div>
           </Card.Body>
@@ -225,8 +246,44 @@ const Chofer = (props) => {
             </div>
           </div>
         </div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar eliminacion</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>¿Estas seguro que desea dar de baja este chofer?</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant='secondary' onClick={() => handleClose()}>
+              Cerrar
+            </Button>
+            <Button
+              variant='danger'
+              onClick={() => {
+                dispatch(borrarChofer(props.item._id));
+                handleClose();
+              }}
+            >
+              Eliminar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </Accordion>
   );
 };
+
+function esMayor(date) {
+  var today = new Date();
+  var birthDate = new Date(date);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age > 18;
+}
+
 export default Chofer;
