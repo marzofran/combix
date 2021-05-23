@@ -73,7 +73,7 @@ busesRouter.delete('/:id', async (req, res) => {
     {unavailable: true}
   );
   if (!combiExistente) throw new Error('Combi no encontrada');
-  res.status(200).send('Chofer eliminado').end();
+  res.status(200).send('Combi eliminada con exito').end();
 });
 
 module.exports = busesRouter;
