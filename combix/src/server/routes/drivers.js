@@ -102,10 +102,7 @@ driversRouter.delete('/:id', async (req, res) => {
       _id: req.params.id,
       unavailable: false,
     },
-    {unavailable: true},
-    function (err, affected, resp) {
-      console.log(resp);
-    }
+    {unavailable: true}
   );
   if (!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
   res.status(200).send('Chofer eliminado').end();
