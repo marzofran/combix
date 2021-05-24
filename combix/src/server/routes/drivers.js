@@ -82,7 +82,6 @@ driversRouter.put('/:id', async (req, res) => {
     'mail',
     'telefono',
     'dni',
-    'mail',
     'clave',
     'fechaNacimiento',
   ]);
@@ -91,6 +90,8 @@ driversRouter.put('/:id', async (req, res) => {
     throw new Error('Debe ser mayor de edad');
     */
   mapAndBuildModel(choferExistente, choferNuevo);
+  const foundDriver=Usuario.find({nombre: choferExistente.nombre,mail: choferExistente.mail, apellido: choferExistente.apellido, telefono: choferExistente.telefono, dni: choferExistente.dni,clave: choferExistente.clave,fechaNacimiento: choferExistente.fechaNacimiento, unavailable: false});
+  if(foundDriver) throw new HttpError(203,'Ya existe un chofer con esos datos');
   await choferExistente.save();
   res.status(200).send('Chofer modificado con exito').end();
 });

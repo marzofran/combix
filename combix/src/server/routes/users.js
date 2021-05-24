@@ -58,9 +58,11 @@ usersRouter.put('/:id', async (req, res) => {
     'clave',
     'fechaNacimiento',
   ]);
-  if (!hasLegalAge(usuarioNuevo.fechaNacimiento))
-    throw new Error('Debe ser mayor de edad');
+  //if (!hasLegalAge(usuarioNuevo.fechaNacimiento))
+  //  throw new Error('Debe ser mayor de edad');
   mapAndBuildModel(usuarioExistente, usuarioNuevo);
+  const foundUser=Usuario.find({nombre: usuarioExistente.nombre,mail: usuarioExistente.mail, apellido: usuarioExistente.apellido, telefono: usuarioExistente.telefono, dni: usuarioExistente.dni,clave: usuarioExistente.clave,fechaNacimiento: usuarioExistente.fechaNacimiento, unavailable: false});
+  if(foundUser) throw new HttpError(203,'Ya existe un usuario con esos datos');
   await usuarioExistente.save();
   res.status(200).send('Usuario modificado con exito').end();
 });

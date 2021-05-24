@@ -72,6 +72,8 @@ citiesRouter.put('/:id', async (req, res) => {
   if (!ciudadExistente) throw new Error('ciudad no encontrado');
   const ciudadNueva = queryBuilder(req.body.ciudad, ['lugar', 'provincia']);
   mapAndBuildModel(ciudadExistente, ciudadNueva);
+  const foundCity=Ciudad.find({lugar: ciudadExistente.lugar, provincia: ciudadExistente.provincia, unavailable: false});
+  if(foundCity) throw new HttpError(203,'Ya existe una ciudad con esos datos');
   await ciudadExistente.save();
   res.status(200).send('Ciudad modificada correctamente').end();
 });

@@ -40,6 +40,8 @@ suppliesRouter.put('/:id', async (req, res) => {
     'precio',
   ]);
   mapAndBuildModel(insumoExistente, insumoNuevo);
+  const foundSupply=Insumo.find({nombre: insumoExistente.nombre, tipo: insumoExistente.tipo, precio: insumoExistente.precio, unavailable: false});
+  if(foundSupply) throw new HttpError(203,'Ya existe un insumo con esos datos');
   await insumoExistente.save();
   res.status(202).send('Insumo modificado con exito!').end();
 });

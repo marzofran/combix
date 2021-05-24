@@ -49,7 +49,7 @@ busesRouter.put('/:id', async (req, res) => {
   const combiExistente = await Combi.findOne({
     _id: req.params.id,
   });
-  if (!combiExistente) throw new Error('Combi no encontrado');
+  if (!combiExistente) throw new HttpError('Combi no encontrado');
   const combiNuevo = queryBuilder(req.body.combi, [
     'patente',
     'modelo',
@@ -59,6 +59,8 @@ busesRouter.put('/:id', async (req, res) => {
   ]);
   console.log(req.body.combi);
   mapAndBuildModel(combiExistente, combiNuevo);
+  const foundBus=Combi.find({patente: combiExistente.patente, modelo: combiExistente.modelo, cantidadAsientos: combiExistente.cantidadAsientos, tipo: combiExistente.tipo, chofer: combiExistente.chofer, unavailable: false});
+  if(foundBus) throw new HttpError(203,'Ya existe una combi con esos datos');
   await combiExistente.save();
   res.status(200).send('Combi modificada correctamente').end();
 });
@@ -72,7 +74,7 @@ busesRouter.delete('/:id', async (req, res) => {
     },
     {unavailable: true}
   );
-  if (!combiExistente) throw new Error('Combi no encontrada');
+  if (!combiExistente) throw new HttpError('Combi no encontrada');
   res.status(200).send('Combi eliminada con exito').end();
 });
 
