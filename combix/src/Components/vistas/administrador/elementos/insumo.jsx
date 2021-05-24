@@ -53,7 +53,7 @@ const Insumo = (props) => {
           <div className='col-1'>
             <button
               data-toggle='modal'
-              data-target={'#' + props.item.nombre}
+              data-target={'#' + props.item._id}
               className='field-btn edit-btn box square'
             >
               <div className='content'>
@@ -85,7 +85,7 @@ const Insumo = (props) => {
       </Card>
       <div
         className='modal fade'
-        id={props.item.nombre}
+        id={props.item._id}
         tabIndex='-1'
         role='dialog'
         aria-labelledby='modalInsumo'

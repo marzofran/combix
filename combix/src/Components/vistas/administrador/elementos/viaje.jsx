@@ -72,7 +72,7 @@ const Viaje = (props) => {
           <div className='col-1'>
             <button
               data-toggle='modal'
-              data-target={'#' + props.item.ruta}
+              data-target={'#' + props.item._id}
               className='field-btn edit-btn box square'
             >
               <div className='content'>
@@ -121,7 +121,7 @@ const Viaje = (props) => {
       </Card>
       <div
         className='modal fade'
-        id={props.item.ruta}
+        id={props.item._id}
         tabIndex='-1'
         role='dialog'
         aria-labelledby='modalViaje'
