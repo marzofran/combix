@@ -3,7 +3,7 @@ import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarViaje, editarViaje} from '../../../../Redux/Admin/viajesDucks';
 import dateFormat from '../../../../scripts/dateFormat';
-const {toTitleCase} = require('../../../../scripts/toTitleCase')
+const {toTitleCase} = require('../../../../scripts/toTitleCase');
 
 //Implementado, faltan cruds
 const Viaje = (props) => {
@@ -36,13 +36,23 @@ const Viaje = (props) => {
   };
 
   const rutas = useSelector((store) => store.rutas.elementos);
+  let clasesCss = 'db-element-header  ';
+
+  if (props.item.unavailable) {
+    clasesCss = 'db-element-header-variant ';
+  }
+  rutas.forEach(function (ruta, index, object) {
+    if (ruta.unavailable === true) {
+      object.splice(index, 1);
+    }
+  });
 
   return (
     <Accordion className='row db-element'>
       <Card className='col'>
-        <Card.Header className='db-element-header row'>
+        <Card.Header className={clasesCss + 'row'}>
           <Accordion.Toggle
-            className='db-element-header col-11'
+            className={clasesCss + 'col-11'}
             as={Card.Body}
             eventKey='0'
           >
@@ -53,7 +63,7 @@ const Viaje = (props) => {
                   {toTitleCase(props.item?.ruta.origen?.lugar)},{' '}
                   {toTitleCase(props.item?.ruta.origen?.provincia)} {' -> '}
                   {toTitleCase(props.item?.ruta.destino?.lugar)},{' '}
-                  {toTitleCase(props.item?.ruta.destino?.provincia)} 
+                  {toTitleCase(props.item?.ruta.destino?.provincia)}
                 </h6>
               </div>
             </div>
@@ -70,27 +80,49 @@ const Viaje = (props) => {
               </div>
             </div>
           </Accordion.Toggle>
-          <div className='col-1'>
-            <button
-              data-toggle='modal'
-              data-target={'#' + props.item._id}
-              className='field-btn edit-btn box square'
-            >
-              <div className='content'>
-                <i class='fa fa-pencil' aria-hidden='true' />
-              </div>
-            </button>
-            <button
-              className='field-btn delete-btn box square'
-              onClick={() => {
-                handleShow();
-              }}
-            >
-              <div className='content'>
-                <i class='fa fa-trash' aria-hidden='true' />
-              </div>
-            </button>
-          </div>
+          {!props.item.unavailable ? (
+            <div className='col-1'>
+              <button
+                data-toggle='modal'
+                data-target={'#' + props.item._id}
+                className='field-btn edit-btn box square'
+              >
+                <div className='content'>
+                  <i class='fa fa-pencil' aria-hidden='true' />
+                </div>
+              </button>
+              <button
+                className='field-btn delete-btn box square'
+                onClick={() => {
+                  handleShow();
+                }}
+              >
+                <div className='content'>
+                  <i class='fa fa-trash' aria-hidden='true' />
+                </div>
+              </button>
+            </div>
+          ) : (
+            <div className='col-1'>
+              <button
+                className='field-btn delete-btn box square'
+                onClick={() => {}}
+              >
+                <div className='content'>
+                  <i class='fa fa-times' aria-hidden='true'></i>
+                </div>
+              </button>
+              <button
+                className='field-btn bg-success
+box square'
+                onClick={() => {}}
+              >
+                <div className='content'>
+                  <i class='fa fa-arrow-up' aria-hidden='true'></i>
+                </div>
+              </button>
+            </div>
+          )}
         </Card.Header>
         <Accordion.Collapse eventKey='0'>
           <Card.Body>
@@ -132,9 +164,11 @@ const Viaje = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalViaje'>
-                Editar viaje: {toTitleCase(props.item.ruta?.origen?.lugar)} {' -> '}
+                Editar viaje: {toTitleCase(props.item.ruta?.origen?.lugar)}{' '}
+                {' -> '}
                 {toTitleCase(props.item.ruta?.destino?.lugar)},{' '}
-                {dateFormat(props.item.fecha, 'dd/mm/yyyy')} ({props.item?.ruta.horario})
+                {dateFormat(props.item.fecha, 'dd/mm/yyyy')} (
+                {props.item?.ruta.horario})
               </h5>
               <button
                 type='button'
@@ -159,13 +193,17 @@ const Viaje = (props) => {
                     {rutas.map((item, index) =>
                       item.ruta === ruta ? (
                         <option value={JSON.stringify(item)} selected>
-                          {toTitleCase(item.origen.lugar)}, {toTitleCase(item.origen.provincia)} {' -> '}
-                          {toTitleCase(item.destino.lugar)}, {toTitleCase(item.destino.provincia)} ({item.horario})
+                          {toTitleCase(item.origen.lugar)},{' '}
+                          {toTitleCase(item.origen.provincia)} {' -> '}
+                          {toTitleCase(item.destino.lugar)},{' '}
+                          {toTitleCase(item.destino.provincia)} ({item.horario})
                         </option>
                       ) : (
                         <option value={JSON.stringify(item)}>
-                          {toTitleCase(item.origen.lugar)}, {toTitleCase(item.origen.provincia)} {' -> '}
-                          {toTitleCase(item.destino.lugar)}, {toTitleCase(item.destino.provincia)} ({item.horario})
+                          {toTitleCase(item.origen.lugar)},{' '}
+                          {toTitleCase(item.origen.provincia)} {' -> '}
+                          {toTitleCase(item.destino.lugar)},{' '}
+                          {toTitleCase(item.destino.provincia)} ({item.horario})
                         </option>
                       )
                     )}
