@@ -7,7 +7,7 @@ const HttpError = require('../utils/HttpError');
 //Display
 citiesRouter.get('/', async (request, response) => {
   try {
-    let ciudades = await Ciudad.find({unavailable: false});
+    let ciudades = await Ciudad.find({});
     response.status(200).json(ciudades).end();
   } catch (err) {
     console.log(err);

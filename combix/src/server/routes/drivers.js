@@ -13,8 +13,7 @@ const hasLegalAge = (dob) => {
 //Display
 driversRouter.get('/', async (req, res) => {
   let choferes = await Usuario.find({
-    permissions: '6094d50128e541353c8cf122',
-    unavailable: false,
+    permissions: '6094d50128e541353c8cf122'
   }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI
   res.status(200).json(choferes).end();
 });

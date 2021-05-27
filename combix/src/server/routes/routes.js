@@ -6,7 +6,7 @@ const HttpError = require('../utils/HttpError');
 
 //Disply
 routesRouter.get('/', async (req, res) => {
-  let rutas = await Ruta.find({unavailable: false})
+  let rutas = await Ruta.find({})
     .populate('origen')
     .populate('destino')
     .populate('combi');
