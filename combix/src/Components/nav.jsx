@@ -4,12 +4,12 @@ import {Router, Switch, Route, Link} from 'react-router-dom';
 import Login from './login';
 import Home from './home';
 import history from './history';
-import Loged from './loged';
 import VistaAdmin from './vistas/administrador/vistaAdmin';
 import combixLogo from '../resources/CombixWhite.png';
 import {useSelector} from 'react-redux';
 import NavUsuarioLogeado from './navUsuarioLogeado';
 import NavAdminLogeado from './navAdminLogeado';
+import HomeCliente from './vistas/cliente/homeCliente';
 const Nav = () => {
   const store = useSelector((store) => store.combix.sesion);
 
@@ -20,12 +20,7 @@ const Nav = () => {
     ) {
       return <NavAdminLogeado></NavAdminLogeado>;
     }
-    if (
-      Object.keys(store).length > 0 &&
-      store.permissions === '6094d56377b5714b3473dbc5'
-    ) {
-      return <NavUsuarioLogeado></NavUsuarioLogeado>;
-    }
+
     return null;
   }
 
@@ -66,8 +61,8 @@ const Nav = () => {
           <Route path='/login'>
             <Login></Login>
           </Route>
-          <Route path='/loged'>
-            <Loged></Loged>
+          <Route path='/client'>
+            <HomeCliente></HomeCliente>
           </Route>
           <Route path='/contact'>
             <h1>contact Component</h1>
