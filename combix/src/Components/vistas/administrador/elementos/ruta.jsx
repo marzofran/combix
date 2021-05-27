@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarRuta, editarRuta} from '../../../../Redux/Admin/rutasDucks';
+const {toTitleCase} = require('../../../../scripts/toTitleCase')
 
 //Implementado
 const Ruta = (props) => {
@@ -58,13 +59,13 @@ const Ruta = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Salida:</label>
                 <h6 className='field-display'>
-                  {props.item.origen?.lugar}, {props.item.origen?.provincia}
+                  {toTitleCase(props.item.origen?.lugar)}, {toTitleCase(props.item.origen?.provincia)}
                 </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Destino:</label>
                 <h6 className='field-display'>
-                  {props.item.destino?.lugar}, {props.item.destino?.provincia}
+                  {toTitleCase(props.item.destino?.lugar)}, {toTitleCase(props.item.destino?.provincia)}
                 </h6>
               </div>
             </div>
@@ -119,8 +120,8 @@ const Ruta = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCiudad'>
-                Editar ruta: {props.item.origen?.lugar} {' -> '}
-                {props.item.destino?.lugar}
+                Editar ruta: {toTitleCase(props.item.origen?.lugar)} {' -> '}
+                {toTitleCase(props.item.destino?.lugar)} ({props.item.horario})
               </h5>
               <button
                 type='button'
@@ -146,11 +147,11 @@ const Ruta = (props) => {
                       item.provincia === origen.provincia &&
                       item.lugar === origen.lugar ? (
                         <option value={JSON.stringify(item)} selected>
-                          {item.lugar}, {item.provincia}
+                          {toTitleCase(item.lugar)}, {toTitleCase(item.provincia)}
                         </option>
                       ) : (
                         <option value={JSON.stringify(item)}>
-                          {item.lugar}, {item.provincia}
+                          {toTitleCase(item.lugar)}, {toTitleCase(item.provincia)}
                         </option>
                       )
                     )}
@@ -169,11 +170,11 @@ const Ruta = (props) => {
                         item.provincia === destino.provincia &&
                         item.lugar === destino.lugar ? (
                           <option value={JSON.stringify(item)} selected>
-                            {item.lugar}, {item.provincia}
+                            {toTitleCase(item.lugar)}, {toTitleCase(item.provincia)}
                           </option>
                         ) : (
                           <option value={JSON.stringify(item)}>
-                            {item.lugar}, {item.provincia}
+                            {toTitleCase(item.lugar)}, {toTitleCase(item.provincia)}
                           </option>
                         )
                       )}

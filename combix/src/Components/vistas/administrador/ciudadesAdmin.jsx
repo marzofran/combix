@@ -10,6 +10,7 @@ const CiudadesAdmin = () => {
 
   useEffect(() => {
     dispatch(cargarCiudades());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [provincia, setProvincia] = useState('provincia');

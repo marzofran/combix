@@ -47,7 +47,7 @@ export const registrarChofer =
     const chofer = {
       nombre,
       apellido,
-      mail,
+      mail: mail.toLowerCase(),
       DNI,
       telefono,
       fecha,
@@ -87,7 +87,7 @@ export const editarChofer =
     const chofer = {
       nombre,
       apellido,
-      mail,
+      mail: mail.toLowerCase(),
       telefono,
       dni,
       fechaNacimiento,

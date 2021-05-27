@@ -34,7 +34,7 @@ export const obtenerDatosUsuarioAccion =
     try {
       Axios.get('http://localhost:8080/login', {
         params: {
-          mail: email,
+          mail: email.toLowerCase(),
           clave: password,
         },
       }).then((response) => {
@@ -52,8 +52,8 @@ export const obtenerDatosUsuarioAccion =
               payload: response.data,
             });
             switch (response.data.permissions) {
-              case 'usuario':
-                history.push('/loged');
+              case '6094d56377b5714b3473dbc5':
+                history.push('/client');
                 break;
               case '6094d45f56d99b266076c0bf':
                 history.push('/admin');

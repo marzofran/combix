@@ -13,6 +13,7 @@ const ChoferesAdmin = () => {
 
   useEffect(() => {
     dispatch(cargarChoferes());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [nombre, setNombre] = useState('Nombre');

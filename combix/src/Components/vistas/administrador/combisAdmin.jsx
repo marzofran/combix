@@ -11,6 +11,7 @@ const CombisAdmin = () => {
   useEffect(() => {
     dispatch(cargarCombis());
     dispatch(cargarChoferes());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [patente, setPatente] = useState('patente');
