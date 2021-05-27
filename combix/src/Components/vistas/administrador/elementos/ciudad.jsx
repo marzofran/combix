@@ -5,12 +5,13 @@ import {
   borrarCiudad,
   editarCiudad,
 } from '../../../../Redux/Admin/ciudadesDucks';
+const {toTitleCase} = require('../../../../scripts/toTitleCase')
 
 //Implementado
 const Ciudad = (props) => {
   const dispatch = useDispatch();
-  const [provincia, setProvincia] = useState(props.item.provincia);
-  const [lugar, setLugar] = useState(props.item.lugar);
+  const [provincia, setProvincia] = useState(toTitleCase(props.item.provincia));
+  const [lugar, setLugar] = useState(toTitleCase(props.item.lugar));
 
   //Handlers del  modal de elimar
   const [show, setShow] = useState(false);
@@ -40,11 +41,11 @@ const Ciudad = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Lugar:</label>
-                <h6 className='field-display'>{props.item.lugar}</h6>
+                <h6 className='field-display'>{toTitleCase(props.item.lugar)}</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Provincia:</label>
-                <h6 className='field-display'>{props.item.provincia}</h6>
+                <h6 className='field-display'>{toTitleCase(props.item.provincia)}</h6>
               </div>
             </div>
           </Accordion.Toggle>
@@ -86,7 +87,7 @@ const Ciudad = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalCiudad'>
-                Editar ciudad: {props.item.lugar}, {props.item.provincia}
+                Editar ciudad: {toTitleCase(props.item.lugar)}, {toTitleCase(props.item.provincia)}
               </h5>
               <button
                 type='button'

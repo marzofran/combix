@@ -37,7 +37,7 @@ const UserRegisterForm = (callback) => {
         apellido: values.apellido,
         dni: values.dni,
         fechaNacimiento: values.fechaNacimiento,
-        mail: values.mail,
+        mail: values.mail.toLowerCase(),
         clave: values.clave,
         telefono: 0,
       };

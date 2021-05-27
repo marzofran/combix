@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Viaje from './elementos/viaje';
 import {cargarViajes, registrarViaje} from '../../../Redux/Admin/viajesDucks';
 import {cargarRutas} from '../../../Redux/Admin/rutasDucks';
+const {toTitleCase} = require('../../../scripts/toTitleCase')
 
 //Implementado, faltan cruds
 const ViajesAdmin = () => {
@@ -11,6 +12,7 @@ const ViajesAdmin = () => {
   useEffect(() => {
     dispatch(cargarRutas());
     dispatch(cargarViajes());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [ruta, setRuta] = useState('ruta');
@@ -101,8 +103,8 @@ const ViajesAdmin = () => {
                     <option>Seleccione una ruta</option>
                     {rutas.map((item, index) => (
                       <option value={JSON.stringify(item)}>
-                        {item.origen.lugar}, {item.origen.provincia} {'->'}
-                        {item.destino.lugar}, {item.destino.provincia}
+                        {toTitleCase(item.origen.lugar)}, {toTitleCase(item.origen.provincia)} {'->'}
+                        {toTitleCase(item.destino.lugar)}, {toTitleCase(item.destino.provincia)} ({item.horario})
                       </option>
                     ))}
                   </select>

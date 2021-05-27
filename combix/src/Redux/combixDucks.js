@@ -34,7 +34,7 @@ export const obtenerDatosUsuarioAccion =
     try {
       Axios.get('http://localhost:8080/login', {
         params: {
-          mail: email,
+          mail: email.toLowerCase(),
           clave: password,
         },
       }).then((response) => {

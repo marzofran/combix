@@ -27,8 +27,8 @@ export default function reducerCiudades(state = configDuck, action) {
 //Acciones
 export const registrarCiudad = (lugar, provincia) => (dispatch) => {
   const ciudad = {
-    lugar: lugar,
-    provincia: provincia,
+    lugar: lugar.toLowerCase(),
+    provincia: provincia.toLowerCase(),
   };
   Axios.post('http://localhost:8080/cities', ciudad)
     .then((response) => {
@@ -110,8 +110,8 @@ export const borrarCiudad = (id) => (dispatch) => {
 
 export const editarCiudad = (lugar, provincia, id) => (dispatch) => {
   const ciudad = {
-    lugar: lugar,
-    provincia: provincia,
+    lugar: lugar.toLowerCase(),
+    provincia: provincia.toLowerCase() ,
   };
 
   Axios.put('http://localhost:8080/cities/' + id, {

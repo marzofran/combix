@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarViaje, editarViaje} from '../../../../Redux/Admin/viajesDucks';
 import dateFormat from '../../../../scripts/dateFormat';
+const {toTitleCase} = require('../../../../scripts/toTitleCase')
 
 //Implementado, faltan cruds
 const Viaje = (props) => {
@@ -49,10 +50,10 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Ruta:</label>
                 <h6 className='field-display'>
-                  {props.item?.ruta.origen?.lugar},{' '}
-                  {props.item?.ruta.origen?.provincia} {' -> '}
-                  {props.item?.ruta.destino?.lugar},{' '}
-                  {props.item?.ruta.destino?.provincia}
+                  {toTitleCase(props.item?.ruta.origen?.lugar)},{' '}
+                  {toTitleCase(props.item?.ruta.origen?.provincia)} {' -> '}
+                  {toTitleCase(props.item?.ruta.destino?.lugar)},{' '}
+                  {toTitleCase(props.item?.ruta.destino?.provincia)} 
                 </h6>
               </div>
             </div>
@@ -131,9 +132,9 @@ const Viaje = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalViaje'>
-                Editar viaje: {props.item.ruta?.origen?.lugar} {' -> '}
-                {props.item.ruta?.destino?.lugar},{' '}
-                {dateFormat(props.item.fecha, 'dd/mm/yyyy')}
+                Editar viaje: {toTitleCase(props.item.ruta?.origen?.lugar)} {' -> '}
+                {toTitleCase(props.item.ruta?.destino?.lugar)},{' '}
+                {dateFormat(props.item.fecha, 'dd/mm/yyyy')} ({props.item?.ruta.horario})
               </h5>
               <button
                 type='button'
@@ -158,13 +159,13 @@ const Viaje = (props) => {
                     {rutas.map((item, index) =>
                       item.ruta === ruta ? (
                         <option value={JSON.stringify(item)} selected>
-                          {item.origen.lugar}, {item.origen.provincia} {' -> '}
-                          {item.destino.lugar}, ({item.destino.provincia}
+                          {toTitleCase(item.origen.lugar)}, {toTitleCase(item.origen.provincia)} {' -> '}
+                          {toTitleCase(item.destino.lugar)}, {toTitleCase(item.destino.provincia)} ({item.horario})
                         </option>
                       ) : (
                         <option value={JSON.stringify(item)}>
-                          {item.origen.lugar}, {item.origen.provincia} {' -> '}
-                          {item.destino.lugar}, {item.destino.provincia}
+                          {toTitleCase(item.origen.lugar)}, {toTitleCase(item.origen.provincia)} {' -> '}
+                          {toTitleCase(item.destino.lugar)}, {toTitleCase(item.destino.provincia)} ({item.horario})
                         </option>
                       )
                     )}

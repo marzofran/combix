@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {borrarInsumo, editarInsumo} from '../../../../Redux/Admin/insumosDucks';
+const {toTitleCase} = require('../../../../scripts/toTitleCase')
 
 //Implementado
 const Insumo = (props) => {
   const dispatch = useDispatch();
-  const [nombre, setNombre] = useState(props.item.nombre);
+  const [nombre, setNombre] = useState(toTitleCase(props.item.nombre));
   const [tipo, setTipo] = useState(props.item.tipo);
   const [precio, setPrecio] = useState(props.item.precio);
 
@@ -42,7 +43,7 @@ const Insumo = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Nombre:</label>
-                <h7 className='field-display'>{props.item.nombre}</h7>
+                <h7 className='field-display'>{toTitleCase(props.item.nombre)}</h7>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Tipo:</label>
@@ -95,7 +96,7 @@ const Insumo = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalInsumo'>
-                Editar insumo: {props.item.nombre}
+                Editar insumo: {toTitleCase(props.item.nombre)}
               </h5>
               <button
                 type='button'

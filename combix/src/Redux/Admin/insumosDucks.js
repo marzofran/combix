@@ -23,7 +23,7 @@ export default function reducerInsumos(state = configDuck, action) {
 //Insumos
 export const registrarInsumo = (nombre, tipo, precio) => (dispatch) => {
   const insumo = {
-    nombre,
+    nombre: nombre.toLowerCase(),
     precio,
     tipo,
   };
@@ -116,7 +116,7 @@ export const borrarInsumo = (id) => (dispatch) => {
 
 export const editarInsumo = (nombre, tipo, precio, id) => (dispatch) => {
   const insumo = {
-    nombre,
+    nombre: nombre.toLowerCase(),
     tipo,
     precio,
   };

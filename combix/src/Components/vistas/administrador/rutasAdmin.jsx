@@ -7,6 +7,7 @@ import {cargarRutas, registrarRuta} from '../../../Redux/Admin/rutasDucks';
 
 import {cargarCiudades} from '../../../Redux/Admin/ciudadesDucks';
 import {cargarCombis} from '../../../Redux/Admin/combisDucks';
+const {toTitleCase} = require('../../../scripts/toTitleCase')
 
 //Implementado
 const RutasAdmin = () => {
@@ -16,6 +17,7 @@ const RutasAdmin = () => {
     dispatch(cargarRutas());
     dispatch(cargarCiudades());
     dispatch(cargarCombis());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [origen, setOrigen] = useState('origen');
@@ -116,7 +118,7 @@ const RutasAdmin = () => {
                     <option>Seleccione un origen</option>
                     {ciudades.map((item, index) => (
                       <option value={JSON.stringify(item)}>
-                        {item.provincia}, {item.lugar}
+                        {toTitleCase(item.lugar)}, {toTitleCase(item.provincia)}
                       </option>
                     ))}
                   </select>
@@ -133,7 +135,7 @@ const RutasAdmin = () => {
                       <option>Seleccione un destino</option>
                       {ciudades.map((item) => (
                         <option value={JSON.stringify(item)}>
-                          {item.provincia}, {item.lugar}
+                          {toTitleCase(item.lugar)}, {toTitleCase(item.provincia)}
                         </option>
                       ))}
                     </select>
