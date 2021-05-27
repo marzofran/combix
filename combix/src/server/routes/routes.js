@@ -67,7 +67,7 @@ routesRouter.put('/:id', async (req, res) => {
     'horario',
   ]);
   mapAndBuildModel(rutaExistente, rutaNueva);
-  const foundRoute=Ruta.find({patente: rutaExistente.patente, modelo: rutaExistente.modelo, cantidadAsientos: rutaExistente.cantidadAsientos, tipo: rutaExistente.tipo, chofer: rutaExistente.chofer, unavailable: false});
+  const foundRoute=Ruta.find({origen: rutaExistente.origen, destino: rutaExistente.destino, combi: rutaExistente.combi, horario: rutaExistente.horario, unavailable: false});
   if(foundRoute) throw new HttpError(203,'Ya existe una ruta con esos datos');
   await rutaExistente.save();
   res.status(200).send('Ruta modificada correctamente').end();
