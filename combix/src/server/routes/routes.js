@@ -23,6 +23,7 @@ routesRouter.post('/', async (request, response) => {
     horario: route.horario,
     unavailable: false,
   });
+  if(ruta.origen===ruta.destino) throw new HttpError(203, 'La ruta no puede tener la misma ciudad de destino y origen');
   const foundRoute = await Ruta.find({origen: ruta.origen, destino: ruta.destino, combi: ruta.combi, horario: ruta.horario, unavailable: false});
   if (Object.entries(foundRoute).length === 0) {
     await ruta.save();
