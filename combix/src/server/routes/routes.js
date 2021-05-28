@@ -68,6 +68,7 @@ routesRouter.put('/:id', async (req, res) => {
     'horario',
   ]);
   mapAndBuildModel(rutaExistente, rutaNueva);
+  if(rutaExistente.origen===rutaExistente.destino) throw new HttpError(203, 'La ruta no puede tener la misma ciudad de destino y origen');
   const foundRoute=Ruta.find({origen: rutaExistente.origen, destino: rutaExistente.destino, combi: rutaExistente.combi, horario: rutaExistente.horario, unavailable: false});
   if(foundRoute) throw new HttpError(203,'Ya existe una ruta con esos datos');
   await rutaExistente.save();
