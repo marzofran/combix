@@ -7,7 +7,7 @@ import {cargarRutas, registrarRuta} from '../../../Redux/Admin/rutasDucks';
 
 import {cargarCiudades} from '../../../Redux/Admin/ciudadesDucks';
 import {cargarCombis} from '../../../Redux/Admin/combisDucks';
-const {toTitleCase} = require('../../../scripts/toTitleCase')
+const {toTitleCase} = require('../../../scripts/toTitleCase');
 
 //Implementado
 const RutasAdmin = () => {
@@ -17,7 +17,7 @@ const RutasAdmin = () => {
     dispatch(cargarRutas());
     dispatch(cargarCiudades());
     dispatch(cargarCombis());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [origen, setOrigen] = useState('origen');
@@ -54,6 +54,16 @@ const RutasAdmin = () => {
   const rutas = useSelector((store) => store.rutas.elementos);
   const ciudades = useSelector((store) => store.ciudades.elementos);
   const combis = useSelector((store) => store.combis.elementos);
+  ciudades.forEach(function (ciudad, index, object) {
+    if (ciudad.unavailable === true) {
+      object.splice(index, 1);
+    }
+  });
+  combis.forEach(function (combi, index, object) {
+    if (combi.unavailable === true) {
+      object.splice(index, 1);
+    }
+  });
 
   return (
     <div className={'col'}>
@@ -135,7 +145,8 @@ const RutasAdmin = () => {
                       <option>Seleccione un destino</option>
                       {ciudades.map((item) => (
                         <option value={JSON.stringify(item)}>
-                          {toTitleCase(item.lugar)}, {toTitleCase(item.provincia)}
+                          {toTitleCase(item.lugar)},{' '}
+                          {toTitleCase(item.provincia)}
                         </option>
                       ))}
                     </select>

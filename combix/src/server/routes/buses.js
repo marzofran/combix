@@ -7,7 +7,7 @@ const HttpError = require('../utils/HttpError');
 //Display
 busesRouter.get('/', async (request, response) => {
   try {
-    let combis = await Combi.find({unavailable: false}).populate('chofer');
+    let combis = await Combi.find().populate('chofer');
 
     response.status(200).json(combis).end();
   } catch (err) {
@@ -59,8 +59,15 @@ busesRouter.put('/:id', async (req, res) => {
   ]);
   console.log(req.body.combi);
   mapAndBuildModel(combiExistente, combiNuevo);
-  const foundBus=Combi.find({patente: combiExistente.patente, modelo: combiExistente.modelo, cantidadAsientos: combiExistente.cantidadAsientos, tipo: combiExistente.tipo, chofer: combiExistente.chofer, unavailable: false});
-  if(foundBus) throw new HttpError(203,'Ya existe una combi con esos datos');
+  const foundBus = Combi.find({
+    patente: combiExistente.patente,
+    modelo: combiExistente.modelo,
+    cantidadAsientos: combiExistente.cantidadAsientos,
+    tipo: combiExistente.tipo,
+    chofer: combiExistente.chofer,
+    unavailable: false,
+  });
+  if (foundBus) throw new HttpError(203, 'Ya existe una combi con esos datos');
   await combiExistente.save();
   res.status(200).send('Combi modificada correctamente').end();
 });

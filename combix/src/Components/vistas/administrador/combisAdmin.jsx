@@ -11,7 +11,7 @@ const CombisAdmin = () => {
   useEffect(() => {
     dispatch(cargarCombis());
     dispatch(cargarChoferes());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [patente, setPatente] = useState('patente');
@@ -44,6 +44,12 @@ const CombisAdmin = () => {
 
   const choferes = useSelector((store) => store.choferes.elementos);
   const combis = useSelector((store) => store.combis.elementos);
+
+  choferes.forEach(function (chofer, index, object) {
+    if (chofer.unavailable === true) {
+      object.splice(index, 1);
+    }
+  });
 
   return (
     <div className={'col'}>

@@ -62,13 +62,18 @@ const Chofer = (props) => {
       alert('No es mayor de edad');
     }
   };
+  //Implementacion de mostar desactivados
+  let clasesCss = 'db-element-header  ';
 
+  if (props.item.unavailable) {
+    clasesCss = 'db-element-header-variant ';
+  }
   return (
     <Accordion className='row db-element'>
       <Card className='col'>
-        <Card.Header className='db-element-header row'>
+        <Card.Header className={clasesCss + 'row'}>
           <Accordion.Toggle
-            className='db-element-header col-11'
+            className={clasesCss + 'col-11'}
             as={Card.Body}
             eventKey='0'
           >
@@ -85,27 +90,49 @@ const Chofer = (props) => {
               </div>
             </div>
           </Accordion.Toggle>
-          <div className='col-1'>
-            <button
-              data-toggle='modal'
-              data-target={'#' + props.item._id}
-              className='field-btn edit-btn box square'
-            >
-              <div className='content'>
-                <i class='fa fa-pencil' aria-hidden='true' />
-              </div>
-            </button>
-            <button
-              className='field-btn delete-btn box square'
-              onClick={() => {
-                handleShow();
-              }}
-            >
-              <div className='content'>
-                <i class='fa fa-trash' aria-hidden='true' />
-              </div>
-            </button>
-          </div>
+          {!props.item.unavailable ? (
+            <div className='col-1'>
+              <button
+                data-toggle='modal'
+                data-target={'#' + props.item._id}
+                className='field-btn edit-btn box square'
+              >
+                <div className='content'>
+                  <i class='fa fa-pencil' aria-hidden='true' />
+                </div>
+              </button>
+              <button
+                className='field-btn delete-btn box square'
+                onClick={() => {
+                  handleShow();
+                }}
+              >
+                <div className='content'>
+                  <i class='fa fa-trash' aria-hidden='true' />
+                </div>
+              </button>
+            </div>
+          ) : (
+            <div className='col-1'>
+              <button
+                className='field-btn delete-btn box square'
+                onClick={() => {}}
+              >
+                <div className='content'>
+                  <i class='fa fa-times' aria-hidden='true'></i>
+                </div>
+              </button>
+              <button
+                className='field-btn bg-success
+            box square'
+                onClick={() => {}}
+              >
+                <div className='content'>
+                  <i class='fa fa-arrow-up' aria-hidden='true'></i>
+                </div>
+              </button>
+            </div>
+          )}
         </Card.Header>
         <Accordion.Collapse eventKey='0'>
           <Card.Body>
