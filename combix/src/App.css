@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
 h1,
-h2 {
+h2,
+h4 {
   font-family: 'Roboto Slab', serif;
 }
 
@@ -230,4 +231,34 @@ html {
 .db-element-header-variant {
   background: #f08e7e;
   padding: 0.5rem 1rem;
+}
+
+.bg-image-pasaje {
+  background-image: url('./resources/bg-fluid-buscar.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.sombra-buscar {
+  box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.29);
+  -webkit-box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.29);
+}
+
+.gradient-featured {
+  background: rgb(218, 231, 248);
+  background: linear-gradient(
+    175deg,
+    rgba(218, 231, 248, 1) 0%,
+    rgba(239, 242, 223, 1) 100%
+  );
+}
+
+.gradient-gold {
+  background: rgb(239, 247, 170);
+  background: linear-gradient(
+    176deg,
+    rgba(239, 247, 170, 1) 0%,
+    rgba(189, 178, 17, 1) 100%
+  );
 }
