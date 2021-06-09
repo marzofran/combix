@@ -17,16 +17,8 @@ ticketsRouter.post('/',async(req,res) => {
         viaje: ticket.viaje,
         insumos: ticket.insumos
       });
-      const foundTicket = await Pasaje.find({
-        usuario: pasaje.usuario,
-        viaje: pasaje.viaje
-      });
-      if (Object.entries(foundTicket).length === 0) {
-        await pasaje.save();
-        res.status(202).send('Pasaje creado con exito!').end();
-      } else {
-        res.status(203).send('Pasaje ya creado').end();
-      }
+      await pasaje.save();
+      res.status(202).send('Pasaje creado con exito!').end();
 })
 
 ticketsRouter.put('/:id', async (req, res) => {
