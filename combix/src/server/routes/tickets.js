@@ -5,7 +5,7 @@ const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
 
 ticketsRouter.get('/', async(req,res) => {
-    let pasajes= await Pasaje.find({});
+    let pasajes= await Pasaje.find({unavailable: false});
     res.status(200).json(pasajes).end();
 });
 
