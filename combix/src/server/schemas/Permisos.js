@@ -1,9 +1,9 @@
 const {model, Schema} = require('mongoose')
 
-const permisosSchema = new Schema({
+const permisoSchema = new Schema({
     tipo: String,
 })
 
-const Permisos = model('Permisos', permisosSchema)
+const Permiso = model('Permiso', permisoSchema)
 
-module.exports = Permisos
+module.exports = Permiso
