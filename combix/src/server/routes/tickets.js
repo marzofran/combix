@@ -4,13 +4,18 @@ const Pasaje = require('../schemas/Pasaje');
 const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
 
-ticketsRouter.get('/', async(req,res) => {
+ticketsRouter.get('/', async(req,res) => { //fetchea todos los pasajes 
     let pasajes= await Pasaje.find({unavailable: false});
     res.status(200).json(pasajes).end();
 });
 
-ticketsRouter.get('/:id', async(req,res) => {
+ticketsRouter.get('/:id', async(req,res) => { //fetchea pasajes de un usuario
   let pasajes= await Pasaje.find({usuario: req.params.id, unavailable: false});
+  res.status(200).json(pasajes).end();
+});
+
+ticketsRouter.get('/:travel', async(req,res) => { //fetchea pasajes de un viaje
+  let pasajes= await Pasaje.find({viaje: req.params.travel, unavailable: false});
   res.status(200).json(pasajes).end();
 });
 
