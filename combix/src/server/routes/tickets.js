@@ -9,6 +9,11 @@ ticketsRouter.get('/', async(req,res) => {
     res.status(200).json(pasajes).end();
 });
 
+ticketsRouter.get('/:id', async(req,res) => {
+  let pasajes= await Pasaje.find({usuario: req.params.id, unavailable: false});
+  res.status(200).json(pasajes).end();
+});
+
 ticketsRouter.post('/',async(req,res) => {
     let ticket = req.body;
     let pasaje = new Pasaje({
