@@ -1,8 +1,10 @@
 const express = require('express');
 const travelsRouter = express.Router();
 const Viaje = require('../schemas/Viaje');
+const Pasaje = require('../schemas/Pasaje')
 const HttpError = require('../utils/HttpError');
 const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const { request, response } = require('express');
 
 //Display
 travelsRouter.get('/', async (req, res) => {
@@ -69,5 +71,49 @@ travelsRouter.delete('/:id', async (req, res) => {
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(200).send('Viaje borrado');
 });
+
+//Fetch viajes buscados
+travelsRouter.post('/search', async (request, response) => {
+  let searchParams = request.body;
+  let viajes = await Viaje.find({}).populate({
+    path: 'ruta', 
+    model: 'Ruta', 
+    populate: [{
+      path: 'origen', 
+      model: 'Ciudad'
+    }, {
+      path:'destino', 
+      model: 'Ciudad'
+    }, {
+      path:'combi', 
+      model: 'Combi', 
+      populate: {
+        path:'chofer', 
+        model: 'Usuario'
+    }}]})
+    
+
+  if (viajes.length === 0) {
+      throw new HttpError(404, 'No se encontro viajes para esa ruta en esa fecha');
+  } else {
+    let viajesValidos = viajes.filter(viaje => {
+      return searchParams.origen === viaje.ruta.origen && searchParams.destino === viaje.ruta.destino && searchParams.fecha === viaje.fecha
+    }).map(async (viaje) => {
+      let pasajes = await Pasaje.find({viaje, unavailable: false});
+      return { ...viaje, disponibilidad: viaje.ruta.combi.cantidadAsientos - pasajes.length }
+    }).filter(viaje => {
+      return viaje.disponibilidad > 0
+    })
+    console.log(viajesValidos);
+    response.status(200).json(viajesValidos).end(); 
+  }
+})
+
+//Get disponibilidad para viaje
+travelsRouter.post('/disp', async (req, res) => {
+  let viaje = request.body
+  let pasajes = await Pasaje.find({viaje, unavailable: false});
+  response.status(200).send( viaje.ruta.combi.cantidadAsientos - pasajes.length ).end()
+})
 
 module.exports = travelsRouter;

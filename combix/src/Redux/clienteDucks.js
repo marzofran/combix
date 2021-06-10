@@ -42,8 +42,16 @@ export const buscarViajes = (fecha, origen, destino) => (dispatch) => {
         });
 };
 
-export const validarDisponibilidad = (cantidadAsientos) => (dispatch) => {
-    //Ver despues
+export const crearPasaje = async (viaje, usuario, cantidadAsientos, insumos) => (dispatch) => {
+    delete viaje["disponibilidad"]
+    const pasaje = {
+        viaje,
+        usuario,
+        cantidadAsientos,
+        insumos
+    }
+
+    //Completar
 }
 
 async function traerViajesValidos(values) {
@@ -56,6 +64,7 @@ async function traerViajesValidos(values) {
         });
 }
 
-async function contarPasajesVendidos() {
-    //Ver despues
+async function disponible(viaje, cantidadPasajeros) {
+    const disponibilidad = await Axios.post('http://localhost:8080/travels/disp', viaje)
+    return disponibilidad >= cantidadPasajeros 
 }

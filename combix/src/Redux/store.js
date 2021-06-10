@@ -7,6 +7,8 @@ import reducerRutas from './Admin/rutasDucks';
 import reducerViajes from './Admin/viajesDucks';
 import reducerCombis from './Admin/combisDucks';
 import reducerChoferes from './Admin/choferesDucks';
+import reducerCliente from './clienteDucks';
+
 //import {persistStore, persistReducer} from 'redux-persist';
 //import storage from 'redux-persist/lib/storage';
 
@@ -18,6 +20,7 @@ const rootReducer = combineReducers({
   viajes: reducerViajes,
   combis: reducerCombis,
   choferes: reducerChoferes,
+  cliente: reducerCliente,
 });
 
 /*
