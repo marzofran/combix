@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Card, Row, Col} from 'react-bootstrap';
+import dateFormat from '../../../../scripts/dateFormat';
 const Viaje = (props) => {
   const [tarjetaEstilo, setTarjetaEstilo] = useState('');
   const [iconEstilo, setIconEstilo] = useState('');
@@ -59,7 +60,8 @@ const Viaje = (props) => {
                       {props.item.ruta.origen.provincia}
                     </h4>
                     <h5>
-                      Salida: {props.item.fecha},{props.item.ruta.horario}
+                      Salida: {dateFormat(props.item.fecha, 'dd/mm/yyyy')} ,
+                      {props.item.ruta.horario}
                     </h5>
                   </Card.Text>
                 </Col>
