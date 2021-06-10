@@ -262,3 +262,12 @@ html {
     rgba(189, 178, 17, 1) 100%
   );
 }
+
+.gradient-supercomodas {
+  background: rgb(203, 210, 160);
+  background: linear-gradient(
+    135deg,
+    rgba(203, 210, 160, 1) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}

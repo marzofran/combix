@@ -9,6 +9,7 @@ import BuscarPasajes from './vistas/cliente/buscarPasajes';
 import MisPasajes from './vistas/cliente/misPasajes';
 import MisReviews from './vistas/cliente/MisReviews';
 import MiPerfil from './vistas/cliente/miPerfil';
+import Resultado from './vistas/cliente/resultadoBusqueda';
 const NavUsuarioLogeado = () => {
   const dispatch = useDispatch();
   return (
@@ -24,6 +25,9 @@ const NavUsuarioLogeado = () => {
                 alt='Combix logo'
               />
             </Navbar.Brand>
+          </Link>
+          <Link className='navbar-brand nav-link ' to='/client/resultado'>
+            <h5>resultado</h5>
           </Link>
           <Link className='navbar-brand nav-link ' to='/client/miPerfil'>
             <h5>Mi perfil</h5>
@@ -58,6 +62,9 @@ const NavUsuarioLogeado = () => {
           </Route>
           <Route path='/client/misReviews'>
             <MisReviews></MisReviews>
+          </Route>
+          <Route path='/client/resultado'>
+            <Resultado></Resultado>
           </Route>
         </Switch>
       </Router>
