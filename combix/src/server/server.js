@@ -22,6 +22,7 @@ const {
   suppliesRouter,
   busesRouter,
   permissionsRouter,
+  ticketsRouter,
 } = require('./routes');
 
 const app = express();
@@ -38,6 +39,7 @@ app.use('/routes', routesRouter);
 app.use('/supplies', suppliesRouter);
 app.use('/buses', busesRouter);
 app.use('/permissions', permissionsRouter);
+app.use('/tickets', ticketsRouter);
 
 // Login
 app.get('/login', async (request, response) => {

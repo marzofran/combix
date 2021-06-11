@@ -1,8 +1,11 @@
 const express = require('express');
 const ticketsRouter = express.Router();
 const Pasaje = require('../schemas/Pasaje');
+const Viaje = require('../schemas/Viaje');
+const Insumo = require('../schemas/Insumo');
 const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
+const mongoose = require('mongoose');
 
 ticketsRouter.get('/', async(req,res) => { //fetchea todos los pasajes 
     let pasajes= await Pasaje.find({unavailable: false});
@@ -25,7 +28,9 @@ ticketsRouter.post('/',async(req,res) => {
         usuario: ticket.usuario,
         cantidadAsientos: parseInt(ticket.cantidadAsientos),
         viaje: ticket.viaje,
-        insumos: ticket.insumos
+        insumos: [],
+        precioTotal: ticket.precioTotal,
+        unavailable: false
       });
       await pasaje.save();
       res.status(202).send('Pasaje creado con exito!').end();
@@ -38,7 +43,8 @@ ticketsRouter.put('/:id', async (req, res) => {
       'usuario',
       'viaje',
       'insumos',
-      'cantidadAsientos'
+      'cantidadAsientos',
+      'precioTotal'
     ]);
     mapAndBuildModel(pasajeExistente, pasajeNuevo);
     const foundTicket=Pasaje.find({usuario: pasajeExistente.usuario, cantidadAsientos: pasajeExistente.cantidadAsientos, viaje: pasajeExistente.viaje, insumos: pasajeExistente.insumos, unavailable: false});
@@ -58,3 +64,5 @@ ticketsRouter.put('/:id', async (req, res) => {
     if (!pasajeExistente) throw new HttpError(404, 'Pasaje no encontrado');
     res.status(200).send('Pasaje eliminado').end();
   });
+
+  module.exports = ticketsRouter;
