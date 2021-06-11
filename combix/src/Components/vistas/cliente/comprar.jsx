@@ -14,6 +14,8 @@ import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import dateFormat from '../../../scripts/dateFormat';
 import {cargarInsumos} from '../../../Redux/Admin/insumosDucks';
+import FormComprar from './elementos/formComprar';
+import Footer from '../../footer';
 
 const ComprarComponent = (props) => {
   const location = useLocation();
@@ -135,20 +137,12 @@ const ComprarComponent = (props) => {
                 </Container>
               </div>
             </Card>
-            <Card>
-              <Form>
-                <Row>
-                  <Col>
-                    <Card.Body>
-                      <Form.Group>
-                        <Form.Label>Numero de Tarjeta:</Form.Label>
-                        <Form.Control placeholder='Numero de Tarjeta:'></Form.Control>
-                      </Form.Group>
-                    </Card.Body>
-                  </Col>
-                </Row>
-              </Form>
-            </Card>
+            <FormComprar
+              total={data.precio * cant + prectioTotalInsumos}
+              viaje={data}
+              cantAsientos={cant}
+              insumos={insumos}
+            ></FormComprar>
           </Col>
           <Col>
             <Card>
@@ -257,6 +251,7 @@ const ComprarComponent = (props) => {
           </Col>
         </Row>
       </Container>
+      <Footer></Footer>
     </div>
   );
 };
