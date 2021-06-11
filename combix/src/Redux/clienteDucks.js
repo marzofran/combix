@@ -17,29 +17,30 @@ export default function reducer(state = configDuck, action) {
   }
 }
 
-export const buscarViajes = (fecha, origen, destino, tipo) => (dispatch) => {
+export const buscarViajes = (fecha, origen, destino, superComoda) => (dispatch) => {
   const values = {
     fecha,
     origen,
     destino,
-    tipo,
   };
 
   traerViajesValidos(values)
     .then((response) => {
       switch (response.status) {
         case 200:
-          dispatch({
-            type: BUSCAR_VIAJES,
-            payload: response.data,
-          });
-          alert(response.data);
-          history.push('./resultado');
-
-          break;
+          if (superComoda === "true"){
+            response.data.sort((a, b) => a.tipo.localeCompare(b.tipo)).reverse();
+          }
+            dispatch({
+                type: BUSCAR_VIAJES,
+                payload: response.data,
+            });
+            alert(response.data);
+            history.push('./resultado');
+            break;
         default:
-          alert(response.data);
-          break;
+            alert(response.data);
+            break;
       }
     })
     .catch(function (err) {
