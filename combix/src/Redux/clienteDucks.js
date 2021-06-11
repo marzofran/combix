@@ -41,7 +41,7 @@ export const buscarViajes =
               type: BUSCAR_VIAJES,
               payload: response.data,
             });
-            alert(response.data);
+            alert('reponse= ', response.data);
             history.push('./resultado');
             break;
           default:
@@ -85,10 +85,11 @@ export const crearPasaje =
 async function traerViajesValidos(values) {
   return await Axios.post('http://localhost:8080/travels/search', values)
     .then((response) => {
+      console.log('respuesta', response);
       return response;
     })
     .catch(function (error) {
-      return error;
+      throw new Error('No hay viajes');
     });
 }
 

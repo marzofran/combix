@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 const express = require('express');
 const travelsRouter = express.Router();
 const Viaje = require('../schemas/Viaje');
@@ -30,7 +31,6 @@ travelsRouter.get('/', async (req, res) => {
       },
     ],
   });
-  console.log(viajes);
   res.status(200).json(viajes).end();
 });
 
@@ -91,6 +91,7 @@ travelsRouter.delete('/:id', async (req, res) => {
 //Fetch viajes buscados
 travelsRouter.post('/search', async (request, response) => {
   let searchParams = request.body;
+  console.log('searchParams', searchParams)
 
   let viajes = await Viaje.find({}).populate({
     path: 'ruta',
@@ -114,31 +115,31 @@ travelsRouter.post('/search', async (request, response) => {
       },
     ],
   });
+  
   if (viajes.length === 0) {
-    throw new HttpError(
-      404,
-      'No se encontro viajes para esa ruta en esa fecha'
-    );
+    response.status(404).end();
   } else {
+    console.log('viajes', viajes.map(v=>v.ruta.origen))
     let viajesValidos = viajes
       .filter((viaje) => {
         return (
-          searchParams.origen === viaje.ruta.origen &&
-          searchParams.destino === viaje.ruta.destino &&
-          searchParams.fecha === viaje.fecha
+          searchParams.origen._id == viaje.ruta.origen._id
+          && searchParams.destino._id == viaje.ruta.destino._id
+          //&& searchParams.fecha === viaje.fecha
         );
       })
       .map(async (viaje) => {
         let pasajes = await Pasaje.find({viaje, unavailable: false});
+        console.log(viaje.ruta.combi.cantidadAsientos, pasajes.length)
         return {
-          ...viaje,
+          ...viaje._doc,
           disponibilidad: viaje.ruta.combi.cantidadAsientos - pasajes.length,
         };
       })
-      .filter((viaje) => {
-        return viaje.disponibilidad > 0;
-      });
-    console.log(viajesValidos);
+      // .filter((viaje) => {
+      //   return viaje.disponibilidad > 0;
+      // });
+    console.log('viajes validos', viajesValidos);
     response.status(200).json(viajesValidos).end();
   }
 });
