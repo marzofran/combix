@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 //import history from '../../../history';
 import {buscarViajes} from '../../../../Redux/clienteDucks';
-import {useDispatch} from 'react-redux';
+import {cargarCiudades} from '../../../../Redux/Admin/ciudadesDucks';
+import {useDispatch, useSelector} from 'react-redux';
 import {Form, Row, Col, Card} from 'react-bootstrap';
+const {toTitleCase} = require('../../../../scripts/toTitleCase');
 
 const BuscarForm = () => {
   const [origen, setOrigen] = useState('');
@@ -10,17 +12,30 @@ const BuscarForm = () => {
   const [fecha, setFecha] = useState('');
   const [tipo, setTipo] = useState('');
   const dispatch = useDispatch();
-  const handleSubmit = (event) => {
-    event.preventDefault();
 
-    dispatch(buscarViajes(fecha, origen, destino, tipo));
+  useEffect(() => {
+    dispatch(cargarCiudades());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSubmit = (event) => {
+    if (origen._id === destino._id) {
+      event.preventDefault();
+      alert('Origen y destino no pueden ser iguales');
+    } else {
+      event.preventDefault();
+      console.log('sending',fecha,origen,destino,tipo)
+      dispatch(buscarViajes(fecha, origen, destino, tipo));
+    }
   };
-  const handleChangeOrgien = (e) => {
-    setOrigen(e.target.value);
+  const handleChangeOrigen = (e) => {
+    let obj = JSON.parse(e.target.value);
+    setOrigen(obj);
   };
 
   const handleChangeDestino = (e) => {
-    setDestino(e.target.value);
+    let obj = JSON.parse(e.target.value);
+    setDestino(obj);
   };
 
   const handleChangeFecha = (e) => {
@@ -29,6 +44,9 @@ const BuscarForm = () => {
   const handleChangeTipo = (e) => {
     setTipo(e.target.value);
   };
+
+  const ciudades = useSelector((store) => store.ciudades.elementos);
+
   return (
     <div>
       <Card>
@@ -41,11 +59,19 @@ const BuscarForm = () => {
                     <Form.Label>
                       <h4>Origen</h4>
                     </Form.Label>
-                    <Form.Control
-                      required
-                      placeholder='Ingrese el origen'
-                      onChange={handleChangeOrgien}
-                    />
+                    <select
+                    onChange={handleChangeOrigen}
+                    id='origen'
+                    required
+                    class='form-control'
+                    >
+                    <option>Seleccione un origen</option>
+                    {ciudades.map((item, index) => (
+                      <option value={JSON.stringify(item)}>
+                        {toTitleCase(item.lugar)}, {toTitleCase(item.provincia)}
+                      </option>
+                    ))}
+                  </select>
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>
@@ -72,11 +98,20 @@ const BuscarForm = () => {
                     <Form.Label>
                       <h4>Destino</h4>
                     </Form.Label>
-                    <Form.Control
-                      required
-                      placeholder='Ingrese el destino'
+                    <select
                       onChange={handleChangeDestino}
-                    />
+                      id='destino'
+                      required
+                      class='form-control'
+                    >
+                      <option>Seleccione un destino</option>
+                      {ciudades.map((item) => (
+                        <option value={JSON.stringify(item)}>
+                          {toTitleCase(item.lugar)},{' '}
+                          {toTitleCase(item.provincia)}
+                        </option> 
+                      ))}
+                    </select>
                   </Form.Group>
                   <Form.Label>
                     <h4>Categoría</h4>
@@ -85,7 +120,7 @@ const BuscarForm = () => {
                     <h4 style={{display: 'inline'}}>
                       Cómodo{' '}
                       <Form.Check
-                        value='false'
+                        value={false}
                         inline
                         name='group1'
                         type='radio'
@@ -95,7 +130,7 @@ const BuscarForm = () => {
                     <h4 className='ml-5' style={{display: 'inline'}}>
                       Super-Cómodo{' '}
                       <Form.Check
-                        value='true'
+                        value={true}
                         inline
                         name='group1'
                         type='radio'
