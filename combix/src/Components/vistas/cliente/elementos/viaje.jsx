@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Card, Row, Col} from 'react-bootstrap';
 import dateFormat from '../../../../scripts/dateFormat';
+import {Link} from 'react-router-dom';
 const Viaje = (props) => {
   const [tarjetaEstilo, setTarjetaEstilo] = useState('');
   const [iconEstilo, setIconEstilo] = useState('');
@@ -29,6 +30,9 @@ const Viaje = (props) => {
     }
   }, []);
 
+  const handleSelect = () => {
+    console.log('selct');
+  };
   return (
     <div className='mb-3'>
       <Card className={tarjetaEstilo}>
@@ -103,7 +107,14 @@ const Viaje = (props) => {
                 Precio GOLD:{' '}
                 {props.item.precio - (props.item.precio / 100) * 10}
               </h5>
-              <button className={'btn btn-login mt-4'}>Seleccionar</button>
+              <Link
+                to={{
+                  pathname: './comprar',
+                  state: {viaje: props.item},
+                }}
+              >
+                <button className={'btn btn-login mt-4'}>Seleccionar</button>
+              </Link>
             </Card.Body>
           </Col>
         </Row>
