@@ -10,6 +10,7 @@ import MisPasajes from './vistas/cliente/misPasajes';
 import MisReviews from './vistas/cliente/MisReviews';
 import MiPerfil from './vistas/cliente/miPerfil';
 import Resultado from './vistas/cliente/resultadoBusqueda';
+import ComprarComponent from './vistas/cliente/comprar';
 const NavUsuarioLogeado = () => {
   const dispatch = useDispatch();
   return (
@@ -62,6 +63,9 @@ const NavUsuarioLogeado = () => {
           </Route>
           <Route path='/client/misReviews'>
             <MisReviews></MisReviews>
+          </Route>
+          <Route path='/client/comprar'>
+            <ComprarComponent></ComprarComponent>
           </Route>
           <Route path='/client/resultado'>
             <Resultado></Resultado>

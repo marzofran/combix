@@ -17,11 +17,12 @@ export default function reducer(state = configDuck, action) {
   }
 }
 
-export const buscarViajes = (fecha, origen, destino) => (dispatch) => {
+export const buscarViajes = (fecha, origen, destino, tipo) => (dispatch) => {
   const values = {
     fecha,
     origen,
     destino,
+    tipo,
   };
 
   traerViajesValidos(values)
@@ -32,7 +33,9 @@ export const buscarViajes = (fecha, origen, destino) => (dispatch) => {
             type: BUSCAR_VIAJES,
             payload: response.data,
           });
+          alert(response.data);
           history.push('./resultado');
+
           break;
         default:
           alert(response.data);

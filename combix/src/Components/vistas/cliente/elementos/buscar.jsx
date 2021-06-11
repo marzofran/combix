@@ -13,7 +13,7 @@ const BuscarForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    dispatch(buscarViajes(fecha, origen, destino));
+    dispatch(buscarViajes(fecha, origen, destino, tipo));
   };
   const handleChangeOrgien = (e) => {
     setOrigen(e.target.value);
@@ -85,7 +85,7 @@ const BuscarForm = () => {
                     <h4 style={{display: 'inline'}}>
                       Cómodo{' '}
                       <Form.Check
-                        value='comodo'
+                        value='false'
                         inline
                         name='group1'
                         type='radio'
@@ -95,7 +95,7 @@ const BuscarForm = () => {
                     <h4 className='ml-5' style={{display: 'inline'}}>
                       Super-Cómodo{' '}
                       <Form.Check
-                        value='super-comodo'
+                        value='true'
                         inline
                         name='group1'
                         type='radio'
