@@ -92,7 +92,7 @@ travelsRouter.post('/search', async (request, response) => {
   let searchParams = request.body;
   console.log('searchParams', searchParams)
 
-  let viajes = await Viaje.find({}).populate({
+let viajes = await Viaje.find({/* fecha: searchParams.fecha */}).populate({
     path: 'ruta',
     model: 'Ruta',
     populate: [
@@ -124,7 +124,6 @@ travelsRouter.post('/search', async (request, response) => {
         return (
           searchParams.origen._id == viaje.ruta.origen._id
           && searchParams.destino._id == viaje.ruta.destino._id
-          //&& searchParams.fecha === viaje.fecha
         );
       })
       .map(async (viaje) => {
@@ -135,11 +134,12 @@ travelsRouter.post('/search', async (request, response) => {
           disponibilidad: viaje.ruta.combi.cantidadAsientos - pasajes.length,
         };
       })
-      // .filter((viaje) => {
-      //   return viaje.disponibilidad > 0;
-      // });
-    console.log('viajes validos', viajesValidos);
-    response.status(200).json(viajesValidos).end();
+      let viajesMasSuDisponibilidad = await Promise.all(viajesValidos)
+      let viajesDisponibles = viajesMasSuDisponibilidad.filter((viaje) => {
+        return viaje.disponibilidad > 0;
+      })
+    console.log('viajes validos', viajesDisponibles);
+    response.status(200).json(viajesDisponibles).end();
   }
 });
 
