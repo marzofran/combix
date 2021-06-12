@@ -2,13 +2,12 @@ import React, {useState} from 'react';
 import {Accordion, Card, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {borrarViaje, editarViaje} from '../../../../Redux/Admin/viajesDucks';
-import dateFormat from '../../../../scripts/dateFormat';
+const {dateFormat} = require('../../../../scripts/dateFormat');
 const {toTitleCase} = require('../../../../scripts/toTitleCase');
 
 //Implementado, faltan cruds
 const Viaje = (props) => {
   const dispatch = useDispatch();
-  const fechaViaje = Date.parse(props.item.fecha);
   const [ruta, setRuta] = useState(props.item.ruta);
   const [fecha, setFecha] = useState(props.item.fecha);
   const [precio, setPrecio] = useState(props.item.precio);
@@ -71,7 +70,7 @@ const Viaje = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Fecha:</label>
                 <h6 className='field-display'>
-                  {dateFormat(fechaViaje, 'dd/mm/yyyy')}
+                  {dateFormat(props.item.fecha)}
                 </h6>
               </div>
               <div className='col field-admin'>
