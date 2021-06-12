@@ -12,7 +12,7 @@ const Viaje = (props) => {
   const [iconAlert, setIconAlert] = useState('');
 
   useEffect(() => {
-    if (props.item.ruta.combi.tipo === 'supercomoda') {
+    if (props.item.ruta.combi.tipo === 'Súper-Cómodo') {
       setTarjetaEstilo('gradient-supercomodas');
       setIconEstilo('fa fa-star mr-2');
     } else {

@@ -45,7 +45,7 @@ const ComprarComponent = (props) => {
       setColorPrecio('mb-1 text-dark');
       setColorPrecioGold(' mb-1 text-secondary');
     }
-    if (data.ruta.combi.tipo === 'supercomoda') {
+    if (data.ruta.combi.tipo === 'Súper-Cómodo') {
       setIconEstilo('fa fa-star mr-2');
     } else {
       setIconEstilo('fa fa-star-half-o mr-2');

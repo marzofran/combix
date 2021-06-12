@@ -30,8 +30,10 @@ const CompraExitosa = () => {
           </Card.Body>
         </Card>
         <p className='text-secondary text-center mb-5 '>
-          Las devoluciones son 48 horas de anticipación al viaje, posterior a
-          ese tiempo no se le reembolsara su dinero
+          En caso de cancelación, el reembolso será del 100% previo a las 48 horas de anticipación al viaje, posterior a
+          ese tiempo solo se le reembolsara un 50% del precio total del viaje. La cancelación puede darse de manera voluntaria
+          en su Perfil de Usuario, o como resultado de las medidas de prevencion contra el COVID-19 (en este caso se le reembolsara
+          el 100% de su compra)
         </p>
         <Row>
           <Col>
