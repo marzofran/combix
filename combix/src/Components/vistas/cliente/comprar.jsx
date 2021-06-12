@@ -17,6 +17,7 @@ import FormComprar from './elementos/formComprar';
 import Footer from '../../footer';
 
 const {dateFormatPretty} = require('../../../scripts/dateFormat');
+const {toTitleCase} = require('../../../scripts/toTitleCase');
 
 const ComprarComponent = (props) => {
   const location = useLocation();
@@ -103,8 +104,8 @@ const ComprarComponent = (props) => {
                         <div>
                           Origen
                           <h5>
-                            {data.ruta.origen.lugar},{' '}
-                            {data.ruta.origen.provincia}
+                            {toTitleCase(data.ruta.origen.lugar)},{' '}
+                            {toTitleCase(data.ruta.origen.provincia)}
                           </h5>
                         </div>
                         <div>
@@ -123,8 +124,8 @@ const ComprarComponent = (props) => {
                       <Col lg={4}>
                         Destino
                         <h5>
-                          {data.ruta.destino.lugar},{' '}
-                          {data.ruta.destino.provincia}
+                          {toTitleCase(data.ruta.destino.lugar)},{' '}
+                          {toTitleCase(data.ruta.destino.provincia)}
                         </h5>
                         <h5>
                           <i class={iconEstilo} aria-hidden='true'></i>
@@ -166,33 +167,33 @@ const ComprarComponent = (props) => {
                 <Card.Body>
                   <div style={{borderBottom: '1px solid black'}}>
                     <Row>
-                      <Col lg={9}>
+                      <Col lg={8}>
                         {' '}
                         <p className={colorPrecio}>Precio por pasaje:</p>{' '}
                       </Col>
-                      <Col>{data.precio}</Col>
+                      <Col>${data.precio}</Col>
                     </Row>
                     <Row>
-                      <Col lg={9}>
+                      <Col lg={8}>
                         <p className={colorPrecioGold}>
                           Precio GOLD por pasaje:{' '}
                         </p>
                       </Col>
-                      <Col>{data.precio - data.precio / 10}</Col>
+                      <Col>${data.precio - data.precio / 10}</Col>
                     </Row>
                     <Row>
-                      <Col lg={9}>
+                      <Col lg={8}>
                         {' '}
                         <p className='mb-1'>Numero de Asientos: </p>
                       </Col>
                       <Col>{cant}</Col>
                     </Row>
                     <Row>
-                      <Col lg={9}>
+                      <Col lg={8}>
                         {' '}
                         <p className='mb-1'>Precio por insumos: </p>
                       </Col>
-                      <Col>{prectioTotalInsumos}</Col>
+                      <Col>${prectioTotalInsumos}</Col>
                     </Row>
                   </div>
                   <div className='mt-2'>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Col, Row, Card, Form} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {crearPasaje} from '../../../../Redux/clienteDucks';
@@ -9,6 +9,8 @@ const FormComprar = (props) => {
   console.log(props.insumos);
   console.log(props.cantAsientos);
   */
+
+  const [name, setName] = useState('')
 
   const dispatch = useDispatch();
   const handlerSubmit = (event) => {
@@ -24,6 +26,11 @@ const FormComprar = (props) => {
       )
     );
   };
+
+  const handleNameChange = ({ target }) => {
+    setName(target.value.toUpperCase())
+  }
+
   return (
     <div className='sombra-buscar'>
       <Card>
@@ -34,7 +41,7 @@ const FormComprar = (props) => {
                 {' '}
                 <Form.Group>
                   <Form.Label>Nombre completo:</Form.Label>
-                  <Form.Control required placeholder='Nombre'></Form.Control>
+                  <Form.Control required value={name} placeholder='Nombre completo' onChange={handleNameChange}></Form.Control>
                 </Form.Group>
                 <Row>
                   <Col lg={8}>
@@ -44,7 +51,7 @@ const FormComprar = (props) => {
                         minLength='16'
                         maxLength='16'
                         required
-                        placeholder='Numero de Tarjeta:'
+                        placeholder='Numero de Tarjeta'
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -55,7 +62,7 @@ const FormComprar = (props) => {
                         minLength='3'
                         maxLength='3'
                         required
-                        placeholder='CVC:'
+                        placeholder='CVC'
                       ></Form.Control>
                     </Form.Group>
                   </Col>
@@ -66,7 +73,7 @@ const FormComprar = (props) => {
                       <Form.Label>Teléfono:</Form.Label>
                       <Form.Control
                         required
-                        placeholder='Telefono:'
+                        placeholder='Telefono'
                       ></Form.Control>
                     </Form.Group>
                   </Col>
