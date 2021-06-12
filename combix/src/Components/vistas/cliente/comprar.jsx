@@ -43,7 +43,7 @@ const ComprarComponent = (props) => {
       setColorPrecio('mb-1 text-dark');
       setColorPrecioGold(' mb-1 text-secondary');
     }
-    if (data.ruta.combi.tipo === 'super-comodo') {
+    if (data.ruta.combi.tipo === 'supercomoda') {
       setIconEstilo('fa fa-star mr-2');
     } else {
       setIconEstilo('fa fa-star-half-o mr-2');
@@ -52,8 +52,8 @@ const ComprarComponent = (props) => {
   }, []);
   const handleChangeCant = (e) => {
     setCant(e.target.value);
-    if (e.target.value > data.ruta.combi.cantidadAsientos) {
-      setCant(data.ruta.combi.cantidadAsientos);
+    if (e.target.value > data.disponibilidad) {
+      setCant(data.disponibilidad);
     }
   };
 
@@ -141,7 +141,7 @@ const ComprarComponent = (props) => {
                             type='number'
                             value={cant}
                             min={1}
-                            max={data.ruta.combi.cantidadAsientos}
+                            max={data.disponibilidad}
                             onChange={handleChangeCant}
                           ></Form.Control>
                         </div>
