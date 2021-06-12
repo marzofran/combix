@@ -32,7 +32,8 @@ export const buscarViajes =
       .then((response) => {
         switch (response.status) {
           case 200:
-            let viajes = response.data
+            let viajes = response.data;
+
             if (superComoda === 'true') {
               viajes = response.data
                 .sort((a, b) => a.combi.tipo.localeCompare(b.combi.tipo))
@@ -46,7 +47,8 @@ export const buscarViajes =
             history.push('./resultado');
             break;
           case 404:
-            alert(response)
+            alert(response.data);
+
             break;
           default:
             alert(response.data);
@@ -73,10 +75,12 @@ export const crearPasaje =
       pasaje,
     }).then((response) => {
       switch (response.status) {
-        case 200:
+        case 202:
           dispatch({
             type: CREAR_PASAJE,
           });
+          history.push('./compraExitosa');
+
           alert(response.data);
           break;
         default:

@@ -27,8 +27,22 @@ const ComprarComponent = (props) => {
   const [show, setShow] = useState(false);
   const insumosPropios = useSelector((store) => store.insumos.elementos);
 
+  const [precioPasaje, setPrecioPasaje] = useState(false);
+  const usuario = useSelector((store) => store.combix.sesion);
   const [prectioTotalInsumos, setPrectioTotalInsumos] = useState(0);
+
+  const [colorPrecio, setColorPrecio] = useState('');
+  const [colorPrecioGold, setColorPrecioGold] = useState('');
   useEffect(() => {
+    if (usuario.permissions === '60c4c2a93690f72eb018de17') {
+      setPrecioPasaje(data.precio - data.precio / 10);
+      setColorPrecio('mb-1 text-secondary');
+      setColorPrecioGold('mb-1 text-dark');
+    } else {
+      setPrecioPasaje(data.precio);
+      setColorPrecio('mb-1 text-dark');
+      setColorPrecioGold(' mb-1 text-secondary');
+    }
     if (data.ruta.combi.tipo === 'super-comodo') {
       setIconEstilo('fa fa-star mr-2');
     } else {
@@ -71,7 +85,7 @@ const ComprarComponent = (props) => {
     <div className='mt-3'>
       <Container>
         <Link to='./buscarPasajes'>
-          <h4 className={'mt-5 mb-5'}>
+          <h4 className={'mt-5 mb-5 text-dark'}>
             <i class='fa fa-arrow-left mr-3' aria-hidden='true'></i>
             Volver
           </h4>
@@ -138,9 +152,10 @@ const ComprarComponent = (props) => {
               </div>
             </Card>
             <FormComprar
-              total={data.precio * cant + prectioTotalInsumos}
+              total={precioPasaje * cant + prectioTotalInsumos}
               viaje={data}
               cantAsientos={cant}
+              user={usuario}
               insumos={insumos}
             ></FormComprar>
           </Col>
@@ -152,13 +167,15 @@ const ComprarComponent = (props) => {
                     <Row>
                       <Col lg={9}>
                         {' '}
-                        <p className='mb-1'>Precio por pasaje:</p>{' '}
+                        <p className={colorPrecio}>Precio por pasaje:</p>{' '}
                       </Col>
                       <Col>{data.precio}</Col>
                     </Row>
                     <Row>
                       <Col lg={9}>
-                        <p className='mb-1'>Precio GOLD por pasaje: </p>
+                        <p className={colorPrecioGold}>
+                          Precio GOLD por pasaje:{' '}
+                        </p>
                       </Col>
                       <Col>{data.precio - data.precio / 10}</Col>
                     </Row>
@@ -184,7 +201,7 @@ const ComprarComponent = (props) => {
                         <p className='mb-0'>Total:</p>
                       </Col>
                       <Col>
-                        <h4>${data.precio * cant + prectioTotalInsumos}</h4>
+                        <h4>${precioPasaje * cant + prectioTotalInsumos}</h4>
                       </Col>
                     </Row>
                   </div>
@@ -251,7 +268,9 @@ const ComprarComponent = (props) => {
           </Col>
         </Row>
       </Container>
-      <Footer></Footer>
+      <div className='mt-5'>
+        <Footer></Footer>
+      </div>
     </div>
   );
 };

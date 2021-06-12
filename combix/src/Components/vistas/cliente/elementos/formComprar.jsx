@@ -9,15 +9,15 @@ const FormComprar = (props) => {
   console.log(props.insumos);
   console.log(props.cantAsientos);
   */
-  const usuario = useSelector((store) => store.combix.sesion);
+
   const dispatch = useDispatch();
   const handlerSubmit = (event) => {
     event.preventDefault();
-    console.log(usuario);
+
     dispatch(
       crearPasaje(
         props.viaje,
-        usuario,
+        props.user,
         props.cantAsientos,
         props.insumos,
         props.total
@@ -41,6 +41,8 @@ const FormComprar = (props) => {
                     <Form.Group>
                       <Form.Label>Numero de Tarjeta:</Form.Label>
                       <Form.Control
+                        minLength='16'
+                        maxLength='16'
                         required
                         placeholder='Numero de Tarjeta:'
                       ></Form.Control>
@@ -49,14 +51,19 @@ const FormComprar = (props) => {
                   <Col>
                     <Form.Group>
                       <Form.Label>CVC:</Form.Label>
-                      <Form.Control required placeholder='CVC:'></Form.Control>
+                      <Form.Control
+                        minLength='3'
+                        maxLength='3'
+                        required
+                        placeholder='CVC:'
+                      ></Form.Control>
                     </Form.Group>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Form.Group>
-                      <Form.Label>Telefono:</Form.Label>
+                      <Form.Label>Teléfono:</Form.Label>
                       <Form.Control
                         required
                         placeholder='Telefono:'
