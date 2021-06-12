@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Card, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 const {dateFormatPretty} = require('../../../../scripts/dateFormat');
+const {toTitleCase} = require('../../../../scripts/toTitleCase');
 
 const Viaje = (props) => {
   const [tarjetaEstilo, setTarjetaEstilo] = useState('');
@@ -58,11 +59,11 @@ const Viaje = (props) => {
                 <Col>
                   <Card.Text>
                     <h4>
-                      {props.item.ruta.origen.lugar},{' '}
-                      {props.item.ruta.origen.provincia}
+                      {toTitleCase(props.item.ruta.origen.lugar)},{' '}
+                      {toTitleCase(props.item.ruta.origen.provincia)}
                     </h4>
                     <h5>
-                      Salida: {dateFormatPretty(props.item.fecha)} ,
+                      Salida: {dateFormatPretty(props.item.fecha)}{' - '}
                       {props.item.ruta.horario}
                     </h5>
                   </Card.Text>
@@ -70,9 +71,9 @@ const Viaje = (props) => {
                 <Col>
                   <Card.Text>
                     <h4>
-                      <i className='fa fa-arrow-right ' aria-hidden='true'></i>
-                      {props.item.ruta.destino.lugar},{' '}
-                      {props.item.ruta.destino.provincia}
+                      <i className='fa fa-arrow-right ' aria-hidden='true'></i>{'  '}
+                      {toTitleCase(props.item.ruta.destino.lugar)},{' '}
+                      {toTitleCase(props.item.ruta.destino.provincia)}
                     </h4>
                   </Card.Text>
                 </Col>
@@ -98,11 +99,11 @@ const Viaje = (props) => {
                 className={'mb-3'}
                 style={{borderBottom: '1px solid rgba(0,0,0,.125)'}}
               >
-                <h5>Precio: {props.item.precio}</h5>
+                <h5>Precio: ${props.item.precio}</h5>
               </div>
               <h5>
                 Precio GOLD:{' '}
-                {props.item.precio - (props.item.precio / 100) * 10}
+                ${props.item.precio - (props.item.precio / 100) * 10}
               </h5>
               <Link
                 to={{
