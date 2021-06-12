@@ -33,10 +33,10 @@ ticketsRouter.post('/', async (req, res) => {
 
   let pasaje = new Pasaje({
     usuario: ticket.usuario,
-    cantidadPasajes: ticket.cantidadAsientos,
+    cantidadPasajes: parseInt(ticket.cantidadAsientos),
     viaje: ticket.viaje,
     insumos: ticket.insumos,
-    precioTotal: ticket.precioTotal,
+    precioTotal: parseInt(ticket.precioTotal),
     unavailable: false,
   });
   console.log(pasaje);

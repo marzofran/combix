@@ -12,10 +12,11 @@ import {
 } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-import dateFormat from '../../../scripts/dateFormat';
 import {cargarInsumos} from '../../../Redux/Admin/insumosDucks';
 import FormComprar from './elementos/formComprar';
 import Footer from '../../footer';
+
+const {dateFormatPretty} = require('../../../scripts/dateFormat');
 
 const ComprarComponent = (props) => {
   const location = useLocation();
@@ -109,7 +110,7 @@ const ComprarComponent = (props) => {
                         <div>
                           Salida
                           <h5>
-                            {dateFormat(data.fecha, 'dddd, mmmm d, yyyy')} -{' '}
+                            {dateFormatPretty(data.fecha)} -{' '}
                             {data.ruta.horario}
                           </h5>
                         </div>
