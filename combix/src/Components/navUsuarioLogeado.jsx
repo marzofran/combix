@@ -11,6 +11,7 @@ import MisReviews from './vistas/cliente/MisReviews';
 import MiPerfil from './vistas/cliente/miPerfil';
 import Resultado from './vistas/cliente/resultadoBusqueda';
 import ComprarComponent from './vistas/cliente/comprar';
+import CompraExitosa from './vistas/cliente/elementos/compraExitosa';
 const NavUsuarioLogeado = () => {
   const dispatch = useDispatch();
   return (
@@ -27,16 +28,20 @@ const NavUsuarioLogeado = () => {
               />
             </Navbar.Brand>
           </Link>
-          <Link className='navbar-brand nav-link ' to='/client/resultado'>
-            <h5>resultado</h5>
-          </Link>
+
           <Link className='navbar-brand nav-link ' to='/client/miPerfil'>
             <h5>Mi perfil</h5>
           </Link>
-          <Link className='navbar-brand nav-link ' to='/client/misReviews'>
+          <Link
+            className='navbar-brand nav-link '
+            to='/client/miPerfil/misReviews'
+          >
             <h5>Mis reviews</h5>
           </Link>
-          <Link className='navbar-brand nav-link ' to='/client/misPasajes'>
+          <Link
+            className='navbar-brand nav-link '
+            to='/client/miPerfil/misPasajes'
+          >
             <h5>Mis pasajes</h5>
           </Link>
           <Link className='navbar-brand nav-link ' to='/client/buscarPasajes'>
@@ -66,6 +71,9 @@ const NavUsuarioLogeado = () => {
           </Route>
           <Route path='/client/comprar'>
             <ComprarComponent></ComprarComponent>
+          </Route>
+          <Route path='/client/compraExitosa'>
+            <CompraExitosa></CompraExitosa>
           </Route>
           <Route path='/client/resultado'>
             <Resultado></Resultado>
