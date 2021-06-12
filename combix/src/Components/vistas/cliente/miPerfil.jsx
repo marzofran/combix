@@ -1,9 +1,11 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {Router, Switch, Route, Link} from 'react-router-dom';
 import history from '../../history';
 import MisReviews from './MisReviews';
 import MisPasajes from './misPasajes';
 const MiPerfil = () => {
+  const user = useSelector((store) => store.combix.sesion);
   return (
     <div>
       <h2>Bienvenido,Perfil de usuario</h2>
