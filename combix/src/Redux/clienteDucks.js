@@ -70,7 +70,7 @@ export const crearPasaje =
       precioTotal,
       insumos,
     };
-    console.log(pasaje.cantidadAsientos);
+
     Axios.post('http://localhost:8080/tickets', {
       pasaje,
     }).then((response) => {
