@@ -14,7 +14,7 @@ const hasLegalAge = (dob) => {
 //Display
 usersRouter.get('/', async (req, res) => {
   let usuarios = await Usuario.find({
-    permissions: '6094d56377b5714b3473dbc5'
+    permissions: { $in: ['6094d56377b5714b3473dbc5','60c4c2a93690f72eb018de17'] }
   }); 
   res.status(200).json(usuarios).end();
 });
@@ -65,6 +65,30 @@ usersRouter.put('/:id', async (req, res) => {
   await usuarioExistente.save();
   res.status(200).send('Usuario modificado con exito').end();
 });
+
+usersRouter.put('/:id/gold', async (req, res) => {
+  const usuarioGold = await Usuario.findOneAndUpdate({ 
+    _id: req.params.id, 
+    permissions: '6094d56377b5714b3473dbc5', 
+    unavailable: false
+  },
+  {permissions: '60c4c2a93690f72eb018de17'}
+  );
+  if(!usuarioGold) throw new HttpError(203, 'Este usuario ya es GOLD!');
+  res.status(200).send('El usuario ahora es GOLD!').end();
+})
+
+usersRouter.put('/:id/cancelargold', async (req, res) => {
+  const usuarioGold = await Usuario.findOneAndUpdate({ 
+    _id: req.params.id, 
+    permissions: '60c4c2a93690f72eb018de17', 
+    unavailable: false
+  },
+  {permissions: '6094d56377b5714b3473dbc5'}
+  );
+  if(!usuarioGold) throw new HttpError(203, 'Este usuario no es GOLD!');
+  res.status(200).send('Se cancelo exitosamente la subscripcion a GOLD!').end();
+})
 
 //Delete
 usersRouter.delete('/:id', async (req, res) => {

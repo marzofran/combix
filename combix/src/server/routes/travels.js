@@ -129,10 +129,12 @@ let viajes = await Viaje.find({fecha: searchParams.fecha}).populate({
       })
       .map(async (viaje) => {
         let pasajes = await Pasaje.find({viaje, unavailable: false});
-        console.log(viaje.ruta.combi.cantidadAsientos, pasajes.length)
+        console.log(pasajes)
+        let vendidos = pasajes.reduce((total, pasaje) => pasaje.cantidadPasajes ? total + pasaje.cantidadPasajes : total + 1, 0)
+        console.log(viaje.ruta.combi.cantidadAsientos, vendidos)
         return {
           ...viaje._doc,
-          disponibilidad: viaje.ruta.combi.cantidadAsientos - pasajes.length,
+          disponibilidad: viaje.ruta.combi.cantidadAsientos - vendidos,
         };
       })
       let viajesMasSuDisponibilidad = await Promise.all(viajesValidos)

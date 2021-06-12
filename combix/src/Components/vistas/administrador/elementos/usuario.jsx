@@ -1,10 +1,9 @@
 import React from 'react';
 import {Accordion, Card} from 'react-bootstrap';
-import dateFormat from '../../../../scripts/dateFormat'
+const {dateFormat} = require('../../../../scripts/dateFormat')
 
 //Implementado
 const Usuario = (props) => {
-   const fecha = Date.parse(props.item.fechaNacimiento)
 
   return (
     <Accordion className="row db-element">
@@ -44,7 +43,7 @@ const Usuario = (props) => {
             <div className="row">
               <div className="col-6 field-admin">
                 <label className="field-label">Nacimiento:</label>
-                <h6 className="field-display">{dateFormat(fecha, "dd/mm/yyyy")}</h6>
+                <h6 className="field-display">{dateFormat(props.item.fechaNacimiento)}</h6>
               </div>
             </div>
           </Card.Body>

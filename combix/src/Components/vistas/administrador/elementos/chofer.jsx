@@ -5,12 +5,11 @@ import {
   borrarChofer,
   editarChofer,
 } from '../../../../Redux/Admin/choferesDucks';
-import dateFormat from '../../../../scripts/dateFormat';
+const {dateFormat} = require('../../../../scripts/dateFormat');
 
 //Implementado, falta crud
 const Chofer = (props) => {
   const dispatch = useDispatch();
-  const fechaNacimiento = Date.parse(props.item.fechaNacimiento);
 
   const [nombre, setNombre] = useState(props.item.nombre);
   const [apellido, setApellido] = useState(props.item.apellido);
@@ -150,7 +149,7 @@ const Chofer = (props) => {
               <div className='col-6 field-admin'>
                 <label className='field-label'>Nacimiento:</label>
                 <h6 className='field-display'>
-                  {dateFormat(fechaNacimiento, 'dd/mm/yyyy')}
+                  {dateFormat(props.item.fechaNacimiento)}
                 </h6>
               </div>
             </div>
