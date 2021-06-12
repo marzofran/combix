@@ -30,15 +30,16 @@ ticketsRouter.get('/:travel', async (req, res) => {
 
 ticketsRouter.post('/', async (req, res) => {
   let ticket = req.body.pasaje;
-  console.log(ticket);
+
   let pasaje = new Pasaje({
     usuario: ticket.usuario,
-    cantidadAsientos: parseInt(ticket.cantidadAsientos),
+    cantidadPasajes: ticket.cantidadAsientos,
     viaje: ticket.viaje,
     insumos: ticket.insumos,
     precioTotal: ticket.precioTotal,
     unavailable: false,
   });
+  console.log(pasaje);
   await pasaje.save();
   res.status(202).send('Pasaje creado con exito!').end();
 });

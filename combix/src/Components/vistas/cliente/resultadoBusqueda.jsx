@@ -8,10 +8,8 @@ import {cargarViajes} from '../../../Redux/Admin/viajesDucks';
 const Resultado = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(cargarViajes());
-  }, []);
-  const viajesResultado = useSelector((store) => store.viajes.elementos);
+  useEffect(() => {}, []);
+  const viajesResultado = useSelector((store) => store.cliente.elementos);
   return (
     <div>
       <div className='bg-image-pasaje'>

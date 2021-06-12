@@ -10,7 +10,7 @@ const Viaje = (props) => {
   const [iconAlert, setIconAlert] = useState('');
 
   useEffect(() => {
-    if (props.item.ruta.combi.tipo === 'super-comodo') {
+    if (props.item.ruta.combi.tipo === 'supercomoda') {
       setTarjetaEstilo('gradient-supercomodas');
       setIconEstilo('fa fa-star mr-2');
     } else {
@@ -18,10 +18,10 @@ const Viaje = (props) => {
       setIconEstilo('fa fa-star-half-o mr-2');
     }
 
-    if (props.item.ruta.combi.cantidadAsientos >= 10) {
+    if (props.item.disponibilidad >= 10) {
       setAlertaEstilo('bg-success rounded');
       setIconAlert('fa fa-check mr-2 ml-2');
-    } else if (props.item.ruta.combi.cantidadAsientos < 5) {
+    } else if (props.item.disponibilidad < 5) {
       setAlertaEstilo('bg-danger rounded');
       setIconAlert('fa fa-exclamation mr-2 ml-2');
     } else {
@@ -30,9 +30,6 @@ const Viaje = (props) => {
     }
   }, []);
 
-  const handleSelect = () => {
-    console.log('selct');
-  };
   return (
     <div className='mb-3'>
       <Card className={tarjetaEstilo}>
@@ -87,8 +84,7 @@ const Viaje = (props) => {
                 >
                   <h6>
                     <i class={iconAlert} aria-hidden='true'></i>
-                    Quedan {props.item.ruta.combi.cantidadAsientos} asientos
-                    libres
+                    Quedan {props.item.disponibilidad} asientos libres
                   </h6>
                 </Card.Body>
               </Card>

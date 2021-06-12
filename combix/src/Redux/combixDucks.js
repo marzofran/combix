@@ -53,10 +53,13 @@ export const obtenerDatosUsuarioAccion =
             });
             switch (response.data.permissions) {
               case '6094d56377b5714b3473dbc5':
-                history.push('/client');
+                history.push('/client/buscarPasajes');
                 break;
               case '6094d45f56d99b266076c0bf':
                 history.push('/admin');
+                break;
+              case '60c4c2a93690f72eb018de17':
+                history.push('/client/buscarPasajes');
                 break;
               case 'chofer':
                 history.push('/chofer');
