@@ -5,11 +5,14 @@ const configDuck = {
 };
 const BUSCAR_VIAJES = 'BUSCAR_VIAJES';
 const VALIDAR_DISPONIBILIDAD = 'VALIDAR_DISPONIBILIDAD';
+const CREAR_PASAJE = 'CREAR_PASAJE';
 
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
     case BUSCAR_VIAJES:
       return {...state, elementos: action.payload};
+    case CREAR_PASAJE:
+      return state;
     case VALIDAR_DISPONIBILIDAD:
       return {...state, elementos: action.payload};
     default:
@@ -17,61 +20,76 @@ export default function reducer(state = configDuck, action) {
   }
 }
 
-export const buscarViajes = (fecha, origen, destino, superComoda) => (dispatch) => {
-  const values = {
-    fecha,
-    origen,
-    destino,
-  };
+export const buscarViajes =
+  (fecha, origen, destino, superComoda) => (dispatch) => {
+    const values = {
+      fecha,
+      origen,
+      destino,
+    };
 
-  traerViajesValidos(values)
-    .then((response) => {
-      switch (response.status) {
-        case 200:
-          if (superComoda){
-            response.data.sort((a, b) => a.tipo.localeCompare(b.tipo)).reverse();
-          }
+    traerViajesValidos(values)
+      .then((response) => {
+        switch (response.status) {
+          case 200:
+            if (superComoda === 'true') {
+              response.data
+                .sort((a, b) => a.tipo.localeCompare(b.tipo))
+                .reverse();
+            }
             dispatch({
-                type: BUSCAR_VIAJES,
-                payload: response.data,
+              type: BUSCAR_VIAJES,
+              payload: response.data,
             });
             alert('reponse= ', response.data);
             history.push('./resultado');
             break;
-        case 404:
-          alert("Error")
-          break;
-        default:
+          default:
             alert(response.data);
             break;
-      }
-    })
-    .catch(function (err) {
-      alert(err);
-    });
-};
+        }
+      })
+      .catch(function (err) {
+        alert(err);
+      });
+  };
 
 export const crearPasaje =
-  async (viaje, usuario, cantidadAsientos, insumos) => (dispatch) => {
+  (viaje, usuario, cantidadAsientos, insumos, precioTotal) => (dispatch) => {
     delete viaje['disponibilidad'];
     const pasaje = {
       viaje,
       usuario,
       cantidadAsientos,
+      precioTotal,
       insumos,
     };
 
-    //Completar
+    Axios.post('http://localhost:8080/tickets', {
+      pasaje,
+    }).then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CREAR_PASAJE,
+          });
+          alert(response.data);
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    });
   };
 
 async function traerViajesValidos(values) {
   return await Axios.post('http://localhost:8080/travels/search', values)
     .then((response) => {
-      console.log("respuesta", response)
+      console.log('respuesta', response);
       return response;
     })
     .catch(function (error) {
-      throw new Error("No hay viajes");
+      throw new Error('No hay viajes');
     });
 }
 

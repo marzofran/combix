@@ -48,6 +48,7 @@ travelsRouter.post('/', async (request, response) => {
     fecha: viaje.fecha,
     unavailable: false,
   });
+
   if (Object.entries(foundTravel).length === 0) {
     await viaje.save();
     response.status(202).send('Viaje creado con exito!').end();
