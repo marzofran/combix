@@ -84,8 +84,7 @@ const Viaje = (props) => {
                 >
                   <h6>
                     <i class={iconAlert} aria-hidden='true'></i>
-                    Quedan {props.item.ruta.combi.cantidadAsientos} asientos
-                    libres
+                    Quedan {props.item.disponibilidad} asientos libres
                   </h6>
                 </Card.Body>
               </Card>

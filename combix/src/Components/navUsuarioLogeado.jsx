@@ -32,10 +32,16 @@ const NavUsuarioLogeado = () => {
           <Link className='navbar-brand nav-link ' to='/client/miPerfil'>
             <h5>Mi perfil</h5>
           </Link>
-          <Link className='navbar-brand nav-link ' to='/client/misReviews'>
+          <Link
+            className='navbar-brand nav-link '
+            to='/client/miPerfil/misReviews'
+          >
             <h5>Mis reviews</h5>
           </Link>
-          <Link className='navbar-brand nav-link ' to='/client/misPasajes'>
+          <Link
+            className='navbar-brand nav-link '
+            to='/client/miPerfil/misPasajes'
+          >
             <h5>Mis pasajes</h5>
           </Link>
           <Link className='navbar-brand nav-link ' to='/client/buscarPasajes'>
