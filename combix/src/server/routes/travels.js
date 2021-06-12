@@ -93,7 +93,7 @@ travelsRouter.post('/search', async (request, response) => {
   let searchParams = request.body;
   console.log('searchParams', searchParams)
 
-let viajes = await Viaje.find({/* fecha: searchParams.fecha */}).populate({
+let viajes = await Viaje.find({fecha: searchParams.fecha}).populate({
     path: 'ruta',
     model: 'Ruta',
     populate: [
