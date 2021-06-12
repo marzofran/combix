@@ -32,17 +32,21 @@ export const buscarViajes =
       .then((response) => {
         switch (response.status) {
           case 200:
+            let viajes = response.data
             if (superComoda === 'true') {
-              response.data
-                .sort((a, b) => a.tipo.localeCompare(b.tipo))
+              viajes = response.data
+                .sort((a, b) => a.combi.tipo.localeCompare(b.combi.tipo))
                 .reverse();
             }
             dispatch({
               type: BUSCAR_VIAJES,
-              payload: response.data,
+              payload: viajes,
             });
-            alert('reponse= ', response.data);
+            alert(response.data);
             history.push('./resultado');
+            break;
+          case 404:
+            alert(response)
             break;
           default:
             alert(response.data);
@@ -85,11 +89,10 @@ export const crearPasaje =
 async function traerViajesValidos(values) {
   return await Axios.post('http://localhost:8080/travels/search', values)
     .then((response) => {
-      console.log('respuesta', response);
       return response;
     })
     .catch(function (error) {
-      throw new Error('No hay viajes');
+      return error;
     });
 }
 

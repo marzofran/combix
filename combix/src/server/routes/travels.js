@@ -117,7 +117,7 @@ let viajes = await Viaje.find({fecha: searchParams.fecha}).populate({
   });
   
   if (viajes.length === 0) {
-    response.status(404).end();
+    response.status(404).send('No se encontraron viajes para esa ruta y esa fecha').end();
   } else {
     console.log('viajes', viajes.map(v=>v.ruta.origen))
     let viajesValidos = viajes
