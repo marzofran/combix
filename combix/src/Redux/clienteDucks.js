@@ -6,6 +6,7 @@ const configDuck = {
 const BUSCAR_VIAJES = 'BUSCAR_VIAJES';
 const VALIDAR_DISPONIBILIDAD = 'VALIDAR_DISPONIBILIDAD';
 const CREAR_PASAJE = 'CREAR_PASAJE';
+const CARGAR_PASAJES = 'CARGAR_PASAJES';
 
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
@@ -14,6 +15,8 @@ export default function reducer(state = configDuck, action) {
     case CREAR_PASAJE:
       return state;
     case VALIDAR_DISPONIBILIDAD:
+      return {...state, elementos: action.payload};
+    case CARGAR_PASAJES:
       return {...state, elementos: action.payload};
     default:
       return state;
@@ -107,3 +110,23 @@ async function disponible(viaje, cantidadPasajeros) {
   );
   return disponibilidad >= cantidadPasajeros;
 }
+
+export const cargarPasajes = (id) => (dispatch) => {
+  Axios.get('http://localhost:8080/tickets/' + id, {
+    id,
+  }).then((response) => {
+    switch (response.status) {
+      case 200:
+        dispatch({
+          type: CARGAR_PASAJES,
+          payload: response.data,
+        });
+
+        break;
+      default:
+        alert(response.data);
+        console.log(response);
+        break;
+    }
+  });
+};
