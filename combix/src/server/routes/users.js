@@ -66,13 +66,7 @@ usersRouter.put('/:id', async (req, res) => {
   //  throw new Error('Debe ser mayor de edad');
   mapAndBuildModel(usuarioExistente, usuarioNuevo);
   const foundUser = Usuario.find({
-    nombre: usuarioExistente.nombre,
     mail: usuarioExistente.mail,
-    apellido: usuarioExistente.apellido,
-    telefono: usuarioExistente.telefono,
-    dni: usuarioExistente.dni,
-    clave: usuarioExistente.clave,
-    fechaNacimiento: usuarioExistente.fechaNacimiento,
     unavailable: false,
   });
   if (foundUser)
