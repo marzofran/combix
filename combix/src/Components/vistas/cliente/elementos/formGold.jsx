@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Col, Row, Form, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {activarGold} from '../../../../Redux/clienteDucks';
+import {activarGold} from '../../../../Redux/combixDucks';
 
 const FormGold = (props) => {
   const [name, setName] = useState('')

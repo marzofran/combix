@@ -11,6 +11,8 @@ const OBETENER_DATOS_USUARIO = 'OBTENER_DATOS_USUARIO';
 const CERRAR_SESION = 'CERRAR_SESION';
 const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
 const CARGAR_USUARIO = 'CARGAR_USUARIO';
+const ACTIVAR_GOLD = 'ACTIVAR_GOLD';
+const CANCELAR_GOLD = 'CANCELAR_GOLD';
 
 // reducer
 export default function reducer(state = configDuck, action) {
@@ -23,7 +25,10 @@ export default function reducer(state = configDuck, action) {
       return {...state, sesion: action.payload};
     case CARGAR_USUARIO:
       return {...state, usuarios: action.payload};
-
+    case ACTIVAR_GOLD:
+      return {...state, sesion: action.payload};
+    case CANCELAR_GOLD:
+      return {...state, sesion: action.payload};
     default:
       return state;
   }
@@ -131,4 +136,41 @@ export const cargarUsuarios = () => (dispatch, getState) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const activarGold = (id) => (dispatch) => {
+  Axios.put('http://localhost:8080/users/' + id + '/gold').then((response) => {
+    switch (response.status) {
+      case 200:
+        dispatch({
+          type: ACTIVAR_GOLD,
+          payload: response.data,
+        });
+
+        alert('El usuario ahora es GOLD!');
+        break;
+      default:
+        alert(response.data);
+        break;
+    }
+  });
+};
+
+export const cancelarGold = (id) => (dispatch) => {
+  Axios.put('http://localhost:8080/users/' + id + '/cancelargold').then(
+    (response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CANCELAR_GOLD,
+            payload: response.data,
+          });
+          alert('Se cancelo exitosamente la subscripcion a GOLD!');
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    }
+  );
 };
