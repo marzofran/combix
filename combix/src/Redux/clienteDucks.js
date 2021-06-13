@@ -141,6 +141,23 @@ export const cancelarPasaje = (id) => (dispatch) => {
     (response) => {
       switch (response.status) {
         case 200:
+          Axios.get('http://localhost:8080/tickets/' + id, {
+            id,
+          }).then((response) => {
+            switch (response.status) {
+              case 200:
+                dispatch({
+                  type: CARGAR_PASAJES,
+                  payload: response.data,
+                });
+
+                break;
+              default:
+                alert(response.data);
+                console.log(response);
+                break;
+            }
+          });
           dispatch({
             type: ELIMINAR_PASAJE,
             payload: response.data,
