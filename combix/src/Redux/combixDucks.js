@@ -110,12 +110,12 @@ export const registrarUsuario = (newUser) => (dispatch, getState) => {
 
 export const cerrarSesion = () => (dispatch, getState) => {
   const sesion = {};
+  history.push('/');
   dispatch({
     type: CERRAR_SESION,
     payload: sesion,
   });
   alert('sesion cerrada');
-  history.push('/');
 };
 
 export const cargarUsuarios = () => (dispatch, getState) => {

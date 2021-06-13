@@ -9,7 +9,9 @@ const Resultado = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {}, []);
-  const viajesResultado = useSelector((store) => store.cliente.elementos);
+  const viajesResultado = useSelector(
+    (store) => store.cliente.resultadoBusqueda
+  );
   return (
     <div>
       <div className='bg-image-pasaje'>

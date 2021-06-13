@@ -6,7 +6,7 @@ const CompraExitosa = () => {
   return (
     <div>
       <Container>
-        <Link to='./busqueda' className='text-dark'>
+        <Link to='/client/buscarPasajes' className='text-dark'>
           <h2 className={'mt-5 mb-5'}>
             <i class='fa fa-arrow-left mr-3' aria-hidden='true'></i>
             Volver a la busqueda
@@ -30,21 +30,23 @@ const CompraExitosa = () => {
           </Card.Body>
         </Card>
         <p className='text-secondary text-center mb-5 '>
-          En caso de cancelación, el reembolso será del 100% previo a las 48 horas de anticipación al viaje, posterior a
-          ese tiempo solo se le reembolsara un 50% del precio total del viaje. La cancelación puede darse de manera voluntaria
-          en su Perfil de Usuario, o como resultado de las medidas de prevencion contra el COVID-19 (en este caso se le reembolsara
-          el 100% de su compra)
+          En caso de cancelación, el reembolso será del 100% previo a las 48
+          horas de anticipación al viaje, posterior a ese tiempo solo se le
+          reembolsara un 50% del precio total del viaje. La cancelación puede
+          darse de manera voluntaria en su Perfil de Usuario, o como resultado
+          de las medidas de prevencion contra el COVID-19 (en este caso se le
+          reembolsara el 100% de su compra)
         </p>
         <Row>
           <Col>
-            <Link to='./misPasajes'>
+            <Link to='/client/miPerfil/misPasajes'>
               {' '}
               <button className={'btn btn-login mt-1'}>Ver mis Pasajes</button>
             </Link>
           </Col>
           <Col>
             {' '}
-            <Link to='./buscarPasajes'>
+            <Link to='/client/buscarPasajes'>
               <button className={'btn btn-login mt-1'}>Volver al inicio</button>
             </Link>
           </Col>

@@ -6,8 +6,7 @@ import combixLogo from '../resources/CombixWhite.png';
 import {cerrarSesion} from '../Redux/combixDucks';
 import history from './history';
 import BuscarPasajes from './vistas/cliente/buscarPasajes';
-import MisPasajes from './vistas/cliente/misPasajes';
-import MisReviews from './vistas/cliente/misReviews';
+
 import MiPerfil from './vistas/cliente/miPerfil';
 import Resultado from './vistas/cliente/resultadoBusqueda';
 import ComprarComponent from './vistas/cliente/comprar';
@@ -60,15 +59,11 @@ const NavUsuarioLogeado = () => {
           <Route path='/client/buscarPasajes'>
             <BuscarPasajes></BuscarPasajes>
           </Route>
-          <Route path='/client/misPasajes'>
-            <MisPasajes></MisPasajes>
-          </Route>
+
           <Route path='/client/miPerfil'>
             <MiPerfil></MiPerfil>
           </Route>
-          <Route path='/client/misReviews'>
-            <MisReviews></MisReviews>
-          </Route>
+
           <Route path='/client/comprar'>
             <ComprarComponent></ComprarComponent>
           </Route>

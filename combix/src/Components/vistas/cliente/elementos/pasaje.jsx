@@ -33,7 +33,7 @@ const Pasaje = (props) => {
     if (fechaViaje > today + 48) {
       setTexto('Se le reintegrara el 100%');
     } else {
-      setTexto('Se le reintegrara el 40%');
+      setTexto('Se le reintegrara el 50%');
     }
   }, []);
 
@@ -61,12 +61,21 @@ const Pasaje = (props) => {
                         <h4>Hora: {props.item.viaje.ruta.horario}</h4>
                       </Col>
                     </Row>
-                    <h4>
-                      Precio Total: $
-                      {parseFloat(props.item.precioTotal).toFixed(2)}
-                    </h4>
+                    <Row>
+                      <Col>
+                        <h4>
+                          Cantidad de asientos: {props.item.cantidadPasajes}
+                        </h4>
+                      </Col>
+                      <Col>
+                        <h4>
+                          Precio Total: $
+                          {parseFloat(props.item.precioTotal).toFixed(2)}
+                        </h4>
+                      </Col>
+                    </Row>
                   </Accordion.Toggle>
-                  <Button onClick={handleShow}>Rembolsar</Button>
+                  <Button onClick={handleShow}>Reembolsar</Button>
 
                   <Accordion.Collapse eventKey='0'>
                     <Card.Body>
