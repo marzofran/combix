@@ -149,7 +149,7 @@ const ComprarComponent = (props) => {
               </div>
             </Card>
             <FormComprar
-              total={data.precio * cant + prectioTotalInsumos}
+              total={gold ? (data.precio * cant + prectioTotalInsumos) * (1 - descuento) : data.precio * cant + prectioTotalInsumos}
               viaje={data}
               cantAsientos={cant}
               user={usuario}

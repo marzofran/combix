@@ -8,7 +8,7 @@ const Pasaje = (props) => {
       <Card>
         <Card.Body>
           <div>
-            <h4>Precio Total: {props.item.precioTotal}</h4>
+            <h4>Precio Total: ${parseFloat(props.item.precioTotal).toFixed(2)}</h4>
             <button>Eliminar</button>
           </div>
         </Card.Body>

@@ -39,7 +39,7 @@ ticketsRouter.post('/', async (req, res) => {
     cantidadPasajes: parseInt(ticket.cantidadAsientos),
     viaje: ticket.viaje,
     insumos: ticket.insumos,
-    precioTotal: parseInt(ticket.precioTotal),
+    precioTotal: ticket.precioTotal,
     unavailable: false,
   });
   console.log(pasaje);

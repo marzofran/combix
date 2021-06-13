@@ -40,7 +40,7 @@ travelsRouter.post('/', async (request, response) => {
   let viaje = new Viaje({
     ruta: travel.ruta,
     fecha: travel.fecha,
-    precio: parseInt(travel.precio),
+    precio: travel.precio,
     unavailable: false,
   });
   const foundTravel = await Viaje.find({

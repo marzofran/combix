@@ -10,7 +10,7 @@ const Viaje = (props) => {
   const dispatch = useDispatch();
   const [ruta, setRuta] = useState(props.item.ruta);
   const [fecha, setFecha] = useState(props.item.fecha);
-  const [precio, setPrecio] = useState(props.item.precio);
+  const [precio, setPrecio] = useState(parseFloat(props.item.precio).toFixed(2));
 
   //Handlers del  modal de elimar
   const [show, setShow] = useState(false);
@@ -128,7 +128,7 @@ box square'
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Precio:</label>
-                <h6 className='field-display'>${props.item.precio}</h6>
+                <h6 className='field-display'>${parseFloat(props.item.precio).toFixed(2)}</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Combi:</label>

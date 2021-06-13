@@ -2,7 +2,7 @@ const {model, Schema} = require('mongoose')
 
 const insumoSchema = new Schema({
     nombre: String,
-    precio: Number,
+    precio: String,
     tipo: String,
 })
 

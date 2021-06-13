@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const viajeSchema = new Schema({
     ruta: {type: mongoose.Schema.Types.ObjectId,ref:'Ruta'},
     fecha: Date,
-    precio: Number,
+    precio: String,
     unavailable: Boolean
 })
 

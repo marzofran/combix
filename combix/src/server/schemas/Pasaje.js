@@ -5,7 +5,7 @@ const pasajeSchema = new Schema({
     usuario: {type: require('mongoose').Schema.Types.ObjectId,ref:'Usuario'},
     cantidadPasajes: Number,
     insumos: [],
-    precioTotal: Number,
+    precioTotal: String,
     unavailable: Boolean
 })
 

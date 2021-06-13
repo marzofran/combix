@@ -9,7 +9,7 @@ const Insumo = (props) => {
   const dispatch = useDispatch();
   const [nombre, setNombre] = useState(toTitleCase(props.item.nombre));
   const [tipo, setTipo] = useState(props.item.tipo);
-  const [precio, setPrecio] = useState(props.item.precio);
+  const [precio, setPrecio] = useState(parseFloat(props.item.precio).toFixed(2));
 
   //Handlers del  modal de elimar
   const [show, setShow] = useState(false);
@@ -106,7 +106,7 @@ const Insumo = (props) => {
             <div className='row'>
               <div className='col-6 field-admin'>
                 <label className='field-label'>Precio:</label>
-                <h7 className='field-display'>${props.item.precio}</h7>
+                <h7 className='field-display'>${parseFloat(props.item.precio).toFixed(2)}</h7>
               </div>
             </div>
           </Card.Body>
