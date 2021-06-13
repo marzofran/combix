@@ -9,6 +9,7 @@ const VALIDAR_DISPONIBILIDAD = 'VALIDAR_DISPONIBILIDAD';
 const CREAR_PASAJE = 'CREAR_PASAJE';
 const CARGAR_PASAJES = 'CARGAR_PASAJES';
 
+const ELIMINAR_PASAJE = 'ELIMINAR_PASAJE';
 
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
@@ -20,6 +21,8 @@ export default function reducer(state = configDuck, action) {
       return {...state, elementos: action.payload};
     case CARGAR_PASAJES:
       return {...state, elementos: action.payload};
+    case ELIMINAR_PASAJE:
+      return state;
     default:
       return state;
   }
@@ -131,4 +134,21 @@ export const cargarPasajes = (id) => (dispatch) => {
         break;
     }
   });
-}
+};
+
+export const cancelarPasaje = (id) => (dispatch) => {
+  Axios.put('http://localhost:8080/tickets/' + id).then((response) => {
+    switch (response.status) {
+      case 200:
+        dispatch({
+          type: ELIMINAR_PASAJE,
+          payload: response.data,
+        });
+
+        break;
+      default:
+        alert(response.data);
+        break;
+    }
+  });
+};
