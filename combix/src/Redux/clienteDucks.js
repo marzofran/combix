@@ -137,18 +137,20 @@ export const cargarPasajes = (id) => (dispatch) => {
 };
 
 export const cancelarPasaje = (id) => (dispatch) => {
-  Axios.put('http://localhost:8080/tickets/' + id).then((response) => {
-    switch (response.status) {
-      case 200:
-        dispatch({
-          type: ELIMINAR_PASAJE,
-          payload: response.data,
-        });
+  Axios.delete('http://localhost:8080/tickets/' + id, {params: id}).then(
+    (response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: ELIMINAR_PASAJE,
+            payload: response.data,
+          });
 
-        break;
-      default:
-        alert(response.data);
-        break;
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
     }
-  });
+  );
 };

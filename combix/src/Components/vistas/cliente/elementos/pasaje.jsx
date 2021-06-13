@@ -8,13 +8,15 @@ import {
   Col,
   Modal,
 } from 'react-bootstrap';
+import {useDispatch} from 'react-redux';
+import {cancelarPasaje} from '../../../../Redux/clienteDucks';
 
 const Pasaje = (props) => {
   const [show, setShow] = useState(false);
   const [texto, setTexto] = useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const dispatch = useDispatch();
   var today = new Date();
 
   useEffect(() => {
@@ -24,13 +26,18 @@ const Pasaje = (props) => {
       setTexto('Se le reintegrara el 40%');
     }
   }, []);
+
+  function eliminarPasaje() {
+    dispatch(cancelarPasaje(props.item._id));
+    handleClose();
+  }
   return (
     <div>
       <Container>
         <Card>
           <Card.Body>
             <div>
-              <Accordion defaultActiveKey='0'>
+              <Accordion>
                 <Card>
                   <Card.Header>
                     <Accordion.Toggle as={Button} variant='link' eventKey='0'>
@@ -75,7 +82,7 @@ const Pasaje = (props) => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            Esta seguro que desea pedir una devolución este pasaje?
+            ¿Esta seguro que desea pedir una devolución de este pasaje?
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>{texto}</Modal.Body>
@@ -83,7 +90,7 @@ const Pasaje = (props) => {
           <Button variant='secondary' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant='danger' onClick={handleClose}>
+          <Button variant='danger' onClick={() => eliminarPasaje()}>
             Eliminar
           </Button>
         </Modal.Footer>
