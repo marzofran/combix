@@ -2,6 +2,7 @@ import React from 'react';
 
 import BuscarForm from './elementos/buscar';
 import {Row, Col, Container, Card} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import Fotter from '../../footer';
 import Featured from './elementos/promocionados';
 const BuscarPasajes = () => {
@@ -53,12 +54,14 @@ const BuscarPasajes = () => {
                   <h4>Enterate de todos los beneficios.</h4>
                 </Col>
                 <Col>
-                  <button
-                    className={'btn btn-login '}
-                    style={{marginTop: '30px'}}
-                  >
-                    <h2>Quiero ser GOLD!</h2>
-                  </button>
+                  <Link to='/client/miPerfil/GOLD'>
+                    <button
+                      className={'btn btn-login '}
+                      style={{marginTop: '30px'}}
+                    >
+                      <h2>Quiero ser GOLD!</h2>
+                    </button>
+                  </Link>
                 </Col>
               </Row>
             </Card.Body>
