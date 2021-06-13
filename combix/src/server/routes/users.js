@@ -75,7 +75,7 @@ usersRouter.put('/:id/gold', async (req, res) => {
   {permissions: '60c4c2a93690f72eb018de17'}
   );
   if(!usuarioGold) throw new HttpError(203, 'Este usuario ya es GOLD!');
-  res.status(200).send('El usuario ahora es GOLD!').end();
+  res.status(200).send(usuarioGold).end();
 })
 
 usersRouter.put('/:id/cancelargold', async (req, res) => {
@@ -87,7 +87,7 @@ usersRouter.put('/:id/cancelargold', async (req, res) => {
   {permissions: '6094d56377b5714b3473dbc5'}
   );
   if(!usuarioGold) throw new HttpError(203, 'Este usuario no es GOLD!');
-  res.status(200).send('Se cancelo exitosamente la subscripcion a GOLD!').end();
+  res.status(200).send(usuarioGold).end();
 })
 
 //Delete

@@ -7,7 +7,7 @@ import {cerrarSesion} from '../Redux/combixDucks';
 import history from './history';
 import BuscarPasajes from './vistas/cliente/buscarPasajes';
 import MisPasajes from './vistas/cliente/misPasajes';
-import MisReviews from './vistas/cliente/MisReviews';
+import MisReviews from './vistas/cliente/misReviews';
 import MiPerfil from './vistas/cliente/miPerfil';
 import Resultado from './vistas/cliente/resultadoBusqueda';
 import ComprarComponent from './vistas/cliente/comprar';

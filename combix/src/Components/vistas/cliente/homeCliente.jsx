@@ -2,7 +2,7 @@ import React from 'react';
 import NavUsuarioLogeado from '../../navUsuarioLogeado';
 const HomeCliente = () => {
   return (
-    <div>
+    <div style={{backgroundColor: '#71b3ff', minHeight: '100vh'}}>
       <NavUsuarioLogeado></NavUsuarioLogeado>
     </div>
   );
