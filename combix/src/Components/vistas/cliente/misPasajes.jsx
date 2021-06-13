@@ -21,13 +21,13 @@ const MisPasajes = () => {
             <h3 style={{color: '#357185', padding: '5px 10px'}}>Mis Pasajes</h3>
           </div>
         </div>
-      <div className='col'>
-        {pasajes.map((item) => (
-          <Pasaje item={item}></Pasaje>
-        ))}
+        <div className='col'>
+          {pasajes.map((item) => (
+            <Pasaje item={item}></Pasaje>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 

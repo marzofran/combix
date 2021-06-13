@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import {cancelarPasaje} from '../../../../Redux/clienteDucks';
+const {dateFormatPretty} = require('../../../../scripts/dateFormat');
 
 const Pasaje = (props) => {
   const [show, setShow] = useState(false);
@@ -17,10 +18,19 @@ const Pasaje = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const dispatch = useDispatch();
-  var today = new Date();
 
   useEffect(() => {
-    if (false) {
+    let today = new Date();
+    let fechaViaje = Date.parse(props.item.viaje.fecha);
+    fechaViaje = fechaViaje / 1000 / 3600;
+    today = today.getTime() / 1000 / 3600;
+
+    let horaViaje = props.item.viaje.ruta.horario;
+    horaViaje = horaViaje.split(':', 2);
+    horaViaje = parseInt(horaViaje[0]) + parseFloat(horaViaje[1] / 60);
+    fechaViaje = fechaViaje + horaViaje;
+
+    if (fechaViaje > today + 48) {
       setTexto('Se le reintegrara el 100%');
     } else {
       setTexto('Se le reintegrara el 40%');
@@ -32,40 +42,49 @@ const Pasaje = (props) => {
     handleClose();
   }
   return (
-    <div>
+    <div className='mt-3'>
       <Container>
         <Card>
           <Card.Body>
             <div>
               <Accordion>
                 <Card>
-                  <Card.Header>
-                    <Accordion.Toggle as={Button} variant='link' eventKey='0'>
-                      <Row>
-                        <Col>
-                          <h4>Fecha:</h4>
-                        </Col>
-                        <Col>
-                          <h4>Hora:</h4>
-                        </Col>
-                      </Row>
-                      <h4>
-                        Precio Total: $
-                        {parseFloat(props.item.precioTotal).toFixed(2)}
-                      </h4>
-                    </Accordion.Toggle>
-                    <Button onClick={handleShow}>Rembolsar</Button>
-                  </Card.Header>
+                  <Accordion.Toggle as={Button} variant='link' eventKey='0'>
+                    <Row>
+                      <Col>
+                        <h4>
+                          Fecha: {dateFormatPretty(props.item.viaje.fecha)}
+                          {' - '}
+                        </h4>
+                      </Col>
+                      <Col>
+                        <h4>Hora: {props.item.viaje.ruta.horario}</h4>
+                      </Col>
+                    </Row>
+                    <h4>
+                      Precio Total: $
+                      {parseFloat(props.item.precioTotal).toFixed(2)}
+                    </h4>
+                  </Accordion.Toggle>
+                  <Button onClick={handleShow}>Rembolsar</Button>
+
                   <Accordion.Collapse eventKey='0'>
                     <Card.Body>
                       <Row>
                         <Col>
-                          <h4>Origen:</h4>
+                          <h4>
+                            Origen: {props.item.viaje.ruta.origen.lugar},{' '}
+                            {props.item.viaje.ruta.origen.provincia}
+                          </h4>
                         </Col>
                         <Col>
-                          <h4>Destino:</h4>
+                          <h4>
+                            Destino: {props.item.viaje.ruta.destino.lugar},{' '}
+                            {props.item.viaje.ruta.destino.provincia}
+                          </h4>
                         </Col>
                       </Row>
+                      {props.item.insumos.length > 0 && <h4>Insumos:</h4>}
 
                       {props.item.insumos.map((item) => (
                         <p> {item.nombre}</p>

@@ -145,7 +145,7 @@ export const cancelarPasaje = (id) => (dispatch) => {
             type: ELIMINAR_PASAJE,
             payload: response.data,
           });
-
+          alert('reembolso efecturado correctamente');
           break;
         default:
           alert(response.data);
