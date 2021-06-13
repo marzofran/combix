@@ -8,8 +8,6 @@ const BUSCAR_VIAJES = 'BUSCAR_VIAJES';
 const VALIDAR_DISPONIBILIDAD = 'VALIDAR_DISPONIBILIDAD';
 const CREAR_PASAJE = 'CREAR_PASAJE';
 const CARGAR_PASAJES = 'CARGAR_PASAJES';
-const ACTIVAR_GOLD = 'ACTIVAR_GOLD';
-const CANCELAR_GOLD = 'CANCELAR_GOLD';
 
 
 export default function reducer(state = configDuck, action) {
@@ -18,10 +16,6 @@ export default function reducer(state = configDuck, action) {
       return {...state, elementos: action.payload};
     case CREAR_PASAJE:
       return state;
-    case ACTIVAR_GOLD:
-      return {...state, sesion: action.payload};
-    case CANCELAR_GOLD:
-      return {...state, sesion: action.payload};
     case VALIDAR_DISPONIBILIDAD:
       return {...state, elementos: action.payload};
     case CARGAR_PASAJES:
@@ -134,42 +128,6 @@ export const cargarPasajes = (id) => (dispatch) => {
       default:
         alert(response.data);
         console.log(response);
-        break;
-    }
-  });
-}
-
-export const activarGold = (id) => (dispatch) => {
-  Axios.put('http://localhost:8080/users/' + id + '/gold')
-  .then((response) => {
-    switch (response.status) {
-      case 200:
-        dispatch({
-          type: ACTIVAR_GOLD,
-          payload: response.data,
-        });
-        alert('El usuario ahora es GOLD!')
-        break;
-      default:
-        alert(response.data);
-        break;
-    }
-  });
-}
-
-export const cancelarGold = (id) => (dispatch) => {
-  Axios.put('http://localhost:8080/users/' + id + '/cancelargold')
-  .then((response) => {
-    switch (response.status) {
-      case 200:
-        dispatch({
-          type: CANCELAR_GOLD,
-          payload: response.data,
-        });
-        alert('Se cancelo exitosamente la subscripcion a GOLD!')
-        break;
-      default:
-        alert(response.data);
         break;
     }
   });

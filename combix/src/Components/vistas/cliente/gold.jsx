@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import {useSelector, useDispatch} from 'react-redux';
 import FormGold from './elementos/formGold'
-import {cancelarGold} from '../../../Redux/clienteDucks';
+import {cancelarGold} from '../../../Redux/combixDucks';
 
 const Gold = () => {
   
