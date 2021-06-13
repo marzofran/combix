@@ -18,16 +18,19 @@ ticketsRouter.get('/', async (req, res) => {
 
 ticketsRouter.get('/:id', async (req, res) => {
   //fetchea pasajes de un usuario
-  let pasajes = await Pasaje.find({usuario: req.params.id, unavailable: false});
+  let pasajes = await Pasaje.find({usuario: req.params.id, unavailable: false}).populate([{path: 'viaje',model: 'Viaje',populate:{
+    path: 'ruta',model: 'Ruta',populate: [ {path: 'origen',model: 'Ciudad'},{path: 'destino',model: 'Ciudad'},
+    {path: 'combi',model: 'Combi',populate: {path: 'chofer',model: 'Usuario',}}]}}, 
+    {path: 'usuario', model: 'Usuario'}]);
   res.status(200).json(pasajes).end();
 });
 
 ticketsRouter.get('/:travel', async (req, res) => {
   //fetchea pasajes de un viaje
-  let pasajes = await Pasaje.find({
-    viaje: req.params.travel,
-    unavailable: false,
-  });
+  let pasajes = await Pasaje.find({travel: req.params.travel, unavailable: false}).populate([{path: 'viaje',model: 'Viaje',populate:{
+    path: 'ruta',model: 'Ruta',populate: [ {path: 'origen',model: 'Ciudad'},{path: 'destino',model: 'Ciudad'},
+    {path: 'combi',model: 'Combi',populate: {path: 'chofer',model: 'Usuario',}}]}}, 
+    {path: 'usuario', model: 'Usuario'}]);
   res.status(200).json(pasajes).end();
 });
 
