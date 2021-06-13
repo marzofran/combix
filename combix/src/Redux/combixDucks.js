@@ -139,37 +139,38 @@ export const cargarUsuarios = () => (dispatch, getState) => {
 };
 
 export const activarGold = (id) => (dispatch) => {
-  Axios.put('http://localhost:8080/users/' + id + '/gold')
-  .then((response) => {
+  Axios.put('http://localhost:8080/users/' + id + '/gold').then((response) => {
     switch (response.status) {
       case 200:
         dispatch({
           type: ACTIVAR_GOLD,
           payload: response.data,
         });
-        alert('El usuario ahora es GOLD!')
+
+        alert('El usuario ahora es GOLD!');
         break;
       default:
         alert(response.data);
         break;
     }
   });
-}
+};
 
 export const cancelarGold = (id) => (dispatch) => {
-  Axios.put('http://localhost:8080/users/' + id + '/cancelargold')
-  .then((response) => {
-    switch (response.status) {
-      case 200:
-        dispatch({
-          type: CANCELAR_GOLD,
-          payload: response.data,
-        });
-        alert('Se cancelo exitosamente la subscripcion a GOLD!')
-        break;
-      default:
-        alert(response.data);
-        break;
+  Axios.put('http://localhost:8080/users/' + id + '/cancelargold').then(
+    (response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: CANCELAR_GOLD,
+            payload: response.data,
+          });
+          alert('Se cancelo exitosamente la subscripcion a GOLD!');
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
     }
-  });
-}
+  );
+};
