@@ -12,11 +12,12 @@ const hasLegalAge = (dob) => {
   return new Date().now().getFullYear() - date > 18;
 };
 
-usersRouter.get('/:mail', async (req,res) => {
+usersRouter.get('/:mail', async (req, res) => {
   const mailValido = await Usuario.findOne({mail: req.params.mail});
-  if (mailValido) { res.status(200).json(mailValido).end()}
-  else throw new HttpError(404, 'El mail no existe');
-})
+  if (mailValido) {
+    res.status(200).json(mailValido).end();
+  } else throw new HttpError(404, 'El mail no existe');
+});
 
 //Display
 usersRouter.get('/', async (req, res) => {
@@ -54,7 +55,7 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
 //Modify
 usersRouter.put('/:id', async (req, res) => {
   //validaciones?? menor de edad????
-  const user = req.body;
+  const user = req.body.usuario;
   const usuarioExistente = await Usuario.find({
     _id: req.params.id,
     unavailable: false,
@@ -68,11 +69,19 @@ usersRouter.put('/:id', async (req, res) => {
   });
   if (Object.entries(foundUser).length === 2)
     throw new HttpError(203, 'Ya existe un usuario con esos datos');
-  let update= {nombre: user.nombre, 
-  apellido: user.apellido, mail: user.mail, dni: user.dni, clave: user.clave, 
-  fechaNacimiento: user.fechaNacimiento, telefono: 0};
-  let pepe = await Usuario.findOneAndUpdate({_id: req.params.id}, update, { new: true });
-    res.status(200).send(pepe).end();
+  let update = {
+    nombre: user.nombre,
+    apellido: user.apellido,
+    mail: user.mail,
+    dni: user.dni,
+    clave: user.clave,
+    fechaNacimiento: user.fechaNacimiento,
+    telefono: user.telefono,
+  };
+  let pepe = await Usuario.findOneAndUpdate({_id: req.params.id}, update, {
+    new: true,
+  });
+  res.status(200).send(pepe).end();
 });
 
 usersRouter.put('/:id/gold', async (req, res) => {
