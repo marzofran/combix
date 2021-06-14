@@ -41,12 +41,10 @@ export const buscarViajes =
       .then((response) => {
         switch (response.status) {
           case 200:
-            let viajes = response.data;
+            let viajes = response.data.sort((a, b) => a.ruta.combi.tipo.localeCompare(b.ruta.combi.tipo));
 
             if (superComoda === 'true') {
-              viajes = response.data
-                .sort((a, b) => a.combi.tipo.localeCompare(b.combi.tipo))
-                .reverse();
+              viajes = viajes.reverse();
             }
             dispatch({
               type: BUSCAR_VIAJES,
