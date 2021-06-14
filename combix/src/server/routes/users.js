@@ -4,6 +4,7 @@ const {userIntegrityValidation} = require('../middleware/validations');
 const Usuario = require('../schemas/Usuario');
 const HttpError = require('../utils/HttpError');
 const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const ticketsRouter = require('./tickets');
 
 const hasLegalAge = (dob) => {
   const date = new Date(dob).getFullYear();
@@ -47,32 +48,24 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
 //Modify
 usersRouter.put('/:id', async (req, res) => {
   //validaciones?? menor de edad????
+  const user = req.body;
   const usuarioExistente = await Usuario.find({
     _id: req.params.id,
     unavailable: false,
   });
   if (!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
-  const usuarioNuevo = queryBuilder(req.body, [
-    'nombre',
-    'apellido',
-    'mail',
-    'dni',
-    'clave',
-    'fechaNacimiento',
-  ]);
   //if (!hasLegalAge(usuarioNuevo.fechaNacimiento))
   //  throw new Error('Debe ser mayor de edad');
-  mapAndBuildModel(usuarioExistente, usuarioNuevo);
   const foundUser = Usuario.find({
-    mail: usuarioExistente.mail,
+    mail: user.mail,
     unavailable: false,
   });
-  if ((foundUser) && (foundUser._id!==usuarioExistente._id))
+  if (Object.entries(foundUser).length === 2)
     throw new HttpError(203, 'Ya existe un usuario con esos datos');
-  let pepe = await Usuario.findOneAndUpdate({_id: usuarioExistente._id}, [{nombre: usuarioExistente.nombre}, 
-    {apellido: usuarioExistente.apellido}, {mail: usuarioExistente.mail}, {dni: usuarioExistente.dni}, {clave: usuarioExistente.clave}, 
-    {fechaNacimiento: usuarioExistente.fechaNacimiento}], {returnOriginal: false});
-  res.status(200).send(pepe).end();
+  let pepe = await Usuario.findOneAndUpdate({_id: req.params.id}, [{nombre: user.nombre}, 
+    {apellido: user.apellido}, {mail: user.mail}, {dni: user.dni}, {clave: user.clave}, 
+    {fechaNacimiento: user.fechaNacimiento}, {telefono: user.telefono}], { returnOriginal: false });
+    res.status(200).send(pepe).end();
 });
 
 usersRouter.put('/:id/gold', async (req, res) => {
