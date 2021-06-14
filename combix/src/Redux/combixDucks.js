@@ -99,7 +99,7 @@ export const registrarUsuario = (newUser) => (dispatch, getState) => {
           type: REGISTRAR_USUARIO,
           payload: response.data,
         });
-        history.push('/loged');
+        history.push('/client/buscarPasajes');
         break;
       case 203:
         alert('El email ya está registrado');
