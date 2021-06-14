@@ -1,19 +1,17 @@
 import React, {useState} from 'react';
 import {Card, Container, Form, Button} from 'react-bootstrap';
 import history from './history';
-
+import {useDispatch} from 'react-redux';
+import {recuperarContraseña} from '../Redux/clienteDucks';
 const OlvideContraseña = () => {
   const [mail, setMail] = useState('');
   const handleChangleMail = (e) => {
     setMail(e.target.value);
   };
-
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.push({
-      pathname: '/mailEnviado',
-      state: {mail: mail},
-    });
+    dispatch(recuperarContraseña(mail));
   };
   return (
     <div className='mt-5'>

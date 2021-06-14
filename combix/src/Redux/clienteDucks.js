@@ -9,7 +9,7 @@ const BUSCAR_VIAJES = 'BUSCAR_VIAJES';
 const VALIDAR_DISPONIBILIDAD = 'VALIDAR_DISPONIBILIDAD';
 const CREAR_PASAJE = 'CREAR_PASAJE';
 const CARGAR_PASAJES = 'CARGAR_PASAJES';
-
+const RECUPERAR_CONTRASEÑA = 'RECUPERAR_CONTRASEÑA ';
 const ELIMINAR_PASAJE = 'ELIMINAR_PASAJE';
 
 export default function reducer(state = configDuck, action) {
@@ -22,6 +22,8 @@ export default function reducer(state = configDuck, action) {
       return {...state, elementos: action.payload};
     case CARGAR_PASAJES:
       return {...state, elementos: action.payload};
+    case RECUPERAR_CONTRASEÑA:
+      return state;
     case ELIMINAR_PASAJE:
       return state;
     default:
@@ -171,4 +173,23 @@ export const cancelarPasaje = (id, _idUsuario) => (dispatch) => {
       }
     }
   );
+};
+
+export const recuperarContraseña = (mail) => (dispatch) => {
+  Axios.get('http://localhost:8080/users/' + mail).then((response) => {
+    switch (response.status) {
+      case 200:
+        dispatch({
+          type: RECUPERAR_CONTRASEÑA,
+        });
+        history.push({
+          pathname: '/mailEnviado',
+          state: {mail: mail},
+        });
+        break;
+      default:
+        alert(response.data);
+        break;
+    }
+  });
 };
