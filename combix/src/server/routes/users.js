@@ -69,9 +69,9 @@ usersRouter.put('/:id', async (req, res) => {
   });
   if ((foundUser) && (foundUser._id!==usuarioExistente._id))
     throw new HttpError(203, 'Ya existe un usuario con esos datos');
-  const pepe = await Usuario.findOneAndUpdate({_id: usuarioExistente._id}, [{nombre: usuarioExistente.nombre}, 
+  let pepe = await Usuario.findOneAndUpdate({_id: usuarioExistente._id}, [{nombre: usuarioExistente.nombre}, 
     {apellido: usuarioExistente.apellido}, {mail: usuarioExistente.mail}, {dni: usuarioExistente.dni}, {clave: usuarioExistente.clave}, 
-    {fechaNacimiento: usuarioExistente.fechaNacimiento}]);
+    {fechaNacimiento: usuarioExistente.fechaNacimiento}], {returnOriginal: false});
   res.status(200).send(pepe).end();
 });
 
