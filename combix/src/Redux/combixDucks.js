@@ -13,6 +13,7 @@ const REGISTRAR_USUARIO = 'REGISTRAR_USUARIO';
 const CARGAR_USUARIO = 'CARGAR_USUARIO';
 const ACTIVAR_GOLD = 'ACTIVAR_GOLD';
 const CANCELAR_GOLD = 'CANCELAR_GOLD';
+const MODIFICAR_USUARIO = 'MODIFICAR_USUARIO';
 
 // reducer
 export default function reducer(state = configDuck, action) {
@@ -28,6 +29,8 @@ export default function reducer(state = configDuck, action) {
     case ACTIVAR_GOLD:
       return {...state, sesion: action.payload};
     case CANCELAR_GOLD:
+      return {...state, sesion: action.payload};
+    case MODIFICAR_USUARIO:
       return {...state, sesion: action.payload};
     default:
       return state;
@@ -173,4 +176,40 @@ export const cancelarGold = (id) => (dispatch) => {
       }
     }
   );
+};
+
+export const modificarUsuario = (nombre, apellido, mail, clave, dni, fechaNacimiento, id) => (dispatch) => {
+  const usuario = {
+    nombre,
+    apellido,
+    mail,
+    dni: parseInt(dni),
+    clave,
+    fechaNacimiento,
+  };
+
+  Axios.put('http://localhost:8080/users/' + id, {
+    usuario: usuario,
+    params: {
+      id: id,
+    },
+  }).then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: MODIFICAR_USUARIO,
+            payload: response.data,
+          });
+          break;
+        case 203:
+          alert(response.data)
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (err) {
+      alert(err);
+    });
 };

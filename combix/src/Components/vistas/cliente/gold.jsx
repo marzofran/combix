@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+/* eslint-disable eqeqeq */
+import React, {useState} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import {useSelector, useDispatch} from 'react-redux';
 import FormGold from './elementos/formGold'
