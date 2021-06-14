@@ -19,24 +19,24 @@ const FormComprar = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = (e) => {
     e.preventDefault()
-    setShow(true)
+    if(noVencida(fecha)){
+      setShow(true)
+    } else {
+      alert("La tarjeta se encuentra vencida o no es una fecha valida")
+    }
   }
 
   const handlerSubmit = (event) => {
     event.preventDefault();
-    if(noVencida(fecha)){
-      dispatch(
-        crearPasaje(
-          props.viaje,
-          props.user,
-          props.cantAsientos,
-          props.insumos,
-          props.total
-        )
-      );
-    } else {
-      alert("La tarjeta se encuentra vencida o no es una fecha valida")
-    }
+    dispatch(
+      crearPasaje(
+        props.viaje,
+        props.user,
+        props.cantAsientos,
+        props.insumos,
+        props.total
+      )
+    );
   };
 
   const handleNameChange = ({ target }) => {

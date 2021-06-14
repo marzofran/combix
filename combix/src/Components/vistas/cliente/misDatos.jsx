@@ -9,7 +9,15 @@ const MisDatos = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (e) => {
+    e.preventDefault()
+    if (esMayor(fecha)) {
+      setShow(true);
+    } else {
+      alert('No es mayor de edad');
+    }
+  }
+
   const [nombre, setNombre] = useState(usuario.nombre);
   const [apellido, setApellido] = useState(usuario.apellido);
   const [mail, setMail] = useState(usuario.mail);
@@ -38,13 +46,9 @@ const MisDatos = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (esMayor(fecha)) {
-      dispatch(
-        modificarUsuario(nombre, apellido, mail, clave, dni, fecha, usuario._id)
-      );
-    } else {
-      alert('No es mayor de edad');
-    }
+    dispatch(
+      modificarUsuario(nombre, apellido, mail, clave, dni, fecha, usuario._id)
+    );
   };
 
   return (
@@ -64,7 +68,7 @@ const MisDatos = () => {
             <p>
               Ingrese todos sus datos, modificando aquellos que quiera cambiar
             </p>
-            <Form id={'formularioPPal'} onSubmit={submitHandler}>
+            <Form id={'formularioPPal'} onSubmit={handleShow}>
               <Form.Group controlId='nombre'>
                 <Form.Label>Nombre/s</Form.Label>
                 <Form.Control
@@ -161,10 +165,10 @@ const MisDatos = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
-            Close
+            Cerrar
           </Button>
-          <Button variant='primary' onClick={handleClose}>
-            Save Changes
+          <Button variant='primary' onClick={submitHandler}>
+            Guardar Cambios
           </Button>
         </Modal.Footer>
       </Modal>

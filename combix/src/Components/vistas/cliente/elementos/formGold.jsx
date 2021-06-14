@@ -16,7 +16,11 @@ const FormGold = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = (e) => {
     e.preventDefault()
-    setShow(true)
+    if(noVencida(fecha)){
+      setShow(true)
+    } else {
+      alert("La tarjeta se encuentra vencida o no es una fecha valida")
+    }
   }
 
   const handleNameChange = ({ target }) => {
@@ -29,15 +33,9 @@ const FormGold = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(fecha)
-    if(noVencida(fecha)){
-      dispatch(activarGold(
-        usuario._id,
-      ));
-    } else {
-      alert("La tarjeta se encuentra vencida o no es una fecha valida")
-    }
-
+    dispatch(activarGold(
+      usuario._id,
+    ));
     handleClose();
   }
 

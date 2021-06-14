@@ -198,12 +198,11 @@ export const modificarUsuario =
       .then((response) => {
         switch (response.status) {
           case 200:
-            console.log(response.data);
-
             dispatch({
               type: MODIFICAR_USUARIO,
               payload: response.data,
             });
+            alert("Se modificaron los datos de usuario con exito")
             break;
           case 203:
             alert(response.data);
