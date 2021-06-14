@@ -12,6 +12,12 @@ const hasLegalAge = (dob) => {
   return new Date().now().getFullYear() - date > 18;
 };
 
+usersRouter.get('/:mail', async (req,res) => {
+  const mailValido = await Usuario.findOne({mail: req.params.mail});
+  if (mailValido) { res.status(200).json(mailValido).end()}
+  else throw new HttpError(404, 'El mail no existe');
+})
+
 //Display
 usersRouter.get('/', async (req, res) => {
   let usuarios = await Usuario.find({
