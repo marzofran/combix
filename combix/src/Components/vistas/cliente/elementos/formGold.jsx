@@ -117,7 +117,7 @@ const FormGold = (props) => {
           Cerrar
         </Button>
         <Button
-          variant='danger'
+          variant='success'
           onClick={handleSubmit}
         >
           Si, quiero ser GOLD
