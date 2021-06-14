@@ -67,7 +67,7 @@ usersRouter.put('/:id', async (req, res) => {
     mail: usuarioExistente.mail,
     unavailable: false,
   });
-  if (foundUser._id!==usuarioExistente._id)
+  if ((foundUser) && (foundUser._id!==usuarioExistente._id))
     throw new HttpError(203, 'Ya existe un usuario con esos datos');
   await usuarioExistente.save();
   res.status(200).send(usuarioExistente).end();
