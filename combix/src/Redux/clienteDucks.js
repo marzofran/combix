@@ -1,8 +1,9 @@
 import Axios from 'axios';
 import history from '../Components/history';
 const configDuck = {
-  sesion: {},
+  resultadoBusqueda: [],
   elementos: [],
+  misReviews: [],
 };
 const BUSCAR_VIAJES = 'BUSCAR_VIAJES';
 const VALIDAR_DISPONIBILIDAD = 'VALIDAR_DISPONIBILIDAD';
@@ -14,7 +15,7 @@ const ELIMINAR_PASAJE = 'ELIMINAR_PASAJE';
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
     case BUSCAR_VIAJES:
-      return {...state, elementos: action.payload};
+      return {...state, resultadoBusqueda: action.payload};
     case CREAR_PASAJE:
       return state;
     case VALIDAR_DISPONIBILIDAD:
@@ -51,15 +52,15 @@ export const buscarViajes =
               type: BUSCAR_VIAJES,
               payload: viajes,
             });
-            alert(response.data);
+
             history.push('./resultado');
             break;
           case 404:
-            alert(response.data);
+            alert('No se encontraron viajes');
 
             break;
           default:
-            alert(response.data);
+            alert('No se encontraron viajes');
             break;
         }
       })
@@ -141,11 +142,28 @@ export const cancelarPasaje = (id) => (dispatch) => {
     (response) => {
       switch (response.status) {
         case 200:
+          Axios.get('http://localhost:8080/tickets/' + id, {
+            id,
+          }).then((response) => {
+            switch (response.status) {
+              case 200:
+                dispatch({
+                  type: CARGAR_PASAJES,
+                  payload: response.data,
+                });
+
+                break;
+              default:
+                alert(response.data);
+                console.log(response);
+                break;
+            }
+          });
           dispatch({
             type: ELIMINAR_PASAJE,
             payload: response.data,
           });
-
+          alert('Reembolso efectuado correctamente');
           break;
         default:
           alert(response.data);
