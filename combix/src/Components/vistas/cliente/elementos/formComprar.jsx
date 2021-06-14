@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Col, Row, Card, Form} from 'react-bootstrap';
+import {Col, Row, Card, Form, Modal, Button} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {crearPasaje} from '../../../../Redux/clienteDucks';
 
@@ -10,10 +10,18 @@ const FormComprar = (props) => {
   console.log(props.cantAsientos);
   */
 
+  const [show, setShow] = useState(false);
   const [name, setName] = useState('')
   const [fecha, setFecha] = useState('mm/aa')
 
   const dispatch = useDispatch();
+
+  const handleClose = () => setShow(false);
+  const handleShow = (e) => {
+    e.preventDefault()
+    setShow(true)
+  }
+
   const handlerSubmit = (event) => {
     event.preventDefault();
     if(noVencida(fecha)){
@@ -45,7 +53,7 @@ const FormComprar = (props) => {
         <Row>
           <Col>
             <Card.Body>
-              <Form onSubmit={handlerSubmit}>
+              <Form onSubmit={handleShow}>
                 {' '}
                 <Form.Group>
                   <Form.Label>Nombre completo:</Form.Label>
@@ -106,6 +114,27 @@ const FormComprar = (props) => {
                   </Col>
                 </Row>
               </Form>
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>¡Atención!</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                  <p>Se registrará el pago del precio total por la compra. ¿Desea continuar?</p>
+                </Modal.Body>
+
+                <Modal.Footer>
+                  <Button variant='secondary' onClick={() => handleClose()}>
+                    Cerrar
+                  </Button>
+                  <Button
+                    variant='success'
+                    onClick={handlerSubmit}
+                  >
+                    Comprar
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </Card.Body>
           </Col>
         </Row>
