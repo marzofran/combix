@@ -6,9 +6,9 @@ const HttpError = require('../utils/HttpError');
 const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 
 const hasLegalAge = (dob) => {
-  const date = new Date(dob).getFullYear;
+  const date = new Date(dob).getFullYear();
   if (!date) return false;
-  return new Date().getFullYear - date > 18;
+  return new Date().now().getFullYear() - date > 18;
 };
 
 //Display
@@ -56,9 +56,7 @@ usersRouter.put('/:id', async (req, res) => {
     'nombre',
     'apellido',
     'mail',
-    'telefono',
     'dni',
-    'mail',
     'clave',
     'fechaNacimiento',
   ]);
@@ -72,7 +70,7 @@ usersRouter.put('/:id', async (req, res) => {
   if (foundUser._id!==usuarioExistente._id)
     throw new HttpError(203, 'Ya existe un usuario con esos datos');
   await usuarioExistente.save();
-  res.status(200).send('Usuario modificado con exito').end();
+  res.status(200).send(usuarioExistente).end();
 });
 
 usersRouter.put('/:id/gold', async (req, res) => {

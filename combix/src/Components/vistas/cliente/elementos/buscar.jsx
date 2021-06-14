@@ -122,6 +122,7 @@ const BuscarForm = () => {
                       <Form.Check
                         value={false}
                         inline
+                        checked
                         name='group1'
                         type='radio'
                         label=' '
