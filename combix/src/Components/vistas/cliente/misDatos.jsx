@@ -36,9 +36,7 @@ const MisDatos = () => {
   const submitHandler = (e) => {
     e.preventDefault()
     if (esMayor(fecha)) {
-      dispatch(
-        dispatch(modificarUsuario(nombre,apellido,mail,clave,dni,fecha,usuario._id))
-      );
+      dispatch(modificarUsuario(nombre,apellido,mail,clave,dni,fecha,usuario._id))
     } else {
       alert('No es mayor de edad');
     }
