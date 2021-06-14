@@ -12,6 +12,12 @@ const hasLegalAge = (dob) => {
   return new Date().now().getFullYear() - date > 18;
 };
 
+usersRouter.get('/:mail', async (req,res) => {
+  const mailValido = await Usuario.findOne({mail: req.params.mail});
+  if (mailValido) { res.status(200).json(mailValido).end()}
+  else throw new HttpError(404, 'El mail no existe');
+})
+
 //Display
 usersRouter.get('/', async (req, res) => {
   let usuarios = await Usuario.find({
@@ -64,7 +70,7 @@ usersRouter.put('/:id', async (req, res) => {
     throw new HttpError(203, 'Ya existe un usuario con esos datos');
   let update= {nombre: user.nombre, 
   apellido: user.apellido, mail: user.mail, dni: user.dni, clave: user.clave, 
-  fechaNacimiento: user.fechaNacimiento, telefono: user.telefono};
+  fechaNacimiento: user.fechaNacimiento, telefono: 0};
   let pepe = await Usuario.findOneAndUpdate({_id: req.params.id}, update, { new: true });
     res.status(200).send(pepe).end();
 });
