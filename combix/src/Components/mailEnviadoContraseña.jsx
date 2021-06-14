@@ -21,8 +21,11 @@ const MailEnviado = (props) => {
           <div className='sombra-buscar'>
             <Card.Body>
               <div className='text-center '>
-                <h2>Se envio un correo, al mail : {mail} con la contraseña</h2>
-                <h4>Tenes 48 horas para ingresar con la nueva contraseña</h4>
+                <h2>Se envio un correo, al mail : {mail}</h2>
+                <h4>
+                  Revisa tu casilla de correo, ahi recibirás tus datos de inicio
+                  de sesion
+                </h4>
               </div>
             </Card.Body>
           </div>
