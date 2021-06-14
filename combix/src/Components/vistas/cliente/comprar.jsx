@@ -20,7 +20,7 @@ const {dateFormatPretty} = require('../../../scripts/dateFormat');
 const {toTitleCase} = require('../../../scripts/toTitleCase');
 
 const ComprarComponent = (props) => {
-  const descuento = 0.1
+  const descuento = 0.1;
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -73,10 +73,10 @@ const ComprarComponent = (props) => {
   };
 
   function calcularPrecioTotalInsumo(e) {
-    setPrectioTotalInsumos(prectioTotalInsumos + e.precio);
+    setPrectioTotalInsumos(prectioTotalInsumos + parseFloat(e.precio));
   }
   function restarPrecioInsumo(e) {
-    setPrectioTotalInsumos(prectioTotalInsumos - e.precio);
+    setPrectioTotalInsumos(prectioTotalInsumos - parseFloat(e.precio));
   }
   return (
     <div className='mt-3'>
@@ -106,8 +106,7 @@ const ComprarComponent = (props) => {
                         <div>
                           Salida
                           <h5>
-                            {dateFormatPretty(data.fecha)} -{' '}
-                            {data.ruta.horario}
+                            {dateFormatPretty(data.fecha)} - {data.ruta.horario}
                           </h5>
                         </div>
                       </Col>
@@ -149,7 +148,11 @@ const ComprarComponent = (props) => {
               </div>
             </Card>
             <FormComprar
-              total={gold ? (data.precio * cant + prectioTotalInsumos) * (1 - descuento) : data.precio * cant + prectioTotalInsumos}
+              total={
+                gold
+                  ? (data.precio * cant + prectioTotalInsumos) * (1 - descuento)
+                  : data.precio * cant + prectioTotalInsumos
+              }
               viaje={data}
               cantAsientos={cant}
               user={usuario}
@@ -184,30 +187,50 @@ const ComprarComponent = (props) => {
                     </Row>
                   </div>
                   <div className='mt-2'>
-                    {gold && (<>
-                    <Row>
-                    <Col lg={8}>
-                      <p className='mb-1'>
-                        Total:{' '}
-                      </p>
-                    </Col>
-                    <Col> ${parseFloat(data.precio * cant + prectioTotalInsumos).toFixed(2)}</Col>
-                    </Row>
-                    <Row>
-                      <Col lg={8}>
-                        <p className='mb-1'>
-                          Descuento GOLD:{' '}
-                        </p>
-                      </Col>
-                      <Col>- ${(parseFloat(data.precio * cant + prectioTotalInsumos) * descuento).toFixed(2)}</Col>
-                    </Row></>)}
+                    {gold && (
+                      <>
+                        <Row>
+                          <Col lg={8}>
+                            <p className='mb-1'>Total: </p>
+                          </Col>
+                          <Col>
+                            {' '}
+                            $
+                            {parseFloat(
+                              data.precio * cant + prectioTotalInsumos
+                            ).toFixed(2)}
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg={8}>
+                            <p className='mb-1'>Descuento GOLD: </p>
+                          </Col>
+                          <Col>
+                            - $
+                            {(
+                              parseFloat(
+                                data.precio * cant + prectioTotalInsumos
+                              ) * descuento
+                            ).toFixed(2)}
+                          </Col>
+                        </Row>
+                      </>
+                    )}
                     <Row>
                       <Col lg={7}>
                         {' '}
                         <p className='mb-0'>Precio final:</p>
                       </Col>
                       <Col>
-                        <h4>${ parseFloat(gold ? (data.precio * cant + prectioTotalInsumos) * (1 - descuento) : data.precio * cant + prectioTotalInsumos).toFixed(2) }</h4>
+                        <h4>
+                          $
+                          {parseFloat(
+                            gold
+                              ? (data.precio * cant + prectioTotalInsumos) *
+                                  (1 - descuento)
+                              : data.precio * cant + prectioTotalInsumos
+                          ).toFixed(2)}
+                        </h4>
                       </Col>
                     </Row>
                   </div>
@@ -235,9 +258,10 @@ const ComprarComponent = (props) => {
                         <Card className='mt-2'>
                           <Card.Body>
                             <Row>
-                              <Col lg={8}>
+                              <Col lg={5}>
                                 <h4>{item.nombre}</h4>
                               </Col>
+                              <Col>{item.precio}</Col>
                               <Col>
                                 <Button
                                   className='mr-2'
