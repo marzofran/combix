@@ -17,7 +17,7 @@ const NavUsuarioLogeado = () => {
     <div>
       <Router history={history}>
         <Navbar expand='lg' variant='dark' style={{backgroundColor: '#135671'}}>
-          <Link to='/client'>
+          <Link to='/client/buscarPasajes'>
             <Navbar.Brand>
               <img
                 src={combixLogo}
@@ -28,7 +28,10 @@ const NavUsuarioLogeado = () => {
             </Navbar.Brand>
           </Link>
 
-          <Link className='navbar-brand nav-link ' to='/client/miPerfil'>
+          <Link
+            className='navbar-brand nav-link '
+            to='/client/miPerfil/misDatos'
+          >
             <h5>Mi perfil</h5>
           </Link>
           <Link
