@@ -64,7 +64,7 @@ usersRouter.put('/:id', async (req, res) => {
     throw new HttpError(203, 'Ya existe un usuario con esos datos');
   let pepe = await Usuario.findOneAndUpdate({_id: req.params.id}, [{nombre: user.nombre}, 
     {apellido: user.apellido}, {mail: user.mail}, {dni: user.dni}, {clave: user.clave}, 
-    {fechaNacimiento: user.fechaNacimiento}, {telefono: user.telefono}], { returnOriginal: false });
+    {fechaNacimiento: user.fechaNacimiento}, {telefono: user.telefono}], { new: true });
     res.status(200).send(pepe).end();
 });
 
