@@ -8,7 +8,7 @@ import {
   Col,
   Modal,
 } from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {cancelarPasaje} from '../../../../Redux/clienteDucks';
 const {dateFormatPretty} = require('../../../../scripts/dateFormat');
 
@@ -18,6 +18,7 @@ const Pasaje = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const dispatch = useDispatch();
+  const sesion = useSelector((store) => store.combix.sesion);
 
   useEffect(() => {
     let today = new Date();
@@ -38,7 +39,7 @@ const Pasaje = (props) => {
   }, []);
 
   function eliminarPasaje() {
-    dispatch(cancelarPasaje(props.item._id));
+    dispatch(cancelarPasaje(props.item._id, sesion._id));
     handleClose();
   }
   return (

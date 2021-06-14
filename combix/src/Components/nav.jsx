@@ -10,6 +10,8 @@ import {useSelector} from 'react-redux';
 import NavUsuarioLogeado from './navUsuarioLogeado';
 import NavAdminLogeado from './navAdminLogeado';
 import HomeCliente from './vistas/cliente/homeCliente';
+import OlvideContraseña from './olvideMiContraseña';
+import MailEnviado from './mailEnviadoContraseña';
 const Nav = () => {
   const store = useSelector((store) => store.combix.sesion);
 
@@ -58,6 +60,12 @@ const Nav = () => {
         )}
         <RednerNavAdmin></RednerNavAdmin>
         <Switch>
+          <Route path='/olvideMiContraseña'>
+            <OlvideContraseña></OlvideContraseña>
+          </Route>
+          <Route path='/mailEnviado'>
+            <MailEnviado></MailEnviado>
+          </Route>
           <Route path='/login'>
             <Login></Login>
           </Route>

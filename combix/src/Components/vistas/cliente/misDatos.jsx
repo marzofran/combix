@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
-import {Col, Row, Form} from 'react-bootstrap';
+import {Col, Row, Form, Modal, Button} from 'react-bootstrap';
 import {useSelector, useDispatch} from 'react-redux';
-import {modificarUsuario} from '../../../Redux/combixDucks'
+import {modificarUsuario} from '../../../Redux/combixDucks';
 
 const MisDatos = () => {
   const dispatch = useDispatch();
   const usuario = useSelector((store) => store.combix.sesion);
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [nombre, setNombre] = useState(usuario.nombre);
   const [apellido, setApellido] = useState(usuario.apellido);
   const [mail, setMail] = useState(usuario.mail);
@@ -34,13 +37,15 @@ const MisDatos = () => {
   };
 
   const submitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (esMayor(fecha)) {
-      dispatch(modificarUsuario(nombre,apellido,mail,clave,dni,fecha,usuario._id))
+      dispatch(
+        modificarUsuario(nombre, apellido, mail, clave, dni, fecha, usuario._id)
+      );
     } else {
       alert('No es mayor de edad');
     }
-  }
+  };
 
   return (
     <div className={'col'}>
@@ -52,8 +57,13 @@ const MisDatos = () => {
         </div>
         <Row>
           <Col>
-            <h3 style={{paddingTop: '10px', fontSize: '20px'}}> Quiero cambiar mis datos </h3>
-            <p>Ingrese todos sus datos, modificando aquellos que quiera cambiar</p>
+            <h3 style={{paddingTop: '10px', fontSize: '20px'}}>
+              {' '}
+              Quiero cambiar mis datos{' '}
+            </h3>
+            <p>
+              Ingrese todos sus datos, modificando aquellos que quiera cambiar
+            </p>
             <Form id={'formularioPPal'} onSubmit={submitHandler}>
               <Form.Group controlId='nombre'>
                 <Form.Label>Nombre/s</Form.Label>
@@ -142,6 +152,22 @@ const MisDatos = () => {
           </Col>
         </Row>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cambiar Datos</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estas seguro que desea cambiar los datos de usuario?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant='primary' onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

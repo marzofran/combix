@@ -62,12 +62,14 @@ const Login = () => {
               </div>
 
               <button className={'btn btn-login mt-4'}>Iniciá Sesión</button>
-              <p
-                className={'mt-4 h4'}
-                style={{textDecorationLine: 'underline'}}
-              >
-                Olvidé mi contraseña
-              </p>
+              <Link to='/olvideMiContraseña'>
+                <p
+                  className={'mt-4 h4'}
+                  style={{textDecorationLine: 'underline'}}
+                >
+                  Olvidé mi contraseña
+                </p>
+              </Link>
             </form>
           </div>
         </div>

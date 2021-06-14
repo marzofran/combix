@@ -41,7 +41,9 @@ export const buscarViajes =
       .then((response) => {
         switch (response.status) {
           case 200:
-            let viajes = response.data.sort((a, b) => a.ruta.combi.tipo.localeCompare(b.ruta.combi.tipo));
+            let viajes = response.data.sort((a, b) =>
+              a.ruta.combi.tipo.localeCompare(b.ruta.combi.tipo)
+            );
 
             if (superComoda === 'true') {
               viajes = viajes.reverse();
@@ -135,13 +137,13 @@ export const cargarPasajes = (id) => (dispatch) => {
   });
 };
 
-export const cancelarPasaje = (id) => (dispatch) => {
+export const cancelarPasaje = (id, _idUsuario) => (dispatch) => {
   Axios.delete('http://localhost:8080/tickets/' + id, {params: id}).then(
     (response) => {
       switch (response.status) {
         case 200:
-          Axios.get('http://localhost:8080/tickets/' + id, {
-            id,
+          Axios.get('http://localhost:8080/tickets/' + _idUsuario, {
+            _idUsuario,
           }).then((response) => {
             switch (response.status) {
               case 200:

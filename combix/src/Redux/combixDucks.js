@@ -178,38 +178,42 @@ export const cancelarGold = (id) => (dispatch) => {
   );
 };
 
-export const modificarUsuario = (nombre, apellido, mail, clave, dni, fechaNacimiento, id) => (dispatch) => {
-  const usuario = {
-    nombre,
-    apellido,
-    mail,
-    dni: parseInt(dni),
-    clave,
-    fechaNacimiento,
-  };
+export const modificarUsuario =
+  (nombre, apellido, mail, clave, dni, fechaNacimiento, id) => (dispatch) => {
+    const usuario = {
+      nombre,
+      apellido,
+      mail,
+      dni: parseInt(dni),
+      clave,
+      fechaNacimiento,
+    };
 
-  Axios.put('http://localhost:8080/users/' + id, {
-    usuario: usuario,
-    params: {
-      id: id,
-    },
-  }).then((response) => {
-      switch (response.status) {
-        case 200:
-          dispatch({
-            type: MODIFICAR_USUARIO,
-            payload: response.data,
-          });
-          break;
-        case 203:
-          alert(response.data)
-          break;
-        default:
-          alert(response.data);
-          break;
-      }
+    Axios.put('http://localhost:8080/users/' + id, {
+      usuario: usuario,
+      params: {
+        id: id,
+      },
     })
-    .catch(function (err) {
-      alert(err);
-    });
-};
+      .then((response) => {
+        switch (response.status) {
+          case 200:
+            console.log(response.data);
+
+            dispatch({
+              type: MODIFICAR_USUARIO,
+              payload: response.data,
+            });
+            break;
+          case 203:
+            alert(response.data);
+            break;
+          default:
+            alert(response.data);
+            break;
+        }
+      })
+      .catch(function (err) {
+        alert(err);
+      });
+  };
