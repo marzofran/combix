@@ -11,24 +11,32 @@ const FormComprar = (props) => {
   */
 
   const [name, setName] = useState('')
+  const [fecha, setFecha] = useState('mm/aa')
 
   const dispatch = useDispatch();
   const handlerSubmit = (event) => {
     event.preventDefault();
-
-    dispatch(
-      crearPasaje(
-        props.viaje,
-        props.user,
-        props.cantAsientos,
-        props.insumos,
-        props.total
-      )
-    );
+    if(noVencida(fecha)){
+      dispatch(
+        crearPasaje(
+          props.viaje,
+          props.user,
+          props.cantAsientos,
+          props.insumos,
+          props.total
+        )
+      );
+    } else {
+      alert("La tarjeta se encuentra vencida o no es una fecha valida")
+    }
   };
 
   const handleNameChange = ({ target }) => {
     setName(target.value.toUpperCase())
+  }
+
+  const handleChangeFecha = ({target}) => {
+    setFecha(target.value)
   }
 
   return (
@@ -80,7 +88,12 @@ const FormComprar = (props) => {
                   <Col>
                     <Form.Group>
                       <Form.Label>Fecha de vencimiento:</Form.Label>
-                      <Form.Control required type='date'></Form.Control>
+                      <Form.Control 
+                        required 
+                        value={fecha}
+                        pattern='\d{2}/\d{2}' 
+                        onChange={handleChangeFecha}>
+                      </Form.Control>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -102,3 +115,14 @@ const FormComprar = (props) => {
 };
 
 export default FormComprar;
+
+const noVencida = (fecha) => {
+  let [m, y] = fecha.split('/')
+  let today = new Date()
+  let month = parseInt(m), year = parseInt(y)
+  if (m > 12) return false
+  else if ( month > today.getMonth()+1 && year >= parseInt(today.getFullYear().toString().substr(-2)) ){
+    return true
+  }
+  return false
+}
