@@ -11,6 +11,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {cancelarPasaje} from '../../../../Redux/clienteDucks';
 const {dateFormatPretty} = require('../../../../scripts/dateFormat');
+const {toTitleCase} = require('../../../../scripts/toTitleCase');
 
 const Pasaje = (props) => {
   const [show, setShow] = useState(false);
@@ -43,71 +44,74 @@ const Pasaje = (props) => {
     handleClose();
   }
   return (
-    <div className='mt-3'>
-      <Container>
-        <Card>
+    <Accordion className='row db-element'>
+      <Card className='col'>
+        <Accordion.Toggle as={Card.Body} eventKey='0'>
+          <Row>
+            <Col className='field-admin'>
+              <label className='field-label'>Fecha</label>
+              <h6 className='field-display'>
+                {dateFormatPretty(props.item.viaje.fecha)}
+              </h6>
+            </Col>
+            <Col className='field-admin'>
+              <label className='field-label'>Hora</label>
+              <h6 className='field-display'>
+                {props.item.viaje.ruta.horario}
+              </h6>
+            </Col>
+          </Row>
+          <Row>
+            <Col className='field-admin'>
+              <label className='field-label' style={{width: '100%'}}>Cantidad de asientos</label>
+              <h6 className='field-display'>
+                {props.item.cantidadPasajes}
+              </h6>
+            </Col>
+            <Col className='field-admin'>
+              <label className='field-label' style={{width: '50%'}}>Precio Total</label>
+              <h6 className='field-display'>
+                ${parseFloat(props.item.precioTotal).toFixed(2)}
+              </h6>
+            </Col>
+          </Row>
+        </Accordion.Toggle>
+        <Row>
+          <Col lg={9}></Col>
+          <Col>
+            <Button onClick={handleShow} style={{marginBottom: '10px'}}>
+              Reembolsar
+            </Button>
+          </Col>
+        </Row>
+        <Accordion.Collapse eventKey='0'>
           <Card.Body>
-            <div>
-              <Accordion>
-                <Card>
-                  <Accordion.Toggle as={Button} variant='link' eventKey='0'>
-                    <Row>
-                      <Col>
-                        <h4>
-                          Fecha: {dateFormatPretty(props.item.viaje.fecha)}
-                          {' - '}
-                        </h4>
-                      </Col>
-                      <Col>
-                        <h4>Hora: {props.item.viaje.ruta.horario}</h4>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <h4>
-                          Cantidad de asientos: {props.item.cantidadPasajes}
-                        </h4>
-                      </Col>
-                      <Col>
-                        <h4>
-                          Precio Total: $
-                          {parseFloat(props.item.precioTotal).toFixed(2)}
-                        </h4>
-                      </Col>
-                    </Row>
-                  </Accordion.Toggle>
-                  <Button onClick={handleShow}>Reembolsar</Button>
-
-                  <Accordion.Collapse eventKey='0'>
-                    <Card.Body>
-                      <Row>
-                        <Col>
-                          <h4>
-                            Origen: {props.item.viaje.ruta.origen.lugar},{' '}
-                            {props.item.viaje.ruta.origen.provincia}
-                          </h4>
-                        </Col>
-                        <Col>
-                          <h4>
-                            Destino: {props.item.viaje.ruta.destino.lugar},{' '}
-                            {props.item.viaje.ruta.destino.provincia}
-                          </h4>
-                        </Col>
-                      </Row>
-                      {props.item.insumos.length > 0 && <h4>Insumos:</h4>}
-
-                      {props.item.insumos.map((item) => (
-                        <p> {item.nombre}</p>
-                      ))}
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
-              </Accordion>
-            </div>
+            <Row>
+              <Col className='field-admin'>
+                <label className='field-label'>Origen</label>
+                <h6 className='field-display'>
+                  {toTitleCase(props.item.viaje.ruta.origen.lugar)},{' '}
+                  {toTitleCase(props.item.viaje.ruta.origen.provincia)}
+                </h6>
+              </Col>
+              <Col className='field-admin'>
+                <label className='field-label'>Destino</label>
+                <h6 className='field-display'>
+                  {toTitleCase(props.item.viaje.ruta.destino.lugar)},{' '}
+                  {toTitleCase(props.item.viaje.ruta.destino.provincia)}
+                </h6>
+              </Col>
+            </Row>
+            {props.item.insumos.length > 0 && 
+              <label className='field-label'>Insumos</label>}
+              <div className='field-display' style={{marginBottom: '10px'}}>
+                {props.item.insumos.map((item) => (
+                  <p> {item.nombre}</p>
+                ))}
+              </div>
           </Card.Body>
-        </Card>
-      </Container>
-
+        </Accordion.Collapse>
+      </Card>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -124,7 +128,7 @@ const Pasaje = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Accordion>
   );
 };
 
