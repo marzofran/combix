@@ -13,7 +13,7 @@ const hasLegalAge = (dob) => {
 //Display
 driversRouter.get('/', async (req, res) => {
   let choferes = await Usuario.find({
-    permissions: '6094d50128e541353c8cf122'
+    permissions: '6094d50128e541353c8cf122',
   }); //esto funca??? no creo,,,,, WENO AHORA CREO QUE SI
   res.status(200).json(choferes).end();
 });
@@ -26,7 +26,7 @@ driversRouter.post('/', async (req, res) => {
     apellido: driver.apellido,
     dni: parseInt(driver.DNI),
     mail: driver.mail,
-    clave: driver.clave,
+    clave: 'combix',
     fechaNacimiento: driver.fecha,
     telefono: parseInt(driver.telefono),
     permissions: '6094d50128e541353c8cf122',
@@ -89,8 +89,18 @@ driversRouter.put('/:id', async (req, res) => {
     throw new Error('Debe ser mayor de edad');
     */
   mapAndBuildModel(choferExistente, choferNuevo);
-  const foundDriver=Usuario.find({nombre: choferExistente.nombre,mail: choferExistente.mail, apellido: choferExistente.apellido, telefono: choferExistente.telefono, dni: choferExistente.dni,clave: choferExistente.clave,fechaNacimiento: choferExistente.fechaNacimiento, unavailable: false});
-  if(foundDriver) throw new HttpError(203,'Ya existe un chofer con esos datos');
+  const foundDriver = Usuario.find({
+    nombre: choferExistente.nombre,
+    mail: choferExistente.mail,
+    apellido: choferExistente.apellido,
+    telefono: choferExistente.telefono,
+    dni: choferExistente.dni,
+    clave: choferExistente.clave,
+    fechaNacimiento: choferExistente.fechaNacimiento,
+    unavailable: false,
+  });
+  if (foundDriver)
+    throw new HttpError(203, 'Ya existe un chofer con esos datos');
   await choferExistente.save();
   res.status(200).send('Chofer modificado con exito').end();
 });
