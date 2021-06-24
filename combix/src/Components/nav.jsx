@@ -11,6 +11,7 @@ import NavUsuarioLogeado from './navUsuarioLogeado';
 import NavAdminLogeado from './navAdminLogeado';
 import HomeCliente from './vistas/cliente/homeCliente';
 import OlvideContraseña from './olvideMiContraseña';
+import HomeChofer from './vistas/chofer/homeChofer';
 import MailEnviado from './mailEnviadoContraseña';
 const Nav = () => {
   const store = useSelector((store) => store.combix.sesion);
@@ -68,6 +69,9 @@ const Nav = () => {
           </Route>
           <Route path='/login'>
             <Login></Login>
+          </Route>
+          <Route path='/chofer'>
+            <HomeChofer></HomeChofer>
           </Route>
           <Route path='/client'>
             <HomeCliente></HomeCliente>

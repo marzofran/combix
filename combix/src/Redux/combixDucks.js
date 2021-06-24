@@ -69,7 +69,7 @@ export const obtenerDatosUsuarioAccion =
               case '60c4c2a93690f72eb018de17':
                 history.push('/client/buscarPasajes');
                 break;
-              case 'chofer':
+              case '6094d50128e541353c8cf122':
                 history.push('/chofer');
                 break;
               default:
@@ -202,7 +202,7 @@ export const modificarUsuario =
               type: MODIFICAR_USUARIO,
               payload: response.data,
             });
-            alert("Se modificaron los datos de usuario con exito")
+            alert('Se modificaron los datos de usuario con exito');
             break;
           case 203:
             alert(response.data);
