@@ -11,6 +11,5 @@ const queryBuilder = (rawQuery, params) => {
   const mapAndBuildModel = (model, obj) => {
     for (const key in obj) model[key] = obj[key]
   }
-
 exports.queryBuilder = queryBuilder;
 exports.mapAndBuildModel = mapAndBuildModel; 

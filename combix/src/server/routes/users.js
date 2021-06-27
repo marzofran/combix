@@ -113,6 +113,34 @@ usersRouter.put('/:id/cancelargold', async (req, res) => {
   res.status(200).send(usuarioGold).end();
 });
 
+usersRouter.put('/:id/banear', async (req, res) => {
+  const usuarioBaneado = await Usuario.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      permissions: '6094d56377b5714b3473dbc5',
+      unavailable: false,
+    },
+    {permissions: '60d7cbafb0aef430186c4ae9'},
+    {new: true}
+  );
+  if (!usuarioBaneado) throw new HttpError(203, 'Este usuario ya esta baneado!');
+  res.status(200).send(usuarioBaneado).end();
+});
+
+usersRouter.put('/:id/desbanear', async (req, res) => {
+  const usuarioDesbaneado = await Usuario.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      permissions: '60d7cbafb0aef430186c4ae9',
+      unavailable: false,
+    },
+    {permissions: '6094d56377b5714b3473dbc5'},
+    {new: true}
+  );
+  if (!usuarioDesbaneado) throw new HttpError(203, 'Este usuario ya esta desbaneado!');
+  res.status(200).send(usuarioDesbaneado).end();
+});
+
 //Delete
 usersRouter.delete('/:id', async (req, res) => {
   const usuarioExistente = Usuario.findOneAndUpdate(

@@ -3,13 +3,46 @@ const express = require('express');
 const travelsRouter = express.Router();
 const Viaje = require('../schemas/Viaje');
 const Pasaje = require('../schemas/Pasaje');
+const Combi = require('../schemas/Combi');
+const Ruta = require('../schemas/Ruta');
 const HttpError = require('../utils/HttpError');
 const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
 const {request, response} = require('express');
 
 //Display
-travelsRouter.get('/', async (req, res) => {
+travelsRouter.get('/', async (req, res) => { //fetchea todos los viajes
   let viajes = await Viaje.find({}).populate({
+    path: 'ruta',
+    model: 'Ruta',
+    populate: [
+      {
+        path: 'origen',
+        model: 'Ciudad',
+      },
+      {
+        path: 'destino',
+        model: 'Ciudad',
+      },
+      {
+        path: 'combi',
+        model: 'Combi',
+        populate: {
+          path: 'chofer',
+          model: 'Usuario',
+        },
+      },
+    ],
+  });
+  res.status(200).json(viajes).end();
+});
+
+travelsRouter.get('/:chofer', async (req, res) => { //fetchea viajes de un chofer especifico
+  let combis = await Combi.find({chofer: req.params.chofer}).select('_id');
+  let rutas = await Ruta.find({combi: {$in: combis}}).select('_id');
+  //let combisLimpias=[];
+  //for (const key in combis) combisLimpias[key] = combis[key]._id;
+  //console.log(combisLimpias);
+  let viajes = await Viaje.find({ruta: {$in: rutas}}).populate({
     path: 'ruta',
     model: 'Ruta',
     populate: [
@@ -41,6 +74,8 @@ travelsRouter.post('/', async (request, response) => {
     ruta: travel.ruta,
     fecha: travel.fecha,
     precio: travel.precio,
+    estado: 'pendiente',
+    pasajeros: [],
     unavailable: false,
   });
   const foundTravel = await Viaje.find({
@@ -63,7 +98,7 @@ travelsRouter.put('/:id', async (req, res) => {
     _id: req.params.id,
   });
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
-  const viajeNuevo = queryBuilder(req.body.viaje, ['ruta', 'fecha', 'precio']);
+  const viajeNuevo = queryBuilder(req.body.viaje, ['ruta', 'fecha', 'precio', 'estado', 'pasajeros']);
   mapAndBuildModel(viajeExistente, viajeNuevo);
   const foundTravel = Viaje.find({
     ruta: viajeExistente.ruta,
