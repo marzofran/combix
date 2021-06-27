@@ -24,7 +24,7 @@ usersRouter.get('/:mail', async (req, res) => {
 usersRouter.get('/', async (req, res) => {
   let usuarios = await Usuario.find({
     permissions: {
-      $in: ['6094d56377b5714b3473dbc5', '60c4c2a93690f72eb018de17'],
+      $in: ['6094d56377b5714b3473dbc5', '60c4c2a93690f72eb018de17', '60d7cbafb0aef430186c4ae9'],
     },
   });
   res.status(200).json(usuarios).end();
@@ -131,7 +131,7 @@ usersRouter.put('/:id/desbanear', async (req, res) => {
   const usuarioDesbaneado = await Usuario.findOneAndUpdate(
     {
       _id: req.params.id,
-      permissions: '60d7cbafb0aef430186c4ae9',
+      permissions: '60d7cbafb0aef430186c4ae9', 
       unavailable: false,
     },
     {permissions: '6094d56377b5714b3473dbc5'},
