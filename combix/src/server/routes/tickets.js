@@ -43,6 +43,7 @@ ticketsRouter.post('/', async (req, res) => {
     viaje: ticket.viaje,
     insumos: ticket.insumos,
     precioTotal: ticket.precioTotal,
+    estado: "pendiente",
     unavailable: false,
   });
   console.log(pasaje);

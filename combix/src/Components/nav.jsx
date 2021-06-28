@@ -7,11 +7,11 @@ import history from './history';
 import VistaAdmin from './vistas/administrador/vistaAdmin';
 import combixLogo from '../resources/CombixWhite.png';
 import {useSelector} from 'react-redux';
-import NavUsuarioLogeado from './navUsuarioLogeado';
+import NavChoferLogeado from './navChoferLogeado';
 import NavAdminLogeado from './navAdminLogeado';
 import HomeCliente from './vistas/cliente/homeCliente';
 import OlvideContraseña from './olvideMiContraseña';
-import HomeChofer from './vistas/chofer/homeChofer';
+import VistaChofer from './vistas/chofer/vistaChofer';
 import MailEnviado from './mailEnviadoContraseña';
 const Nav = () => {
   const store = useSelector((store) => store.combix.sesion);
@@ -22,6 +22,17 @@ const Nav = () => {
       store.permissions === '6094d45f56d99b266076c0bf'
     ) {
       return <NavAdminLogeado></NavAdminLogeado>;
+    }
+
+    return null;
+  }
+
+  function RednerNavChofer() {
+    if (
+      Object.keys(store).length > 0 &&
+      store.permissions === '6094d50128e541353c8cf122'
+    ) {
+      return <NavChoferLogeado></NavChoferLogeado>;
     }
 
     return null;
@@ -60,6 +71,7 @@ const Nav = () => {
           </Navbar>
         )}
         <RednerNavAdmin></RednerNavAdmin>
+        <RednerNavChofer></RednerNavChofer>
         <Switch>
           <Route path='/olvideMiContraseña'>
             <OlvideContraseña></OlvideContraseña>
@@ -70,9 +82,11 @@ const Nav = () => {
           <Route path='/login'>
             <Login></Login>
           </Route>
+
           <Route path='/chofer'>
-            <HomeChofer></HomeChofer>
+            <VistaChofer permisions={store.permissions}></VistaChofer>
           </Route>
+
           <Route path='/client'>
             <HomeCliente></HomeCliente>
           </Route>

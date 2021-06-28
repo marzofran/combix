@@ -6,8 +6,7 @@ const viajeSchema = new Schema({
     fecha: Date,
     precio: String,
     estado: String,
-    pasajeros: [{pasaje: {type: mongoose.Schema.Types.ObjectId,ref:'Pasaje'}, 
-                estado: String}],
+    pasajeros: [{pasaje: {type: mongoose.Schema.Types.ObjectId,ref:'Pasaje'}}],
     unavailable: Boolean
 })
 

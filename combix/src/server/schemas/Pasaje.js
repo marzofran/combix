@@ -6,6 +6,7 @@ const pasajeSchema = new Schema({
     cantidadPasajes: Number,
     insumos: [],
     precioTotal: String,
+    estado: String,
     unavailable: Boolean
 })
 

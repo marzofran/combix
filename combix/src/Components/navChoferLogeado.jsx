@@ -20,7 +20,7 @@ const NavChoferLogeado = () => {
             />
           </Navbar.Brand>
         </Link>
-        <Link className='navbar-brand nav-link ' to='/chofer/misViajes'>
+        <Link className='navbar-brand nav-link ' to='/chofer'>
           <h5>Mis Viajes</h5>
         </Link>
         <Link
@@ -32,11 +32,6 @@ const NavChoferLogeado = () => {
           <h5> Cerrar sesion</h5>
         </Link>
       </Navbar>
-      <Switch>
-        <Route path='/chofer/misViajes'>
-          <MisViajesChofer></MisViajesChofer>
-        </Route>
-      </Switch>
     </div>
   );
 };
