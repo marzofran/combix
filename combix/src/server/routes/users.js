@@ -24,7 +24,7 @@ usersRouter.get('/:mail', async (req, res) => {
 usersRouter.get('/', async (req, res) => {
   let usuarios = await Usuario.find({
     permissions: {
-      $in: ['6094d56377b5714b3473dbc5', '60c4c2a93690f72eb018de17', '60d7cbafb0aef430186c4ae9'],
+      $in: ['6094d56377b5714b3473dbc5', '60c4c2a93690f72eb018de17'],
     },
   });
   res.status(200).json(usuarios).end();
@@ -42,6 +42,7 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
     fechaNacimiento: user.fechaNacimiento,
     telefono: parseInt(user.telefono),
     permissions: '6094d56377b5714b3473dbc5',
+    baneado: false,
     unavailable: false,
   });
   const foundUser = await Usuario.find({mail: user.mail});
@@ -117,10 +118,10 @@ usersRouter.put('/:id/banear', async (req, res) => {
   const usuarioBaneado = await Usuario.findOneAndUpdate(
     {
       _id: req.params.id,
-      permissions: '6094d56377b5714b3473dbc5',
+      baneado: false,
       unavailable: false,
     },
-    {permissions: '60d7cbafb0aef430186c4ae9'},
+    {baneado: true},
     {new: true}
   );
   if (!usuarioBaneado) throw new HttpError(203, 'Este usuario ya esta baneado!');
@@ -131,10 +132,10 @@ usersRouter.put('/:id/desbanear', async (req, res) => {
   const usuarioDesbaneado = await Usuario.findOneAndUpdate(
     {
       _id: req.params.id,
-      permissions: '60d7cbafb0aef430186c4ae9', 
+      baneado: true, 
       unavailable: false,
     },
-    {permissions: '6094d56377b5714b3473dbc5'},
+    {baneado: false},
     {new: true}
   );
   if (!usuarioDesbaneado) throw new HttpError(203, 'Este usuario ya esta desbaneado!');

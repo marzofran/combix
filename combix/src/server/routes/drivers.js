@@ -30,6 +30,7 @@ driversRouter.post('/', async (req, res) => {
     fechaNacimiento: driver.fecha,
     telefono: parseInt(driver.telefono),
     permissions: '6094d50128e541353c8cf122',
+    baneado: false,
     unavailable: false,
   });
   const foundDriver = await Usuario.find({

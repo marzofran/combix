@@ -9,6 +9,7 @@ const usuarioSchema = new Schema({
     fechaNacimiento: Date,
     telefono: Number,
     permissions: { type: Schema.ObjectId, ref: "Permiso" },
+    baneado: Boolean,
     unavailable: Boolean
 })
 
