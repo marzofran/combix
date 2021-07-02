@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import history from '../Components/history';
 const configDuck = {
   elementos: {
     pendientes: [],

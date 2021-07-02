@@ -70,7 +70,7 @@ export const obtenerDatosUsuarioAccion =
                 history.push('/client/buscarPasajes');
                 break;
               case '6094d50128e541353c8cf122':
-                history.push('/chofer');
+                history.push('/chofer/viajesPendientes');
                 break;
               default:
                 console.log('no se tienen permisos');
