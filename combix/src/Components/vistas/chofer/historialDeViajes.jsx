@@ -1,12 +1,11 @@
 import React from 'react';
 import ViajeElemento from './elementos/viaje';
 
-const MisViajesChofer = (props) => {
-
+const HistorialDeViajes = (props) => {
   return (
     <div className='container'>
       <div>
-        Pendientes:{' '}
+        Finalizados:
         {props.viajes.length > 0 &&
           props.viajes.map((e) => (
             <h2>{<ViajeElemento item={e}></ViajeElemento>}</h2>
@@ -16,4 +15,4 @@ const MisViajesChofer = (props) => {
   );
 };
 
-export default MisViajesChofer;
+export default HistorialDeViajes;
