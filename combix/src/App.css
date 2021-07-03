@@ -271,3 +271,11 @@ html {
     rgba(255, 255, 255, 1) 100%
   );
 }
+.formCovid {
+  background-color: #f6f6f6;
+  padding: 10px;
+  color: #2d525d;
+}
+.elementoFormCovid {
+  border-bottom: 1px solid blue;
+}

@@ -5,7 +5,8 @@ import history from '../../history';
 import DetallesDeViaje from './detallesDeViaje';
 import ListaDePasajeros from './listaDePasajeros';
 import {useSelector} from 'react-redux';
-
+import CuestionarioCovid from './elementos/cuestionarioCovid';
+import CuestionariosCovidPasaje from './cuestionariosCovidPasaje';
 const VistaDetalle = (props) => {
   const data = useSelector((store) => store.chofer.seleccionado);
 
@@ -25,8 +26,17 @@ const VistaDetalle = (props) => {
           >
             <h5>Pasajeros</h5>
           </Link>
+          <Link
+            className='navbar-brand nav-link '
+            to='/chofer/vistaDetalle/detalles/cuestionarioCovid'
+          >
+            <h5>CuestionarioCovid</h5>
+          </Link>
         </Navbar>
         <Switch>
+          <Route path='/chofer/vistaDetalle/detalles/cuestionarioCovid'>
+            <CuestionariosCovidPasaje></CuestionariosCovidPasaje>
+          </Route>
           <Route path='/chofer/vistaDetalle/detalles/pasajeros'>
             <ListaDePasajeros item={data}></ListaDePasajeros>
           </Route>
