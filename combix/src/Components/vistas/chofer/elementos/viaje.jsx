@@ -7,7 +7,7 @@ const ViajeElemento = (props) => {
       <h1>{props.item.precio}</h1>
       <Link
         to={{
-          pathname: './vistaDetalle/detalles',
+          pathname: '/chofer/vistaDetalle/detalles',
           state: {viaje: props.item},
         }}
       >

@@ -30,10 +30,10 @@ const VistaChofer = (props) => {
       {props.permisions === '6094d50128e541353c8cf122' ? (
         <Router history={history}>
           <Navbar>
-            <Link className='navbar-brand nav-link ' to='./viajesPendientes'>
+            <Link className='navbar-brand nav-link ' to='/chofer/viajesPendientes'>
               <h5>Viajes Pendientes</h5>
             </Link>
-            <Link className='navbar-brand nav-link ' to='./historial'>
+            <Link className='navbar-brand nav-link ' to='/chofer/historial'>
               <h5>Historial de Viajes</h5>
             </Link>
           </Navbar>
