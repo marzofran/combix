@@ -1,17 +1,13 @@
 import React, {useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
 import {Router, Link, Switch, Route, useLocation} from 'react-router-dom';
 import {Navbar} from 'react-bootstrap';
 import history from '../../history';
 import DetallesDeViaje from './detallesDeViaje';
 import ListaDePasajeros from './listaDePasajeros';
 
-const VistaDetalle = () => {
-
-  const chofer = useSelector((store) => store.combix.sesion);
+const VistaDetalle = (props) => {
   
   const location = useLocation();
-  const dispatch = useDispatch();
   const data = location.state.viaje;
 
   return (

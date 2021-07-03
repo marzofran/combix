@@ -3,10 +3,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Router, Link, Switch, Route} from 'react-router-dom';
 import {Navbar} from 'react-bootstrap';
 import history from '../../history';
-import MisViajesChofer from './misViajes';
 import HistorialDeViajes from './historialDeViajes';
 import {cargarViajes} from '../../../Redux/choferDucks';
-import ViajeElemento from './elementos/viaje';
+import ViajesPendientes from './viajesPendientes'
 import ViajeEnCurso from './elementos/viajeEnCurso';
 
 const {toTitleCase} = require('../../../scripts/toTitleCase');
@@ -31,10 +30,10 @@ const VistaChofer = (props) => {
       {props.permisions === '6094d50128e541353c8cf122' ? (
         <Router history={history}>
           <Navbar>
-            <Link className='navbar-brand nav-link ' to='/chofer/viajesPendientes'>
+            <Link className='navbar-brand nav-link ' to='./viajesPendientes'>
               <h5>Viajes Pendientes</h5>
             </Link>
-            <Link className='navbar-brand nav-link ' to='/chofer/historial'>
+            <Link className='navbar-brand nav-link ' to='./historial'>
               <h5>Historial de Viajes</h5>
             </Link>
           </Navbar>
@@ -52,7 +51,7 @@ const VistaChofer = (props) => {
           </div>
           <Switch>
             <Route path='/chofer/viajesPendientes'>
-              <MisViajesChofer viajes={viajes.pendientes}></MisViajesChofer>
+              <ViajesPendientes viajes={viajes.pendientes}></ViajesPendientes>
             </Route>
             <Route path='/chofer/historial'>
               <HistorialDeViajes viajes={viajes.finalizado}></HistorialDeViajes>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ViajeElemento from './elementos/viaje';
 
-const MisViajesChofer = (props) => {
+const ViajesPendientes = (props) => {
 
   return (
     <div className='container'>
@@ -16,4 +16,4 @@ const MisViajesChofer = (props) => {
   );
 };
 
-export default MisViajesChofer;
+export default ViajesPendientes;
