@@ -9,10 +9,13 @@ const configDuck = {
 };
 
 const CARGAR_VIAJES = 'CARGAR_VIAJES';
+const SELECCIONAR_VIAJE = 'SELECCIONAR_VIAJE';
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_VIAJES:
       return {...state, elementos: action.payload};
+    case SELECCIONAR_VIAJE:
+      return {...state, seleccionado: action.payload};
     default:
       return state;
   }
@@ -25,6 +28,7 @@ export const cargarViajes = (id) => (dispatch, getState) => {
           pendientes: [],
           finalizado: [],
           enCurso: [],
+          seleccionado: {},
         };
         viajes.data.forEach((viaje) => {
           if (viaje.estado === 'pendiente') {
@@ -46,6 +50,13 @@ export const cargarViajes = (id) => (dispatch, getState) => {
         break;
     }
   });
+};
+export const seleccionarViaje = (viaje) => (dispatch, getState) => {
+  dispatch({
+    type: SELECCIONAR_VIAJE,
+    payload: viaje,
+  });
+  history.push('/chofer/vistaDetalle/detalles');
 };
 
 async function traerViajes(id) {
