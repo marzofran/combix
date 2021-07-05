@@ -1,4 +1,5 @@
 import React from 'react';
+import {Row, Col} from 'react-bootstrap'
 import {useSelector} from 'react-redux';
 import ViajeEnCurso from './viajeEnCurso';
 
@@ -9,20 +10,19 @@ const HeaderListas = (props) => {
     const chofer = useSelector((store) => store.combix.sesion);
 
   return (
-    <div>
-        <h2 style={{color: 'white', fontSize: '40px'}} className={'pt-3 pb-3'}>
-            Bienvenido, {toTitleCase(chofer.nombre)}
-        </h2>
-        <div>
-            {props.viajes.length > 0 &&
-              props.viajes.map((e) => (
-                <>
-                En Curso:
-                <h2>{<ViajeEnCurso item={e}></ViajeEnCurso>}</h2>
-                </>
-              ))}
-        </div>
-    </div>
+    <>
+      <Row>
+        <h3 style={{color: 'white', fontSize: '30px'}} className={'pt-3 pb-3'}>
+          Bienvenido, {toTitleCase(chofer.nombre)}
+        </h3>
+      </Row>
+      <Row>
+        {props.viajes.length > 0 &&
+          props.viajes.map((e) => (
+            <ViajeEnCurso item={e}></ViajeEnCurso>
+        ))}
+      </Row>
+    </>
   );
 };
 

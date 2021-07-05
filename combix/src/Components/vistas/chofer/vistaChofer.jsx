@@ -25,7 +25,7 @@ const VistaChofer = (props) => {
   history.push('/chofer/vistaChofer/pendientes')
 
   return (
-    <div style={{backgroundColor: '#71b3ff', minHeight: '100vh'}}>
+    <div style={{backgroundColor: '#71b3ff', minHeight: '100vh', boxSizing: 'border-box'}}>
       {chofer.permissions == '6094d50128e541353c8cf122' ? (
         <Router history={history}>
           <Navbar>
