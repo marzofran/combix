@@ -273,9 +273,15 @@ html {
 }
 .formCovid {
   background-color: #f6f6f6;
-  padding: 10px;
+
   color: #2d525d;
 }
 .elementoFormCovid {
   border-bottom: 1px solid blue;
+}
+.resetP {
+  margin-bottom: 0px;
+}
+.pCuestionarioCovid {
+  margin: 0.15rem;
 }
