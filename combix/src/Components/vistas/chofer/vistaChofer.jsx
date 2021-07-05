@@ -6,9 +6,6 @@ import history from '../../history';
 import HistorialDeViajes from './historialDeViajes';
 import {cargarViajes} from '../../../Redux/choferDucks';
 import ViajesPendientes from './viajesPendientes'
-import ViajeEnCurso from './elementos/viajeEnCurso';
-
-const {toTitleCase} = require('../../../scripts/toTitleCase');
 
 const VistaChofer = (props) => {
 
@@ -37,24 +34,12 @@ const VistaChofer = (props) => {
               <h5>Historial de Viajes</h5>
             </Link>
           </Navbar>
-          <h2 style={{color: 'white', fontSize: '40px'}} className={'pt-3 pb-3'}>
-            Bienvenido, {toTitleCase(chofer.nombre)}
-          </h2>
-          <div>
-            {viajes.enCurso.length > 0 &&
-              viajes.enCurso.map((e) => (
-                <>
-                En Curso:
-                <h2>{<ViajeEnCurso item={e}></ViajeEnCurso>}</h2>
-                </>
-              ))}
-          </div>
           <Switch>
             <Route path='/chofer/viajesPendientes'>
-              <ViajesPendientes viajes={viajes.pendientes}></ViajesPendientes>
+              <ViajesPendientes viajes={viajes}></ViajesPendientes>
             </Route>
             <Route path='/chofer/historial'>
-              <HistorialDeViajes viajes={viajes.finalizado}></HistorialDeViajes>
+              <HistorialDeViajes viajes={viajes}></HistorialDeViajes>
             </Route>
           </Switch>
         </Router>
