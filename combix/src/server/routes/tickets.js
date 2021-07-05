@@ -9,28 +9,82 @@ const mongoose = require('mongoose');
 
 ticketsRouter.get('/', async (req, res) => {
   //fetchea todos los pasajes
-  let pasajes = await Pasaje.find({unavailable: false}).populate([{path: 'viaje',model: 'Viaje',populate:{
-    path: 'ruta',model: 'Ruta',populate: [ {path: 'origen',model: 'Ciudad'},{path: 'destino',model: 'Ciudad'},
-    {path: 'combi',model: 'Combi',populate: {path: 'chofer',model: 'Usuario',}}]}}, 
-    {path: 'usuario', model: 'Usuario'}]);
+  let pasajes = await Pasaje.find({unavailable: false}).populate([
+    {
+      path: 'viaje',
+      model: 'Viaje',
+      populate: {
+        path: 'ruta',
+        model: 'Ruta',
+        populate: [
+          {path: 'origen', model: 'Ciudad'},
+          {path: 'destino', model: 'Ciudad'},
+          {
+            path: 'combi',
+            model: 'Combi',
+            populate: {path: 'chofer', model: 'Usuario'},
+          },
+        ],
+      },
+    },
+    {path: 'usuario', model: 'Usuario'},
+  ]);
   res.status(200).json(pasajes).end();
 });
 
 ticketsRouter.get('/:id', async (req, res) => {
   //fetchea pasajes de un usuario
-  let pasajes = await Pasaje.find({usuario: req.params.id, unavailable: false}).populate([{path: 'viaje',model: 'Viaje',populate:{
-    path: 'ruta',model: 'Ruta',populate: [ {path: 'origen',model: 'Ciudad'},{path: 'destino',model: 'Ciudad'},
-    {path: 'combi',model: 'Combi',populate: {path: 'chofer',model: 'Usuario',}}]}}, 
-    {path: 'usuario', model: 'Usuario'}]);
+  let pasajes = await Pasaje.find({
+    usuario: req.params.id,
+    unavailable: false,
+  }).populate([
+    {
+      path: 'viaje',
+      model: 'Viaje',
+      populate: {
+        path: 'ruta',
+        model: 'Ruta',
+        populate: [
+          {path: 'origen', model: 'Ciudad'},
+          {path: 'destino', model: 'Ciudad'},
+          {
+            path: 'combi',
+            model: 'Combi',
+            populate: {path: 'chofer', model: 'Usuario'},
+          },
+        ],
+      },
+    },
+    {path: 'usuario', model: 'Usuario'},
+  ]);
   res.status(200).json(pasajes).end();
 });
 
 ticketsRouter.get('/:travel', async (req, res) => {
   //fetchea pasajes de un viaje
-  let pasajes = await Pasaje.find({travel: req.params.travel, unavailable: false}).populate([{path: 'viaje',model: 'Viaje',populate:{
-    path: 'ruta',model: 'Ruta',populate: [ {path: 'origen',model: 'Ciudad'},{path: 'destino',model: 'Ciudad'},
-    {path: 'combi',model: 'Combi',populate: {path: 'chofer',model: 'Usuario',}}]}}, 
-    {path: 'usuario', model: 'Usuario'}]);
+  let pasajes = await Pasaje.find({
+    travel: req.params.travel,
+    unavailable: false,
+  }).populate([
+    {
+      path: 'viaje',
+      model: 'Viaje',
+      populate: {
+        path: 'ruta',
+        model: 'Ruta',
+        populate: [
+          {path: 'origen', model: 'Ciudad'},
+          {path: 'destino', model: 'Ciudad'},
+          {
+            path: 'combi',
+            model: 'Combi',
+            populate: {path: 'chofer', model: 'Usuario'},
+          },
+        ],
+      },
+    },
+    {path: 'usuario', model: 'Usuario'},
+  ]);
   res.status(200).json(pasajes).end();
 });
 
@@ -43,14 +97,14 @@ ticketsRouter.post('/', async (req, res) => {
     viaje: ticket.viaje,
     insumos: ticket.insumos,
     precioTotal: ticket.precioTotal,
-    estado: "pendiente",
+    estado: 'pendiente',
     unavailable: false,
   });
   console.log(pasaje);
   await pasaje.save();
   res.status(202).send('Pasaje creado con exito!').end();
 });
-
+/*
 ticketsRouter.put('/:id', async (req, res) => {
   const pasajeExistente = await Pasaje.findOne({_id: req.params.id});
   if (!pasajeExistente) throw new HttpError(404, 'Pasaje no encontrado');
@@ -74,7 +128,7 @@ ticketsRouter.put('/:id', async (req, res) => {
   await pasajeExistente.save();
   res.status(202).send('Pasaje modificado con exito!').end();
 });
-
+*/
 ticketsRouter.delete('/:id', async (req, res) => {
   const pasajeExistente = await Pasaje.findOneAndUpdate(
     {
@@ -85,6 +139,16 @@ ticketsRouter.delete('/:id', async (req, res) => {
   );
   if (!pasajeExistente) throw new HttpError(404, 'Pasaje no encontrado');
   res.status(200).send('Pasaje eliminado').end();
+});
+
+ticketsRouter.put('/:id', async (req, res) => {
+  const foundTicket = await Pasaje.findOneAndUpdate(
+    {_id: req.params.id},
+    {estado: req.body.estado},
+    {new: true}
+  );
+  if (!foundTicket) throw new HttpError(203, 'No se encontro el pasaje');
+  res.status(202).send('Pasaje modificado con exito!').end();
 });
 
 module.exports = ticketsRouter;

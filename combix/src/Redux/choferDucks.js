@@ -10,12 +10,15 @@ const configDuck = {
 
 const CARGAR_VIAJES = 'CARGAR_VIAJES';
 const SELECCIONAR_VIAJE = 'SELECCIONAR_VIAJE';
+const COMPLETAR_TEST = 'COMPLETAR_TEST';
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_VIAJES:
       return {...state, elementos: action.payload};
     case SELECCIONAR_VIAJE:
       return {...state, seleccionado: action.payload};
+    case COMPLETAR_TEST:
+      return state;
     default:
       return state;
   }
@@ -57,6 +60,18 @@ export const seleccionarViaje = (viaje) => (dispatch, getState) => {
     payload: viaje,
   });
   history.push('/chofer/viaje');
+};
+export const completarTest = (id, estado) => (dispatch, getState) => {
+  Axios.put('http://localhost:8080/tickets/' + id, {estado})
+    .then((response) => {
+      return response;
+    })
+    .catch(function (error) {
+      return error;
+    });
+  dispatch({
+    type: COMPLETAR_TEST,
+  });
 };
 
 async function traerViajes(id) {
