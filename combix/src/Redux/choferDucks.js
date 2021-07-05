@@ -56,7 +56,7 @@ export const seleccionarViaje = (viaje) => (dispatch, getState) => {
     type: SELECCIONAR_VIAJE,
     payload: viaje,
   });
-  history.push('/chofer/vistaDetalle/detalles');
+  history.push('/chofer/viaje');
 };
 
 async function traerViajes(id) {

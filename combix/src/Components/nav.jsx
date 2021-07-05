@@ -12,6 +12,7 @@ import NavAdminLogeado from './navAdminLogeado';
 import HomeCliente from './vistas/cliente/homeCliente';
 import OlvideContraseña from './olvideMiContraseña';
 import VistaChofer from './vistas/chofer/vistaChofer';
+import VistaDetalle from './vistas/chofer/vistaDetalle';
 import MailEnviado from './mailEnviadoContraseña';
 const Nav = () => {
   const store = useSelector((store) => store.combix.sesion);
@@ -83,8 +84,11 @@ const Nav = () => {
             <Login></Login>
           </Route>
 
-          <Route path='/chofer'>
-            <VistaChofer permisions={store.permissions}></VistaChofer>
+          <Route path='/chofer/vistaChofer'>
+            <VistaChofer></VistaChofer>
+          </Route>
+          <Route path='/chofer/viaje'>
+            <VistaDetalle></VistaDetalle>
           </Route>
 
           <Route path='/client'>

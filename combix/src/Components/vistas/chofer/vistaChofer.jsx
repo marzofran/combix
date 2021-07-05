@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Router, Link, Switch, Route} from 'react-router-dom';
 import {Navbar} from 'react-bootstrap';
@@ -22,23 +22,25 @@ const VistaChofer = (props) => {
     alert('no tienes permisos');
   }
 
+  history.push('/chofer/vistaChofer/pendientes')
+
   return (
     <div style={{backgroundColor: '#71b3ff', minHeight: '100vh'}}>
-      {props.permisions === '6094d50128e541353c8cf122' ? (
+      {chofer.permissions == '6094d50128e541353c8cf122' ? (
         <Router history={history}>
           <Navbar>
-            <Link className='navbar-brand nav-link ' to='/chofer/viajesPendientes'>
+            <Link className='navbar-brand nav-link ' to='/chofer/vistaChofer/pendientes'>
               <h5>Viajes Pendientes</h5>
             </Link>
-            <Link className='navbar-brand nav-link ' to='/chofer/historial'>
+            <Link className='navbar-brand nav-link ' to='/chofer/vistaChofer/historial'>
               <h5>Historial de Viajes</h5>
             </Link>
           </Navbar>
           <Switch>
-            <Route path='/chofer/viajesPendientes'>
+            <Route path='/chofer/vistaChofer/pendientes'>
               <ViajesPendientes viajes={viajes}></ViajesPendientes>
             </Route>
-            <Route path='/chofer/historial'>
+            <Route path='/chofer/vistaChofer/historial'>
               <HistorialDeViajes viajes={viajes}></HistorialDeViajes>
             </Route>
           </Switch>
