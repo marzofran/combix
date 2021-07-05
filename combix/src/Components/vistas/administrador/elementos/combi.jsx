@@ -136,8 +136,8 @@ const Combi = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Chofer:</label>
                 <h6 className='field-display'>
-                  {props.item.chofer?.nombre} {props.item.chofer?.apellido} (
-                  {props.item.chofer?.mail})
+                  {props.item?.chofer.nombre} {props.item?.chofer.apellido} (
+                  {props.item?.chofer.mail})
                 </h6>
               </div>
             </div>
@@ -241,7 +241,7 @@ const Combi = (props) => {
                         </option>
                       ) : (
                         <option value={JSON.stringify(item)}>
-                          {item.apellido}, {item.nombre}
+                          {item?.apellido}, {item?.nombre}
                         </option>
                       )
                     )}

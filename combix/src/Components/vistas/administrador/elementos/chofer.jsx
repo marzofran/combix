@@ -80,12 +80,12 @@ const Chofer = (props) => {
               <div className='col field-admin'>
                 <label className='field-label'>Nombre:</label>
                 <h6 className='field-display'>
-                  {props.item.nombre} {props.item.apellido}
+                  {props.item.nombre} {props.item?.apellido}
                 </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Mail:</label>
-                <h6 className='field-display'>{props.item.mail}</h6>
+                <h6 className='field-display'>{props.item?.mail}</h6>
               </div>
             </div>
           </Accordion.Toggle>
@@ -138,18 +138,18 @@ const Chofer = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>DNI:</label>
-                <h6 className='field-display'>{props.item.dni}</h6>
+                <h6 className='field-display'>{props.item?.dni}</h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Telefono:</label>
-                <h6 className='field-display'>{props.item.telefono}</h6>
+                <h6 className='field-display'>{props.item?.telefono}</h6>
               </div>
             </div>
             <div className='row'>
               <div className='col-6 field-admin'>
                 <label className='field-label'>Nacimiento:</label>
                 <h6 className='field-display'>
-                  {dateFormat(props.item.fechaNacimiento)}
+                  {dateFormat(props.item?.fechaNacimiento)}
                 </h6>
               </div>
             </div>
@@ -168,7 +168,7 @@ const Chofer = (props) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='modalChofer'>
-                Editar chofer: {props.item.nombre} {props.item.apellido}
+                Editar chofer: {props.item?.nombre} {props.item?.apellido}
               </h5>
               <button
                 type='button'
