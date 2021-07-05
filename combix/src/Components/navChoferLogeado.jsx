@@ -14,7 +14,7 @@ const NavChoferLogeado = () => {
     <div>
       <Router history={history}>
         <Navbar expand='lg' variant='dark' style={{backgroundColor: '#135671'}}>
-          <Link to='/chofer/vistaChofer'>
+          <Link to='/chofer/vistaChofer/pendientes'>
             <Navbar.Brand>
               <img
                 src={combixLogo}
@@ -24,7 +24,7 @@ const NavChoferLogeado = () => {
               />
             </Navbar.Brand>
           </Link>
-          <Link className='navbar-brand nav-link ' to='/chofer/vistaChofer'>
+          <Link className='navbar-brand nav-link ' to='/chofer/vistaChofer/pendientes'>
             <h5>Mis Viajes</h5>
           </Link>
           <Link
