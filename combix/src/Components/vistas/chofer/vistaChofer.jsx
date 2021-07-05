@@ -4,17 +4,16 @@ import {Router, Link, Switch, Route} from 'react-router-dom';
 import {Navbar} from 'react-bootstrap';
 import history from '../../history';
 import HistorialDeViajes from './historialDeViajes';
-import {cargarViajes} from '../../../Redux/choferDucks';
-import ViajesPendientes from './viajesPendientes'
+import {cargarViajesChofer} from '../../../Redux/choferDucks';
+import ViajesPendientes from './viajesPendientes';
 
 const VistaChofer = (props) => {
-
   const chofer = useSelector((store) => store.combix.sesion);
   const dispatch = useDispatch();
 
   const viajes = useSelector((store) => store.chofer.elementos);
   useEffect(() => {
-    dispatch(cargarViajes(chofer._id));
+    dispatch(cargarViajesChofer(chofer._id));
   }, []);
 
   function redireccionar() {
@@ -22,17 +21,29 @@ const VistaChofer = (props) => {
     alert('no tienes permisos');
   }
 
-  history.push('/chofer/vistaChofer/pendientes')
+  history.push('/chofer/vistaChofer/pendientes');
 
   return (
-    <div style={{backgroundColor: '#71b3ff', minHeight: '100vh', boxSizing: 'border-box'}}>
+    <div
+      style={{
+        backgroundColor: '#71b3ff',
+        minHeight: '100vh',
+        boxSizing: 'border-box',
+      }}
+    >
       {chofer.permissions == '6094d50128e541353c8cf122' ? (
         <Router history={history}>
           <Navbar>
-            <Link className='navbar-brand nav-link ' to='/chofer/vistaChofer/pendientes'>
+            <Link
+              className='navbar-brand nav-link '
+              to='/chofer/vistaChofer/pendientes'
+            >
               <h5>Viajes Pendientes</h5>
             </Link>
-            <Link className='navbar-brand nav-link ' to='/chofer/vistaChofer/historial'>
+            <Link
+              className='navbar-brand nav-link '
+              to='/chofer/vistaChofer/historial'
+            >
               <h5>Historial de Viajes</h5>
             </Link>
           </Navbar>

@@ -2,14 +2,14 @@ import Axios from 'axios';
 const configDuck = {
   elementos: [],
 };
-const CARGAR_VIAJES = 'CARGAR_VIAJES';
+const CARGAR_VIAJES_ADMIN = 'CARGAR_VIAJES_ADMIN';
 const EDITAR_VIAJES = 'EDITAR_VIAJES';
 const BORRAR_VIAJES = 'BORRAR_VIAJES';
 const REGISTRAR_VIAJES = 'REGISTRAR_VIAJES';
 
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
-    case CARGAR_VIAJES:
+    case CARGAR_VIAJES_ADMIN:
       return {...state, elementos: action.payload};
     case EDITAR_VIAJES:
       return {...state, elementos: action.payload};
@@ -64,7 +64,7 @@ export const cargarViajes = () => (dispatch, getState) => {
       switch (response.status) {
         case 200:
           dispatch({
-            type: CARGAR_VIAJES,
+            type: CARGAR_VIAJES_ADMIN,
             payload: response.data,
           });
           break;

@@ -8,12 +8,12 @@ const configDuck = {
   },
 };
 
-const CARGAR_VIAJES = 'CARGAR_VIAJES';
+const CARGAR_VIAJES_CHOFER = 'CARGAR_VIAJES_CHOFER';
 const SELECCIONAR_VIAJE = 'SELECCIONAR_VIAJE';
 const COMPLETAR_TEST = 'COMPLETAR_TEST';
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
-    case CARGAR_VIAJES:
+    case CARGAR_VIAJES_CHOFER:
       return {...state, elementos: action.payload};
     case SELECCIONAR_VIAJE:
       return {...state, seleccionado: action.payload};
@@ -23,7 +23,7 @@ export default function reducerChoferLogeado(state = configDuck, action) {
       return state;
   }
 }
-export const cargarViajes = (id) => (dispatch, getState) => {
+export const cargarViajesChofer = (id) => (dispatch, getState) => {
   traerViajes(id).then((viajes) => {
     switch (viajes.status) {
       case 200:
@@ -44,7 +44,7 @@ export const cargarViajes = (id) => (dispatch, getState) => {
         });
 
         dispatch({
-          type: CARGAR_VIAJES,
+          type: CARGAR_VIAJES_CHOFER,
           payload: viajesArray,
         });
         break;
