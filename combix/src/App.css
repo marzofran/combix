@@ -291,3 +291,13 @@ html {
 .navActiveChoferDetalles {
   border-bottom: 3px solid blue;
 }
+
+@media (max-width: 600px) {
+  .titulo-login {
+    display: none;
+  }
+  .login-hijo {
+    width: 100%;
+    margin-top: 130px;
+  }
+}

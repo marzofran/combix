@@ -60,10 +60,9 @@ ticketsRouter.get('/:id', async (req, res) => {
   res.status(200).json(pasajes).end();
 });
 
-ticketsRouter.get('/:travel', async (req, res) => {
-  //fetchea pasajes de un viaje
+ticketsRouter.get('/viaje/:travel', async (req, res) => {
   let pasajes = await Pasaje.find({
-    travel: req.params.travel,
+    viaje: req.params.travel,
     unavailable: false,
   }).populate([
     {

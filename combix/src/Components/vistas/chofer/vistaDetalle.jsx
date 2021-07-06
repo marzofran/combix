@@ -4,14 +4,18 @@ import {Navbar, Container, Row, Col, Nav} from 'react-bootstrap';
 import history from '../../history';
 import DetallesDeViaje from './detallesDeViaje';
 import ListaDePasajeros from './listaDePasajeros';
-import {useSelector} from 'react-redux';
-import CuestionarioCovid from './elementos/cuestionarioCovid';
+import {useSelector, useDispatch} from 'react-redux';
+import {cargarPasajesViajeChofer} from '../../../Redux/choferDucks';
 import CuestionariosCovidPasaje from './cuestionariosCovidPasaje';
 const VistaDetalle = (props) => {
   const data = useSelector((store) => store.chofer.seleccionado);
+  const pasajeros = useSelector((store) => store.chofer.pasajesSeleccionado);
   const chofer = useSelector((store) => store.combix.sesion);
-
-  history.push('/chofer/viaje/detalles');
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(cargarPasajesViajeChofer(data._id));
+  }, []);
+  //history.push('/chofer/viaje/detalles');
 
   return (
     <div style={{backgroundColor: '#71b3ff', minHeight: '100vh'}}>
@@ -51,10 +55,16 @@ const VistaDetalle = (props) => {
             <CuestionariosCovidPasaje></CuestionariosCovidPasaje>
           </Route>
           <Route path='/chofer/viaje/pasajeros'>
-            <ListaDePasajeros item={data}></ListaDePasajeros>
+            <ListaDePasajeros
+              item={data}
+              pasajeros={pasajeros}
+            ></ListaDePasajeros>
           </Route>
           <Route path='/chofer/viaje/detalles'>
-            <DetallesDeViaje item={data}></DetallesDeViaje>
+            <DetallesDeViaje
+              item={data}
+              pasajeros={pasajeros}
+            ></DetallesDeViaje>
           </Route>
         </Switch>
       </Router>

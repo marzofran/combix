@@ -1,11 +1,12 @@
 import React from 'react';
-import {Col, Row} from 'react-bootstrap'
+import {Col, Row} from 'react-bootstrap';
+import {useDispatch} from 'react-redux';
 
 const DetallesDeViaje = (props) => {
   return (
-    <Col className={'viajes-admin'}>
-      Hola
-    </Col>
+    <div>
+      <Col className={'viajes-admin'}>hola</Col>
+    </div>
   );
 };
 

@@ -6,17 +6,22 @@ const configDuck = {
     enCurso: [],
     finalizado: [],
   },
+  sesionCompra: {},
+  pasajesSeleccionado: [],
 };
 
 const CARGAR_VIAJES_CHOFER = 'CARGAR_VIAJES_CHOFER';
 const SELECCIONAR_VIAJE = 'SELECCIONAR_VIAJE';
 const COMPLETAR_TEST = 'COMPLETAR_TEST';
+const CARGAR_PASAJES_VIAJE_CHOFER = 'CARGAR_PASAJES_VIAJE_CHOFER';
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_VIAJES_CHOFER:
       return {...state, elementos: action.payload};
     case SELECCIONAR_VIAJE:
       return {...state, seleccionado: action.payload};
+    case CARGAR_PASAJES_VIAJE_CHOFER:
+      return {...state, pasajesSeleccionado: action.payload};
     case COMPLETAR_TEST:
       return state;
     default:
@@ -83,3 +88,22 @@ async function traerViajes(id) {
       return error;
     });
 }
+export const cargarPasajesViajeChofer = (id) => (dispatch) => {
+  Axios.get('http://localhost:8080/tickets/viaje/' + id, {
+    id,
+  }).then((response) => {
+    switch (response.status) {
+      case 200:
+        dispatch({
+          type: CARGAR_PASAJES_VIAJE_CHOFER,
+          payload: response.data,
+        });
+
+        break;
+      default:
+        alert(response.data);
+        console.log(response);
+        break;
+    }
+  });
+};
