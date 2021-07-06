@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import {Alert} from 'react-bootstrap';
 import history from '../Components/history';
 const configDuck = {
   elementos: {
@@ -14,6 +15,7 @@ const CARGAR_VIAJES_CHOFER = 'CARGAR_VIAJES_CHOFER';
 const SELECCIONAR_VIAJE = 'SELECCIONAR_VIAJE';
 const COMPLETAR_TEST = 'COMPLETAR_TEST';
 const CARGAR_PASAJES_VIAJE_CHOFER = 'CARGAR_PASAJES_VIAJE_CHOFER';
+const LOGEAR_DATOS_USUARIO = 'LOGEAR_DATOS_USUARIO';
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_VIAJES_CHOFER:
@@ -22,6 +24,8 @@ export default function reducerChoferLogeado(state = configDuck, action) {
       return {...state, seleccionado: action.payload};
     case CARGAR_PASAJES_VIAJE_CHOFER:
       return {...state, pasajesSeleccionado: action.payload};
+    case LOGEAR_DATOS_USUARIO:
+      return {...state, sesionCompra: action.payload};
     case COMPLETAR_TEST:
       return state;
     default:
@@ -106,4 +110,26 @@ export const cargarPasajesViajeChofer = (id) => (dispatch) => {
         break;
     }
   });
+};
+
+export const logearUsuario = (mail, dni) => (dispatch) => {
+  Axios.post('http://localhost:8080/users/chofer/' + mail, {dni})
+    .then((response) => {
+      switch (response.status) {
+        case 200:
+          dispatch({
+            type: LOGEAR_DATOS_USUARIO,
+            payload: response.data,
+          });
+          history.push('/chofer/viaje/checkOut');
+
+          break;
+        default:
+          alert('No se encontro al usuario');
+          break;
+      }
+    })
+    .catch((err) => {
+      Alert(err.response.data);
+    });
 };

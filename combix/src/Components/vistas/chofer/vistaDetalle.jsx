@@ -7,6 +7,8 @@ import ListaDePasajeros from './listaDePasajeros';
 import {useSelector, useDispatch} from 'react-redux';
 import {cargarPasajesViajeChofer} from '../../../Redux/choferDucks';
 import CuestionariosCovidPasaje from './cuestionariosCovidPasaje';
+import ComprarPasajeChofer from './comprarPasajeChofer';
+import CheckOut from './checkOut';
 const VistaDetalle = (props) => {
   const data = useSelector((store) => store.chofer.seleccionado);
   const pasajeros = useSelector((store) => store.chofer.pasajesSeleccionado);
@@ -51,6 +53,12 @@ const VistaDetalle = (props) => {
         </Navbar>
 
         <Switch>
+          <Route path='/chofer/viaje/checkOut'>
+            <CheckOut></CheckOut>
+          </Route>
+          <Route path='/chofer/viaje/comprarPasajeChofer'>
+            <ComprarPasajeChofer></ComprarPasajeChofer>
+          </Route>
           <Route path='/chofer/viaje/covid'>
             <CuestionariosCovidPasaje></CuestionariosCovidPasaje>
           </Route>

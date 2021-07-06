@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Row, Col, Table, Button} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 
 const ListaDePasajeros = (props) => {
   const [cantDispo, modificarDisponibilidad] = useState(
@@ -38,7 +39,11 @@ const ListaDePasajeros = (props) => {
         </Row>
         <Row></Row>
       </Col>
-      {cantDispo > 0 && <Button variant='success'>Agregar Pasajero</Button>}
+      {cantDispo > 0 && (
+        <Button variant='success'>
+          <Link to='/chofer/viaje/comprarPasajeChofer'>Agregar Pasajero</Link>
+        </Button>
+      )}
     </div>
   );
 };

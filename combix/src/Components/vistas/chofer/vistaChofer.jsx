@@ -6,7 +6,7 @@ import history from '../../history';
 import HistorialDeViajes from './historialDeViajes';
 import {cargarViajesChofer} from '../../../Redux/choferDucks';
 import ViajesPendientes from './viajesPendientes';
-
+import CheckOut from './checkOut';
 const VistaChofer = (props) => {
   const chofer = useSelector((store) => store.combix.sesion);
   const dispatch = useDispatch();

@@ -124,7 +124,8 @@ usersRouter.put('/:id/banear', async (req, res) => {
     {baneado: true},
     {new: true}
   );
-  if (!usuarioBaneado) throw new HttpError(203, 'Este usuario ya esta baneado!');
+  if (!usuarioBaneado)
+    throw new HttpError(203, 'Este usuario ya esta baneado!');
   res.status(200).send(usuarioBaneado).end();
 });
 
@@ -132,13 +133,14 @@ usersRouter.put('/:id/desbanear', async (req, res) => {
   const usuarioDesbaneado = await Usuario.findOneAndUpdate(
     {
       _id: req.params.id,
-      baneado: true, 
+      baneado: true,
       unavailable: false,
     },
     {baneado: false},
     {new: true}
   );
-  if (!usuarioDesbaneado) throw new HttpError(203, 'Este usuario ya esta desbaneado!');
+  if (!usuarioDesbaneado)
+    throw new HttpError(203, 'Este usuario ya esta desbaneado!');
   res.status(200).send(usuarioDesbaneado).end();
 });
 
@@ -154,6 +156,15 @@ usersRouter.delete('/:id', async (req, res) => {
   );
   if (!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
   res.status(200).send('Usuario borrado con exito').end();
+});
+
+usersRouter.post('/chofer/:mail', async (req, res) => {
+  let usuario = await Usuario.findOne({
+    dni: req.body.dni,
+    mail: req.params.mail,
+  });
+  if (!usuario) throw new HttpError(404, 'Usuario no encontrado');
+  res.status(200).json(usuario).end();
 });
 
 module.exports = usersRouter;
