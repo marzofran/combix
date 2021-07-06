@@ -1,10 +1,11 @@
 import React from 'react';
+import {Col, Row} from 'react-bootstrap'
 
 const DetallesDeViaje = (props) => {
   return (
-    <div>
-      <h1>{props.item.precio}</h1>
-    </div>
+    <Col className={'viajes-admin'}>
+      Hola
+    </Col>
   );
 };
 

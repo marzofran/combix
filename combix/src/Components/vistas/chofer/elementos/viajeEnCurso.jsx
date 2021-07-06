@@ -4,8 +4,6 @@ import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {seleccionarViaje} from '../../../../Redux/choferDucks';
 
-const {dateFormat} = require('../../../../scripts/dateFormat')
-
 const ViajeEnCurso = (props) => {
 
   const dispatch = useDispatch();
@@ -21,7 +19,7 @@ const ViajeEnCurso = (props) => {
         </Col>
       </Row>
       <Row>
-        <h6 style={{color: '#357185', padding: '0 5px'}}>{props.item.ruta.origen.lugar}, {props.item.ruta.origen.provincia} -> {props.item.ruta.destino.lugar}, {props.item.ruta.destino.provincia}</h6>
+        <h6 style={{color: '#357185', padding: '0 5px'}}>{props.item.ruta.origen.lugar}, {props.item.ruta.origen.provincia} {'->'} {props.item.ruta.destino.lugar}, {props.item.ruta.destino.provincia}</h6>
       </Row>
       <Row>
         <h5>Estado: {props.item.estado}</h5>
