@@ -1,6 +1,6 @@
 import React from 'react';
 import {Router, Link, Switch, Route} from 'react-router-dom';
-import {Navbar} from 'react-bootstrap';
+import {Navbar, Row, Col} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
 import combixLogo from '../resources/CombixWhite.png';
 import {cerrarSesion} from '../Redux/combixDucks';
@@ -14,27 +14,28 @@ const NavChoferLogeado = () => {
     <div>
       <Router history={history}>
         <Navbar expand='lg' variant='dark' style={{backgroundColor: '#135671'}}>
-          <Link to='/chofer/vistaChofer/pendientes'>
-            <Navbar.Brand>
-              <img
-                src={combixLogo}
-                width='15%'
-                className='d-inline-block align-top ml-5'
-                alt='Combix logo'
-              />
-            </Navbar.Brand>
-          </Link>
-          <Link className='navbar-brand nav-link ' to='/chofer/vistaChofer/pendientes'>
-            <h5>Mis Viajes</h5>
-          </Link>
-          <Link
-            className='navbar-brand nav-link btn mr-5'
-            onClick={() => dispatch(cerrarSesion())}
-            to='/login'
-            style={{backgroundColor: 'red'}}
-          >
-            <h5> Cerrar sesion</h5>
-          </Link>
+          <Row>
+            <Col>
+              <Link to='/chofer/vistaChofer/pendientes'>
+                <img
+                  src={combixLogo}
+                  width='55%'
+                  className='d-inline-block align-top mt-2 ml-5'
+                  alt='Combix logo'
+                />
+              </Link>
+            </Col>
+            <Col>
+              <Link
+                className='navbar-brand nav-link btn mr-5'
+                onClick={() => dispatch(cerrarSesion())}
+                to='/login'
+                style={{backgroundColor: 'red'}}
+              >
+                <h5> Cerrar sesion</h5>
+              </Link>
+            </Col>
+          </Row>
         </Navbar>
       </Router>
     </div>

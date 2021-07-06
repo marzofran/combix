@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {Router, Link, Switch, Route} from 'react-router-dom';
-import {Navbar, Container} from 'react-bootstrap';
+import {Router, Link, Switch, Route, NavLink} from 'react-router-dom';
+import {Navbar, Container, Row, Col, Nav} from 'react-bootstrap';
 import history from '../../history';
 import DetallesDeViaje from './detallesDeViaje';
 import ListaDePasajeros from './listaDePasajeros';
@@ -16,25 +16,36 @@ const VistaDetalle = (props) => {
   return (
     <div style={{backgroundColor: '#71b3ff', minHeight: '100vh'}}>
       <Router history={history}>
-        <Container>
-          <Navbar>
-            <Link
-              className='navbar-brand nav-link '
-              to='/chofer/viaje/detalles'
-            >
-              <h5>Detalles</h5>
-            </Link>
-            <Link
-              className='navbar-brand nav-link '
-              to='/chofer/viaje/pasajeros'
-            >
-              <h5>Pasajeros</h5>
-            </Link>
-            <Link className='navbar-brand nav-link ' to='/chofer/viaje/covid'>
-              <h5>CuestionarioCovid</h5>
-            </Link>
-          </Navbar>
-        </Container>
+        <Navbar className='navBarChoferDetalles'>
+          <Container>
+            <Row>
+              <Col>
+                <Nav.Link>
+                  <NavLink
+                    className='navbar-brand nav-link '
+                    to='/chofer/viaje/detalles'
+                    activeClassName='navActiveChoferDetalles'
+                  >
+                    Detalles
+                  </NavLink>
+                </Nav.Link>
+              </Col>
+
+              <Col>
+                <Nav.Link>
+                  <NavLink
+                    className='navbar-brand nav-link '
+                    to='/chofer/viaje/pasajeros'
+                    activeClassName='navActiveChoferDetalles'
+                  >
+                    <h5>Pasajeros</h5>
+                  </NavLink>
+                </Nav.Link>
+              </Col>
+            </Row>
+          </Container>
+        </Navbar>
+
         <Switch>
           <Route path='/chofer/viaje/covid'>
             <CuestionariosCovidPasaje></CuestionariosCovidPasaje>

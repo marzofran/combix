@@ -285,3 +285,9 @@ html {
 .pCuestionarioCovid {
   margin: 0.15rem;
 }
+.navBarChoferDetalles {
+  background: white;
+}
+.navActiveChoferDetalles {
+  border-bottom: 3px solid blue;
+}
