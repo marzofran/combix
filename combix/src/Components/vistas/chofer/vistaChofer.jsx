@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {Router, Link, Switch, Route} from 'react-router-dom';
-import {Navbar, Row, Col} from 'react-bootstrap';
+import {Router, Link, Switch, Route, NavLink} from 'react-router-dom';
+import {Navbar, Container, Row, Col, Nav} from 'react-bootstrap';
 import history from '../../history';
 import HistorialDeViajes from './historialDeViajes';
 import {cargarViajesChofer} from '../../../Redux/choferDucks';
@@ -27,31 +27,38 @@ const VistaChofer = (props) => {
     <div
       style={{
         backgroundColor: '#71b3ff',
-        minHeight: '100vh',
-        boxSizing: 'border-box',
+        minHeight: '100vh'
       }}
     >
       {chofer.permissions == '6094d50128e541353c8cf122' ? (
         <Router history={history}>
-          <Navbar>
-            <Row>
-              <Col>
-                <Link
-                  className='navbar-brand nav-link '
-                  to='/chofer/vistaChofer/pendientes'
-                >
-                  <h6>Viajes Pendientes</h6>
-                </Link>
-              </Col>
-              <Col>
-                <Link
-                  className='navbar-brand nav-link '
-                  to='/chofer/vistaChofer/historial'
-                >
-                  <h6>Historial de Viajes</h6>
-                </Link>
-              </Col>
-            </Row>
+          <Navbar className='navBarChoferDetalles' style={{ padding: '10px 0px 0px 10px'}}>
+            <Container>
+              <Row>
+                <Col>
+                  <Nav.Link style={{ padding: '10px 0px 0px 10px'}}>
+                    <NavLink
+                      className='navbar-brand nav-link '
+                      to='/chofer/vistaChofer/pendientes'
+                      activeClassName='navActiveChoferDetalles'
+                    >
+                      <h6>Viajes Pendientes</h6>
+                    </NavLink>
+                  </Nav.Link>
+                </Col>
+                <Col>
+                  <Nav.Link style={{ padding: '10px 0px 0px 10px'}}>
+                    <NavLink
+                      className='navbar-brand nav-link '
+                      to='/chofer/vistaChofer/historial'
+                      activeClassName='navActiveChoferDetalles'
+                    >
+                      <h6>Historial de Viajes</h6>
+                    </NavLink>  
+                  </Nav.Link>
+                </Col>
+              </Row>
+            </Container>
           </Navbar>
           <Switch>
             <Route path='/chofer/vistaChofer/pendientes'>

@@ -17,28 +17,28 @@ const VistaDetalle = (props) => {
   useEffect(() => {
     dispatch(cargarPasajesViajeChofer(data._id));
   }, []);
-  //history.push('/chofer/viaje/detalles');
+  history.push('/chofer/viaje/detalles');
 
   return (
     <div style={{backgroundColor: '#71b3ff', minHeight: '100vh'}}>
       <Router history={history}>
-        <Navbar className='navBarChoferDetalles'>
+        <Navbar className='navBarChoferDetalles' style={{ padding: '10px 0px 0px 10px'}}>
           <Container>
             <Row>
               <Col>
-                <Nav.Link>
+                <Nav.Link style={{ padding: '10px 0px 0px 10px'}}>
                   <NavLink
                     className='navbar-brand nav-link '
                     to='/chofer/viaje/detalles'
                     activeClassName='navActiveChoferDetalles'
                   >
-                    Detalles
+                    <h5>Detalles</h5>
                   </NavLink>
                 </Nav.Link>
               </Col>
 
               <Col>
-                <Nav.Link>
+                <Nav.Link style={{ padding: '10px 0px 0px 10px'}}>
                   <NavLink
                     className='navbar-brand nav-link '
                     to='/chofer/viaje/pasajeros'

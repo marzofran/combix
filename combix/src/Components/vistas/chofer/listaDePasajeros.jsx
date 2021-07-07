@@ -21,7 +21,7 @@ const ListaDePasajeros = (props) => {
   }
   return (
     <div>
-      <Col className={'viajes-admin'}>
+      <Col className={'viajes-admin'} style={{margin: '10px 10px', maxWidth: '95vw'}}>
         <Row>
           <h5 style={{color: '#357185', padding: '5px 10px'}}>
             <u>Pasajeros</u>

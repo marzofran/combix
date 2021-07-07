@@ -8,7 +8,7 @@ const ViajesPendientes = (props) => {
   const viajes = props.viajes.pendientes
   
   return (
-    <Col className='container' style={{margin: '0 10px', maxWidth: '90vw'}} >
+    <Col className='container' style={{margin: '0 10px', maxWidth: '95vw'}} >
       <HeaderListas viajes={props.viajes.enCurso}></HeaderListas>
       <Row className={'viajes-admin'} style={{backgroundColor: 'lightgray'}}>
         <div className='col-9'>

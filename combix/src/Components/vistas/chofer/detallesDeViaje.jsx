@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 const DetallesDeViaje = (props) => {
   return (
     <div>
-      <Col className={'viajes-admin'}>hola</Col>
+      <Col className={'viajes-admin'} style={{margin: '10px 10px', maxWidth: '95vw'}}>hola</Col>
     </div>
   );
 };
