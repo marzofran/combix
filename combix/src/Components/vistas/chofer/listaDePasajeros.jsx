@@ -20,31 +20,39 @@ const ListaDePasajeros = (props) => {
     return totalPasajes;
   }
   return (
-    <div>
-      <Col className={'viajes-admin'} style={{margin: '10px 10px', maxWidth: '95vw'}}>
-        <Row>
-          <h5 style={{color: '#357185', padding: '5px 10px'}}>
-            <u>Pasajeros</u>
-          </h5>
+    <Row style={{margin: '10px 10px', maxWidth: '95vw'}}>
+      <Col className={'container'}>
+        <Row className={'viajes-admin'}>
+          <Col>
+            <Row>
+              <h5 style={{color: '#357185', padding: '5px 10px'}}>
+                <u>Pasajeros</u>
+              </h5>
+            </Row>
+            <Row style={{margin: '10px 10px'}}>
+              <Table striped bordered size='sm'>
+                <thead>
+                  <tr>
+                    <th>Disponibles</th>
+                    <th>{cantDispo}</th>
+                  </tr>
+                </thead>
+              </Table>
+            </Row>
+            <Row>
+
+            </Row>
+          </Col>
         </Row>
         <Row>
-          <Table striped bordered size='sm'>
-            <thead>
-              <tr>
-                <th>Disponibles</th>
-                <th>nº disponibles</th>
-              </tr>
-            </thead>
-          </Table>
+          {cantDispo > 0 && (
+            <Button variant='success'>
+              <Link to='/chofer/viaje/comprarPasajeChofer'>Agregar Pasajero</Link>
+            </Button>
+          )}
         </Row>
-        <Row></Row>
       </Col>
-      {cantDispo > 0 && (
-        <Button variant='success'>
-          <Link to='/chofer/viaje/comprarPasajeChofer'>Agregar Pasajero</Link>
-        </Button>
-      )}
-    </div>
+    </Row>
   );
 };
 
