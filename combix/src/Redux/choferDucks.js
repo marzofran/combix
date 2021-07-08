@@ -9,6 +9,8 @@ const configDuck = {
   },
   sesionCompra: {},
   pasajesSeleccionado: [],
+  disponibilidad: {},
+  pasajeChequeoCovid: {},
 };
 
 const CARGAR_VIAJES_CHOFER = 'CARGAR_VIAJES_CHOFER';
@@ -16,6 +18,9 @@ const SELECCIONAR_VIAJE = 'SELECCIONAR_VIAJE';
 const COMPLETAR_TEST = 'COMPLETAR_TEST';
 const CARGAR_PASAJES_VIAJE_CHOFER = 'CARGAR_PASAJES_VIAJE_CHOFER';
 const LOGEAR_DATOS_USUARIO = 'LOGEAR_DATOS_USUARIO';
+const CARGAR_DISPONIBILIDAD = 'CARGAR_DISPONIBILIDAD';
+const COMPRAR_PASAJE_CHOFER = 'COMPRAR_PASAJE_CHOFER';
+const SELECCIONAR_UNPASAJE_CHOFER = ' SELECCIONAR_UNPASAJE_CHOFER';
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_VIAJES_CHOFER:
@@ -26,8 +31,14 @@ export default function reducerChoferLogeado(state = configDuck, action) {
       return {...state, pasajesSeleccionado: action.payload};
     case LOGEAR_DATOS_USUARIO:
       return {...state, sesionCompra: action.payload};
+    case CARGAR_DISPONIBILIDAD:
+      return {...state, disponibilidad: action.payload};
     case COMPLETAR_TEST:
       return state;
+    case COMPRAR_PASAJE_CHOFER:
+      return {...state, pasajeChequeoCovid: action.payload};
+    case SELECCIONAR_UNPASAJE_CHOFER:
+      return {...state, pasajeChequeoCovid: action.payload};
     default:
       return state;
   }
@@ -70,9 +81,13 @@ export const seleccionarViaje = (viaje) => (dispatch, getState) => {
   });
   history.push('/chofer/viaje');
 };
-export const completarTest = (id, estado) => (dispatch, getState) => {
+
+export const completarTest = (id, estado, redirect) => (dispatch, getState) => {
   Axios.put('http://localhost:8080/tickets/' + id, {estado})
     .then((response) => {
+      if (redirect) {
+        history.push('/chofer/viaje/pasajeros');
+      }
       return response;
     })
     .catch(function (error) {
@@ -132,4 +147,48 @@ export const logearUsuario = (mail, dni) => (dispatch) => {
     .catch((err) => {
       Alert(err.response.data);
     });
+};
+
+export const actualizarDisponibilidad = (disponibilidad) => (dispatch) => {
+  dispatch({
+    type: CARGAR_DISPONIBILIDAD,
+    payload: disponibilidad,
+  });
+};
+
+export const comprarPasajeChofer =
+  (viaje, usuario, cantidadAsientos, precioTotal) => (dispatch) => {
+    delete viaje['disponibilidad'];
+    const pasaje = {
+      viaje,
+      usuario,
+      cantidadAsientos,
+      precioTotal,
+      insumos: [],
+    };
+    Axios.post('http://localhost:8080/tickets', {
+      pasaje,
+    }).then((response) => {
+      switch (response.status) {
+        case 202:
+          dispatch({
+            type: COMPRAR_PASAJE_CHOFER,
+            payload: response.data,
+          });
+          history.push('./covid');
+
+          alert('Compra realizada con exito');
+          break;
+        default:
+          alert('Error al realizar la compra');
+          break;
+      }
+    });
+  };
+
+export const seleccionarUnPasajero = (user) => (dispatch) => {
+  dispatch({
+    type: SELECCIONAR_UNPASAJE_CHOFER,
+    payload: user,
+  });
 };

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Container, Card, Col, Row, Form, Button} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 const CuestionarioCovid = (props) => {
   const [temperatura, setTemperatura] = useState('');
   const [cantSintomas, setCantSintomas] = useState('');
@@ -32,9 +33,9 @@ const CuestionarioCovid = (props) => {
   };
 
   function clear() {
-    setTemperatura(' ');
-    setDni(' ');
-    setNombre(' ');
+    setTemperatura('');
+    setDni('');
+    setNombre('');
   }
   return (
     <div>
@@ -98,22 +99,8 @@ const CuestionarioCovid = (props) => {
                 </p>
                 <div className='formCovid'>
                   <Form.Group
-                    className='pCuestionarioCovid'
                     onChange={onChange}
-                  >
-                    <Row>
-                      <Col xs={10}>
-                        <p className='resetP'>Fiebre (Mayor de 37.5ºC)</p>
-                      </Col>
-                      <Col>
-                        <Form.Check />
-                      </Col>
-                    </Row>
-                  </Form.Group>
-                  <hr />
-                  <Form.Group
-                    onChange={onChange}
-                    className='pCuestionarioCovid'
+                    className='pCuestionarioCovid '
                   >
                     <Row>
                       <Col xs={10}>
@@ -229,16 +216,17 @@ const CuestionarioCovid = (props) => {
               </Button>
             </Col>
           </Row>
-
-          <Button
-            className='mt-2 mb-5'
-            style={{width: '100%'}}
-            size='lg'
-            variant='danger'
-          >
-            {' '}
-            Cancelar chequeo
-          </Button>
+          <Link to='/chofer/viaje/pasajeros'>
+            <Button
+              className='mt-2 mb-5'
+              style={{width: '100%'}}
+              size='lg'
+              variant='danger'
+            >
+              {' '}
+              Cancelar chequeo
+            </Button>
+          </Link>
         </Form>
       </Container>
     </div>

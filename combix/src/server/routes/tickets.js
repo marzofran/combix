@@ -101,7 +101,7 @@ ticketsRouter.post('/', async (req, res) => {
   });
   console.log(pasaje);
   await pasaje.save();
-  res.status(202).send('Pasaje creado con exito!').end();
+  res.status(202).send(pasaje).end();
 });
 /*
 ticketsRouter.put('/:id', async (req, res) => {

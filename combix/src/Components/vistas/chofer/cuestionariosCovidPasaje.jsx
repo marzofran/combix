@@ -3,6 +3,7 @@ import {Container, Col, Row, Modal, Button} from 'react-bootstrap';
 import CuestionarioCovid from './elementos/cuestionarioCovid';
 import {useDispatch} from 'react-redux';
 import {completarTest} from '../../../Redux/choferDucks';
+import {useSelector} from 'react-redux';
 const CuestionariosCovidPasaje = (props) => {
   const dispatch = useDispatch();
   //Cambiar las constantes por las variables pasadas por props
@@ -15,45 +16,48 @@ const CuestionariosCovidPasaje = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const pasajeActual = useSelector((state) => state.chofer.pasajeChequeoCovid);
 
   useEffect(() => {
-    if (cantidadRealizada > 0) {
-      setMensajeButton('Finalizar chequeo');
-      if (usuariosConCovid.length > 0) {
-        handleShow();
-      }
+    if (usuariosConCovid.length > 0) {
+      handleShow();
     }
-    if (cantidadRealizada === 2) {
-      //aca va la cant de asientos del viaje
+    if (cantidadRealizada === pasajeActual.cantidadPasajes - 1) {
+      setMensajeButton('Finalizar chequeo');
+    }
+    console.log(cantidadRealizada, pasajeActual.cantidadPasajes);
+    if (cantidadRealizada === pasajeActual.cantidadPasajes) {
       if (usuariosConCovid.length > 0) {
         handleShow();
       } else {
-        completarTest('id', 'aceptado ');
+        dispatch(completarTest(pasajeActual._id, 'aceptado', true));
       }
     }
   }, [cantidadRealizada]);
+
   function sumar() {
     editarCantidadRealizada(cantidadRealizada + 1);
-    //console.log(usuariosConCovid);
   }
   function agregar(nombre, dni) {
     usuario.nombre = nombre;
     usuario.dni = dni;
     editarUsuariosConCovid([...usuariosConCovid, usuario]);
-    //console.log(usuariosConCovid);
+    console.log(usuariosConCovid);
   }
   function cancelarPasaje() {
-    dispatch(completarTest('id', 'cancelado '));
+    dispatch(completarTest(pasajeActual._id, 'cancelado', true));
   }
   return (
     <div>
       <Container>
         <Row>
           <Col xs={8}>
-            <h4>Usuario: </h4>
+            <h4>Usuario:</h4>
           </Col>
           <Col>
-            <h4>{cantidadRealizada}/2</h4>
+            <h4>
+              {cantidadRealizada}/{pasajeActual.cantidadPasajes}
+            </h4>
           </Col>
         </Row>
       </Container>
