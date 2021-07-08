@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
-import {Container, Row, Col, Card, Form, Button} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
-import {logearUsuario} from '../../../Redux/choferDucks';
+import React, { useState } from 'react';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { logearUsuario } from '../../../Redux/choferDucks';
+import { Link } from 'react-router-dom';
 
 const ComprarPasajeChofer = () => {
   const dispatch = useDispatch();
@@ -60,7 +61,10 @@ const ComprarPasajeChofer = () => {
       </Form>
       <Row>
         <Col>
-          <Button>Registrar usuario</Button>
+          <Link to='/chofer/viaje/register'>
+            {' '}
+            <Button>Registrar usuario </Button>
+          </Link>{' '}
         </Col>
       </Row>
       <Row>

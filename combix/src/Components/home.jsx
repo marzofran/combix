@@ -1,7 +1,7 @@
 import React from 'react';
 import Register from './register';
 import Footer from './footer';
-import {Row, Container, Col, Image, Button, Card} from 'react-bootstrap';
+import { Row, Container, Col, Image, Button, Card } from 'react-bootstrap';
 import goldUser from '../resources/goldUser.jpeg';
 import covidSecurity from '../resources/covidSecurity.jpg';
 import combi19Logo from '../resources/Combi-19Logo.png';
@@ -14,18 +14,20 @@ const Home = () => {
           <Container>
             <Row>
               <Col>
-                <h3 style={{fontFamily: 'Roboto Slab'}}>
+                <h3 style={{ fontFamily: 'Roboto Slab' }}>
                   Viajá seguro.
                   <br /> Viajá CombiX.
                 </h3>
               </Col>
               <Col>
-                <Register></Register>
+                <Register mostrar={true}></Register>
               </Col>
             </Row>
           </Container>
           <a href='#mid'>
-            <p style={{fontSize: '100px', textAlign: 'center', color: 'white'}}>
+            <p
+              style={{ fontSize: '100px', textAlign: 'center', color: 'white' }}
+            >
               <i className='fa fa-sort-desc' aria-hidden='true'></i>
             </p>
           </a>
@@ -40,7 +42,7 @@ const Home = () => {
               </div>
             </Col>
             <Col xl={6}>
-              <div style={{padding: '20px'}}>
+              <div style={{ padding: '20px' }}>
                 <h2>Viajá seguro</h2>
                 <h4>
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -57,7 +59,7 @@ const Home = () => {
         <Container>
           <Row>
             <Col xl={6}>
-              <div style={{padding: '20px'}}>
+              <div style={{ padding: '20px' }}>
                 <h2>Viajá cómodo con GOLD</h2>
                 <h4>
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -75,7 +77,7 @@ const Home = () => {
           </Row>
         </Container>
       </div>
-      <div style={{textAlign: 'center'}} className={'sectionCombix'}>
+      <div style={{ textAlign: 'center' }} className={'sectionCombix'}>
         <Container>
           <h2>Viajá Combix</h2>
           <Button
@@ -87,7 +89,7 @@ const Home = () => {
               marginTop: '10px',
             }}
           >
-            <a href='#top' style={{color: '#7099a9'}}>
+            <a href='#top' style={{ color: '#7099a9' }}>
               Registrate
             </a>
           </Button>
@@ -96,19 +98,27 @@ const Home = () => {
       <div className={'ultimaseccion imageLanding2'} id={'bottom'}>
         <Container>
           <Card
-            style={{padding: '30px', marginTop: '100px', marginBottom: '100px'}}
+            style={{
+              padding: '30px',
+              marginTop: '100px',
+              marginBottom: '100px',
+            }}
           >
             <Card.Body>
               <Row>
                 <Col>
-                  <Image src={combi19Logo} fluid style={{width: '80%'}}></Image>
+                  <Image
+                    src={combi19Logo}
+                    fluid
+                    style={{ width: '80%' }}
+                  ></Image>
                 </Col>
                 <Col xl={8}>
                   <Card.Title>
                     <h1>Combi-19</h1>
                   </Card.Title>
                   <div className={'card-text'}>
-                    <h3 style={{marginTop: '20px'}}>
+                    <h3 style={{ marginTop: '20px' }}>
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Ad tempore dolorum unde quia explicabo soluta molestiae
                       exercitationem inventore vitae, quod labore esse numquam

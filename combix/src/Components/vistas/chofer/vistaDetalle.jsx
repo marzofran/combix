@@ -1,14 +1,15 @@
-import React, {useEffect} from 'react';
-import {Router, Link, Switch, Route, NavLink} from 'react-router-dom';
-import {Navbar, Container, Row, Col, Nav} from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Router, Link, Switch, Route, NavLink } from 'react-router-dom';
+import { Navbar, Container, Row, Col, Nav } from 'react-bootstrap';
 import history from '../../history';
 import DetallesDeViaje from './detallesDeViaje';
 import ListaDePasajeros from './listaDePasajeros';
-import {useSelector, useDispatch} from 'react-redux';
-import {cargarPasajesViajeChofer} from '../../../Redux/choferDucks';
+import { useSelector, useDispatch } from 'react-redux';
+import { cargarPasajesViajeChofer } from '../../../Redux/choferDucks';
 import CuestionariosCovidPasaje from './cuestionariosCovidPasaje';
 import ComprarPasajeChofer from './comprarPasajeChofer';
 import CheckOut from './checkOut';
+import RegistrarAUsuario from './RegistrarAUnUsuario';
 const VistaDetalle = (props) => {
   const data = useSelector((store) => store.chofer.seleccionado);
   const pasajeros = useSelector((store) => store.chofer.pasajesSeleccionado);
@@ -19,16 +20,16 @@ const VistaDetalle = (props) => {
   }, []);
 
   return (
-    <div style={{backgroundColor: '#71b3ff', minHeight: '100vh'}}>
+    <div style={{ backgroundColor: '#71b3ff', minHeight: '100vh' }}>
       <Router history={history}>
         <Navbar
           className='navBarChoferDetalles'
-          style={{padding: '10px 0px 0px 10px'}}
+          style={{ padding: '10px 0px 0px 10px' }}
         >
           <Container>
             <Row>
               <Col>
-                <Nav.Link style={{padding: '10px 0px 0px 10px'}}>
+                <Nav.Link style={{ padding: '10px 0px 0px 10px' }}>
                   <NavLink
                     className='navbar-brand nav-link '
                     to='/chofer/viaje/detalles'
@@ -40,7 +41,7 @@ const VistaDetalle = (props) => {
               </Col>
 
               <Col>
-                <Nav.Link style={{padding: '10px 0px 0px 10px'}}>
+                <Nav.Link style={{ padding: '10px 0px 0px 10px' }}>
                   <NavLink
                     className='navbar-brand nav-link '
                     to='/chofer/viaje/pasajeros'
@@ -57,6 +58,9 @@ const VistaDetalle = (props) => {
         <Switch>
           <Route path='/chofer/viaje/checkOut'>
             <CheckOut></CheckOut>
+          </Route>
+          <Route path='/chofer/viaje/register'>
+            <RegistrarAUsuario></RegistrarAUsuario>
           </Route>
           <Route path='/chofer/viaje/comprarPasajeChofer'>
             <ComprarPasajeChofer></ComprarPasajeChofer>

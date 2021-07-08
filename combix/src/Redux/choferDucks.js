@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import {Alert} from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import history from '../Components/history';
 const configDuck = {
   elementos: {
@@ -21,24 +21,27 @@ const LOGEAR_DATOS_USUARIO = 'LOGEAR_DATOS_USUARIO';
 const CARGAR_DISPONIBILIDAD = 'CARGAR_DISPONIBILIDAD';
 const COMPRAR_PASAJE_CHOFER = 'COMPRAR_PASAJE_CHOFER';
 const SELECCIONAR_UNPASAJE_CHOFER = ' SELECCIONAR_UNPASAJE_CHOFER';
+const REGISTRAR_USUARIO_COMO_CHOFER = 'REGISTRAR_USUARIO_COMO_CHOFER';
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_VIAJES_CHOFER:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case SELECCIONAR_VIAJE:
-      return {...state, seleccionado: action.payload};
+      return { ...state, seleccionado: action.payload };
     case CARGAR_PASAJES_VIAJE_CHOFER:
-      return {...state, pasajesSeleccionado: action.payload};
+      return { ...state, pasajesSeleccionado: action.payload };
     case LOGEAR_DATOS_USUARIO:
-      return {...state, sesionCompra: action.payload};
+      return { ...state, sesionCompra: action.payload };
     case CARGAR_DISPONIBILIDAD:
-      return {...state, disponibilidad: action.payload};
+      return { ...state, disponibilidad: action.payload };
     case COMPLETAR_TEST:
       return state;
     case COMPRAR_PASAJE_CHOFER:
-      return {...state, pasajeChequeoCovid: action.payload};
+      return { ...state, pasajeChequeoCovid: action.payload };
     case SELECCIONAR_UNPASAJE_CHOFER:
-      return {...state, pasajeChequeoCovid: action.payload};
+      return { ...state, pasajeChequeoCovid: action.payload };
+    case REGISTRAR_USUARIO_COMO_CHOFER:
+      return { ...state, sesionCompra: action.payload };
     default:
       return state;
   }
@@ -83,7 +86,7 @@ export const seleccionarViaje = (viaje) => (dispatch, getState) => {
 };
 
 export const completarTest = (id, estado, redirect) => (dispatch, getState) => {
-  Axios.put('http://localhost:8080/tickets/' + id, {estado})
+  Axios.put('http://localhost:8080/tickets/' + id, { estado })
     .then((response) => {
       if (redirect) {
         history.push('/chofer/viaje/pasajeros');
@@ -128,7 +131,7 @@ export const cargarPasajesViajeChofer = (id) => (dispatch) => {
 };
 
 export const logearUsuario = (mail, dni) => (dispatch) => {
-  Axios.post('http://localhost:8080/users/chofer/' + mail, {dni})
+  Axios.post('http://localhost:8080/users/chofer/' + mail, { dni })
     .then((response) => {
       switch (response.status) {
         case 200:
@@ -190,5 +193,27 @@ export const seleccionarUnPasajero = (user) => (dispatch) => {
   dispatch({
     type: SELECCIONAR_UNPASAJE_CHOFER,
     payload: user,
+  });
+};
+
+export const registrarUsuarioChofer = (newUser) => (dispatch, getState) => {
+  Axios.post('http://localhost:8080/users', newUser).then((response) => {
+    switch (response.status) {
+      case 202:
+        alert('El registro fue exitoso');
+
+        dispatch({
+          type: REGISTRAR_USUARIO_COMO_CHOFER,
+          payload: response.data,
+        });
+        history.push('/chofer/viaje/checkOut');
+        break;
+      case 203:
+        alert('El email ya está registrado');
+        break;
+      default:
+        alert('Hubo un error con el registro');
+        break;
+    }
   });
 };

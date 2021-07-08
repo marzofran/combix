@@ -1,14 +1,15 @@
 import React from 'react';
-import {Form, Card, Row, Col} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import { Form, Card, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import userRegisterForm from '../scripts/userRegisterForm';
 
-const Register = () => {
-  const {handleChange, values, handleSubmit, errors} = userRegisterForm();
+const Register = (props) => {
+  const { handleChange, values, handleSubmit, errors, handleSubmitChofer } =
+    userRegisterForm();
 
   return (
     <div>
-      <Card style={{padding: '22px'}}>
+      <Card style={{ padding: '22px' }}>
         <Card.Body>
           <Card.Title>
             <h2>Registrate</h2>
@@ -111,12 +112,17 @@ const Register = () => {
                 </button>
               </Col>
               <Col>
-                <Link className='btn btn-outline-light buttonLogin' to='/login'>
-                  iniciar sesion
-                  <p>
-                    <i className='fa fa-arrow-right' aria-hidden='true'></i>
-                  </p>
-                </Link>
+                {props.mostrar === true && (
+                  <Link
+                    className='btn btn-outline-light buttonLogin'
+                    to='/login'
+                  >
+                    iniciar sesion
+                    <p>
+                      <i className='fa fa-arrow-right' aria-hidden='true'></i>
+                    </p>
+                  </Link>
+                )}
               </Col>
             </Row>
           </Form>

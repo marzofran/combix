@@ -1,6 +1,7 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import storeInstance from '../Redux/storeInstance';
-import {registrarUsuario} from '../Redux/combixDucks';
+import { registrarUsuario } from '../Redux/combixDucks';
+import { registrarUsuarioChofer } from '../Redux/choferDucks';
 
 const UserRegisterForm = (callback) => {
   const [values, setValues] = useState({
@@ -14,9 +15,10 @@ const UserRegisterForm = (callback) => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tipo, editTipo] = useState('');
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setValues({
       ...values,
       [name]: value,
@@ -25,7 +27,13 @@ const UserRegisterForm = (callback) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    editTipo('cliente');
+    setErrors(validateInfo(values));
+    setIsSubmitting(true);
+  };
+  const handleSubmitChofer = (event) => {
+    event.preventDefault();
+    editTipo('chofer');
     setErrors(validateInfo(values));
     setIsSubmitting(true);
   };
@@ -41,13 +49,16 @@ const UserRegisterForm = (callback) => {
         clave: values.clave,
         telefono: 0,
       };
-
-      storeInstance.dispatch(registrarUsuario(newUser));
+      if (tipo === 'cliente') {
+        storeInstance.dispatch(registrarUsuario(newUser));
+      } else {
+        storeInstance.dispatch(registrarUsuarioChofer(newUser));
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  return {handleChange, values, handleSubmit, errors};
+  return { handleChange, values, handleSubmit, errors, handleSubmitChofer };
 };
 
 function validateInfo(values) {
