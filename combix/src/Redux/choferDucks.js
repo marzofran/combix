@@ -85,21 +85,48 @@ export const seleccionarViaje = (viaje) => (dispatch, getState) => {
   history.push('/chofer/viaje');
 };
 
-export const completarTest = (id, estado, redirect) => (dispatch, getState) => {
-  Axios.put('http://localhost:8080/tickets/' + id, { estado })
-    .then((response) => {
-      if (redirect) {
-        history.push('/chofer/viaje/pasajeros');
-      }
-      return response;
-    })
-    .catch(function (error) {
-      return error;
+export const completarTest =
+  (id, estado, redirect, idUsuario) => (dispatch, getState) => {
+    Axios.put('http://localhost:8080/tickets/' + id, { estado })
+      .then((response) => {
+        if (redirect) {
+          history.push('/chofer/viaje/pasajeros');
+          if (estado === 'cancelado') {
+            let hoyMas2Semanas = new Date(Date.now() + 12096e5);
+            hoyMas2Semanas = hoyMas2Semanas.getTime() / 1000 / 3600;
+            Axios.put(
+              'http://localhost:8080/users/' + idUsuario + '/banear'
+            ).then((response) => {
+              Axios.get('http://localhost:8080/tickets/' + idUsuario).then(
+                (response) => {
+                  response.data.forEach((e) => {
+                    let fechaViaje = Date.parse(e.viaje.fecha);
+                    fechaViaje = fechaViaje / 1000 / 3600;
+                    let horaViaje = e.viaje.ruta.horario;
+                    horaViaje = horaViaje.split(':', 2);
+                    horaViaje =
+                      parseInt(horaViaje[0]) + parseFloat(horaViaje[1] / 60);
+                    fechaViaje = fechaViaje + horaViaje;
+                    if (fechaViaje < hoyMas2Semanas) {
+                      Axios.put('http://localhost:8080/tickets/' + e._id, {
+                        estado,
+                      });
+                    }
+                  });
+                }
+              );
+            });
+          }
+        }
+        return response;
+      })
+      .catch(function (error) {
+        return error;
+      });
+    dispatch({
+      type: COMPLETAR_TEST,
     });
-  dispatch({
-    type: COMPLETAR_TEST,
-  });
-};
+  };
 
 async function traerViajes(id) {
   return await Axios.get('http://localhost:8080/travels/' + id, {})

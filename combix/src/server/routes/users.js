@@ -1,9 +1,9 @@
 const express = require('express');
 const usersRouter = express.Router();
-const {userIntegrityValidation} = require('../middleware/validations');
+const { userIntegrityValidation } = require('../middleware/validations');
 const Usuario = require('../schemas/Usuario');
 const HttpError = require('../utils/HttpError');
-const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 const ticketsRouter = require('./tickets');
 
 const hasLegalAge = (dob) => {
@@ -13,7 +13,7 @@ const hasLegalAge = (dob) => {
 };
 
 usersRouter.get('/:mail', async (req, res) => {
-  const mailValido = await Usuario.findOne({mail: req.params.mail});
+  const mailValido = await Usuario.findOne({ mail: req.params.mail });
   if (mailValido) {
     res.status(200).json(mailValido).end();
   }
@@ -45,7 +45,7 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
     baneado: false,
     unavailable: false,
   });
-  const foundUser = await Usuario.find({mail: user.mail});
+  const foundUser = await Usuario.find({ mail: user.mail });
   if (Object.entries(foundUser).length === 0) {
     await usuario.save();
     response.status(202).send(usuario).end();
@@ -80,7 +80,7 @@ usersRouter.put('/:id', async (req, res) => {
     fechaNacimiento: user.fechaNacimiento,
     telefono: user.telefono,
   };
-  let pepe = await Usuario.findOneAndUpdate({_id: req.params.id}, update, {
+  let pepe = await Usuario.findOneAndUpdate({ _id: req.params.id }, update, {
     new: true,
   });
   res.status(200).send(pepe).end();
@@ -93,8 +93,8 @@ usersRouter.put('/:id/gold', async (req, res) => {
       permissions: '6094d56377b5714b3473dbc5',
       unavailable: false,
     },
-    {permissions: '60c4c2a93690f72eb018de17'},
-    {new: true}
+    { permissions: '60c4c2a93690f72eb018de17' },
+    { new: true }
   );
   if (!usuarioGold) throw new HttpError(203, 'Este usuario ya es GOLD!');
   res.status(200).send(usuarioGold).end();
@@ -107,22 +107,22 @@ usersRouter.put('/:id/cancelargold', async (req, res) => {
       permissions: '60c4c2a93690f72eb018de17',
       unavailable: false,
     },
-    {permissions: '6094d56377b5714b3473dbc5'},
-    {new: true}
+    { permissions: '6094d56377b5714b3473dbc5' },
+    { new: true }
   );
   if (!usuarioGold) throw new HttpError(203, 'Este usuario no es GOLD!');
   res.status(200).send(usuarioGold).end();
 });
 
 usersRouter.put('/:id/banear', async (req, res) => {
+  console.log(req.params.id);
   const usuarioBaneado = await Usuario.findOneAndUpdate(
     {
       _id: req.params.id,
-      baneado: false,
       unavailable: false,
     },
-    {baneado: true},
-    {new: true}
+    { baneado: new Date(Date.now() + 12096e5) },
+    { new: true }
   );
   if (!usuarioBaneado)
     throw new HttpError(203, 'Este usuario ya esta baneado!');
@@ -136,8 +136,8 @@ usersRouter.put('/:id/desbanear', async (req, res) => {
       baneado: true,
       unavailable: false,
     },
-    {baneado: false},
-    {new: true}
+    { baneado: false },
+    { new: true }
   );
   if (!usuarioDesbaneado)
     throw new HttpError(203, 'Este usuario ya esta desbaneado!');
@@ -152,7 +152,7 @@ usersRouter.delete('/:id', async (req, res) => {
       permissions: '6094d56377b5714b3473dbc5',
       unavailable: false,
     },
-    {unavailable: true}
+    { unavailable: true }
   );
   if (!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
   res.status(200).send('Usuario borrado con exito').end();

@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {Container, Col, Row, Modal, Button} from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Col, Row, Modal, Button } from 'react-bootstrap';
 import CuestionarioCovid from './elementos/cuestionarioCovid';
-import {useDispatch} from 'react-redux';
-import {completarTest} from '../../../Redux/choferDucks';
-import {useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { completarTest } from '../../../Redux/choferDucks';
+import { useSelector } from 'react-redux';
 const CuestionariosCovidPasaje = (props) => {
   const dispatch = useDispatch();
   //Cambiar las constantes por las variables pasadas por props
-  const usuario = {nombre: '', dni: ' '};
+  const usuario = { nombre: '', dni: ' ' };
 
   const [cantidadRealizada, editarCantidadRealizada] = useState(0);
   const [usuariosConCovid, editarUsuariosConCovid] = useState([]);
@@ -25,12 +25,19 @@ const CuestionariosCovidPasaje = (props) => {
     if (cantidadRealizada === pasajeActual.cantidadPasajes - 1) {
       setMensajeButton('Finalizar chequeo');
     }
-    console.log(cantidadRealizada, pasajeActual.cantidadPasajes);
+
     if (cantidadRealizada === pasajeActual.cantidadPasajes) {
       if (usuariosConCovid.length > 0) {
         handleShow();
       } else {
-        dispatch(completarTest(pasajeActual._id, 'aceptado', true));
+        dispatch(
+          completarTest(
+            pasajeActual._id,
+            'aceptado',
+            true,
+            pasajeActual.usuario._id
+          )
+        );
       }
     }
   }, [cantidadRealizada]);
@@ -42,10 +49,16 @@ const CuestionariosCovidPasaje = (props) => {
     usuario.nombre = nombre;
     usuario.dni = dni;
     editarUsuariosConCovid([...usuariosConCovid, usuario]);
-    console.log(usuariosConCovid);
   }
   function cancelarPasaje() {
-    dispatch(completarTest(pasajeActual._id, 'cancelado', true));
+    dispatch(
+      completarTest(
+        pasajeActual._id,
+        'cancelado',
+        true,
+        pasajeActual.usuario._id
+      )
+    );
   }
   return (
     <div>
