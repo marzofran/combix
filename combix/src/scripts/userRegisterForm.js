@@ -65,6 +65,7 @@ function validateInfo(values) {
   let errors = {};
   if (values.clave !== values.repetirClave) {
     errors.repetirClave = 'Las contraseñas no concuerdan';
+    console.log("errorcito")
   }
   if (!esMayor(values.fechaNacimiento)) {
     errors.fechaNacimiento = 'Debes ser mayor de 18 años';

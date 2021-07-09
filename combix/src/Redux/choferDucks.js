@@ -143,6 +143,15 @@ export const cargarPasajesViajeChofer = (id) => (dispatch) => {
   }).then((response) => {
     switch (response.status) {
       case 200:
+        var ordering = {},
+            sortOrder = ['aceptado','pendiente','ausente','cancelado'];
+        for (var i=0; i<sortOrder.length; i++)
+            ordering[sortOrder[i]] = i;
+
+        response.data.sort( function(a, b) {
+            return (ordering[a.estado] - ordering[b.estado]) || a.cantidadPasajes - b.cantidadPasajes;
+        });
+
         dispatch({
           type: CARGAR_PASAJES_VIAJE_CHOFER,
           payload: response.data,
@@ -224,11 +233,11 @@ export const seleccionarUnPasajero = (user) => (dispatch) => {
 };
 
 export const registrarUsuarioChofer = (newUser) => (dispatch, getState) => {
+  newUser.clave = "password123"
   Axios.post('http://localhost:8080/users', newUser).then((response) => {
     switch (response.status) {
       case 202:
         alert('El registro fue exitoso');
-
         dispatch({
           type: REGISTRAR_USUARIO_COMO_CHOFER,
           payload: response.data,

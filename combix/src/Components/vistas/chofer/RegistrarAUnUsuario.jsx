@@ -83,30 +83,7 @@ const RegistrarAUsuario = () => {
                       onChange={handleChange}
                     />
                   </Form.Group>
-                  <Form.Group controlId='clave'>
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control
-                      required
-                      minLength='6'
-                      type='password'
-                      placeholder='**********'
-                      name='clave'
-                      value={values.clave}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId='repetirClave'>
-                    <Form.Label>Repetir contraseña</Form.Label>
-                    <Form.Control
-                      required
-                      type='password'
-                      placeholder='**********'
-                      name='repetirClave'
-                      value={values.repetirClave}
-                      onChange={handleChange}
-                    />
-                    {errors.repetirClave && <p>{errors.repetirClave}</p>}
-                  </Form.Group>
+                  <p> Lea al pasajero: "El sistema va a generar una contraseña que le va a llegar por mail. Cuando la tenga, puede entrar a su Perfil para cambiarla"</p>
                   <Row>
                     <Col lg='8'>
                       <button

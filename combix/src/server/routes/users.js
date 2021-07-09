@@ -42,7 +42,7 @@ usersRouter.post('/', userIntegrityValidation, async (request, response) => {
     fechaNacimiento: user.fechaNacimiento,
     telefono: parseInt(user.telefono),
     permissions: '6094d56377b5714b3473dbc5',
-    baneado: false,
+    baneado: new Date(0),
     unavailable: false,
   });
   const foundUser = await Usuario.find({ mail: user.mail });
