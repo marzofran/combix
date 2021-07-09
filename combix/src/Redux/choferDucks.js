@@ -59,7 +59,10 @@ export const cargarViajesChofer = (id) => (dispatch, getState) => {
         viajes.data.forEach((viaje) => {
           if (viaje.estado === 'pendiente') {
             viajesArray.pendientes.push(viaje);
-          } else if (viaje.estado === 'finalizado' || viaje.estado === 'cancelado') {
+          } else if (
+            viaje.estado === 'finalizado' ||
+            viaje.estado === 'cancelado'
+          ) {
             viajesArray.finalizado.push(viaje);
           } else {
             viajesArray.enCurso.push(viaje);
@@ -86,11 +89,11 @@ export const seleccionarViaje = (viaje) => (dispatch, getState) => {
 };
 
 export const completarTest =
-  (id, estado, redirect, idUsuario) => (dispatch, getState) => {
+  (id, estado, redirect, idUsuario, patch) => (dispatch, getState) => {
     Axios.put('http://localhost:8080/tickets/' + id, { estado })
       .then((response) => {
         if (redirect) {
-          history.push('/chofer/viaje/pasajeros');
+          history.push(patch);
           if (estado === 'cancelado') {
             let hoyMas2Semanas = new Date(Date.now() + 12096e5);
             hoyMas2Semanas = hoyMas2Semanas.getTime() / 1000 / 3600;
@@ -144,12 +147,14 @@ export const cargarPasajesViajeSeleccionado = (id) => (dispatch) => {
     switch (response.status) {
       case 200:
         var ordering = {},
-            sortOrder = ['aceptado','pendiente','ausente','cancelado'];
-        for (var i=0; i<sortOrder.length; i++)
-            ordering[sortOrder[i]] = i;
+          sortOrder = ['aceptado', 'pendiente', 'ausente', 'cancelado'];
+        for (var i = 0; i < sortOrder.length; i++) ordering[sortOrder[i]] = i;
 
-        response.data.sort( function(a, b) {
-            return (ordering[a.estado] - ordering[b.estado]) || a.cantidadPasajes - b.cantidadPasajes;
+        response.data.sort(function (a, b) {
+          return (
+            ordering[a.estado] - ordering[b.estado] ||
+            a.cantidadPasajes - b.cantidadPasajes
+          );
         });
 
         dispatch({
@@ -210,13 +215,14 @@ export const comprarPasajeChofer =
     }).then((response) => {
       switch (response.status) {
         case 202:
+          const pasaje = response.data;
+          pasaje.CompradoPor = 'chofer';
           dispatch({
             type: COMPRAR_PASAJE_CHOFER,
-            payload: response.data,
+            payload: pasaje,
           });
           history.push('./covid');
 
-          alert('Compra realizada con exito');
           break;
         default:
           alert('Error al realizar la compra');
@@ -233,7 +239,7 @@ export const seleccionarUnPasajero = (user) => (dispatch) => {
 };
 
 export const registrarUsuarioChofer = (newUser) => (dispatch, getState) => {
-  newUser.clave = "password123"
+  newUser.clave = 'password123';
   Axios.post('http://localhost:8080/users', newUser).then((response) => {
     switch (response.status) {
       case 202:

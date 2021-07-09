@@ -20,59 +20,75 @@ const ComprarPasajeChofer = () => {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <h5>Usuario existente</h5>
-        </Col>
-      </Row>
-      <Form onSubmit={handleSubmit}>
+    <div className='mt-2'>
+      <Container>
         <Row>
           <Col>
-            <Card>
-              <Card.Body>
-                <h5>Ingrese el E-mail del usuario</h5>
+            <h4>Usuario existente</h4>
+          </Col>
+        </Row>
+        <Form onSubmit={handleSubmit}>
+          <Row>
+            <Col>
+              <Card>
+                <Card.Body>
+                  <h4>Ingrese el E-mail del usuario</h4>
 
-                <Form.Group>
-                  <Form.Control
-                    required
-                    type='email'
-                    onChange={handleChangeEmail}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group>
-                  <h5>Ingrese el Dni del usuario</h5>
-                  <Form.Control
-                    required
-                    type='number'
-                    pattern='[0-9]{10}'
-                    onChange={handleChangeDni}
-                  ></Form.Control>
-                </Form.Group>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button type='submit'>Siguiente</Button>
-          </Col>
-        </Row>
-      </Form>
-      <Row>
-        <Col>
-          <Link to='/chofer/viaje/register'>
-            {' '}
-            <Button>Registrar usuario </Button>
-          </Link>{' '}
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Button>Cancelar compra</Button>
-        </Col>
-      </Row>
-    </Container>
+                  <Form.Group>
+                    <Form.Control
+                      required
+                      type='email'
+                      onChange={handleChangeEmail}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group>
+                    <h4>Ingrese el Dni del usuario</h4>
+                    <Form.Control
+                      required
+                      type='number'
+                      pattern='[0-9]{10}'
+                      onChange={handleChangeDni}
+                    ></Form.Control>
+                  </Form.Group>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <div className='mt-2'>
+            <Row>
+              <Col>
+                <Button variant='success' size='lg' block type='submit'>
+                  Siguiente
+                </Button>
+              </Col>
+            </Row>
+          </div>
+        </Form>
+        <div className='mt-2'>
+          <Row>
+            <Col>
+              <Link to='/chofer/viaje/register'>
+                {' '}
+                <Button size='lg' block>
+                  Registrar usuario{' '}
+                </Button>
+              </Link>{' '}
+            </Col>
+          </Row>
+        </div>
+        <div className='mt-2'>
+          <Row>
+            <Col>
+              <Link to='/chofer/viaje/pasajeros'>
+                <Button variant='danger' size='lg' block>
+                  Cancelar compra
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+        </div>
+      </Container>
+    </div>
   );
 };
 

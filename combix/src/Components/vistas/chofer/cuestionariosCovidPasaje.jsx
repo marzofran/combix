@@ -17,8 +17,14 @@ const CuestionariosCovidPasaje = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const pasajeActual = useSelector((state) => state.chofer.pasajeChequeoCovid);
+  const [patch, setPatch] = useState('none');
 
   useEffect(() => {
+    if (pasajeActual.CompradoPor === 'chofer') {
+      setPatch('/chofer/viaje/mensajeCompraExitosa');
+    } else {
+      setPatch('/chofer/viaje/pasajeros');
+    }
     if (usuariosConCovid.length > 0) {
       handleShow();
     }
@@ -35,7 +41,8 @@ const CuestionariosCovidPasaje = (props) => {
             pasajeActual._id,
             'aceptado',
             true,
-            pasajeActual.usuario._id
+            pasajeActual.usuario._id,
+            patch
           )
         );
       }

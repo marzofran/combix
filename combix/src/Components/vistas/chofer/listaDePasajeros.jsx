@@ -1,24 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {Row, Col, Table, Button, Card, Accordion} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { Row, Col, Table, Button, Card, Accordion } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/js/src/collapse.js';
-import {actualizarDisponibilidad} from '../../../Redux/choferDucks';
-import {cargarPasajesViajeSeleccionado} from '../../../Redux/choferDucks';
-import {completarTest} from '../../../Redux/choferDucks';
-import {seleccionarUnPasajero} from '../../../Redux/choferDucks';
+import { actualizarDisponibilidad } from '../../../Redux/choferDucks';
+import { cargarPasajesViajeSeleccionado } from '../../../Redux/choferDucks';
+import { completarTest } from '../../../Redux/choferDucks';
+import { seleccionarUnPasajero } from '../../../Redux/choferDucks';
 const ListaDePasajeros = (props) => {
+  const viajeSeleccionado = useSelector((state) => state.chofer.seleccionado);
+  const pasajesChofer = useSelector(
+    (state) => state.chofer.pasajesSeleccionado
+  );
   const [cantDispo, modificarDisponibilidad] = useState(
-    props.item.ruta.combi.cantidadAsientos
+    viajeSeleccionado.ruta.combi.cantidadAsientos
   );
   const dispatch = useDispatch();
-  const viajeSeleccionado = useSelector((state) => state.chofer.seleccionado);
 
   useEffect(() => {
-    modificarDisponibilidad(
-      cantDispo - calcularDisponibilidad(props.pasajeros)
-    );
     dispatch(cargarPasajesViajeSeleccionado(viajeSeleccionado._id));
+
+    modificarDisponibilidad(cantDispo - calcularDisponibilidad(pasajesChofer));
   }, []);
   function calcularDisponibilidad(pasajeros) {
     let totalPasajes = 0;
@@ -41,21 +43,18 @@ const ListaDePasajeros = (props) => {
       hiddenElement.classList.add('show');
     }
   };
-  const pasajesChofer = useSelector(
-    (state) => state.chofer.pasajesSeleccionado
-  );
 
   return (
-    <Row style={{margin: '10px 10px', maxWidth: '95vw'}}>
+    <Row style={{ margin: '10px 10px', maxWidth: '95vw' }}>
       <Col className={'container'}>
         <Row className={'viajes-admin'}>
           <Col>
             <Row>
-              <h5 style={{color: '#357185', padding: '5px 10px'}}>
+              <h5 style={{ color: '#357185', padding: '5px 10px' }}>
                 <u>Pasajeros</u>
               </h5>
             </Row>
-            <Row style={{margin: '10px 10px'}}>
+            <Row style={{ margin: '10px 10px' }}>
               <Table striped bordered size='sm'>
                 <thead>
                   <tr>
@@ -93,19 +92,19 @@ const ListaDePasajeros = (props) => {
                               ) : e.estado === 'cancelado' ? (
                                 <i
                                   class='fa fa-times'
-                                  style={{color: 'red'}}
+                                  style={{ color: 'red' }}
                                   aria-hidden='true'
                                 ></i>
                               ) : e.estado === 'aceptado' ? (
                                 <i
                                   class='fa fa-check'
-                                  style={{color: 'green'}}
+                                  style={{ color: 'green' }}
                                   aria-hidden='true'
                                 ></i>
                               ) : (
                                 <i
                                   class='fa fa-question'
-                                  style={{color: 'grey'}}
+                                  style={{ color: 'grey' }}
                                   aria-hidden='true'
                                 ></i>
                               )}
@@ -117,7 +116,7 @@ const ListaDePasajeros = (props) => {
                                 <Col>
                                   <Row
                                     className={'container'}
-                                    style={{padding: '10px 0 0 10px'}}
+                                    style={{ padding: '10px 0 0 10px' }}
                                   >
                                     <h5
                                       style={{
@@ -131,46 +130,53 @@ const ListaDePasajeros = (props) => {
                                         : e.estado.toUpperCase()}
                                     </h5>
                                   </Row>
-                                  {viajeSeleccionado.estado === "abierto" && e.estado === 'pendiente' && (
-                                    <Row>
-                                      <Button
-                                        variant='success'
-                                        style={{margin: '5px', width: '100%'}}
-                                        onClick={() =>
-                                          dispatch(seleccionarUnPasajero(e))
-                                        }
-                                      >
-                                        <Link
-                                          to='./covid'
-                                          style={{color: 'white'}}
+                                  {viajeSeleccionado.estado === 'abierto' &&
+                                    e.estado === 'pendiente' && (
+                                      <Row>
+                                        <Button
+                                          variant='success'
+                                          style={{
+                                            margin: '5px',
+                                            width: '100%',
+                                          }}
+                                          onClick={() =>
+                                            dispatch(seleccionarUnPasajero(e))
+                                          }
                                         >
-                                          Realizar Chequeo
-                                        </Link>
-                                      </Button>
-                                      <Button
-                                        variant='danger'
-                                        onClick={() => {
-                                          dispatch(
-                                            completarTest(
-                                              e._id,
-                                              'ausente',
-                                              false
-                                            )
-                                          );
-                                          setTimeout(function () {
+                                          <Link
+                                            to='./covid'
+                                            style={{ color: 'white' }}
+                                          >
+                                            Realizar Chequeo
+                                          </Link>
+                                        </Button>
+                                        <Button
+                                          variant='danger'
+                                          onClick={() => {
                                             dispatch(
-                                              cargarPasajesViajeSeleccionado(
-                                                viajeSeleccionado._id
+                                              completarTest(
+                                                e._id,
+                                                'ausente',
+                                                false
                                               )
                                             );
-                                          }, 2000);
-                                        }}
-                                        style={{margin: '5px', width: '100%'}}
-                                      >
-                                        Marcar como Ausente
-                                      </Button>
-                                    </Row>
-                                  )}
+                                            setTimeout(function () {
+                                              dispatch(
+                                                cargarPasajesViajeSeleccionado(
+                                                  viajeSeleccionado._id
+                                                )
+                                              );
+                                            }, 2000);
+                                          }}
+                                          style={{
+                                            margin: '5px',
+                                            width: '100%',
+                                          }}
+                                        >
+                                          Marcar como Ausente
+                                        </Button>
+                                      </Row>
+                                    )}
                                   {e.insumos.length > 0 && (
                                     <div className={'container'}>
                                       <Row>
@@ -209,11 +215,14 @@ const ListaDePasajeros = (props) => {
           </Col>
         </Row>
         <Row>
-          {viajeSeleccionado.estado === "abierto" && cantDispo > 0 && (
-            <Button variant='success' style={{margin: '10px 0', width: '100%'}}>
+          {viajeSeleccionado.estado === 'abierto' && cantDispo > 0 && (
+            <Button
+              variant='success'
+              style={{ margin: '10px 0', width: '100%' }}
+            >
               <Link
                 to='/chofer/viaje/comprarPasajeChofer'
-                style={{color: 'white'}}
+                style={{ color: 'white' }}
               >
                 Agregar Pasajero
               </Link>
