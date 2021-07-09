@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Container, Card, Col, Row, Form, Button} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Container, Card, Col, Row, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 const CuestionarioCovid = (props) => {
   const [temperatura, setTemperatura] = useState('');
   const [cantSintomas, setCantSintomas] = useState('');
@@ -205,7 +205,7 @@ const CuestionarioCovid = (props) => {
           <Row>
             <Col>
               <Button
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
                 className='mt-2'
                 size='lg'
                 variant='success'
@@ -219,7 +219,7 @@ const CuestionarioCovid = (props) => {
           <Link to='/chofer/viaje/pasajeros'>
             <Button
               className='mt-2 mb-5'
-              style={{width: '100%'}}
+              style={{ width: '100%' }}
               size='lg'
               variant='danger'
             >
