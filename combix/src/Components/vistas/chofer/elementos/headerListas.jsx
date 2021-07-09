@@ -1,24 +1,27 @@
 import React from 'react';
-import {Row, Col} from 'react-bootstrap'
-import {useSelector} from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import ViajeEnCurso from './viajeEnCurso';
 
-const {toTitleCase} = require('../../../../scripts/toTitleCase');
+const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 const HeaderListas = (props) => {
-
-    const chofer = useSelector((store) => store.combix.sesion);
+  const chofer = useSelector((store) => store.combix.sesion);
 
   return (
     <>
       <Row>
-        <h3 style={{color: 'white', fontSize: '30px'}} className={'pt-3 pb-3'}>
+        <h3
+          style={{ color: 'white', fontSize: '30px' }}
+          className={'pt-3 pb-3'}
+        >
           Bienvenido, {toTitleCase(chofer.nombre)}
         </h3>
       </Row>
       <Row>
         <Col>
-          <ViajeEnCurso item={props.viajes[0]}></ViajeEnCurso>
+          {props.viajes.length > 0 &&
+            props.viajes.map((e) => <ViajeEnCurso item={e}></ViajeEnCurso>)}
         </Col>
       </Row>
     </>
@@ -26,5 +29,3 @@ const HeaderListas = (props) => {
 };
 
 export default HeaderListas;
-
-
