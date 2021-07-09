@@ -135,7 +135,7 @@ const ListaDePasajeros = (props) => {
                                           }
                                         >
                                           <Link
-                                            to='./covid'
+                                            to='/chofer/covid'
                                             style={{ color: 'white' }}
                                           >
                                             Realizar Chequeo
@@ -211,7 +211,7 @@ const ListaDePasajeros = (props) => {
           <div className={'mt-2'}>
             <Row>
               <Col>
-                <Link to='/chofer/viaje/comprarPasajeChofer'>
+                <Link to='/chofer/comprarPasajeChofer'>
                   <Button variant='success' size='lg' block>
                     Agregar Pasajero
                   </Button>

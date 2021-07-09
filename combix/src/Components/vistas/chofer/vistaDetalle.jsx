@@ -6,11 +6,7 @@ import DetallesDeViaje from './detallesDeViaje';
 import ListaDePasajeros from './listaDePasajeros';
 import { useSelector, useDispatch } from 'react-redux';
 import { cargarPasajesViajeSeleccionado } from '../../../Redux/choferDucks';
-import CuestionariosCovidPasaje from './cuestionariosCovidPasaje';
-import ComprarPasajeChofer from './comprarPasajeChofer';
-import CheckOut from './checkOut';
-import RegistrarAUsuario from './RegistrarAUnUsuario';
-import MensajeCompraExitosa from './elementos/mensajeCompraExistorsa';
+
 const VistaDetalle = (props) => {
   const data = useSelector((store) => store.chofer.seleccionado);
   const pasajeros = useSelector((store) => store.chofer.pasajesSeleccionado);
@@ -18,7 +14,7 @@ const VistaDetalle = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(cargarPasajesViajeSeleccionado(data._id, data));
-    history.push('/chofer/viaje/detalles');
+    history.push('/chofer/viaje/pasajeros');
   }, []);
 
   return (
@@ -58,21 +54,6 @@ const VistaDetalle = (props) => {
         </Navbar>
 
         <Switch>
-          <Route path='/chofer/viaje/mensajeCompraExitosa'>
-            <MensajeCompraExitosa></MensajeCompraExitosa>
-          </Route>
-          <Route path='/chofer/viaje/checkOut'>
-            <CheckOut></CheckOut>
-          </Route>
-          <Route path='/chofer/viaje/register'>
-            <RegistrarAUsuario></RegistrarAUsuario>
-          </Route>
-          <Route path='/chofer/viaje/comprarPasajeChofer'>
-            <ComprarPasajeChofer></ComprarPasajeChofer>
-          </Route>
-          <Route path='/chofer/viaje/covid'>
-            <CuestionariosCovidPasaje></CuestionariosCovidPasaje>
-          </Route>
           <Route path='/chofer/viaje/pasajeros'>
             <ListaDePasajeros
               item={data}

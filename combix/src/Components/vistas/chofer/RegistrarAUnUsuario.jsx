@@ -1,7 +1,7 @@
 import React from 'react';
 import Register from '../../register';
 import { Card } from 'react-bootstrap';
-import { Form, Col, Row, Container } from 'react-bootstrap';
+import { Form, Col, Row, Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import userRegisterForm from '../../../scripts/userRegisterForm';
 
@@ -83,7 +83,12 @@ const RegistrarAUsuario = () => {
                       onChange={handleChange}
                     />
                   </Form.Group>
-                  <p> Lea al pasajero: "El sistema va a generar una contraseña que le va a llegar por mail. Cuando la tenga, puede entrar a su Perfil para cambiarla"</p>
+                  <p>
+                    {' '}
+                    Lea al pasajero: "El sistema va a generar una contraseña que
+                    le va a llegar por mail. Cuando la tenga, puede entrar a su
+                    Perfil para cambiarla"
+                  </p>
                   <Row>
                     <Col lg='8'>
                       <button
@@ -101,6 +106,17 @@ const RegistrarAUsuario = () => {
           </div>
         </Card.Body>
       </Card>
+      <div className={'mt-2'}>
+        <Row>
+          <Col>
+            <Link to='/chofer/viaje/pasajeros'>
+              <Button variant='danger' size={'lg'} block>
+                CANCELAR COMPRA
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+      </div>
     </Container>
   );
 };

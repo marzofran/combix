@@ -21,7 +21,7 @@ const CuestionariosCovidPasaje = (props) => {
 
   useEffect(() => {
     if (pasajeActual.CompradoPor === 'chofer') {
-      setPatch('/chofer/viaje/mensajeCompraExitosa');
+      setPatch('/chofer/mensajeCompraExitosa');
     } else {
       setPatch('/chofer/viaje/pasajeros');
     }

@@ -1,12 +1,12 @@
 import React from 'react';
-import {Navbar} from 'react-bootstrap';
-import {Router, Switch, Route, Link} from 'react-router-dom';
+import { Navbar } from 'react-bootstrap';
+import { Router, Switch, Route, Link } from 'react-router-dom';
 import Login from './login';
 import Home from './home';
 import history from './history';
 import VistaAdmin from './vistas/administrador/vistaAdmin';
 import combixLogo from '../resources/CombixWhite.png';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import NavChoferLogeado from './navChoferLogeado';
 import NavAdminLogeado from './navAdminLogeado';
 import HomeCliente from './vistas/cliente/homeCliente';
@@ -14,6 +14,15 @@ import OlvideContraseña from './olvideMiContraseña';
 import VistaChofer from './vistas/chofer/vistaChofer';
 import VistaDetalle from './vistas/chofer/vistaDetalle';
 import MailEnviado from './mailEnviadoContraseña';
+
+import MensajeCompraExitosa from './vistas/chofer/elementos/mensajeCompraExistorsa';
+import CheckOut from './vistas/chofer/checkOut';
+
+import CuestionariosCovidPasaje from './vistas/chofer/cuestionariosCovidPasaje';
+import ComprarPasajeChofer from './vistas/chofer/comprarPasajeChofer';
+
+import RegistrarAUsuario from './vistas/chofer/RegistrarAUnUsuario';
+
 const Nav = () => {
   const store = useSelector((store) => store.combix.sesion);
 
@@ -46,7 +55,7 @@ const Nav = () => {
           <Navbar
             expand='lg'
             variant='dark'
-            style={{backgroundColor: '#135671'}}
+            style={{ backgroundColor: '#135671' }}
           >
             <Link to='/'>
               <Navbar.Brand>
@@ -64,7 +73,7 @@ const Nav = () => {
             </Link>
             <Link
               className='navbar-brand nav-link btn mr-5'
-              style={{backgroundColor: '#0f172e'}}
+              style={{ backgroundColor: '#0f172e' }}
               to='/login'
             >
               <h5> Iniciar Sesion</h5>
@@ -83,7 +92,21 @@ const Nav = () => {
           <Route path='/login'>
             <Login></Login>
           </Route>
-
+          <Route path='/chofer/mensajeCompraExitosa'>
+            <MensajeCompraExitosa></MensajeCompraExitosa>
+          </Route>
+          <Route path='/chofer/checkOut'>
+            <CheckOut></CheckOut>
+          </Route>
+          <Route path='/chofer/register'>
+            <RegistrarAUsuario></RegistrarAUsuario>
+          </Route>
+          <Route path='/chofer/comprarPasajeChofer'>
+            <ComprarPasajeChofer></ComprarPasajeChofer>
+          </Route>
+          <Route path='/chofer/covid'>
+            <CuestionariosCovidPasaje></CuestionariosCovidPasaje>
+          </Route>
           <Route path='/chofer/vistaChofer'>
             <VistaChofer></VistaChofer>
           </Route>

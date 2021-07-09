@@ -194,7 +194,7 @@ export const logearUsuario = (mail, dni) => (dispatch) => {
             type: LOGEAR_DATOS_USUARIO,
             payload: response.data,
           });
-          history.push('/chofer/viaje/checkOut');
+          history.push('/chofer/checkOut');
 
           break;
         default:
@@ -203,7 +203,7 @@ export const logearUsuario = (mail, dni) => (dispatch) => {
       }
     })
     .catch((err) => {
-      Alert(err.response.data);
+      alert('No se encontro al usuario');
     });
 };
 
@@ -262,7 +262,7 @@ export const registrarUsuarioChofer = (newUser) => (dispatch, getState) => {
           type: REGISTRAR_USUARIO_COMO_CHOFER,
           payload: response.data,
         });
-        history.push('/chofer/viaje/checkOut');
+        history.push('/chofer/checkOut');
         break;
       case 203:
         alert('El email ya está registrado');

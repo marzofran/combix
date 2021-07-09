@@ -67,7 +67,7 @@ const ComprarPasajeChofer = () => {
         <div className='mt-2'>
           <Row>
             <Col>
-              <Link to='/chofer/viaje/register'>
+              <Link to='/chofer/register'>
                 {' '}
                 <Button size='lg' block>
                   Registrar usuario{' '}
