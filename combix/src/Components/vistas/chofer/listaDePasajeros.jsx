@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import 'bootstrap/js/src/collapse.js';
 import {actualizarDisponibilidad} from '../../../Redux/choferDucks';
-import {cargarPasajesViajeChofer} from '../../../Redux/choferDucks';
+import {cargarPasajesViajeSeleccionado} from '../../../Redux/choferDucks';
 import {completarTest} from '../../../Redux/choferDucks';
 import {seleccionarUnPasajero} from '../../../Redux/choferDucks';
 const ListaDePasajeros = (props) => {
@@ -18,7 +18,7 @@ const ListaDePasajeros = (props) => {
     modificarDisponibilidad(
       cantDispo - calcularDisponibilidad(props.pasajeros)
     );
-    dispatch(cargarPasajesViajeChofer(viajeSeleccionado._id));
+    dispatch(cargarPasajesViajeSeleccionado(viajeSeleccionado._id));
   }, []);
   function calcularDisponibilidad(pasajeros) {
     let totalPasajes = 0;
@@ -159,7 +159,7 @@ const ListaDePasajeros = (props) => {
                                           );
                                           setTimeout(function () {
                                             dispatch(
-                                              cargarPasajesViajeChofer(
+                                              cargarPasajesViajeSeleccionado(
                                                 viajeSeleccionado._id
                                               )
                                             );
