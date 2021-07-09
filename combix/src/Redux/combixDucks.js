@@ -19,19 +19,19 @@ const MODIFICAR_USUARIO = 'MODIFICAR_USUARIO';
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
     case OBETENER_DATOS_USUARIO:
-      return {...state, sesion: action.payload};
+      return { ...state, sesion: action.payload };
     case CERRAR_SESION:
-      return {...state, sesion: action.payload};
+      return { ...state, sesion: action.payload };
     case REGISTRAR_USUARIO:
-      return {...state, sesion: action.payload};
+      return { ...state, sesion: action.payload };
     case CARGAR_USUARIO:
-      return {...state, usuarios: action.payload};
+      return { ...state, usuarios: action.payload };
     case ACTIVAR_GOLD:
-      return {...state, sesion: action.payload};
+      return { ...state, sesion: action.payload };
     case CANCELAR_GOLD:
-      return {...state, sesion: action.payload};
+      return { ...state, sesion: action.payload };
     case MODIFICAR_USUARIO:
-      return {...state, sesion: action.payload};
+      return { ...state, sesion: action.payload };
     default:
       return state;
   }
@@ -54,7 +54,6 @@ export const obtenerDatosUsuarioAccion =
             alert('Usuario o contraseña incorrecta');
             break;
           case 200:
-            alert('login exitoso');
             dispatch({
               type: OBETENER_DATOS_USUARIO,
               payload: response.data,
