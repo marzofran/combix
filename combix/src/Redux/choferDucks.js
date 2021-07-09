@@ -29,9 +29,16 @@ export default function reducerChoferLogeado(state = configDuck, action) {
     case SELECCIONAR_VIAJE:
       return { ...state, seleccionado: action.payload };
     case CARGAR_PASAJES_VIAJE_SELECCIONADO:
-      return { ...state, pasajesSeleccionado: action.payload };
+      return {
+        ...state,
+        pasajesSeleccionado: action.payload.primero,
+        disponibilidad: action.payload.segundo,
+      };
     case LOGEAR_DATOS_USUARIO:
-      return { ...state, sesionCompra: action.payload };
+      return {
+        ...state,
+        sesionCompra: action.payload,
+      };
     case CARGAR_DISPONIBILIDAD:
       return { ...state, disponibilidad: action.payload };
     case COMPLETAR_TEST:
@@ -140,7 +147,7 @@ async function traerViajes(id) {
       return error;
     });
 }
-export const cargarPasajesViajeSeleccionado = (id) => (dispatch) => {
+export const cargarPasajesViajeSeleccionado = (id, viaje) => (dispatch) => {
   Axios.get('http://localhost:8080/tickets/viaje/' + id, {
     id,
   }).then((response) => {
@@ -157,9 +164,16 @@ export const cargarPasajesViajeSeleccionado = (id) => (dispatch) => {
           );
         });
 
+        let totalPasajes = 0;
+        response.data.forEach((e) => {
+          totalPasajes = totalPasajes + e.cantidadPasajes;
+        });
+        let disponibilidad = viaje.ruta.combi.cantidadAsientos;
+        disponibilidad = disponibilidad - totalPasajes;
+
         dispatch({
           type: CARGAR_PASAJES_VIAJE_SELECCIONADO,
-          payload: response.data,
+          payload: { primero: response.data, segundo: disponibilidad },
         });
 
         break;

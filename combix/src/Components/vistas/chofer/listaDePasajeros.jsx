@@ -9,27 +9,18 @@ import { completarTest } from '../../../Redux/choferDucks';
 import { seleccionarUnPasajero } from '../../../Redux/choferDucks';
 const ListaDePasajeros = (props) => {
   const viajeSeleccionado = useSelector((state) => state.chofer.seleccionado);
+  const disponibilidad = useSelector((state) => state.chofer.disponibilidad);
   const pasajesChofer = useSelector(
     (state) => state.chofer.pasajesSeleccionado
   );
-  const [cantDispo, modificarDisponibilidad] = useState(
-    viajeSeleccionado.ruta.combi.cantidadAsientos
-  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(cargarPasajesViajeSeleccionado(viajeSeleccionado._id));
-
-    modificarDisponibilidad(cantDispo - calcularDisponibilidad(pasajesChofer));
+    dispatch(
+      cargarPasajesViajeSeleccionado(viajeSeleccionado._id, viajeSeleccionado)
+    );
   }, []);
-  function calcularDisponibilidad(pasajeros) {
-    let totalPasajes = 0;
-    pasajeros.forEach((e) => {
-      totalPasajes = totalPasajes + e.cantidadPasajes;
-    });
-    dispatch(actualizarDisponibilidad(cantDispo - totalPasajes));
-    return totalPasajes;
-  }
 
   const toggleHandler = (e) => {
     const hiddenElement = e.currentTarget.nextSibling;
@@ -59,7 +50,7 @@ const ListaDePasajeros = (props) => {
                 <thead>
                   <tr>
                     <th>Disponibles</th>
-                    <th>{cantDispo}</th>
+                    <th>{disponibilidad}</th>
                   </tr>
                 </thead>
               </Table>
@@ -163,10 +154,11 @@ const ListaDePasajeros = (props) => {
                                             setTimeout(function () {
                                               dispatch(
                                                 cargarPasajesViajeSeleccionado(
-                                                  viajeSeleccionado._id
+                                                  viajeSeleccionado._id,
+                                                  viajeSeleccionado
                                                 )
                                               );
-                                            }, 2000);
+                                            }, 1000);
                                           }}
                                           style={{
                                             margin: '5px',
@@ -214,21 +206,20 @@ const ListaDePasajeros = (props) => {
             </Row>
           </Col>
         </Row>
-        <Row>
-          {viajeSeleccionado.estado === 'abierto' && cantDispo > 0 && (
-            <Button
-              variant='success'
-              style={{ margin: '10px 0', width: '100%' }}
-            >
-              <Link
-                to='/chofer/viaje/comprarPasajeChofer'
-                style={{ color: 'white' }}
-              >
-                Agregar Pasajero
-              </Link>
-            </Button>
-          )}
-        </Row>
+
+        {viajeSeleccionado.estado === 'abierto' && disponibilidad > 0 && (
+          <div className={'mt-2'}>
+            <Row>
+              <Col>
+                <Link to='/chofer/viaje/comprarPasajeChofer'>
+                  <Button variant='success' size='lg' block>
+                    Agregar Pasajero
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+          </div>
+        )}
       </Col>
     </Row>
   );

@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {Container, Row, Col, Card, Form, Button} from 'react-bootstrap';
-import {useSelector, useDispatch} from 'react-redux';
-import {comprarPasajeChofer} from '../../../Redux/choferDucks';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { comprarPasajeChofer } from '../../../Redux/choferDucks';
+import { Link } from 'react-router-dom';
 const CheckOut = () => {
   const disponibilidad = useSelector((store) => store.chofer.disponibilidad);
   const viajeSeleccionado = useSelector((store) => store.chofer.seleccionado);
@@ -40,11 +41,13 @@ const CheckOut = () => {
     );
   };
   return (
-    <div>
+    <div className='mt-2'>
       <Container>
         <Form onSubmit={handleSubmit}>
           <Row>
-            <Col>Cantidad de asientos y monto</Col>
+            <Col>
+              <h4>Cantidad de asientos y monto</h4>
+            </Col>
           </Row>
           <Row>
             <Col>
@@ -103,16 +106,26 @@ const CheckOut = () => {
               </Card>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <Button type='submit'>SIGUIENTE</Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Button>Cancelar compra</Button>
-            </Col>
-          </Row>
+          <div className='mt-2'>
+            <Row>
+              <Col>
+                <Button variant='success' size='lg' block type='submit'>
+                  SIGUIENTE
+                </Button>
+              </Col>
+            </Row>
+          </div>
+          <div className='mt-2'>
+            <Row>
+              <Col>
+                <Link to='/chofer/viaje/pasajeros'>
+                  <Button variant='danger' size='lg' block>
+                    CANCELAR COMPRA
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+          </div>
         </Form>
       </Container>
     </div>

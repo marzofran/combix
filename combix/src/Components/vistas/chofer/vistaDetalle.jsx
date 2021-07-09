@@ -17,7 +17,7 @@ const VistaDetalle = (props) => {
   const chofer = useSelector((store) => store.combix.sesion);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(cargarPasajesViajeSeleccionado(data._id));
+    dispatch(cargarPasajesViajeSeleccionado(data._id, data));
     history.push('/chofer/viaje/detalles');
   }, []);
 
