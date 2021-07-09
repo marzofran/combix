@@ -1,11 +1,12 @@
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 import BuscarForm from './elementos/buscar';
-import {Row, Col, Container, Card} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import { Row, Col, Container, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Fotter from '../../footer';
 import Featured from './elementos/promocionados';
 const BuscarPasajes = () => {
+  const sesion = useSelector((state) => state.combix.sesion);
   return (
     <div>
       <div className='bg-image-pasaje'>
@@ -13,15 +14,15 @@ const BuscarPasajes = () => {
           <div>
             <Row>
               <Col>
-                <div style={{position: 'relative', top: '20%'}}>
+                <div style={{ position: 'relative', top: '20%' }}>
                   <h1
                     className={'text-center text-white  pb-5'}
-                    style={{fontSize: '64px'}}
+                    style={{ fontSize: '64px' }}
                   >
                     Viajá CombiX
                   </h1>
                 </div>
-                <div style={{position: 'relative', top: '40%'}}>
+                <div style={{ position: 'relative', top: '40%' }}>
                   <BuscarForm></BuscarForm>
                 </div>
               </Col>
@@ -30,7 +31,7 @@ const BuscarPasajes = () => {
         </Container>
       </div>
       <Container>
-        <h2 style={{marginTop: '235px'}}>Nuestros Favoritos</h2>
+        <h2 style={{ marginTop: '235px' }}>Nuestros Favoritos</h2>
         <Row>
           <Col>
             <Featured></Featured>
@@ -44,29 +45,31 @@ const BuscarPasajes = () => {
         </Row>
       </Container>
       <Container>
-        <Card className='mt-5'>
-          <div className='p-3 gradient-gold'>
-            <Card.Body>
-              <Row>
-                <Col lg={7}>
-                  <h2>Hacete usuario GOLD!</h2>
-                  <h4 className='mt-4'>Viajá cómodo, seguro y ahorrando</h4>
-                  <h4>Enterate de todos los beneficios.</h4>
-                </Col>
-                <Col>
-                  <Link to='/client/miPerfil/GOLD'>
-                    <button
-                      className={'btn btn-login '}
-                      style={{marginTop: '30px'}}
-                    >
-                      <h2>Quiero ser GOLD!</h2>
-                    </button>
-                  </Link>
-                </Col>
-              </Row>
-            </Card.Body>
-          </div>
-        </Card>
+        {sesion.permissions === '6094d56377b5714b3473dbc5' && (
+          <Card className='mt-5'>
+            <div className='p-3 gradient-gold'>
+              <Card.Body>
+                <Row>
+                  <Col lg={7}>
+                    <h2>Hacete usuario GOLD!</h2>
+                    <h4 className='mt-4'>Viajá cómodo, seguro y ahorrando</h4>
+                    <h4>Enterate de todos los beneficios.</h4>
+                  </Col>
+                  <Col>
+                    <Link to='/client/miPerfil/GOLD'>
+                      <button
+                        className={'btn btn-login '}
+                        style={{ marginTop: '30px' }}
+                      >
+                        <h2>Quiero ser GOLD!</h2>
+                      </button>
+                    </Link>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </div>
+          </Card>
+        )}
 
         <div className='mt-5'>
           <h2>Opiniones de nuestros viajeros</h2>
