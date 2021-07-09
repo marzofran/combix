@@ -17,10 +17,9 @@ const HeaderListas = (props) => {
         </h3>
       </Row>
       <Row>
-        {props.viajes.length > 0 &&
-          props.viajes.map((e) => (
-            <ViajeEnCurso item={e}></ViajeEnCurso>
-        ))}
+        <Col>
+          <ViajeEnCurso item={props.viajes[0]}></ViajeEnCurso>
+        </Col>
       </Row>
     </>
   );

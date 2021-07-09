@@ -131,7 +131,7 @@ const ListaDePasajeros = (props) => {
                                         : e.estado.toUpperCase()}
                                     </h5>
                                   </Row>
-                                  {e.estado === 'pendiente' && (
+                                  {viajeSeleccionado.estado === "abierto" && e.estado === 'pendiente' && (
                                     <Row>
                                       <Button
                                         variant='success'
@@ -209,7 +209,7 @@ const ListaDePasajeros = (props) => {
           </Col>
         </Row>
         <Row>
-          {cantDispo > 0 && (
+          {viajeSeleccionado.estado === "abierto" && cantDispo > 0 && (
             <Button variant='success' style={{margin: '10px 0', width: '100%'}}>
               <Link
                 to='/chofer/viaje/comprarPasajeChofer'

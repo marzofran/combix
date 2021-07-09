@@ -1,14 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Row, Col, Table} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {seleccionarViaje} from '../../../../Redux/choferDucks';
+import { cargarPasajesViajeSeleccionado } from '../../../../Redux/choferDucks';
 
 const {dateFormat} = require('../../../../scripts/dateFormat')
 
 const ViajeElemento = (props) => {
 
   const dispatch = useDispatch();
+  const pasajeros = useSelector((store) => store.chofer.pasajesSeleccionado);
+  useEffect(() => {
+    dispatch(cargarPasajesViajeSeleccionado(props.item._id));
+  }, []);
+
+  console.log(pasajeros)
 
   return (
     <Row className={'viajes-admin'}>

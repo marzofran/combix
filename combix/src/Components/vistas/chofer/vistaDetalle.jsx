@@ -5,7 +5,7 @@ import history from '../../history';
 import DetallesDeViaje from './detallesDeViaje';
 import ListaDePasajeros from './listaDePasajeros';
 import { useSelector, useDispatch } from 'react-redux';
-import { cargarPasajesViajeChofer } from '../../../Redux/choferDucks';
+import { cargarPasajesViajeSeleccionado } from '../../../Redux/choferDucks';
 import CuestionariosCovidPasaje from './cuestionariosCovidPasaje';
 import ComprarPasajeChofer from './comprarPasajeChofer';
 import CheckOut from './checkOut';
@@ -16,8 +16,10 @@ const VistaDetalle = (props) => {
   const chofer = useSelector((store) => store.combix.sesion);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(cargarPasajesViajeChofer(data._id));
+    dispatch(cargarPasajesViajeSeleccionado(data._id));
   }, []);
+
+  history.push('/chofer/viaje/detalles')
 
   return (
     <div style={{ backgroundColor: '#71b3ff', minHeight: '100vh' }}>

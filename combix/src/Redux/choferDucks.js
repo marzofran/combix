@@ -16,7 +16,7 @@ const configDuck = {
 const CARGAR_VIAJES_CHOFER = 'CARGAR_VIAJES_CHOFER';
 const SELECCIONAR_VIAJE = 'SELECCIONAR_VIAJE';
 const COMPLETAR_TEST = 'COMPLETAR_TEST';
-const CARGAR_PASAJES_VIAJE_CHOFER = 'CARGAR_PASAJES_VIAJE_CHOFER';
+const CARGAR_PASAJES_VIAJE_SELECCIONADO = 'CARGAR_PASAJES_VIAJE_SELECCIONADO';
 const LOGEAR_DATOS_USUARIO = 'LOGEAR_DATOS_USUARIO';
 const CARGAR_DISPONIBILIDAD = 'CARGAR_DISPONIBILIDAD';
 const COMPRAR_PASAJE_CHOFER = 'COMPRAR_PASAJE_CHOFER';
@@ -28,7 +28,7 @@ export default function reducerChoferLogeado(state = configDuck, action) {
       return { ...state, elementos: action.payload };
     case SELECCIONAR_VIAJE:
       return { ...state, seleccionado: action.payload };
-    case CARGAR_PASAJES_VIAJE_CHOFER:
+    case CARGAR_PASAJES_VIAJE_SELECCIONADO:
       return { ...state, pasajesSeleccionado: action.payload };
     case LOGEAR_DATOS_USUARIO:
       return { ...state, sesionCompra: action.payload };
@@ -59,10 +59,10 @@ export const cargarViajesChofer = (id) => (dispatch, getState) => {
         viajes.data.forEach((viaje) => {
           if (viaje.estado === 'pendiente') {
             viajesArray.pendientes.push(viaje);
-          } else if (viaje.estado === 'enCurso') {
-            viajesArray.enCurso.push(viaje);
-          } else {
+          } else if (viaje.estado === 'finalizado' || viaje.estado === 'cancelado') {
             viajesArray.finalizado.push(viaje);
+          } else {
+            viajesArray.enCurso.push(viaje);
           }
         });
 
@@ -137,7 +137,7 @@ async function traerViajes(id) {
       return error;
     });
 }
-export const cargarPasajesViajeChofer = (id) => (dispatch) => {
+export const cargarPasajesViajeSeleccionado = (id) => (dispatch) => {
   Axios.get('http://localhost:8080/tickets/viaje/' + id, {
     id,
   }).then((response) => {
@@ -153,7 +153,7 @@ export const cargarPasajesViajeChofer = (id) => (dispatch) => {
         });
 
         dispatch({
-          type: CARGAR_PASAJES_VIAJE_CHOFER,
+          type: CARGAR_PASAJES_VIAJE_SELECCIONADO,
           payload: response.data,
         });
 
