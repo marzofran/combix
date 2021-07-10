@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {Accordion, Card, Modal, Button} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
+import React, { useState } from 'react';
+import { Accordion, Card, Modal, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import {
   borrarCiudad,
   editarCiudad,
 } from '../../../../Redux/Admin/ciudadesDucks';
-const {toTitleCase} = require('../../../../scripts/toTitleCase');
+const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 //Implementado
 const Ciudad = (props) => {
@@ -20,10 +20,10 @@ const Ciudad = (props) => {
   const handleShow = () => setShow(true);
 
   const handleChangeLugar = (e) => {
-    setLugar(e.target.value);
+    setLugar(toTitleCase(e.target.value));
   };
   const handleChangeProvincia = (e) => {
-    setProvincia(e.target.value);
+    setProvincia(toTitleCase(e.target.value));
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -162,7 +162,7 @@ const Ciudad = (props) => {
                 <button
                   type='submit'
                   className='btn btn-primary'
-                  style={{backgroundColor: '#145572'}}
+                  style={{ backgroundColor: '#145572' }}
                 >
                   Guardar ciudad editada.
                 </button>

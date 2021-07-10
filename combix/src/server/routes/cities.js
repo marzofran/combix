@@ -1,7 +1,7 @@
 const express = require('express');
 const citiesRouter = express.Router();
 const Ciudad = require('../schemas/Ciudad');
-const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
 
 //Display
@@ -69,21 +69,32 @@ citiesRouter.put('/:id', async (req, res) => {
     _id: req.params.id,
     unavailable: false,
   });
+
   if (!ciudadExistente) throw new Error('ciudad no encontrado');
   const ciudadNueva = queryBuilder(req.body.ciudad, ['lugar', 'provincia']);
   mapAndBuildModel(ciudadExistente, ciudadNueva);
-  const foundCity=Ciudad.find({lugar: ciudadExistente.lugar, provincia: ciudadExistente.provincia, unavailable: false});
-  if(foundCity) throw new HttpError(203,'Ya existe una ciudad con esos datos');
-  await ciudadExistente.save();
-  res.status(200).send('Ciudad modificada correctamente').end();
+  Ciudad.find(
+    {
+      lugar: req.body.ciudad.lugar,
+      provincia: req.body.ciudad.provincia,
+    },
+    function (err, result) {
+      if (!result.length) {
+        ciudadExistente.save();
+        res.status(200).send('Ciudad modificada correctamente').end();
+      } else {
+        res.status(203).send('Ya existe una ciudad con esos datos').end();
+      }
+    }
+  );
 });
 
 //Delete logico
-// faltaba el await me cachis
+
 citiesRouter.delete('/:id', async (req, res) => {
   const ciudadExistente = await Ciudad.findOneAndUpdate(
-    {_id: req.params.id, unavailable: false},
-    {unavailable: true}
+    { _id: req.params.id, unavailable: false },
+    { unavailable: true }
   );
   if (!ciudadExistente) throw new Error('Ciudad no encontrada');
   res.status(200).send('Ciudad borrada con exito').end();

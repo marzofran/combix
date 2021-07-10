@@ -2,7 +2,7 @@ const express = require('express');
 const Usuario = require('../schemas/Usuario');
 const HttpError = require('../utils/HttpError');
 const driversRouter = express.Router();
-const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 
 const hasLegalAge = (dob) => {
   const date = new Date(dob).getFullYear;
@@ -30,7 +30,7 @@ driversRouter.post('/', async (req, res) => {
     fechaNacimiento: driver.fecha,
     telefono: parseInt(driver.telefono),
     permissions: '6094d50128e541353c8cf122',
-    baneado: false,
+    baneado: driver.fecha,
     unavailable: false,
   });
   const foundDriver = await Usuario.find({
@@ -85,25 +85,21 @@ driversRouter.put('/:id', async (req, res) => {
     'clave',
     'fechaNacimiento',
   ]);
-  /* Esta validacion no esta andando bien, puede que sea por el formato de Date
-  if (!hasLegalAge(choferNuevo.fechaNacimiento))
-    throw new Error('Debe ser mayor de edad');
-    */
   mapAndBuildModel(choferExistente, choferNuevo);
-  const foundDriver = Usuario.find({
-    nombre: choferExistente.nombre,
-    mail: choferExistente.mail,
-    apellido: choferExistente.apellido,
-    telefono: choferExistente.telefono,
-    dni: choferExistente.dni,
-    clave: choferExistente.clave,
-    fechaNacimiento: choferExistente.fechaNacimiento,
-    unavailable: false,
-  });
-  if (foundDriver)
-    throw new HttpError(203, 'Ya existe un chofer con esos datos');
-  await choferExistente.save();
-  res.status(200).send('Chofer modificado con exito').end();
+  Usuario.find(
+    {
+      mail: choferExistente.mail,
+    },
+    function (err, result) {
+      if (!result.length) {
+        console.log(choferExistente);
+        choferExistente.save();
+        res.status(200).send('Chofer modificado con exito').end();
+      } else {
+        res.status(203).send('El mail del chofer esta repetido').end();
+      }
+    }
+  );
 });
 
 //Delete
@@ -113,10 +109,38 @@ driversRouter.delete('/:id', async (req, res) => {
       _id: req.params.id,
       unavailable: false,
     },
-    {unavailable: true}
+    { unavailable: true }
   );
   if (!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
   res.status(200).send('Chofer eliminado').end();
 });
-
+//dar de alta
+driversRouter.put('/darAlta/:id', async (req, res) => {
+  Usuario.find(
+    {
+      mail: req.body.chofer.mail,
+    },
+    function (err, result) {
+      if (result.length === 1) {
+        Usuario.findOneAndUpdate(
+          {
+            _id: req.params.id,
+            unavailable: true,
+          },
+          { unavailable: false },
+          function (err, result) {
+            if (!result) {
+              res.status(200).send('Chofer dado de alta con exito').end();
+            }
+          }
+        );
+      } else {
+        res
+          .status(203)
+          .send('El mail de este chofer esta siendo usado por otro chofer')
+          .end();
+      }
+    }
+  );
+});
 module.exports = driversRouter;

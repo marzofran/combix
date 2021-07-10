@@ -1,7 +1,7 @@
 const express = require('express');
 const routesRouter = express.Router();
 const Ruta = require('../schemas/Ruta');
-const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
 
 //Disply
@@ -23,8 +23,18 @@ routesRouter.post('/', async (request, response) => {
     horario: route.horario,
     unavailable: false,
   });
-  if(ruta.origen===ruta.destino) throw new HttpError(203, 'La ruta no puede tener la misma ciudad de destino y origen');
-  const foundRoute = await Ruta.find({origen: ruta.origen, destino: ruta.destino, combi: ruta.combi, horario: ruta.horario, unavailable: false});
+  if (ruta.origen === ruta.destino)
+    throw new HttpError(
+      203,
+      'La ruta no puede tener la misma ciudad de destino y origen'
+    );
+  const foundRoute = await Ruta.find({
+    origen: ruta.origen,
+    destino: ruta.destino,
+    combi: ruta.combi,
+    horario: ruta.horario,
+    unavailable: false,
+  });
   if (Object.entries(foundRoute).length === 0) {
     await ruta.save();
     response.status(202).send('Ruta creada con exito!').end();
@@ -59,7 +69,10 @@ routesRouter.put('/body', async (req, res) => {
 });
 */
 routesRouter.put('/:id', async (req, res) => {
-  const rutaExistente = await Ruta.findOne({_id: req.params.id, unavailable: false});
+  const rutaExistente = await Ruta.findOne({
+    _id: req.params.id,
+    unavailable: false,
+  });
   if (!rutaExistente) throw new HttpError(404, 'Ruta no encontrada');
   const rutaNueva = queryBuilder(req.body.data.ruta, [
     'origen',
@@ -68,11 +81,28 @@ routesRouter.put('/:id', async (req, res) => {
     'horario',
   ]);
   mapAndBuildModel(rutaExistente, rutaNueva);
-  if(rutaExistente.origen===rutaExistente.destino) throw new HttpError(203, 'La ruta no puede tener la misma ciudad de destino y origen');
-  const foundRoute=Ruta.find({origen: rutaExistente.origen, destino: rutaExistente.destino, combi: rutaExistente.combi, horario: rutaExistente.horario, unavailable: false});
-  if(foundRoute) throw new HttpError(203,'Ya existe una ruta con esos datos');
-  await rutaExistente.save();
-  res.status(200).send('Ruta modificada correctamente').end();
+  if (rutaExistente.origen === rutaExistente.destino)
+    throw new HttpError(
+      203,
+      'La ruta no puede tener la misma ciudad de destino y origen'
+    );
+  Ruta.find(
+    {
+      origen: rutaExistente.origen,
+      destino: rutaExistente.destino,
+      combi: rutaExistente.combi,
+      horario: rutaExistente.horario,
+      unavailable: false,
+    },
+    function (err, result) {
+      if (!result.length) {
+        rutaExistente.save();
+        res.status(200).send('Ruta modificada correctamente').end();
+      } else {
+        res.status(203).send('Ya existe una ruta con esos datos').end();
+      }
+    }
+  );
 });
 /*
 routesRouter.put('/:id', async (req, res) => {
@@ -99,11 +129,20 @@ routesRouter.put('/:id', async (req, res) => {
 //Delete
 routesRouter.delete('/:id', async (req, res) => {
   const rutaExistente = await Ruta.findOneAndUpdate(
-    {_id: req.params.id, unavailable: false},
-    {unavailable: true}
+    { _id: req.params.id, unavailable: false },
+    { unavailable: true }
   );
   if (!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
   res.status(200).send('Ruta eliminada').end();
+});
+
+routesRouter.put('/darDeAlta/:id', async (req, res) => {
+  const rutaExistente = await Ruta.findOneAndUpdate(
+    { _id: req.params.id, unavailable: true },
+    { unavailable: false }
+  );
+  if (!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
+  res.status(200).send('Ruta dada de alta').end();
 });
 
 module.exports = routesRouter;
