@@ -25,7 +25,7 @@ const ViajeEnCurso = (props) => {
               <h6 style={{color: '#357185', padding: '0 5px'}}>{props.item.ruta.origen.lugar}, {props.item.ruta.origen.provincia} {'->'} {props.item.ruta.destino.lugar}, {props.item.ruta.destino.provincia}</h6>
             </Row>
             <Row>
-              <h5>Estado: {props.item.estado === 'enCurso' ? "En Curso" : props.item.estado }</h5>
+              <h5>Estado: {props.item.estado === 'en curso' ? "En Curso" : props.item.estado }</h5>
             </Row>
             <Row>
               <Table striped bordered size="sm">

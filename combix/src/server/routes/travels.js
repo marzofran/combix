@@ -112,6 +112,42 @@ travelsRouter.put('/:id', async (req, res) => {
   res.status(202).send('Viaje modificado con exito!').end();
 });
 
+travelsRouter.put('/abrir/:id', async (req, res) => {
+  const viajeExistente = await Viaje.findOneAndUpdate({
+    _id: req.params.id,
+    unavailable: false
+  }, {estado: 'Abierto'}, { new: true });
+  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
+  res.status(202).send(viajeExistente).end();
+});
+
+travelsRouter.put('/comenzar/:id', async (req, res) => {
+  const viajeExistente = await Viaje.findOneAndUpdate({
+    _id: req.params.id,
+    unavailable: false
+  }, {estado: 'En curso'}, { new: true });
+  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
+  res.status(202).send(viajeExistente).end();
+});
+
+travelsRouter.put('/finalizar/:id', async (req, res) => {
+  const viajeExistente = await Viaje.findOneAndUpdate({
+    _id: req.params.id,
+    unavailable: false
+  }, {estado: 'Finalizado'}, { new: true });
+  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
+  res.status(202).send(viajeExistente).end();
+});
+
+travelsRouter.put('/cancelar/:id', async (req, res) => {
+  const viajeExistente = await Viaje.findOneAndUpdate({
+    _id: req.params.id,
+    unavailable: false
+  }, {estado: 'cancelado'});
+  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
+  res.status(202).send('Viaje modificado con exito!').end();
+});
+
 //Delete
 //Le molesta tener como condicion el unavalide
 travelsRouter.delete('/:id', async (req, res) => {

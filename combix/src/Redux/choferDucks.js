@@ -22,6 +22,10 @@ const CARGAR_DISPONIBILIDAD = 'CARGAR_DISPONIBILIDAD';
 const COMPRAR_PASAJE_CHOFER = 'COMPRAR_PASAJE_CHOFER';
 const SELECCIONAR_UNPASAJE_CHOFER = ' SELECCIONAR_UNPASAJE_CHOFER';
 const REGISTRAR_USUARIO_COMO_CHOFER = 'REGISTRAR_USUARIO_COMO_CHOFER';
+const ABRIR_VIAJE = 'ABRIR_VIAJE';
+const COMENZAR_VIAJE = 'COMENZAR_VIAJE';
+const FINALIZAR_VIAJE = 'FINALIZAR_VIAJE';
+
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_VIAJES_CHOFER:
@@ -49,6 +53,12 @@ export default function reducerChoferLogeado(state = configDuck, action) {
       return { ...state, pasajeChequeoCovid: action.payload };
     case REGISTRAR_USUARIO_COMO_CHOFER:
       return { ...state, sesionCompra: action.payload };
+    case ABRIR_VIAJE:
+      return {...state, elementos: action.payload};
+    case COMENZAR_VIAJE:
+      return {...state, elementos: action.payload};
+    case FINALIZAR_VIAJE:
+      return {...state, elementos: action.payload};
     default:
       return state;
   }
@@ -273,3 +283,70 @@ export const registrarUsuarioChofer = (newUser) => (dispatch, getState) => {
     }
   });
 };
+
+export const abrirViaje = (idVieja) => (dispatch) => {
+  Axios.put('http://localhost:8080/travels/abrir/' + idVieja, {
+    params: {id: idVieja},
+  })
+    .then((response) => {
+      switch (response.status) {
+        case 202:
+                  dispatch({
+                    type: ABRIR_VIAJE,
+                    payload: response.data,
+                  });
+                  break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (err) {
+      alert(err);
+    });
+};
+
+export const comenzarViaje = (idVieja) => (dispatch) => {
+  Axios.put('http://localhost:8080/travels/comenzar/' + idVieja, {
+    params: {id: idVieja},
+  })
+    .then((response) => {
+      switch (response.status) {
+        case 202:
+                  dispatch({
+                    type: COMENZAR_VIAJE,
+                    payload: response.data,
+                  });
+                  break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (err) {
+      alert(err);
+    });
+};
+
+export const finalizarViaje = (idVieja) => (dispatch) => {
+  Axios.put('http://localhost:8080/travels/finalizar/' + idVieja, {
+    params: {id: idVieja},
+  })
+    .then((response) => {
+      switch (response.status) {
+        case 202:
+                  dispatch({
+                    type: FINALIZAR_VIAJE,
+                    payload: response.data,
+                  });
+                  break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (err) {
+      alert(err);
+    });
+};
+

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { seleccionarViaje } from '../../../../Redux/choferDucks';
 import { cargarPasajesViajeSeleccionado } from '../../../../Redux/choferDucks';
+import { toTitleCase } from '../../../../scripts/toTitleCase';
 
 const { dateFormat } = require('../../../../scripts/dateFormat');
 
@@ -21,12 +22,12 @@ const ViajeElemento = (props) => {
       <Col>
         <Row>
           <h5 style={{ color: '#357185', padding: '0 5px' }}>
-            Origen: {props.item.ruta.origen.lugar},{' '}
-            {props.item.ruta.origen.provincia}
+            Origen: {toTitleCase(props.item.ruta.origen.lugar)},{' '}
+            {toTitleCase(props.item.ruta.origen.provincia)}
           </h5>
           <h5 style={{ color: '#357185', padding: '0 5px' }}>
-            Destino: {props.item.ruta.destino.lugar},{' '}
-            {props.item.ruta.destino.provincia}
+            Destino: {toTitleCase(props.item.ruta.destino.lugar)},{' '}
+            {toTitleCase(props.item.ruta.destino.provincia)}
           </h5>
         </Row>
         <Row>
@@ -46,7 +47,7 @@ const ViajeElemento = (props) => {
           </Col>
         </Row>
         <Row>
-          {props.item.estado == 'pendiente' ? (
+          {props.item.estado === 'pendiente' ? (
             <Table striped bordered size='sm'>
               <thead>
                 <tr>
@@ -80,8 +81,8 @@ const ViajeElemento = (props) => {
         </Row>
         <Row>
           <Col style={{ textAlign: 'center', padding: '15px 0' }}>
-            {(props.item.estado == 'finalizado' ||
-              props.item.estado == 'cancelado') && (
+            {(props.item.estado === 'finalizado' ||
+              props.item.estado === 'cancelado') && (
               <h6>Estado: {props.item.estado}</h6>
             )}
           </Col>
