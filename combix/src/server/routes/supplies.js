@@ -1,7 +1,7 @@
 const express = require('express');
 const suppliesRouter = express.Router();
 const Insumo = require('../schemas/Insumo');
-const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
 
 //Display
@@ -32,7 +32,7 @@ suppliesRouter.post('/', async (request, response) => {
 
 //Modify
 suppliesRouter.put('/:id', async (req, res) => {
-  const insumoExistente = await Insumo.findOne({_id: req.params.id});
+  const insumoExistente = await Insumo.findOne({ _id: req.params.id });
   if (!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
   const insumoNuevo = queryBuilder(req.body.insumo, [
     'nombre',
@@ -40,10 +40,20 @@ suppliesRouter.put('/:id', async (req, res) => {
     'precio',
   ]);
   mapAndBuildModel(insumoExistente, insumoNuevo);
-  const foundSupply=Insumo.find({nombre: insumoExistente.nombre, tipo: insumoExistente.tipo, precio: insumoExistente.precio, unavailable: false});
-  if(foundSupply) throw new HttpError(203,'Ya existe un insumo con esos datos');
-  await insumoExistente.save();
-  res.status(202).send('Insumo modificado con exito!').end();
+  Insumo.find(
+    {
+      nombre: insumoExistente.nombre,
+      tipo: insumoExistente.tipo,
+    },
+    function (err, result) {
+      if (!result.length) {
+        insumoExistente.save();
+        res.status(202).send('Insumo modificado con exito!').end();
+      } else {
+        res.status(203).send('Ya existe un insumo con esos datos!').end();
+      }
+    }
+  );
 });
 
 //Delete fisico

@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Insumo from './elementos/insumo';
 import {
   cargarInsumos,
   registrarInsumo,
 } from '../../../Redux/Admin/insumosDucks';
-
+const { toTitleCase } = require('../../../scripts/toTitleCase');
 //Implementado
 const InsumosAdmin = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(cargarInsumos());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [nombre, setNombre] = useState('nombre');
@@ -23,10 +23,10 @@ const InsumosAdmin = () => {
     setNombre(e.target.value);
   };
   const handleChangeTipo = (e) => {
-    setTipo(e.target.value);
+    setTipo(toTitleCase(e.target.value));
   };
   const handleChangePrecio = (e) => {
-    setPrecio(e.target.value);
+    setPrecio(parseFloat(e.target.value).toFixed(2));
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,12 +40,12 @@ const InsumosAdmin = () => {
       <div className={'viajes-admin'}>
         <div className='row'>
           <div className='col-9'>
-            <h3 style={{color: '#357185', padding: '5px 10px'}}>Insumos</h3>
+            <h3 style={{ color: '#357185', padding: '5px 10px' }}>Insumos</h3>
           </div>
           <div className='col'>
             <button
               type='button'
-              style={{backgroundColor: '#145572'}}
+              style={{ backgroundColor: '#145572' }}
               className={'btn btn-primary btn-block'}
               data-toggle='modal'
               data-target='#exampleModal'
@@ -124,7 +124,7 @@ const InsumosAdmin = () => {
                 <button
                   type='submit'
                   className='btn btn-primary'
-                  style={{backgroundColor: '#145572'}}
+                  style={{ backgroundColor: '#145572' }}
                 >
                   Guardar insumo
                 </button>

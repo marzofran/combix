@@ -1,7 +1,7 @@
 const express = require('express');
 const busesRouter = express.Router();
 const Combi = require('../schemas/Combi');
-const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
 const HttpError = require('../utils/HttpError');
 
 //Display
@@ -59,17 +59,23 @@ busesRouter.put('/:id', async (req, res) => {
   ]);
   console.log(req.body.combi);
   mapAndBuildModel(combiExistente, combiNuevo);
-  const foundBus = Combi.find({
-    patente: combiExistente.patente,
-    modelo: combiExistente.modelo,
-    cantidadAsientos: combiExistente.cantidadAsientos,
-    tipo: combiExistente.tipo,
-    chofer: combiExistente.chofer,
-    unavailable: false,
-  });
-  if (foundBus) throw new HttpError(203, 'Ya existe una combi con esos datos');
-  await combiExistente.save();
-  res.status(200).send('Combi modificada correctamente').end();
+  Combi.find(
+    {
+      patente: combiExistente.patente,
+      modelo: combiExistente.modelo,
+      cantidadAsientos: combiExistente.cantidadAsientos,
+      tipo: combiExistente.tipo,
+      chofer: combiExistente.chofer,
+    },
+    function (err, result) {
+      if (!result.length) {
+        combiExistente.save();
+        res.status(200).send('Combi modificada correctamente').end();
+      } else {
+        res.status(203).send('Ya existe una combi con esos datos').end();
+      }
+    }
+  );
 });
 
 //Delete logico
@@ -79,7 +85,7 @@ busesRouter.delete('/:id', async (req, res) => {
       _id: req.params.id,
       unavailable: false,
     },
-    {unavailable: true}
+    { unavailable: true }
   );
   if (!combiExistente) throw new HttpError('Combi no encontrada');
   res.status(200).send('Combi eliminada con exito').end();

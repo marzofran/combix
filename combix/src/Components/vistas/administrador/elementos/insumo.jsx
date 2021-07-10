@@ -1,15 +1,20 @@
-import React, {useState} from 'react';
-import {Accordion, Card, Modal, Button} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
-import {borrarInsumo, editarInsumo} from '../../../../Redux/Admin/insumosDucks';
-const {toTitleCase} = require('../../../../scripts/toTitleCase');
+import React, { useState } from 'react';
+import { Accordion, Card, Modal, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import {
+  borrarInsumo,
+  editarInsumo,
+} from '../../../../Redux/Admin/insumosDucks';
+const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 //Implementado
 const Insumo = (props) => {
   const dispatch = useDispatch();
   const [nombre, setNombre] = useState(toTitleCase(props.item.nombre));
   const [tipo, setTipo] = useState(props.item.tipo);
-  const [precio, setPrecio] = useState(parseFloat(props.item.precio).toFixed(2));
+  const [precio, setPrecio] = useState(
+    parseFloat(props.item.precio).toFixed(2)
+  );
 
   //Handlers del  modal de elimar
   const [show, setShow] = useState(false);
@@ -21,10 +26,10 @@ const Insumo = (props) => {
     setNombre(e.target.value);
   };
   const handleChangeTipo = (e) => {
-    setTipo(e.target.value);
+    setTipo(toTitleCase(e.target.value));
   };
   const handleChangePrecio = (e) => {
-    setPrecio(e.target.value);
+    setPrecio(parseFloat(e.target.value).toFixed(2));
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -106,7 +111,9 @@ const Insumo = (props) => {
             <div className='row'>
               <div className='col-6 field-admin'>
                 <label className='field-label'>Precio:</label>
-                <h7 className='field-display'>${parseFloat(props.item.precio).toFixed(2)}</h7>
+                <h7 className='field-display'>
+                  ${parseFloat(props.item.precio).toFixed(2)}
+                </h7>
               </div>
             </div>
           </Card.Body>
@@ -176,7 +183,7 @@ const Insumo = (props) => {
                 <button
                   type='submit'
                   className='btn btn-primary'
-                  style={{backgroundColor: '#145572'}}
+                  style={{ backgroundColor: '#145572' }}
                 >
                   Guardar insumo editado.
                 </button>

@@ -6,11 +6,12 @@ const Pasaje = require('../schemas/Pasaje');
 const Combi = require('../schemas/Combi');
 const Ruta = require('../schemas/Ruta');
 const HttpError = require('../utils/HttpError');
-const {queryBuilder, mapAndBuildModel} = require('../utils/builders');
-const {request, response} = require('express');
+const { queryBuilder, mapAndBuildModel } = require('../utils/builders');
+const { request, response } = require('express');
 
 //Display
-travelsRouter.get('/', async (req, res) => { //fetchea todos los viajes
+travelsRouter.get('/', async (req, res) => {
+  //fetchea todos los viajes
   let viajes = await Viaje.find({}).populate({
     path: 'ruta',
     model: 'Ruta',
@@ -36,13 +37,14 @@ travelsRouter.get('/', async (req, res) => { //fetchea todos los viajes
   res.status(200).json(viajes).end();
 });
 
-travelsRouter.get('/:chofer', async (req, res) => { //fetchea viajes de un chofer especifico
-  let combis = await Combi.find({chofer: req.params.chofer}).select('_id');
-  let rutas = await Ruta.find({combi: {$in: combis}}).select('_id');
+travelsRouter.get('/:chofer', async (req, res) => {
+  //fetchea viajes de un chofer especifico
+  let combis = await Combi.find({ chofer: req.params.chofer }).select('_id');
+  let rutas = await Ruta.find({ combi: { $in: combis } }).select('_id');
   //let combisLimpias=[];
   //for (const key in combis) combisLimpias[key] = combis[key]._id;
   //console.log(combisLimpias);
-  let viajes = await Viaje.find({ruta: {$in: rutas}}).populate({
+  let viajes = await Viaje.find({ ruta: { $in: rutas } }).populate({
     path: 'ruta',
     model: 'Ruta',
     populate: [
@@ -98,26 +100,36 @@ travelsRouter.put('/:id', async (req, res) => {
     _id: req.params.id,
   });
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
-  const viajeNuevo = queryBuilder(req.body.viaje, ['ruta', 'fecha', 'precio', 'estado', 'pasajeros']);
+  const viajeNuevo = queryBuilder(req.body.viaje, [
+    'ruta',
+    'fecha',
+    'precio',
+    'estado',
+    'pasajeros',
+  ]);
   mapAndBuildModel(viajeExistente, viajeNuevo);
-  const foundTravel = Viaje.find({
-    ruta: viajeExistente.ruta,
-    fecha: viajeExistente.fecha,
-    precio: viajeExistente.precio,
-    unavailable: false,
-  });
-  if (foundTravel)
-    throw new HttpError(203, 'Ya existe un viaje con esos datos');
-  await viajeExistente.save();
-  res.status(202).send('Viaje modificado con exito!').end();
+  Viaje.find(
+    {
+      ruta: viajeExistente.ruta,
+      fecha: viajeExistente.fecha,
+    },
+    function (err, result) {
+      if (!result.length) {
+        viajeExistente.save();
+        res.status(202).send('Viaje modificado con exito!').end();
+      } else {
+        res.status(203).send('Ya existe un viaje con esos datos!').end();
+      }
+    }
+  );
 });
 
 //Delete
 //Le molesta tener como condicion el unavalide
 travelsRouter.delete('/:id', async (req, res) => {
   const viajeExistente = await Viaje.findOneAndUpdate(
-    {_id: req.params.id},
-    {unavailable: true}
+    { _id: req.params.id },
+    { unavailable: true }
   );
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(200).send('Viaje borrado');
@@ -126,9 +138,12 @@ travelsRouter.delete('/:id', async (req, res) => {
 //Fetch viajes buscados
 travelsRouter.post('/search', async (request, response) => {
   let searchParams = request.body;
-  console.log('searchParams', searchParams)
+  console.log('searchParams', searchParams);
 
-let viajes = await Viaje.find({fecha: searchParams.fecha, estado: "pendiente"}).populate({
+  let viajes = await Viaje.find({
+    fecha: searchParams.fecha,
+    estado: 'pendiente',
+  }).populate({
     path: 'ruta',
     model: 'Ruta',
     populate: [
@@ -150,32 +165,42 @@ let viajes = await Viaje.find({fecha: searchParams.fecha, estado: "pendiente"}).
       },
     ],
   });
-  
+
   if (viajes.length === 0) {
-    response.status(404).send('No se encontraron viajes para esa ruta y esa fecha').end();
+    response
+      .status(404)
+      .send('No se encontraron viajes para esa ruta y esa fecha')
+      .end();
   } else {
-    console.log('viajes', viajes.map(v=>v.ruta.origen))
+    console.log(
+      'viajes',
+      viajes.map((v) => v.ruta.origen)
+    );
     let viajesValidos = viajes
       .filter((viaje) => {
         return (
-          searchParams.origen._id == viaje.ruta.origen._id
-          && searchParams.destino._id == viaje.ruta.destino._id
+          searchParams.origen._id == viaje.ruta.origen._id &&
+          searchParams.destino._id == viaje.ruta.destino._id
         );
       })
       .map(async (viaje) => {
-        let pasajes = await Pasaje.find({viaje, unavailable: false});
-        console.log(pasajes)
-        let vendidos = pasajes.reduce((total, pasaje) => pasaje.cantidadPasajes ? total + pasaje.cantidadPasajes : total + 1, 0)
-        console.log(viaje.ruta.combi.cantidadAsientos, vendidos)
+        let pasajes = await Pasaje.find({ viaje, unavailable: false });
+        console.log(pasajes);
+        let vendidos = pasajes.reduce(
+          (total, pasaje) =>
+            pasaje.cantidadPasajes ? total + pasaje.cantidadPasajes : total + 1,
+          0
+        );
+        console.log(viaje.ruta.combi.cantidadAsientos, vendidos);
         return {
           ...viaje._doc,
           disponibilidad: viaje.ruta.combi.cantidadAsientos - vendidos,
         };
-      })
-      let viajesMasSuDisponibilidad = await Promise.all(viajesValidos)
-      let viajesDisponibles = viajesMasSuDisponibilidad.filter((viaje) => {
-        return viaje.disponibilidad > 0;
-      })
+      });
+    let viajesMasSuDisponibilidad = await Promise.all(viajesValidos);
+    let viajesDisponibles = viajesMasSuDisponibilidad.filter((viaje) => {
+      return viaje.disponibilidad > 0;
+    });
     console.log('viajes validos', viajesDisponibles);
     response.status(200).json(viajesDisponibles).end();
   }
@@ -184,7 +209,7 @@ let viajes = await Viaje.find({fecha: searchParams.fecha, estado: "pendiente"}).
 //Get disponibilidad para viaje
 travelsRouter.post('/disp', async (req, res) => {
   let viaje = request.body;
-  let pasajes = await Pasaje.find({viaje, unavailable: false});
+  let pasajes = await Pasaje.find({ viaje, unavailable: false });
   response
     .status(200)
     .send(viaje.ruta.combi.cantidadAsientos - pasajes.length)
