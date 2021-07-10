@@ -136,4 +136,13 @@ routesRouter.delete('/:id', async (req, res) => {
   res.status(200).send('Ruta eliminada').end();
 });
 
+routesRouter.put('/darDeAlta/:id', async (req, res) => {
+  const rutaExistente = await Ruta.findOneAndUpdate(
+    { _id: req.params.id, unavailable: true },
+    { unavailable: false }
+  );
+  if (!rutaExistente) throw new HttpError(404, 'Ruta no encontrado');
+  res.status(200).send('Ruta dada de alta').end();
+});
+
 module.exports = routesRouter;

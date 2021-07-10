@@ -215,5 +215,12 @@ travelsRouter.post('/disp', async (req, res) => {
     .send(viaje.ruta.combi.cantidadAsientos - pasajes.length)
     .end();
 });
-
+travelsRouter.put('/darDeAlta/:id', async (req, res) => {
+  const viajeExistente = await Viaje.findOneAndUpdate(
+    { _id: req.params.id },
+    { unavailable: false }
+  );
+  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
+  res.status(200).send('Viaje dado de alta');
+});
 module.exports = travelsRouter;

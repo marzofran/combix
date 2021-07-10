@@ -114,5 +114,33 @@ driversRouter.delete('/:id', async (req, res) => {
   if (!choferExistente) throw new HttpError(404, 'Chofer no encontrado');
   res.status(200).send('Chofer eliminado').end();
 });
-
+//dar de alta
+driversRouter.put('/darAlta/:id', async (req, res) => {
+  Usuario.find(
+    {
+      mail: req.body.chofer.mail,
+    },
+    function (err, result) {
+      if (result.length === 1) {
+        Usuario.findOneAndUpdate(
+          {
+            _id: req.params.id,
+            unavailable: true,
+          },
+          { unavailable: false },
+          function (err, result) {
+            if (!result) {
+              res.status(200).send('Chofer dado de alta con exito').end();
+            }
+          }
+        );
+      } else {
+        res
+          .status(203)
+          .send('El mail de este chofer esta siendo usado por otro chofer')
+          .end();
+      }
+    }
+  );
+});
 module.exports = driversRouter;

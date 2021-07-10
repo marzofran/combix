@@ -7,16 +7,19 @@ const CARGAR_CHOFER = 'CARGAR_CHOFER';
 const EDITAR_CHOFER = 'EDITAR_CHOFER';
 const REGISTRAR_CHOFER = 'REGISTRAR_CHOFER';
 const BORRAR_CHOFER = 'BORRAR_CHOFER';
+const DAR_DE_ALTA_CHOFER = 'DAR_DE_ALTA_CHOFER';
 export default function reducerChoferes(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_CHOFER:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case EDITAR_CHOFER:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case REGISTRAR_CHOFER:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case BORRAR_CHOFER:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
+    case DAR_DE_ALTA_CHOFER:
+      return { ...state, elementos: action.payload };
     default:
       return state;
   }
@@ -93,7 +96,7 @@ export const editarChofer =
       fechaNacimiento,
     };
     Axios.put('http://localhost:8080/drivers/' + idVieja, {
-      params: {id: idVieja},
+      params: { id: idVieja },
       chofer: chofer,
     })
       .then((response) => {
@@ -126,7 +129,7 @@ export const editarChofer =
 
 export const borrarChofer = (id) => (dispatch) => {
   Axios.delete('http://localhost:8080/drivers/' + id, {
-    params: {id: id},
+    params: { id: id },
   })
     .then((response) => {
       console.log(response);
@@ -138,6 +141,39 @@ export const borrarChofer = (id) => (dispatch) => {
               case 200:
                 dispatch({
                   type: BORRAR_CHOFER,
+                  payload: response.data,
+                });
+                break;
+              default:
+                alert(response.data);
+                break;
+            }
+          });
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (err) {
+      alert(err);
+    });
+};
+export const darDeAltaChofer = (id, chofer) => (dispatch) => {
+  Axios.put('http://localhost:8080/drivers/darAlta/' + id, {
+    params: { id: id },
+    chofer: chofer,
+  })
+    .then((response) => {
+      console.log(response);
+      switch (response.status) {
+        case 200:
+          alert(response.data);
+          traerChoferes().then((response) => {
+            switch (response.status) {
+              case 200:
+                dispatch({
+                  type: DAR_DE_ALTA_CHOFER,
                   payload: response.data,
                 });
                 break;

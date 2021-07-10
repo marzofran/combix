@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
-import {Accordion, Card, Modal, Button} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
-import {borrarRuta, editarRuta} from '../../../../Redux/Admin/rutasDucks';
-const {toTitleCase} = require('../../../../scripts/toTitleCase');
+import React, { useState } from 'react';
+import { Accordion, Card, Modal, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { borrarRuta, editarRuta } from '../../../../Redux/Admin/rutasDucks';
+import { darDeAltaRuta } from '../../../../Redux/Admin/rutasDucks';
+const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 //Implementado
 const Ruta = (props) => {
@@ -133,7 +134,9 @@ const Ruta = (props) => {
               <button
                 className='field-btn bg-success
 box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(darDeAltaRuta(props.item._id));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-arrow-up' aria-hidden='true'></i>
@@ -263,7 +266,7 @@ box square'
                 <button
                   type='submit'
                   className='btn btn-primary'
-                  style={{backgroundColor: '#145572'}}
+                  style={{ backgroundColor: '#145572' }}
                 >
                   Guardar ruta editada
                 </button>

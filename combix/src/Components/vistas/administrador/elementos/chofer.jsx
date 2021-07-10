@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {Accordion, Card, Modal, Button} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
+import React, { useState } from 'react';
+import { Accordion, Card, Modal, Button } from 'react-bootstrap';
+import { darDeAltaChofer } from '../../../../Redux/Admin/choferesDucks';
+import { useDispatch } from 'react-redux';
 import {
   borrarChofer,
   editarChofer,
 } from '../../../../Redux/Admin/choferesDucks';
-const {dateFormat} = require('../../../../scripts/dateFormat');
+const { dateFormat } = require('../../../../scripts/dateFormat');
 
 //Implementado, falta crud
 const Chofer = (props) => {
@@ -124,7 +125,9 @@ const Chofer = (props) => {
               <button
                 className='field-btn bg-success
             box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(darDeAltaChofer(props.item._id, props.item));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-arrow-up' aria-hidden='true'></i>
@@ -255,7 +258,7 @@ const Chofer = (props) => {
                 <button
                   type='submit'
                   className='btn btn-primary'
-                  style={{backgroundColor: '#145572'}}
+                  style={{ backgroundColor: '#145572' }}
                 >
                   Guardar chofer editado.
                 </button>

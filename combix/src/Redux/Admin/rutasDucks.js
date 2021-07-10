@@ -8,17 +8,20 @@ const REGISTRAR_RUTA = 'REGISTRAR_RUTA';
 const CARGAR_RUTA = 'CARGAR_RUTA';
 const BORRAR_RUTA = 'BORRAR_RUTA';
 const EDITAR_RUTA = 'EDITAR_RUTA';
+const DAR_DE_ALTA_RUTA = 'DAR_DE_ALTA_RUTA,';
 
 export default function reducerRutas(state = configDuck, action) {
   switch (action.type) {
     case REGISTRAR_RUTA:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case CARGAR_RUTA:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case BORRAR_RUTA:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case EDITAR_RUTA:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
+    case DAR_DE_ALTA_RUTA:
+      return { ...state, elementos: action.payload };
     default:
       return state;
   }
@@ -131,8 +134,8 @@ export const editarRuta =
       horario,
     };
     Axios.put('http://localhost:8080/routes/' + idRutaVieja, {
-      data: {ruta: ruta},
-      params: {id: idRutaVieja},
+      data: { ruta: ruta },
+      params: { id: idRutaVieja },
     })
       .then((response) => {
         switch (response.status) {
@@ -175,3 +178,40 @@ async function traerRutas() {
       return error;
     });
 }
+export const darDeAltaRuta = (_id) => (dispatch) => {
+  Axios.put('http://localhost:8080/routes/darDeAlta/' + _id, {
+    params: {
+      id: _id,
+    },
+  })
+    .then((response) => {
+      switch (response.status) {
+        case 200:
+          alert(response.data);
+          traerRutas()
+            .then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: DAR_DE_ALTA_RUTA,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert(response.data);
+                  break;
+              }
+            })
+            .catch(function (err) {
+              alert(err);
+            });
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (err) {
+      alert(err);
+    });
+};

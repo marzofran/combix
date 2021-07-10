@@ -1,16 +1,19 @@
-import React, {useState} from 'react';
-import {Accordion, Card, Modal, Button} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
-import {borrarViaje, editarViaje} from '../../../../Redux/Admin/viajesDucks';
-const {dateFormat} = require('../../../../scripts/dateFormat');
-const {toTitleCase} = require('../../../../scripts/toTitleCase');
+import React, { useState } from 'react';
+import { Accordion, Card, Modal, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { borrarViaje, editarViaje } from '../../../../Redux/Admin/viajesDucks';
+import { darDeAltaViaje } from '../../../../Redux/Admin/viajesDucks';
+const { dateFormat } = require('../../../../scripts/dateFormat');
+const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 //Implementado, faltan cruds
 const Viaje = (props) => {
   const dispatch = useDispatch();
   const [ruta, setRuta] = useState(props.item.ruta);
   const [fecha, setFecha] = useState(props.item.fecha);
-  const [precio, setPrecio] = useState(parseFloat(props.item.precio).toFixed(2));
+  const [precio, setPrecio] = useState(
+    parseFloat(props.item.precio).toFixed(2)
+  );
 
   //Handlers del  modal de elimar
   const [show, setShow] = useState(false);
@@ -114,7 +117,9 @@ const Viaje = (props) => {
               <button
                 className='field-btn bg-success
 box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(darDeAltaViaje(props.item._id));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-arrow-up' aria-hidden='true'></i>
@@ -128,7 +133,9 @@ box square'
             <div className='row'>
               <div className='col field-admin'>
                 <label className='field-label'>Precio:</label>
-                <h6 className='field-display'>${parseFloat(props.item.precio).toFixed(2)}</h6>
+                <h6 className='field-display'>
+                  ${parseFloat(props.item.precio).toFixed(2)}
+                </h6>
               </div>
               <div className='col field-admin'>
                 <label className='field-label'>Combi:</label>
@@ -240,7 +247,7 @@ box square'
                 <button
                   type='submit'
                   className='btn btn-primary'
-                  style={{backgroundColor: '#145572'}}
+                  style={{ backgroundColor: '#145572' }}
                 >
                   Guardar viaje editado
                 </button>
