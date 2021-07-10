@@ -168,9 +168,10 @@ async function traerViajes() {
       return error;
     });
 }
-export const darDeAltaViaje = (id) => (dispatch) => {
+export const darDeAltaViaje = (id, viaje) => (dispatch) => {
   Axios.put('http://localhost:8080/travels/darDeAlta/' + id, {
     params: { id: id },
+    viaje,
   })
     .then((response) => {
       switch (response.status) {

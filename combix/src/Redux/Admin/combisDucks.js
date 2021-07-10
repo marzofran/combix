@@ -7,17 +7,19 @@ const CARGAR_COMBI = 'CARGAR_COMBI';
 const REGISTRAR_COMBI = 'REGISTRAR_COMBI';
 const ELIMINAR_COMBI = 'ELIMINAR_COMBI ';
 const EDITAR_COMBI = 'EDITAR_COMBI';
-
+const DAR_DE_ALTA_COMBI = 'DAR_DE_ALTA_COMBI,';
 export default function reducerCombis(state = configDuck, action) {
   switch (action.type) {
     case REGISTRAR_COMBI:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case CARGAR_COMBI:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case ELIMINAR_COMBI:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case EDITAR_COMBI:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
+    case DAR_DE_ALTA_COMBI:
+      return { ...state, elementos: action.payload };
     default:
       return state;
   }
@@ -96,7 +98,7 @@ export const editarCombi =
       chofer,
     };
     Axios.put('http://localhost:8080/buses/' + idVieja, {
-      params: {id: idVieja},
+      params: { id: idVieja },
       combi,
     }).then((response) => {
       switch (response.status) {
@@ -129,7 +131,7 @@ export const editarCombi =
 
 export const borrarCombi = (id) => (dispatch) => {
   Axios.delete('http://localhost:8080/buses/' + id, {
-    params: {id: id},
+    params: { id: id },
   })
     .then((response) => {
       switch (response.status) {
@@ -172,3 +174,39 @@ async function traerCombis() {
       return error;
     });
 }
+export const darDeAltaCombi = (id, combi) => (dispatch) => {
+  Axios.put('http://localhost:8080/buses/darDeAlta/' + id, {
+    params: { id: id },
+    combi,
+  })
+    .then((response) => {
+      switch (response.status) {
+        case 200:
+          alert(response.data);
+          traerCombis()
+            .then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: DAR_DE_ALTA_COMBI,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert(response.data);
+                  break;
+              }
+            })
+            .catch(function (err) {
+              alert(err);
+            });
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    })
+    .catch(function (err) {
+      alert(err);
+    });
+};

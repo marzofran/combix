@@ -118,7 +118,7 @@ const Viaje = (props) => {
                 className='field-btn bg-success
 box square'
                 onClick={() => {
-                  dispatch(darDeAltaViaje(props.item._id));
+                  dispatch(darDeAltaViaje(props.item._id, props.item));
                 }}
               >
                 <div className='content'>

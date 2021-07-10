@@ -89,6 +89,7 @@ driversRouter.put('/:id', async (req, res) => {
   Usuario.find(
     {
       mail: choferExistente.mail,
+      unavailable: false,
     },
     function (err, result) {
       if (!result.length) {
@@ -119,9 +120,11 @@ driversRouter.put('/darAlta/:id', async (req, res) => {
   Usuario.find(
     {
       mail: req.body.chofer.mail,
+      unavailable: false,
     },
     function (err, result) {
-      if (result.length === 1) {
+      console.log(result.length);
+      if (result.length < 1) {
         Usuario.findOneAndUpdate(
           {
             _id: req.params.id,
@@ -129,7 +132,7 @@ driversRouter.put('/darAlta/:id', async (req, res) => {
           },
           { unavailable: false },
           function (err, result) {
-            if (!result) {
+            if (result) {
               res.status(200).send('Chofer dado de alta con exito').end();
             }
           }

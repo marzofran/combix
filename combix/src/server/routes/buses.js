@@ -66,6 +66,7 @@ busesRouter.put('/:id', async (req, res) => {
       cantidadAsientos: combiExistente.cantidadAsientos,
       tipo: combiExistente.tipo,
       chofer: combiExistente.chofer,
+      unavailable: false,
     },
     function (err, result) {
       if (!result.length) {
@@ -89,6 +90,33 @@ busesRouter.delete('/:id', async (req, res) => {
   );
   if (!combiExistente) throw new HttpError('Combi no encontrada');
   res.status(200).send('Combi eliminada con exito').end();
+});
+
+busesRouter.put('/darDeAlta/:id', async (req, res) => {
+  Combi.find(
+    {
+      patente: req.body.combi.patente,
+      unavailable: false,
+    },
+    function (err, result) {
+      if (result.length < 1) {
+        Combi.findOneAndUpdate(
+          {
+            _id: req.params.id,
+            unavailable: true,
+          },
+          { unavailable: false },
+          function (err, response) {
+            if (response) {
+              res.status(200).send('Combi dada de alto con exito!').end();
+            }
+          }
+        );
+      } else {
+        res.status(202).send('Ya existe una combi con esos datos').end();
+      }
+    }
+  );
 });
 
 module.exports = busesRouter;

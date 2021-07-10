@@ -77,6 +77,7 @@ citiesRouter.put('/:id', async (req, res) => {
     {
       lugar: req.body.ciudad.lugar,
       provincia: req.body.ciudad.provincia,
+      unavailable: false,
     },
     function (err, result) {
       if (!result.length) {
@@ -98,6 +99,33 @@ citiesRouter.delete('/:id', async (req, res) => {
   );
   if (!ciudadExistente) throw new Error('Ciudad no encontrada');
   res.status(200).send('Ciudad borrada con exito').end();
+});
+
+citiesRouter.put('/darDeAlta/:id', async (req, res) => {
+  Ciudad.find(
+    {
+      lugar: req.body.ciudad.lugar,
+      provincia: req.body.ciudad.provincia,
+      unavailable: false,
+    },
+    function (err, result) {
+      if (result.length < 1) {
+        Ciudad.findOneAndUpdate(
+          { _id: req.params.id, unavailable: true },
+          { unavailable: false },
+          function (err, result) {
+            if (result) {
+              res.status(200).send('Ciudad dada de alta con exito').end();
+            } else {
+              res.status(203).send('Ciudad no encontrada').end();
+            }
+          }
+        );
+      } else {
+        res.status(203).send('Ya existe una ciudad con esos parametros').end();
+      }
+    }
+  );
 });
 
 module.exports = citiesRouter;

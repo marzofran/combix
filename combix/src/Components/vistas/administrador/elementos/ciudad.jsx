@@ -5,6 +5,7 @@ import {
   borrarCiudad,
   editarCiudad,
 } from '../../../../Redux/Admin/ciudadesDucks';
+import { darDeAltaCiudad } from '../../../../Redux/Admin/ciudadesDucks';
 const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 //Implementado
@@ -96,7 +97,9 @@ const Ciudad = (props) => {
               <button
                 className='field-btn bg-success
                 box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(darDeAltaCiudad(props.item._id, props.item));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-arrow-up' aria-hidden='true'></i>

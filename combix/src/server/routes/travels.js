@@ -112,6 +112,7 @@ travelsRouter.put('/:id', async (req, res) => {
     {
       ruta: viajeExistente.ruta,
       fecha: viajeExistente.fecha,
+      unavailable: false,
     },
     function (err, result) {
       if (!result.length) {
@@ -125,37 +126,52 @@ travelsRouter.put('/:id', async (req, res) => {
 });
 
 travelsRouter.put('/abrir/:id', async (req, res) => {
-  const viajeExistente = await Viaje.findOneAndUpdate({
-    _id: req.params.id,
-    unavailable: false
-  }, {estado: 'Abierto'}, { new: true });
+  const viajeExistente = await Viaje.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      unavailable: false,
+    },
+    { estado: 'Abierto' },
+    { new: true }
+  );
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(202).send(viajeExistente).end();
 });
 
 travelsRouter.put('/comenzar/:id', async (req, res) => {
-  const viajeExistente = await Viaje.findOneAndUpdate({
-    _id: req.params.id,
-    unavailable: false
-  }, {estado: 'En curso'}, { new: true });
+  const viajeExistente = await Viaje.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      unavailable: false,
+    },
+    { estado: 'En curso' },
+    { new: true }
+  );
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(202).send(viajeExistente).end();
 });
 
 travelsRouter.put('/finalizar/:id', async (req, res) => {
-  const viajeExistente = await Viaje.findOneAndUpdate({
-    _id: req.params.id,
-    unavailable: false
-  }, {estado: 'Finalizado'}, { new: true });
+  const viajeExistente = await Viaje.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      unavailable: false,
+    },
+    { estado: 'Finalizado' },
+    { new: true }
+  );
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(202).send(viajeExistente).end();
 });
 
 travelsRouter.put('/cancelar/:id', async (req, res) => {
-  const viajeExistente = await Viaje.findOneAndUpdate({
-    _id: req.params.id,
-    unavailable: false
-  }, {estado: 'cancelado'});
+  const viajeExistente = await Viaje.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      unavailable: false,
+    },
+    { estado: 'cancelado' }
+  );
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(202).send('Viaje modificado con exito!').end();
 });
@@ -251,12 +267,29 @@ travelsRouter.post('/disp', async (req, res) => {
     .send(viaje.ruta.combi.cantidadAsientos - pasajes.length)
     .end();
 });
+
 travelsRouter.put('/darDeAlta/:id', async (req, res) => {
-  const viajeExistente = await Viaje.findOneAndUpdate(
-    { _id: req.params.id },
-    { unavailable: false }
+  Viaje.find(
+    {
+      ruta: req.body.viaje.ruta,
+      fecha: req.body.viaje.fecha,
+      unavailable: false,
+    },
+    function (err, result) {
+      if (result.length < 1) {
+        Viaje.findOneAndUpdate(
+          { _id: req.params.id },
+          { unavailable: false },
+          function (err, result) {
+            if (result) {
+              res.status(200).send('Viaje dado de alta');
+            }
+          }
+        );
+      } else {
+        res.status(202).send('Ya existe un viaje con esos parametros');
+      }
+    }
   );
-  if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
-  res.status(200).send('Viaje dado de alta');
 });
 module.exports = travelsRouter;

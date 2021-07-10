@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {Accordion, Card, Modal, Button} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
-import {editarCombi, borrarCombi} from '../../../../Redux/Admin/combisDucks';
-
+import React, { useState } from 'react';
+import { Accordion, Card, Modal, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { editarCombi, borrarCombi } from '../../../../Redux/Admin/combisDucks';
+import { darDeAltaCombi } from '../../../../Redux/Admin/combisDucks';
 //Implementado
 const Combi = (props) => {
   const dispatch = useDispatch();
@@ -111,7 +111,9 @@ const Combi = (props) => {
               <button
                 className='field-btn bg-success
         box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(darDeAltaCombi(props.item._id, props.item));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-arrow-up' aria-hidden='true'></i>
@@ -251,7 +253,7 @@ const Combi = (props) => {
                 <button
                   type='submit'
                   className='btn btn-primary'
-                  style={{backgroundColor: '#145572'}}
+                  style={{ backgroundColor: '#145572' }}
                 >
                   Guardar combi editada
                 </button>

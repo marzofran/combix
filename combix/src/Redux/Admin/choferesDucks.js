@@ -159,10 +159,21 @@ export const borrarChofer = (id) => (dispatch) => {
       alert(err);
     });
 };
+
+async function traerChoferes() {
+  return await Axios.get('http://localhost:8080/drivers', {})
+    .then((response) => {
+      return response;
+    })
+    .catch(function (error) {
+      return error;
+    });
+}
+
 export const darDeAltaChofer = (id, chofer) => (dispatch) => {
   Axios.put('http://localhost:8080/drivers/darAlta/' + id, {
     params: { id: id },
-    chofer: chofer,
+    chofer,
   })
     .then((response) => {
       console.log(response);
@@ -192,12 +203,3 @@ export const darDeAltaChofer = (id, chofer) => (dispatch) => {
       alert(err);
     });
 };
-async function traerChoferes() {
-  return await Axios.get('http://localhost:8080/drivers', {})
-    .then((response) => {
-      return response;
-    })
-    .catch(function (error) {
-      return error;
-    });
-}
