@@ -6,6 +6,7 @@ import {
   borrarChofer,
   editarChofer,
 } from '../../../../Redux/Admin/choferesDucks';
+import { borradoFisicoChofer } from '../../../../Redux/Admin/choferesDucks';
 const { dateFormat } = require('../../../../scripts/dateFormat');
 
 //Implementado, falta crud
@@ -116,7 +117,9 @@ const Chofer = (props) => {
             <div className='col-1'>
               <button
                 className='field-btn delete-btn box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(borradoFisicoChofer(props.item._id));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-times' aria-hidden='true'></i>

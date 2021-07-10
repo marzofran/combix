@@ -9,7 +9,7 @@ const CARGAR_CIUDAD = 'CARGAR_CIUDAD';
 const EDITAR_CIUDAD = 'EDITAR_CIUDAD';
 const BORRAR_CIUDAD = 'BORRAR_CIUDAD';
 const DAR_DE_ALTA_CIUDAD = 'DAR_DE_ALTA_CIUDAD';
-
+const BORRADO_FISICO_CIUDAD = 'BORRADO_FISICO_CIUDAD';
 export default function reducerCiudades(state = configDuck, action) {
   switch (action.type) {
     case REGISTRAR_CIUDAD:
@@ -21,6 +21,8 @@ export default function reducerCiudades(state = configDuck, action) {
     case EDITAR_CIUDAD:
       return { ...state, elementos: action.payload };
     case DAR_DE_ALTA_CIUDAD:
+      return { ...state, elementos: action.payload };
+    case BORRADO_FISICO_CIUDAD:
       return { ...state, elementos: action.payload };
     default:
       return state;
@@ -194,4 +196,62 @@ export const darDeAltaCiudad = (id, ciudad) => (dispatch) => {
     .catch(function (error) {
       alert(error);
     });
+};
+
+export const borradoFisico = (id) => (dispatch) => {
+  Axios.get('http://localhost:8080/routes/buscarPorCiudad/' + id).then(
+    (response) => {
+      switch (response.status) {
+        case 200:
+          if (response.data.length > 0) {
+            console.log(response.data);
+            let mensaje;
+            response.data.forEach((e) => {
+              mensaje =
+                'origen: ' +
+                e.origen.provincia +
+                ' ' +
+                'destino: ' +
+                e.destino.provincia +
+                ' ';
+            });
+            alert(
+              'No se puede borrar el elemento dado que posee las siguientes relaciones con rutas:  ' +
+                mensaje
+            );
+          } else {
+            Axios.delete(
+              'http://localhost:8080/cities/borradoFisico/' + id
+            ).then((response) => {
+              switch (response.status) {
+                case 200:
+                  traerCiudades().then((ciudades) => {
+                    switch (ciudades.status) {
+                      case 200:
+                        dispatch({
+                          type: BORRADO_FISICO_CIUDAD,
+                          payload: ciudades.data,
+                        });
+                        alert('La ciudad se elimino fisicamente con exito');
+                        break;
+                      default:
+                        console.log(ciudades.data);
+                        break;
+                    }
+                  });
+                  break;
+                default:
+                  alert('ocurrio un error');
+                  break;
+              }
+            });
+          }
+
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    }
+  );
 };

@@ -7,6 +7,7 @@ const EDITAR_VIAJES = 'EDITAR_VIAJES';
 const BORRAR_VIAJES = 'BORRAR_VIAJES';
 const REGISTRAR_VIAJES = 'REGISTRAR_VIAJES';
 const DAR_DE_ALTA_VIAJE = 'DAR_DE_ALTA_VIAJE';
+const BORRADO_FISICO_VIAJE = 'BORRADO_FISICO_VIAJE';
 
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
@@ -19,6 +20,8 @@ export default function reducer(state = configDuck, action) {
     case REGISTRAR_VIAJES:
       return { ...state, elementos: action.payload };
     case DAR_DE_ALTA_VIAJE:
+      return { ...state, elementos: action.payload };
+    case BORRADO_FISICO_VIAJE:
       return { ...state, elementos: action.payload };
     default:
       return state;
@@ -203,4 +206,48 @@ export const darDeAltaViaje = (id, viaje) => (dispatch) => {
     .catch(function (err) {
       alert(err);
     });
+};
+export const borradoFisicoViajes = (id) => (dispatch) => {
+  Axios.get('http://localhost:8080/tickets/viaje/' + id, {
+    id,
+  }).then((response) => {
+    console.log(response.data);
+    switch (response.status) {
+      case 200:
+        if (response.data.length > 0) {
+          alert('No se puede borrar el viaje por que tiene pasajes comprados');
+        } else {
+          Axios.delete(
+            'http://localhost:8080/travels/borradoFisico/' + id
+          ).then((response) => {
+            switch (response.status) {
+              case 200:
+                traerViajes().then((choferes) => {
+                  switch (choferes.status) {
+                    case 200:
+                      dispatch({
+                        type: BORRADO_FISICO_VIAJE,
+                        payload: choferes.data,
+                      });
+                      alert('El viaje fue eliminada fisicamente con exito');
+                      break;
+                    default:
+                      console.log(choferes.data);
+                      break;
+                  }
+                });
+                break;
+              default:
+                alert('ocurrio un error');
+                break;
+            }
+          });
+        }
+
+        break;
+      default:
+        alert('Ocurrio un error');
+        break;
+    }
+  });
 };

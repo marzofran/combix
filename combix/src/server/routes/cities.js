@@ -127,5 +127,18 @@ citiesRouter.put('/darDeAlta/:id', async (req, res) => {
     }
   );
 });
-
+citiesRouter.delete('/borradoFisico/:id', async (req, res) => {
+  Ciudad.deleteOne(
+    {
+      _id: req.params.id,
+    },
+    function (err) {
+      if (!err) {
+        res.status(200).send('Ciudad eliminada con exito!').end();
+      } else {
+        res.status(202).send('Ocurrio un error durante la eliminacion').end();
+      }
+    }
+  );
+});
 module.exports = citiesRouter;

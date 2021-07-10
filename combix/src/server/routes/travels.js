@@ -292,4 +292,52 @@ travelsRouter.put('/darDeAlta/:id', async (req, res) => {
     }
   );
 });
+travelsRouter.get('/buscarPorRuta/:id', async (req, res) => {
+  let id = req.params.id;
+  let result = [];
+  let viajes = await Viaje.find({}).populate({
+    path: 'ruta',
+    model: 'Ruta',
+    populate: [
+      {
+        path: 'origen',
+        model: 'Ciudad',
+      },
+      {
+        path: 'destino',
+        model: 'Ciudad',
+      },
+      {
+        path: 'combi',
+        model: 'Combi',
+        populate: {
+          path: 'chofer',
+          model: 'Usuario',
+        },
+      },
+    ],
+  });
+  viajes.forEach((e) => {
+    // eslint-disable-next-line eqeqeq
+    if (e.ruta._id == id) {
+      result.push(e);
+    }
+  });
+
+  res.status(200).json(result).end();
+});
+travelsRouter.delete('/borradoFisico/:id', async (req, res) => {
+  Viaje.deleteOne(
+    {
+      _id: req.params.id,
+    },
+    function (err) {
+      if (!err) {
+        res.status(200).send('Viaje eliminada con exito!').end();
+      } else {
+        res.status(202).send('Ocurrio un error durante la eliminacion').end();
+      }
+    }
+  );
+});
 module.exports = travelsRouter;

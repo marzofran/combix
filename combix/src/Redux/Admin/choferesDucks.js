@@ -8,6 +8,7 @@ const EDITAR_CHOFER = 'EDITAR_CHOFER';
 const REGISTRAR_CHOFER = 'REGISTRAR_CHOFER';
 const BORRAR_CHOFER = 'BORRAR_CHOFER';
 const DAR_DE_ALTA_CHOFER = 'DAR_DE_ALTA_CHOFER';
+const BORRADO_FISICO_CHOFER = 'BORRADO_FISICO_CHOFER';
 export default function reducerChoferes(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_CHOFER:
@@ -19,6 +20,8 @@ export default function reducerChoferes(state = configDuck, action) {
     case BORRAR_CHOFER:
       return { ...state, elementos: action.payload };
     case DAR_DE_ALTA_CHOFER:
+      return { ...state, elementos: action.payload };
+    case BORRADO_FISICO_CHOFER:
       return { ...state, elementos: action.payload };
     default:
       return state;
@@ -202,4 +205,54 @@ export const darDeAltaChofer = (id, chofer) => (dispatch) => {
     .catch(function (err) {
       alert(err);
     });
+};
+export const borradoFisicoChofer = (id) => (dispatch) => {
+  Axios.get('http://localhost:8080/buses/buscarPorChofer/' + id).then(
+    (response) => {
+      switch (response.status) {
+        case 200:
+          if (response.data.length > 0) {
+            let mensaje;
+            response.data.forEach((e) => {
+              mensaje = 'patente: ' + e.patente + '';
+            });
+            alert(
+              'No se puede borrar el elemento dado que posee las siguientes relaciones con combis:  ' +
+                mensaje
+            );
+          } else {
+            Axios.delete(
+              'http://localhost:8080/drivers/borradoFisico/' + id
+            ).then((response) => {
+              switch (response.status) {
+                case 200:
+                  traerChoferes().then((choferes) => {
+                    switch (choferes.status) {
+                      case 200:
+                        dispatch({
+                          type: BORRADO_FISICO_CHOFER,
+                          payload: choferes.data,
+                        });
+                        alert('El chofer fue eliminado fisicamente con exito');
+                        break;
+                      default:
+                        console.log(choferes.data);
+                        break;
+                    }
+                  });
+                  break;
+                default:
+                  alert('ocurrio un error');
+                  break;
+              }
+            });
+          }
+
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    }
+  );
 };

@@ -146,4 +146,18 @@ driversRouter.put('/darAlta/:id', async (req, res) => {
     }
   );
 });
+driversRouter.delete('/borradoFisico/:id', async (req, res) => {
+  Usuario.deleteOne(
+    {
+      _id: req.params.id,
+    },
+    function (err) {
+      if (!err) {
+        res.status(200).send('Chofer eliminado con exito!').end();
+      } else {
+        res.status(202).send('Ocurrio un error durante la eliminacion').end();
+      }
+    }
+  );
+});
 module.exports = driversRouter;

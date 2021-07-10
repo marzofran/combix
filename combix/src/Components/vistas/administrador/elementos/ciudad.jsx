@@ -6,6 +6,7 @@ import {
   editarCiudad,
 } from '../../../../Redux/Admin/ciudadesDucks';
 import { darDeAltaCiudad } from '../../../../Redux/Admin/ciudadesDucks';
+import { borradoFisico } from '../../../../Redux/Admin/ciudadesDucks';
 const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 //Implementado
@@ -88,7 +89,9 @@ const Ciudad = (props) => {
             <div className='col-1'>
               <button
                 className='field-btn delete-btn box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(borradoFisico(props.item._id));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-times' aria-hidden='true'></i>

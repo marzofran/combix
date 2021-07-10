@@ -3,6 +3,7 @@ import { Accordion, Card, Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { borrarViaje, editarViaje } from '../../../../Redux/Admin/viajesDucks';
 import { darDeAltaViaje } from '../../../../Redux/Admin/viajesDucks';
+import { borradoFisicoViajes } from '../../../../Redux/Admin/viajesDucks';
 const { dateFormat } = require('../../../../scripts/dateFormat');
 const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
@@ -108,7 +109,9 @@ const Viaje = (props) => {
             <div className='col-1'>
               <button
                 className='field-btn delete-btn box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(borradoFisicoViajes(props.item._id));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-times' aria-hidden='true'></i>

@@ -3,6 +3,7 @@ import { Accordion, Card, Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { editarCombi, borrarCombi } from '../../../../Redux/Admin/combisDucks';
 import { darDeAltaCombi } from '../../../../Redux/Admin/combisDucks';
+import { borradoFisicoCombis } from '../../../../Redux/Admin/combisDucks';
 //Implementado
 const Combi = (props) => {
   const dispatch = useDispatch();
@@ -102,7 +103,9 @@ const Combi = (props) => {
             <div className='col-1'>
               <button
                 className='field-btn delete-btn box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(borradoFisicoCombis(props.item._id));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-times' aria-hidden='true'></i>

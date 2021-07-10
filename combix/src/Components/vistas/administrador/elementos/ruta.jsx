@@ -3,6 +3,7 @@ import { Accordion, Card, Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { borrarRuta, editarRuta } from '../../../../Redux/Admin/rutasDucks';
 import { darDeAltaRuta } from '../../../../Redux/Admin/rutasDucks';
+import { borradoFisicoRutas } from '../../../../Redux/Admin/rutasDucks';
 const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 //Implementado
@@ -125,7 +126,9 @@ const Ruta = (props) => {
             <div className='col-1'>
               <button
                 className='field-btn delete-btn box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(borradoFisicoRutas(props.item._id));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-times' aria-hidden='true'></i>

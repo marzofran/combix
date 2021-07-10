@@ -9,6 +9,7 @@ const CARGAR_RUTA = 'CARGAR_RUTA';
 const BORRAR_RUTA = 'BORRAR_RUTA';
 const EDITAR_RUTA = 'EDITAR_RUTA';
 const DAR_DE_ALTA_RUTA = 'DAR_DE_ALTA_RUTA,';
+const BORRADO_FISICO_RUTAS = 'BORRADO_FISICO_RUTAS';
 
 export default function reducerRutas(state = configDuck, action) {
   switch (action.type) {
@@ -21,6 +22,8 @@ export default function reducerRutas(state = configDuck, action) {
     case EDITAR_RUTA:
       return { ...state, elementos: action.payload };
     case DAR_DE_ALTA_RUTA:
+      return { ...state, elementos: action.payload };
+    case BORRADO_FISICO_RUTAS:
       return { ...state, elementos: action.payload };
     default:
       return state;
@@ -214,4 +217,50 @@ export const darDeAltaRuta = (_id) => (dispatch) => {
     .catch(function (err) {
       alert(err);
     });
+};
+export const borradoFisicoRutas = (id) => (dispatch) => {
+  Axios.get('http://localhost:8080/travels/buscarPorRuta/' + id).then(
+    (response) => {
+      console.log(response.data);
+      switch (response.status) {
+        case 200:
+          if (response.data.length > 0) {
+            alert(
+              'No se puede borrar el elemento dado que posee relaciones con viajes'
+            );
+          } else {
+            Axios.delete(
+              'http://localhost:8080/routes/borradoFisico/' + id
+            ).then((response) => {
+              switch (response.status) {
+                case 200:
+                  traerRutas().then((choferes) => {
+                    switch (choferes.status) {
+                      case 200:
+                        dispatch({
+                          type: BORRADO_FISICO_RUTAS,
+                          payload: choferes.data,
+                        });
+                        alert('El viaje fue eliminado fisicamente con exito');
+                        break;
+                      default:
+                        console.log(choferes.data);
+                        break;
+                    }
+                  });
+                  break;
+                default:
+                  alert('ocurrio un error');
+                  break;
+              }
+            });
+          }
+
+          break;
+        default:
+          alert('Ocurrio un error');
+          break;
+      }
+    }
+  );
 };

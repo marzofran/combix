@@ -118,5 +118,31 @@ busesRouter.put('/darDeAlta/:id', async (req, res) => {
     }
   );
 });
+busesRouter.get('/buscarPorChofer/:id', async (req, res) => {
+  let id = req.params.id;
+  let result = [];
+  let combis = await Combi.find({}).populate('chofer');
+  combis.forEach((e) => {
+    // eslint-disable-next-line eqeqeq
+    if (e.chofer._id == id) {
+      result.push(e);
+    }
+  });
+  res.status(200).json(result).end();
+});
+busesRouter.delete('/borradoFisico/:id', async (req, res) => {
+  Combi.deleteOne(
+    {
+      _id: req.params.id,
+    },
+    function (err) {
+      if (!err) {
+        res.status(200).send('Combi eliminada con exito!').end();
+      } else {
+        res.status(202).send('Ocurrio un error durante la eliminacion').end();
+      }
+    }
+  );
+});
 
 module.exports = busesRouter;

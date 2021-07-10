@@ -10,6 +10,7 @@ routesRouter.get('/', async (req, res) => {
     .populate('origen')
     .populate('destino')
     .populate('combi');
+
   res.status(200).json(rutas).end();
 });
 
@@ -145,4 +146,50 @@ routesRouter.put('/darDeAlta/:id', async (req, res) => {
   res.status(200).send('Ruta dada de alta').end();
 });
 
+routesRouter.get('/buscarPorCiudad/:id', async (req, res) => {
+  let id = req.params.id;
+  let result = [];
+  let rutas = await Ruta.find({})
+    .populate('origen')
+    .populate('destino')
+    .populate('combi');
+  rutas.forEach((e) => {
+    // eslint-disable-next-line eqeqeq
+    if (e.origen._id == id || e.destino._id == id) {
+      result.push(e);
+    }
+  });
+
+  res.status(200).json(result).end();
+});
+routesRouter.delete('/borradoFisico/:id', async (req, res) => {
+  Ruta.deleteOne(
+    {
+      _id: req.params.id,
+    },
+    function (err) {
+      if (!err) {
+        res.status(200).send('Ruta eliminada con exito!').end();
+      } else {
+        res.status(202).send('Ocurrio un error durante la eliminacion').end();
+      }
+    }
+  );
+});
+routesRouter.get('/buscarPorCombi/:id', async (req, res) => {
+  let id = req.params.id;
+  let result = [];
+  let rutas = await Ruta.find({})
+    .populate('origen')
+    .populate('destino')
+    .populate('combi');
+  rutas.forEach((e) => {
+    // eslint-disable-next-line eqeqeq
+    if (e.combi._id == id) {
+      result.push(e);
+    }
+  });
+
+  res.status(200).json(result).end();
+});
 module.exports = routesRouter;
