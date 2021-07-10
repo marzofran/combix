@@ -1,12 +1,28 @@
 import React from 'react';
 import {Col, Row, Table, Button} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { dateFormat } from '../../../scripts/dateFormat';
 import { abrirViaje, comenzarViaje, finalizarViaje } from '../../../Redux/choferDucks';
 import { toTitleCase } from '../../../scripts/toTitleCase';
 
 const DetallesDeViaje = (props) => {
+  const disponibilidad = useSelector((state) => state.chofer.disponibilidad);
+  const pasajesChofer = useSelector((state) => state.chofer.pasajesSeleccionado);
+  let cancelados = 0;
+  let aceptados = 0;
+  let pendientes = 0;
+  for (const key in pasajesChofer)
+    switch (pasajesChofer[key].estado) {
+      case 'cancelado': cancelados++;
+        break;
+      case 'aceptado': aceptados++;
+        break;
+      case 'pendiente': pendientes++;
+        break;
+      default: console.log('estado de pasaje no valido');
+        break;
+    }
   const dispatch = useDispatch();
   return (
     <Row style={{ margin: '10px 10px', maxWidth: '95vw' }}>
@@ -49,9 +65,9 @@ const DetallesDeViaje = (props) => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>n pendientes</td>
-                    <td>nº abordados</td>
-                    <td>disponibilidad</td>
+                    <td>{pendientes}</td>
+                    <td>{aceptados}</td>
+                    <td>{disponibilidad}</td>
                   </tr>
                 </tbody>
               </Table>
