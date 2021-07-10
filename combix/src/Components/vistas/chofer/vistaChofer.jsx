@@ -12,6 +12,9 @@ const VistaChofer = (props) => {
   const dispatch = useDispatch();
 
   const viajes = useSelector((store) => store.chofer.elementos);
+  const enCurso = useSelector((store) => store.chofer.enCurso)
+
+
   useEffect(() => {
     dispatch(cargarViajesChofer(chofer._id));
   }, []);
