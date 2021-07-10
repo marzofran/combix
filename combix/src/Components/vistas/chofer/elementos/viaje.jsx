@@ -47,39 +47,6 @@ const ViajeElemento = (props) => {
           </Col>
         </Row>
         <Row>
-          {props.item.estado === 'pendiente' ? (
-            <Table striped bordered size='sm'>
-              <thead>
-                <tr>
-                  <th>Pendientes</th>
-                  <th>Disponibles</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>nº pendientes</td>
-                  <td>disponibilidad</td>
-                </tr>
-              </tbody>
-            </Table>
-          ) : (
-            <Table striped bordered size='sm'>
-              <thead>
-                <tr>
-                  <th>Abordados</th>
-                  <th>Cancelados</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>nº pasajeros</td>
-                  <td>nº cancelados</td>
-                </tr>
-              </tbody>
-            </Table>
-          )}
-        </Row>
-        <Row>
           <Col style={{ textAlign: 'center', padding: '15px 0' }}>
             {(props.item.estado === 'finalizado' ||
               props.item.estado === 'cancelado') && (

@@ -88,7 +88,7 @@ export const cargarViajesChofer = (id) => (dispatch, getState) => {
 
         dispatch({
           type: CARGAR_VIAJES_CHOFER,
-          payload: {primero: viajesArray, segundo: viajeEnCurso}
+          payload: viajesArray
         });
         break;
       default:

@@ -28,24 +28,6 @@ const ViajeEnCurso = (props) => {
               <h5>Estado: {props.item.estado === 'en curso' ? "En Curso" : props.item.estado }</h5>
             </Row>
             <Row>
-              <Table striped bordered size="sm">
-                <thead>
-                  <tr>
-                    <th>Pendientes</th>
-                    <th>Abordados</th>
-                    <th>Disponibles</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>nº pendientes</td>
-                    <td>nº abordados</td>
-                    <td>disponibilidad</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Row>
-            <Row>
               <Col style={{ textAlign: 'center', padding: '15px 0'}}>
                 
               </Col>
