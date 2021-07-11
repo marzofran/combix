@@ -290,7 +290,7 @@ export const registrarUsuarioChofer = (newUser) => (dispatch, getState) => {
 };
 
 export const abrirViaje = (idVieja) => (dispatch, getState) => {
-  const enCurso = getState().state.chofer.enCurso
+  const enCurso = getState().chofer.enCurso
   if( Object.keys(enCurso).length === 0 && enCurso.constructor === Object ){
     Axios.put('http://localhost:8080/travels/abrir/' + idVieja, {
       params: {id: idVieja},

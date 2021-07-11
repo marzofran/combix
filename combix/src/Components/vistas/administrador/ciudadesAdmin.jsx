@@ -92,7 +92,7 @@ const CiudadesAdmin = () => {
                   />
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='lugar'>Lugar de la ciudad</label>
+                  <label htmlFor='lugar'>Ciudad</label>
                   <input
                     type='text'
                     className='form-control'

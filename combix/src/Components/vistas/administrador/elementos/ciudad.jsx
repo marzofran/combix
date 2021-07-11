@@ -50,7 +50,7 @@ const Ciudad = (props) => {
           >
             <div className='row'>
               <div className='col field-admin'>
-                <label className='field-label'>Lugar:</label>
+                <label className='field-label'>Ciudad:</label>
                 <h6 className='field-display'>
                   {toTitleCase(props.item.lugar)}
                 </h6>
@@ -142,7 +142,7 @@ const Ciudad = (props) => {
             <div className='modal-body'>
               <form onSubmit={handleSubmit}>
                 <div className='form-group'>
-                  <label htmlFor='lugar'>Nueva, provincia</label>
+                  <label htmlFor='lugar'>Nueva, Provincia</label>
                   <input
                     required
                     type='text'
@@ -154,7 +154,7 @@ const Ciudad = (props) => {
                   />
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='lugar'>Nuevo, Lugar de la ciudad</label>
+                  <label htmlFor='lugar'>Nueva, Ciudad</label>
                   <input
                     type='text'
                     className='form-control'

@@ -133,7 +133,28 @@ travelsRouter.put('/abrir/:id', async (req, res) => {
     },
     { estado: 'abierto' },
     { new: true }
-  );
+  ).populate({
+    path: 'ruta',
+    model: 'Ruta',
+    populate: [
+      {
+        path: 'origen',
+        model: 'Ciudad',
+      },
+      {
+        path: 'destino',
+        model: 'Ciudad',
+      },
+      {
+        path: 'combi',
+        model: 'Combi',
+        populate: {
+          path: 'chofer',
+          model: 'Usuario',
+        },
+      },
+    ],
+  });
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(202).send(viajeExistente).end();
 });
@@ -146,7 +167,28 @@ travelsRouter.put('/comenzar/:id', async (req, res) => {
     },
     { estado: 'en curso' },
     { new: true }
-  );
+  ).populate({
+    path: 'ruta',
+    model: 'Ruta',
+    populate: [
+      {
+        path: 'origen',
+        model: 'Ciudad',
+      },
+      {
+        path: 'destino',
+        model: 'Ciudad',
+      },
+      {
+        path: 'combi',
+        model: 'Combi',
+        populate: {
+          path: 'chofer',
+          model: 'Usuario',
+        },
+      },
+    ],
+  });
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(202).send(viajeExistente).end();
 });
@@ -159,7 +201,28 @@ travelsRouter.put('/finalizar/:id', async (req, res) => {
     },
     { estado: 'finalizado' },
     { new: true }
-  );
+  ).populate({
+    path: 'ruta',
+    model: 'Ruta',
+    populate: [
+      {
+        path: 'origen',
+        model: 'Ciudad',
+      },
+      {
+        path: 'destino',
+        model: 'Ciudad',
+      },
+      {
+        path: 'combi',
+        model: 'Combi',
+        populate: {
+          path: 'chofer',
+          model: 'Usuario',
+        },
+      },
+    ],
+  });
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
   res.status(202).send(viajeExistente).end();
 });
