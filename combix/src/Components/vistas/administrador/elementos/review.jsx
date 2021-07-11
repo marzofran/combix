@@ -27,7 +27,7 @@ const Review = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <h5 className='field-display'>
-                  Lo que dijo... {props.item.nombre}
+                  Lo que dijo... {props.item.usuario.nombre}
                 </h5>
               </div>
               <div className='col field-admin'>
