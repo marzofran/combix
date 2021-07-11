@@ -58,7 +58,7 @@ const Review = (props) => {
           </Modal.Header>
 
           <Modal.Body>
-            <p>¿Estas seguro que desea eliminar este review?</p>
+            <p>¿Está seguro que desea eliminar este review?</p>
           </Modal.Body>
 
           <Modal.Footer>
