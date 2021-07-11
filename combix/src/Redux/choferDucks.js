@@ -4,13 +4,14 @@ import history from '../Components/history';
 const configDuck = {
   elementos: {
     pendientes: [],
-    enCurso: [],
     finalizado: [],
   },
   sesionCompra: {},
   pasajesSeleccionado: [],
   disponibilidad: {},
   pasajeChequeoCovid: {},
+  enCurso: {},
+  seleccionado: {},
 };
 
 const CARGAR_VIAJES_CHOFER = 'CARGAR_VIAJES_CHOFER';
@@ -29,7 +30,11 @@ const FINALIZAR_VIAJE = 'FINALIZAR_VIAJE';
 export default function reducerChoferLogeado(state = configDuck, action) {
   switch (action.type) {
     case CARGAR_VIAJES_CHOFER:
-      return { ...state, elementos: action.payload };
+      return { 
+        ...state, 
+        elementos: action.payload.primero,
+        enCurso: action.payload.segundo,
+      };
     case SELECCIONAR_VIAJE:
       return { ...state, seleccionado: action.payload };
     case CARGAR_PASAJES_VIAJE_SELECCIONADO:
@@ -54,11 +59,11 @@ export default function reducerChoferLogeado(state = configDuck, action) {
     case REGISTRAR_USUARIO_COMO_CHOFER:
       return { ...state, sesionCompra: action.payload };
     case ABRIR_VIAJE:
-      return {...state, elementos: action.payload};
+      return {...state, seleccionado: action.payload};
     case COMENZAR_VIAJE:
-      return {...state, elementos: action.payload};
+      return {...state, seleccionado: action.payload};
     case FINALIZAR_VIAJE:
-      return {...state, elementos: action.payload};
+      return {...state, seleccionado: action.payload};
     default:
       return state;
   }
@@ -67,10 +72,10 @@ export const cargarViajesChofer = (id) => (dispatch, getState) => {
   traerViajes(id).then((viajes) => {
     switch (viajes.status) {
       case 200:
+        let enCurso = {};
         let viajesArray = {
           pendientes: [],
           finalizado: [],
-          enCurso: [],
           seleccionado: {},
         };
         viajes.data.forEach((viaje) => {
@@ -82,13 +87,13 @@ export const cargarViajesChofer = (id) => (dispatch, getState) => {
           ) {
             viajesArray.finalizado.push(viaje);
           } else {
-            viajesArray.enCurso.push(viaje);
+            enCurso = viaje;
           }
         });
 
         dispatch({
           type: CARGAR_VIAJES_CHOFER,
-          payload: viajesArray
+          payload: {primero: viajesArray, segundo: enCurso }
         });
         break;
       default:

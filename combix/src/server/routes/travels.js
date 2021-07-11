@@ -131,7 +131,7 @@ travelsRouter.put('/abrir/:id', async (req, res) => {
       _id: req.params.id,
       unavailable: false,
     },
-    { estado: 'Abierto' },
+    { estado: 'abierto' },
     { new: true }
   );
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
@@ -144,7 +144,7 @@ travelsRouter.put('/comenzar/:id', async (req, res) => {
       _id: req.params.id,
       unavailable: false,
     },
-    { estado: 'En curso' },
+    { estado: 'en curso' },
     { new: true }
   );
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');
@@ -157,7 +157,7 @@ travelsRouter.put('/finalizar/:id', async (req, res) => {
       _id: req.params.id,
       unavailable: false,
     },
-    { estado: 'Finalizado' },
+    { estado: 'finalizado' },
     { new: true }
   );
   if (!viajeExistente) throw new HttpError(404, 'Viaje no encontrado');

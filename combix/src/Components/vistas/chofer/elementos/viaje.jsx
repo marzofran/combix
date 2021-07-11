@@ -18,7 +18,7 @@ const ViajeElemento = (props) => {
   console.log(pasajeros);
 
   return (
-    <Row className={'viajes-admin'}>
+    <Row className={'viajes-admin'} style={{ marginBottom: '10px' }}>
       <Col>
         <Row>
           <h5 style={{ color: '#357185', padding: '0 5px' }}>

@@ -7,6 +7,7 @@ const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 const HeaderListas = (props) => {
   const chofer = useSelector((store) => store.combix.sesion);
+  const enCurso = props.viaje
 
   return (
     <>
@@ -18,12 +19,13 @@ const HeaderListas = (props) => {
           Bienvenido, {toTitleCase(chofer.nombre)}
         </h3>
       </Row>
-      <Row>
-        <Col>
-          {props.viajes.length > 0 &&
-            props.viajes.map((e) => <ViajeEnCurso item={e}></ViajeEnCurso>)}
-        </Col>
-      </Row>
+      {!(Object.keys(enCurso).length === 0 && enCurso.constructor === Object) && 
+        <Row>
+          <Col>
+              <ViajeEnCurso item={enCurso}></ViajeEnCurso>
+          </Col>
+        </Row>  
+      }
     </>
   );
 };

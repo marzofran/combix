@@ -12,8 +12,7 @@ const VistaChofer = (props) => {
   const dispatch = useDispatch();
 
   const viajes = useSelector((store) => store.chofer.elementos);
-  const enCurso = useSelector((store) => store.chofer.enCurso)
-
+  const enCurso = useSelector((store) => store.chofer.enCurso);
 
   useEffect(() => {
     dispatch(cargarViajesChofer(chofer._id));
@@ -65,10 +64,10 @@ const VistaChofer = (props) => {
           </Navbar>
           <Switch>
             <Route path='/chofer/vistaChofer/pendientes'>
-              <ViajesPendientes viajes={viajes}></ViajesPendientes>
+              <ViajesPendientes viajes={viajes} enCurso={enCurso}></ViajesPendientes>
             </Route>
             <Route path='/chofer/vistaChofer/historial'>
-              <HistorialDeViajes viajes={viajes}></HistorialDeViajes>
+              <HistorialDeViajes viajes={viajes} enCurso={enCurso}></HistorialDeViajes>
             </Route>
           </Switch>
         </Router>

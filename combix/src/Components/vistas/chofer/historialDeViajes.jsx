@@ -10,7 +10,7 @@ const HistorialDeViajes = (props) => {
   return (
     <Row style={{margin: '0 0 0 10px', maxWidth: '90vw'}}>
       <Col className='container' style={{margin: '0 10px', maxWidth: '95vw'}} >
-        <HeaderListas viajes={props.viajes.enCurso}></HeaderListas>
+        <HeaderListas viaje={props.enCurso}></HeaderListas>
         <Row className={'viajes-admin'} style={{backgroundColor: 'lightgray'}}>
           <div className='col-9'>
               <h5 style={{color: '#357185', padding: '5px 10px'}}><u>Historial de Viajes</u></h5>

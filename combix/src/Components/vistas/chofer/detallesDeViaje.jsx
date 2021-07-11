@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Col, Row, Table, Button} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,23 +7,27 @@ import { abrirViaje, comenzarViaje, finalizarViaje } from '../../../Redux/chofer
 import { toTitleCase } from '../../../scripts/toTitleCase';
 
 const DetallesDeViaje = (props) => {
+  const viajeSeleccionado = useSelector((state) => state.chofer.seleccionado);
   const disponibilidad = useSelector((state) => state.chofer.disponibilidad);
   const pasajesChofer = useSelector((state) => state.chofer.pasajesSeleccionado);
+
   let cancelados = 0;
   let aceptados = 0;
   let pendientes = 0;
   for (const key in pasajesChofer)
     switch (pasajesChofer[key].estado) {
-      case 'cancelado': cancelados++;
+      case 'cancelado': cancelados += pasajesChofer[key].cantidadPasajes;
         break;
-      case 'aceptado': aceptados++;
+      case 'aceptado': aceptados += pasajesChofer[key].cantidadPasajes;
         break;
-      case 'pendiente': pendientes++;
+      case 'pendiente': pendientes += pasajesChofer[key].cantidadPasajes;
         break;
       default: console.log('estado de pasaje no valido');
         break;
     }
+  
   const dispatch = useDispatch();
+
   return (
     <Row style={{ margin: '10px 10px', maxWidth: '95vw' }}>
       <Col className={'container'} style={{marginBottom: '10px'}}>
@@ -52,7 +56,7 @@ const DetallesDeViaje = (props) => {
           </Col>
         </Row>
             <Row>
-              <h5>Estado: {toTitleCase(props.item.estado)}</h5>
+              <h5>Estado: {toTitleCase(viajeSeleccionado.estado)}</h5>
             </Row>
             <Row>
               <Table striped bordered size="sm">
@@ -73,32 +77,32 @@ const DetallesDeViaje = (props) => {
               </Table>
             </Row>
             <Row>
-              {props.item.estado === 'pendiente' && props.item.fecha === Date.Today ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
+              {viajeSeleccionado.estado === 'pendiente' && isToday(new Date(props.item.fecha)) ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
                 El viaje es hoy!
-              </Col>) : props.item.estado === 'pendiente' && props.item.fecha !== Date.Today ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
+              </Col>) : viajeSeleccionado.estado === 'pendiente' && !isToday(new Date(props.item.fecha)) ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
                 Solo puede comenzar el viaje el dia indicado!
-              </Col>) : props.item.estado === 'abierto' ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
+              </Col>) : viajeSeleccionado.estado === 'abierto' ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
                 El viaje puede comenzar! 
               </Col>) : <Col/>}
               <Col>
-                {props.item.estado === 'pendiente' && props.item.fecha === Date.Today ? (<button
+                {viajeSeleccionado.estado === 'pendiente' && props.item.fecha === Date.Today ? (<button
                     onClick={() => dispatch(abrirViaje(props.item._id))}
                       className={'btn btn-login'}
                       style={{ maxWidth: '30vw', float: 'right'}}
                   > 
                     Comenzar Check-in
-                  </button>) : props.item.estado === 'pendiente' && props.item.fecha !== Date.Today ? (<button
+                  </button>) : viajeSeleccionado.estado === 'pendiente' && props.item.fecha !== Date.Today ? (<button
                       className={'btn btn-disabled'}
                       style={{ maxWidth: '30vw', float: 'right', backgroundColor: 'grey'}}
                   > 
                     Comenzar Check-in
-                  </button>) : props.item.estado === 'abierto' ? (<button //agregar condicion de pendientes 0!!!
+                  </button>) : viajeSeleccionado.estado === 'abierto' ? (<button //agregar condicion de pendientes 0!!!
                     onClick={() => dispatch(comenzarViaje(props.item._id))} //poner en curso
                       className={'btn btn-login'}
                       style={{ maxWidth: '30vw', float: 'right'}}
                   > 
                     Comenzar viaje
-                  </button>) : props.item.estado === 'en curso' ? (<button
+                  </button>) : viajeSeleccionado.estado === 'en curso' ? (<button
                     onClick={() => dispatch(finalizarViaje(props.item._id))} //cerrar viaje
                       className={'btn btn-login'}
                       style={{ maxWidth: '30vw', float: 'right'}}
@@ -113,5 +117,13 @@ const DetallesDeViaje = (props) => {
     </Row>
   );
   };
+
+const isToday = (someDate) => {
+  const today = new Date()
+  console.log(today, someDate)
+  return someDate.getDate() == today.getDate() &&
+    someDate.getMonth() == today.getMonth() &&
+    someDate.getFullYear() == today.getFullYear()
+}
 
 export default DetallesDeViaje;

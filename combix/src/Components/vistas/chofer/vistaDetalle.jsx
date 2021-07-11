@@ -14,7 +14,7 @@ const VistaDetalle = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(cargarPasajesViajeSeleccionado(data._id, data));
-    history.push('/chofer/viaje/pasajeros');
+    history.push('/chofer/viaje/detalles');
   }, []);
 
   return (
