@@ -11,6 +11,8 @@ const DetallesDeViaje = (props) => {
   const disponibilidad = useSelector((state) => state.chofer.disponibilidad);
   const pasajesChofer = useSelector((state) => state.chofer.pasajesSeleccionado);
 
+  console.log(viajeSeleccionado)
+
   let cancelados = 0;
   let aceptados = 0;
   let pendientes = 0;
@@ -25,7 +27,7 @@ const DetallesDeViaje = (props) => {
       default: console.log('estado de pasaje no valido');
         break;
     }
-  
+
   const dispatch = useDispatch();
 
   return (
@@ -34,24 +36,24 @@ const DetallesDeViaje = (props) => {
         <Row className={'viajes-admin'}>
           <Col>
             <Row>
-              <h6 style={{color: '#357185', padding: '0 5px'}}>Origen: {toTitleCase(props.item.ruta.origen.lugar)}, {toTitleCase(props.item.ruta.origen.provincia)}</h6>
+              <h6 style={{color: '#357185', padding: '0 5px'}}>Origen: {toTitleCase(viajeSeleccionado.ruta.origen.lugar)}, {toTitleCase(viajeSeleccionado.ruta.origen.provincia)}</h6>
             </Row>
             <Row>
-              <h6 style={{color: '#357185', padding: '0 5px'}}>Destino: {toTitleCase(props.item.ruta.destino.lugar)}, {toTitleCase(props.item.ruta.destino.provincia)}</h6>
+              <h6 style={{color: '#357185', padding: '0 5px'}}>Destino: {toTitleCase(viajeSeleccionado.ruta.destino.lugar)}, {toTitleCase(viajeSeleccionado.ruta.destino.provincia)}</h6>
             </Row>
             <Row>
           <Col>
             <h5 style={{ color: '#357185', padding: '5px 0' }}>
               {' '}
               <i class='fa fa-calendar' aria-hidden='true'></i>{' '}
-              {dateFormat(props.item.fecha)}
+              {dateFormat(viajeSeleccionado.fecha)}
             </h5>
           </Col>
           <Col>
             <h5 style={{ color: '#357185', padding: '5px 0' }}>
               {' '}
               <i class='fa fa-clock-o' aria-hidden='true'></i>{' '}
-              {props.item.ruta.horario}
+              {viajeSeleccionado.ruta.horario}
             </h5>
           </Col>
         </Row>
@@ -77,33 +79,33 @@ const DetallesDeViaje = (props) => {
               </Table>
             </Row>
             <Row>
-              {viajeSeleccionado.estado === 'pendiente' && isToday(new Date(props.item.fecha)) ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
+              {viajeSeleccionado.estado === 'pendiente' && isToday(new Date(viajeSeleccionado.fecha)) ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
                 El viaje es hoy!
-              </Col>) : viajeSeleccionado.estado === 'pendiente' && !isToday(new Date(props.item.fecha)) ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
+              </Col>) : viajeSeleccionado.estado === 'pendiente' && !isToday(new Date(viajeSeleccionado.fecha)) ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
                 Solo puede comenzar el viaje el dia indicado!
               </Col>) : viajeSeleccionado.estado === 'abierto' ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
                 El viaje puede comenzar! 
               </Col>) : <Col/>}
               <Col>
-                {viajeSeleccionado.estado === 'pendiente' && props.item.fecha === Date.Today ? (<button
-                    onClick={() => dispatch(abrirViaje(props.item._id))}
+                {viajeSeleccionado.estado === 'pendiente' && isToday(new Date(viajeSeleccionado.fecha)) ? (<button
+                    onClick={() => dispatch(abrirViaje(viajeSeleccionado._id))}
                       className={'btn btn-login'}
                       style={{ maxWidth: '30vw', float: 'right'}}
                   > 
                     Comenzar Check-in
-                  </button>) : viajeSeleccionado.estado === 'pendiente' && props.item.fecha !== Date.Today ? (<button
+                  </button>) : viajeSeleccionado.estado === 'pendiente' && !isToday(new Date(viajeSeleccionado.fecha)) ? (<button
                       className={'btn btn-disabled'}
                       style={{ maxWidth: '30vw', float: 'right', backgroundColor: 'grey'}}
                   > 
                     Comenzar Check-in
                   </button>) : viajeSeleccionado.estado === 'abierto' ? (<button //agregar condicion de pendientes 0!!!
-                    onClick={() => dispatch(comenzarViaje(props.item._id))} //poner en curso
+                    onClick={() => dispatch(comenzarViaje(viajeSeleccionado._id))} //poner en curso
                       className={'btn btn-login'}
                       style={{ maxWidth: '30vw', float: 'right'}}
                   > 
                     Comenzar viaje
                   </button>) : viajeSeleccionado.estado === 'en curso' ? (<button
-                    onClick={() => dispatch(finalizarViaje(props.item._id))} //cerrar viaje
+                    onClick={() => dispatch(finalizarViaje(viajeSeleccionado._id))} //cerrar viaje
                       className={'btn btn-login'}
                       style={{ maxWidth: '30vw', float: 'right'}}
                   > 
@@ -120,8 +122,7 @@ const DetallesDeViaje = (props) => {
 
 const isToday = (someDate) => {
   const today = new Date()
-  console.log(today, someDate)
-  return someDate.getDate() == today.getDate() &&
+  return someDate.getDate() + 1 == today.getDate() &&
     someDate.getMonth() == today.getMonth() &&
     someDate.getFullYear() == today.getFullYear()
 }

@@ -3,6 +3,7 @@ import {Row, Col, Table} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {seleccionarViaje} from '../../../../Redux/choferDucks';
+import { toTitleCase } from '../../../../scripts/toTitleCase';
 
 const ViajeEnCurso = (props) => {
 
@@ -22,10 +23,10 @@ const ViajeEnCurso = (props) => {
               </Col>
             </Row>
             <Row>
-              <h6 style={{color: '#357185', padding: '0 5px'}}>{props.item.ruta.origen.lugar}, {props.item.ruta.origen.provincia} {'->'} {props.item.ruta.destino.lugar}, {props.item.ruta.destino.provincia}</h6>
+              <h6 style={{color: '#357185', padding: '0 5px'}}>{toTitleCase(props.item.ruta.origen.lugar)}, {toTitleCase(props.item.ruta.origen.provincia)} {'->'} {toTitleCase(props.item.ruta.destino.lugar)}, {toTitleCase(props.item.ruta.destino.provincia)}</h6>
             </Row>
             <Row>
-              <h5>Estado: {props.item.estado === 'en curso' ? "En Curso" : props.item.estado }</h5>
+              <h5>Estado: {toTitleCase(props.item.estado) }</h5>
             </Row>
             <Row>
               <Col style={{ textAlign: 'center', padding: '15px 0'}}>

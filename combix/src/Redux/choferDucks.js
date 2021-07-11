@@ -59,11 +59,11 @@ export default function reducerChoferLogeado(state = configDuck, action) {
     case REGISTRAR_USUARIO_COMO_CHOFER:
       return { ...state, sesionCompra: action.payload };
     case ABRIR_VIAJE:
-      return {...state, seleccionado: action.payload};
+      return {...state, seleccionado: action.payload, enCurso: action.payload};
     case COMENZAR_VIAJE:
       return {...state, seleccionado: action.payload};
     case FINALIZAR_VIAJE:
-      return {...state, seleccionado: action.payload};
+      return {...state, seleccionado: action.payload.primero, enCurso: action.payload.segundo};
     default:
       return state;
   }
@@ -289,10 +289,12 @@ export const registrarUsuarioChofer = (newUser) => (dispatch, getState) => {
   });
 };
 
-export const abrirViaje = (idVieja) => (dispatch) => {
-  Axios.put('http://localhost:8080/travels/abrir/' + idVieja, {
-    params: {id: idVieja},
-  })
+export const abrirViaje = (idVieja) => (dispatch, getState) => {
+  const enCurso = getState().state.chofer.enCurso
+  if( Object.keys(enCurso).length === 0 && enCurso.constructor === Object ){
+    Axios.put('http://localhost:8080/travels/abrir/' + idVieja, {
+      params: {id: idVieja},
+    })
     .then((response) => {
       switch (response.status) {
         case 202:
@@ -309,6 +311,9 @@ export const abrirViaje = (idVieja) => (dispatch) => {
     .catch(function (err) {
       alert(err);
     });
+  } else {
+    alert('Ya hay un viaje En Curso!')
+  }
 };
 
 export const comenzarViaje = (idVieja) => (dispatch) => {
@@ -342,7 +347,7 @@ export const finalizarViaje = (idVieja) => (dispatch) => {
         case 202:
                   dispatch({
                     type: FINALIZAR_VIAJE,
-                    payload: response.data,
+                    payload: {primero: response.data, segundo: {}}
                   });
                   break;
         default:
