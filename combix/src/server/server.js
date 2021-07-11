@@ -23,6 +23,7 @@ const {
   busesRouter,
   permissionsRouter,
   ticketsRouter,
+  reviewsRouter
 } = require('./routes');
 
 const app = express();
@@ -40,6 +41,7 @@ app.use('/supplies', suppliesRouter);
 app.use('/buses', busesRouter);
 app.use('/permissions', permissionsRouter);
 app.use('/tickets', ticketsRouter);
+app.use('/reviews', reviewsRouter)
 
 // Login
 app.get('/login', async (request, response) => {
