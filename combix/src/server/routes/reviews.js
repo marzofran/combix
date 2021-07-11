@@ -32,12 +32,23 @@ reviewsRouter.post('/', async (request, response) => {
     });   
   
     await review.save();
-    response.status(202).send('Review creado con exito!').end();
+    response.status(202).send('Insumo creado con exito!').end();
 });
 
 //Modify
 reviewsRouter.put('/:id', async (req, res) => {
-  // ???
+  let data = req.body;
+  const reviewExistente = await Review.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    { contenido: data.contenido,
+      usuario: data.usuario,
+      fecha: data.fecha, },
+      {new: true}
+  );
+  if (!reviewExistente) throw new HttpError('Review no encontrada');
+  res.status(200).json(reviewExistente).end();
 });
 
 //Delete fisico
