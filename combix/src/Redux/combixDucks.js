@@ -16,6 +16,7 @@ const ACTIVAR_GOLD = 'ACTIVAR_GOLD';
 const CANCELAR_GOLD = 'CANCELAR_GOLD';
 const MODIFICAR_USUARIO = 'MODIFICAR_USUARIO';
 const OBTENER_REVIEWS = 'OBTENER_REVIEWS';
+const BORRAR_REVIEW = 'BORRAR_REVIEW';
 
 // reducer
 export default function reducer(state = configDuck, action) {
@@ -36,6 +37,8 @@ export default function reducer(state = configDuck, action) {
       return { ...state, sesion: action.payload };
     case OBTENER_REVIEWS:
       return { ...state, reviews: action.payload};
+    case BORRAR_REVIEW:
+      return state;
     default:
       return state;
   }
@@ -238,4 +241,36 @@ export const modificarUsuario =
     } catch (error) {
       console.log(error);
     }
+  };
+
+  export const borrarReview = (id) => (dispatch) => {
+    Axios.delete('http://localhost:8080/reviews/' + id, {id}
+    ).then((response) => {
+        switch (response.status) {
+          case 200:
+            Axios.get('http://localhost:8080/reviews', {}).then((response) => {
+              switch (response.status) {
+                case 200:
+                  dispatch({
+                    type: OBTENER_REVIEWS,
+                    payload: response.data,
+                  });
+                  break;
+                default:
+                  alert('Ocurrio un error');
+                  break;
+              }
+            });
+            dispatch({
+              type: BORRAR_REVIEW,
+              payload: response.data,
+            });
+            alert('Se eliminó el review correctamente');
+            break;
+          default:
+            alert(response.data);
+            break;
+        }
+      }
+    );
   };

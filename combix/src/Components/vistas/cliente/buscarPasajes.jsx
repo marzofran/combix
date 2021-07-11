@@ -85,44 +85,37 @@ const BuscarPasajes = () => {
         )}
 
         <div className='mt-5'>
-          <h2>Opiniones de nuestros viajeros</h2>
-          <h1 className=' text-center'>
-            {' '}
-            <i class='fa fa-plus' aria-hidden='true'></i>
-          </h1>
+          <h2>Lo que dicen nuestros usuarios...</h2>
+          <Row>
+            <Col>
+              {reviews.length > 0 && reviews.map((e) => 
+                <Card>
+                  <Row>
+                    <Col>
+                      <Row>
+                        <h4>Lo que dijo... {e.usuario.nombre}</h4>
+                      </Row>
+                      <Row>
+                        <h6>{dateFormatPretty(e.fecha)}</h6>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row>
+                    {e.contenido}
+                  </Row>
+                </Card>
+              )}
+              <Link to='/client/miPerfil/misReviews'>
+                <button
+                  className={'btn btn-login '}
+                  style={{ marginTop: '20px', width: '100%' }}
+                >
+                  <h2>Escribir un Review</h2>
+                </button>
+              </Link>
+            </Col>
+          </Row>
         </div>
-      </Container>
-      <Container>
-        <h2 style={{ marginTop: '235px' }}>Lo que dicen nuestros usuarios...</h2>
-        <Row>
-          <Col>
-            {reviews.length > 0 && reviews.map((e) => 
-              <Card>
-                <Row>
-                  <Col>
-                    <Row>
-                      <h4>Lo que dijo... {e.usuario.nombre}</h4>
-                    </Row>
-                    <Row>
-                      <h6>{dateFormatPretty(e.fecha)}</h6>
-                    </Row>
-                  </Col>
-                </Row>
-                <Row>
-                  {e.contenido}
-                </Row>
-              </Card>
-            )}
-            <Link to='/client/miPerfil/misReviews'>
-              <button
-                className={'btn btn-login '}
-                style={{ marginTop: '20px', width: '50vw' }}
-              >
-                <h2>Escribir un Review</h2>
-              </button>
-            </Link>
-          </Col>
-        </Row>
       </Container>
       <Footer></Footer>
     </div>

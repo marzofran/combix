@@ -7,6 +7,7 @@ import CiudadesAdmin from './ciudadesAdmin';
 import RutasAdmin from './rutasAdmin';
 import ViajesAdmin from './viajesAdmin';
 import UsuariosAdmin from './usuariosAdmin'
+import ReviewsAdmin from './reviewsAdmin'
 import history from '../../history';
 const NavAdmin = () => {
   return (
@@ -39,6 +40,9 @@ const NavAdmin = () => {
               <li className='list-group-item navegacion-admin-list'>
                 <Link to='/admin/usuarios'>Usuarios</Link>
               </li>
+              <li className='list-group-item navegacion-admin-list'>
+                <Link to='/admin/reviews'>Reviews</Link>
+              </li>
             </ul>
           </div>
           <Switch>
@@ -62,6 +66,9 @@ const NavAdmin = () => {
             </Route>
             <Route path='/admin/usuarios'>
               <UsuariosAdmin></UsuariosAdmin>
+            </Route>
+            <Route path='/admin/reviews'>
+              <ReviewsAdmin></ReviewsAdmin>
             </Route>
           </Switch>
         </Router>
