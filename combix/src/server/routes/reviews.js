@@ -48,7 +48,7 @@ reviewsRouter.put('/:id', async (req, res) => {
       {new: true}
   );
   if (!reviewExistente) throw new HttpError('Review no encontrada');
-  res.status(200).json(reviewExistente).end();
+  res.status(200).send('Review modificada con exito').end();
 });
 
 //Delete fisico
