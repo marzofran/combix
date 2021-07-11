@@ -93,7 +93,7 @@ const Review = (props) => {
               <form onSubmit={handleSubmit}>
                 <div className='form-group'>
                   <label htmlFor='nombre'>Nuevo texto</label>
-                  <input
+                  <textarea
                     required
                     value={contenido}
                     type='text'
@@ -102,12 +102,15 @@ const Review = (props) => {
                     aria-describedby='contenido'
                     onChange={handleChangeContenido}
                     style={{ wordBreak: 'break-word'}}
-                  />
+                  ></textarea>
                 </div>
                 <button
                   type='submit'
                   className='btn btn-primary'
                   style={{ backgroundColor: '#145572' }}
+                  onClick={() => {
+                    handleClose();
+                  }}
                 >
                   Guardar review editado.
                 </button>

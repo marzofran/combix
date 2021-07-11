@@ -32,7 +32,7 @@ reviewsRouter.post('/', async (request, response) => {
     });   
   
     await review.save();
-    response.status(200).send('Insumo creado con exito!').end();
+    response.status(200).send('Review creado con exito!').end();
 });
 
 //Modify

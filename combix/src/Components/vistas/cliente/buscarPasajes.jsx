@@ -89,7 +89,7 @@ const BuscarPasajes = () => {
           <Row>
             <Col>
               {reviews.length > 0 && reviews.map((e) => 
-                <Card>
+                <Card className='db-element db-element-header' style={{paddingLeft: '35px'}}>
                   <Row>
                     <Col>
                       <Row>

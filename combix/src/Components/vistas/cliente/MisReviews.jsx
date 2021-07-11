@@ -12,9 +12,9 @@ const MisReviews = () => {
   const [contenido, setContenido] = useState('');
 
   useEffect(() => {
-    dispatch(obtenerReviewsUsuario());
+    dispatch(obtenerReviewsUsuario(sesion._id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   const handleChangeContenido = (e) => {
     setContenido(e.target.value);
