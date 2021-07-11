@@ -6,6 +6,7 @@ import history from '../Components/history.js';
 const configDuck = {
   sesion: {},
   usuarios: [],
+  reviews: [],
 };
 const OBETENER_DATOS_USUARIO = 'OBTENER_DATOS_USUARIO';
 const CERRAR_SESION = 'CERRAR_SESION';
@@ -14,6 +15,7 @@ const CARGAR_USUARIO = 'CARGAR_USUARIO';
 const ACTIVAR_GOLD = 'ACTIVAR_GOLD';
 const CANCELAR_GOLD = 'CANCELAR_GOLD';
 const MODIFICAR_USUARIO = 'MODIFICAR_USUARIO';
+const OBTENER_REVIEWS = 'OBTENER_REVIEWS';
 
 // reducer
 export default function reducer(state = configDuck, action) {
@@ -32,6 +34,8 @@ export default function reducer(state = configDuck, action) {
       return { ...state, sesion: action.payload };
     case MODIFICAR_USUARIO:
       return { ...state, sesion: action.payload };
+    case OBTENER_REVIEWS:
+      return { ...state, reviews: action.payload};
     default:
       return state;
   }
@@ -214,4 +218,24 @@ export const modificarUsuario =
       .catch(function (err) {
         alert(err);
       });
+  };
+
+  export const obtenerReviews = () => (dispatch, getState) => {
+    try {
+      Axios.get('http://localhost:8080/reviews', {}).then((response) => {
+        switch (response.status) {
+          case 200:
+            dispatch({
+              type: OBTENER_REVIEWS,
+              payload: response.data,
+            });
+            break;
+          default:
+            alert('Ocurrio un error');
+            break;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };

@@ -11,6 +11,10 @@ const CREAR_PASAJE = 'CREAR_PASAJE';
 const CARGAR_PASAJES = 'CARGAR_PASAJES';
 const RECUPERAR_CONTRASEÑA = 'RECUPERAR_CONTRASEÑA ';
 const ELIMINAR_PASAJE = 'ELIMINAR_PASAJE';
+const OBTENER_REVIEWS_USUARIO = 'OBTENER_REVIEWS_USUARIO';
+const CREAR_REVIEW = 'CREAR_REVIEW';
+const MODIFICAR_REVIEW = 'MODIFICAR_REVIEW';
+const ELIMINAR_REVIEW = 'ELIMINAR_REVIEW';
 
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
@@ -25,6 +29,14 @@ export default function reducer(state = configDuck, action) {
     case RECUPERAR_CONTRASEÑA:
       return state;
     case ELIMINAR_PASAJE:
+      return state;
+    case OBTENER_REVIEWS_USUARIO:
+      return { ...state, misReviews: action.payload};
+    case CREAR_REVIEW:
+      return state;
+    case MODIFICAR_REVIEW:
+      return state;
+    case ELIMINAR_REVIEW:
       return state;
     default:
       return state;
@@ -192,4 +204,146 @@ export const recuperarContraseña = (mail) => (dispatch) => {
         break;
     }
   });
+};
+
+export const obtenerReviewsUsuario = (id) => (dispatch) => {
+  Axios.get('http://localhost:8080/reviews/' + id, {
+    id,
+  }).then((response) => {
+    switch (response.status) {
+      case 200:
+        dispatch({
+          type: OBTENER_REVIEWS_USUARIO,
+          payload: response.data,
+        });
+
+        break;
+      default:
+        alert(response.data);
+        console.log(response);
+        break;
+    }
+  });
+};
+
+export const crearReview = (contenido, usuario) => (dispatch) => {
+  const review = {
+    contenido,
+    usuario,
+  }
+  Axios.post('http://localhost:8080/reviews/', review).then(
+    (response) => {
+      switch (response.status) {
+        case 200:
+          Axios.get('http://localhost:8080/reviews/' + usuario._id, {
+            id: usuario._id,
+          }).then((response) => {
+            switch (response.status) {
+              case 200:
+                dispatch({
+                  type: OBTENER_REVIEWS_USUARIO,
+                  payload: response.data,
+                });
+
+                break;
+              default:
+                alert(response.data);
+                console.log(response);
+                break;
+            }
+          });
+          dispatch({
+            type: CREAR_REVIEW,
+            payload: response.data,
+          });
+          alert('Se guardó el review correctamente');
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    }
+  );
+};
+
+export const modificarReview = (contenido, usuario, fecha, id) => (dispatch) => {
+  const review = {
+    contenido,
+    usuario,
+    fecha,
+  }
+  Axios.put('http://localhost:8080/reviews/' + id, {
+    review,
+    params: {
+      id,
+    }
+  }).then(
+    (response) => {
+      switch (response.status) {
+        case 200:
+          Axios.get('http://localhost:8080/reviews/' + usuario._id, {
+            id: usuario._id,
+          }).then((response) => {
+            switch (response.status) {
+              case 200:
+                dispatch({
+                  type: OBTENER_REVIEWS_USUARIO,
+                  payload: response.data,
+                });
+
+                break;
+              default:
+                alert(response.data);
+                console.log(response);
+                break;
+            }
+          });
+          dispatch({
+            type: MODIFICAR_REVIEW,
+            payload: response.data,
+          });
+          alert('Se modificó el review correctamente');
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    }
+  );
+};
+
+export const eliminarReview = (id, usuario) => (dispatch) => {
+  Axios.delete('http://localhost:8080/reviews/' + id, {id}
+  ).then((response) => {
+      switch (response.status) {
+        case 200:
+          Axios.get('http://localhost:8080/reviews/' + usuario._id, {
+            id: usuario._id,
+          }).then((response) => {
+            switch (response.status) {
+              case 200:
+                dispatch({
+                  type: OBTENER_REVIEWS_USUARIO,
+                  payload: response.data,
+                });
+
+                break;
+              default:
+                alert(response.data);
+                console.log(response);
+                break;
+            }
+          });
+          dispatch({
+            type: ELIMINAR_REVIEW,
+            payload: response.data,
+          });
+          alert('Se eliminó el review correctamente');
+          break;
+        default:
+          alert(response.data);
+          break;
+      }
+    }
+  );
 };
