@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Modal, Button } from 'react-bootstrap';
 import Pasajero from './pasajero';
 const { dateFormat } = require('../../../../scripts/dateFormat');
+const { toTitleCase } = require('../../../../scripts/toTitleCase');
 
 const Estadistica = (props) => {
   const [recaudacion, editRecaudacion] = useState(0);
@@ -52,18 +53,18 @@ const Estadistica = (props) => {
               </Row>
               <Row>
                 <Col>
-                  <h4>Origen: {props.item.ruta.origen.provincia}</h4>
+                  <h4>Origen: {toTitleCase(props.item.ruta.origen.lugar)}</h4>
                 </Col>
                 <Col>
                   {' '}
-                  <h4>Destino: {props.item.ruta.origen.provincia}</h4>
+                  <h4>Destino: {toTitleCase(props.item.ruta.destino.lugar)}</h4>
                 </Col>
               </Row>
               <Row>
                 <Col>
                   <h4>
-                    Chofer: {props.item.ruta.combi.chofer.apellido},{' '}
-                    {props.item.ruta.combi.chofer.nombre}
+                    Chofer: {toTitleCase(props.item.ruta.combi.chofer.apellido)},{' '}
+                    {toTitleCase(props.item.ruta.combi.chofer.nombre)}
                   </h4>
                 </Col>
                 <Col>

@@ -227,6 +227,10 @@ export const obtenerReviewsUsuario = (id) => (dispatch) => {
 };
 
 export const crearReview = (contenido, usuario) => (dispatch) => {
+  if (contenido === ''){ 
+    alert('El review no puede estar vacío');
+    return 
+  }
   const review = {
     contenido,
     usuario,

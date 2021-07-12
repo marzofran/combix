@@ -188,9 +188,9 @@ const ListaDePasajeros = (props) => {
                                           margin: '0 0 10px 0',
                                         }}
                                       >
-                                        {e.insumos.map((i) => (
-                                          <p>{i.nombre}</p>
-                                        ))}
+                                        <ul>{e.insumos.map((i) => (
+                                          <li>{i.nombre}</li>
+                                        ))}</ul>
                                       </Row>
                                     </div>
                                   )}
