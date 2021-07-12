@@ -142,7 +142,7 @@ ticketsRouter.delete('/:id', async (req, res) => {
 
 ticketsRouter.put('/:id', async (req, res) => {
   const foundTicket = await Pasaje.findOneAndUpdate(
-    { _id: req.params.id },
+    { _id: req.params.id, estado: 'pendiente' },
     { estado: req.body.estado },
     { new: true }
   );
