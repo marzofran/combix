@@ -5,9 +5,9 @@ const { dateFormat } = require('../../../../scripts/dateFormat');
 //Implementado
 const Usuario = (props) => {
 
-  let clasesCss = 'db-element-header  ';
+  let clasesCss = 'db-element-header ';
 
-  if (props.item.baneado > 0) {
+  if (Date.parse(props.item.baneado) > Date.now()) {
     clasesCss = 'db-element-header-variant ';
   }
 
