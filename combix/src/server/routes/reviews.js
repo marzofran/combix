@@ -32,7 +32,7 @@ reviewsRouter.post('/', async (request, response) => {
     });   
   
     await review.save();
-    response.status(200).send('Review creado con exito!').end();
+    response.status(200).send('Review creada con exito!').end();
 });
 
 //Modify
@@ -48,7 +48,7 @@ reviewsRouter.put('/:id', async (req, res) => {
       {new: true}
   );
   if (!reviewExistente) throw new HttpError('Review no encontrada');
-  res.status(200).send('Review modificada con exito').end();
+  res.status(200).send('Review modificada con exito!').end();
 });
 
 //Delete fisico

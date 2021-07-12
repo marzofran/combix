@@ -68,9 +68,11 @@ usersRouter.put('/:id', async (req, res) => {
   const foundUser = Usuario.find({
     mail: user.mail,
     unavailable: false,
+    _id: {$ne: req.params.id}
   });
-  if (Object.entries(foundUser).length === 2)
+  if (Object.entries(foundUser).length > 0)
     throw new HttpError(203, 'Ya existe un usuario con esos datos');
+  //Object.entries(foundUser).length > 0 && 
   let update = {
     nombre: user.nombre,
     apellido: user.apellido,
@@ -80,9 +82,7 @@ usersRouter.put('/:id', async (req, res) => {
     fechaNacimiento: user.fechaNacimiento,
     telefono: user.telefono,
   };
-  let pepe = await Usuario.findOneAndUpdate({ _id: req.params.id }, update, {
-    new: true,
-  });
+  let pepe = await Usuario.findOneAndUpdate({ _id: req.params.id }, update, {new: true,});
   res.status(200).send(pepe).end();
 });
 
