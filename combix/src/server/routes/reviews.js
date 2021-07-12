@@ -37,7 +37,8 @@ reviewsRouter.post('/', async (request, response) => {
 
 //Modify
 reviewsRouter.put('/:id', async (req, res) => {
-  let data = req.body;
+  let data = req.body.review;
+  console.log(data)
   const reviewExistente = await Review.findOneAndUpdate(
     {
       _id: req.params.id,
