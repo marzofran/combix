@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useLocation} from 'react-router-dom';
-import {cargarPasajes} from '../../../Redux/clienteDucks';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { cargarPasajes } from '../../../Redux/clienteDucks';
 import Pasaje from './elementos/pasaje';
 const MisPasajes = () => {
   const dispatch = useDispatch();
@@ -18,13 +18,16 @@ const MisPasajes = () => {
       <div className={'viajes-admin'}>
         <div className='row'>
           <div className='col-9'>
-            <h3 style={{color: '#357185', padding: '5px 10px'}}>Mis Pasajes</h3>
+            <h3 style={{ color: '#357185', padding: '5px 10px' }}>
+              Mis Pasajes
+            </h3>
           </div>
         </div>
         <div className='col'>
-          {pasajes.map((item) => (
-            <Pasaje item={item}></Pasaje>
-          ))}
+          {pasajes.map(
+            (item) =>
+              item.estado === 'pendiente' && <Pasaje item={item}></Pasaje>
+          )}
         </div>
       </div>
     </div>
