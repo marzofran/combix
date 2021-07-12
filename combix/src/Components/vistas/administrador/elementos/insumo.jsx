@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Accordion, Card, Modal, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { borrarInsumoFisica } from '../../../../Redux/Admin/insumosDucks';
+import { darDeAltaInsumo } from '../../../../Redux/Admin/insumosDucks';
 import {
   borrarInsumo,
   editarInsumo,
@@ -88,7 +90,9 @@ const Insumo = (props) => {
             <div className='col-1'>
               <button
                 className='field-btn delete-btn box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(borrarInsumoFisica(props.item._id));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-times' aria-hidden='true'></i>
@@ -97,7 +101,9 @@ const Insumo = (props) => {
               <button
                 className='field-btn bg-success
     box square'
-                onClick={() => {}}
+                onClick={() => {
+                  dispatch(darDeAltaInsumo(props.item._id, props.item));
+                }}
               >
                 <div className='content'>
                   <i class='fa fa-arrow-up' aria-hidden='true'></i>
@@ -206,7 +212,7 @@ const Insumo = (props) => {
           </Modal.Header>
 
           <Modal.Body>
-            <p>¿Estas seguro que desea eliminar este insumo?</p>
+            <p>¿Estas seguro que desea dar de baja este insumo?</p>
           </Modal.Body>
 
           <Modal.Footer>
