@@ -1,18 +1,19 @@
 import React from 'react';
-import {Router, Switch, Route, Link} from 'react-router-dom';
+import { Router, Switch, Route, Link } from 'react-router-dom';
 import ChoferesAdmin from './choferesAdmin';
 import InsumosAdmin from './insumosAdmin';
 import CombisAdmin from './combisAdmin';
 import CiudadesAdmin from './ciudadesAdmin';
 import RutasAdmin from './rutasAdmin';
 import ViajesAdmin from './viajesAdmin';
-import UsuariosAdmin from './usuariosAdmin'
-import ReviewsAdmin from './reviewsAdmin'
+import UsuariosAdmin from './usuariosAdmin';
+import ReviewsAdmin from './reviewsAdmin';
+import EstadisticasDeViajes from './estadisticasDeViajes';
 import history from '../../history';
 const NavAdmin = () => {
   return (
     <div className='container'>
-      <h1 style={{color: 'white', fontSize: '64px'}} className={'pt-3 pb-3'}>
+      <h1 style={{ color: 'white', fontSize: '64px' }} className={'pt-3 pb-3'}>
         Bienvenido, admin
       </h1>
       <div className={'row'}>
@@ -43,9 +44,15 @@ const NavAdmin = () => {
               <li className='list-group-item navegacion-admin-list'>
                 <Link to='/admin/reviews'>Reviews</Link>
               </li>
+              <li className='list-group-item navegacion-admin-list'>
+                <Link to='/admin/estadisticas'>Estadisticas</Link>
+              </li>
             </ul>
           </div>
           <Switch>
+            <Route path='/admin/estadisticas'>
+              <EstadisticasDeViajes></EstadisticasDeViajes>
+            </Route>
             <Route path='/admin/choferes'>
               <ChoferesAdmin></ChoferesAdmin>
             </Route>
