@@ -43,7 +43,7 @@ const BuscarPasajes = () => {
           </div>
         </Container>
       </div>
-      <Container>
+      {/* <Container>
         <h2 style={{ marginTop: '235px' }}>Nuestros Favoritos</h2>
         <Row>
           <Col>
@@ -56,10 +56,10 @@ const BuscarPasajes = () => {
             <Featured></Featured>
           </Col>
         </Row>
-      </Container>
+      </Container> */}
       <Container>
         {sesion.permissions === '6094d56377b5714b3473dbc5' && (
-          <Card className='mt-5'>
+          <Card style={{ marginTop: '250px' }}>
             <div className='p-3 gradient-gold'>
               <Card.Body>
                 <Row>
