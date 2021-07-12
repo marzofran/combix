@@ -1,11 +1,12 @@
-const {model, Schema} = require('mongoose')
+const { model, Schema } = require('mongoose');
 
 const insumoSchema = new Schema({
-    nombre: String,
-    precio: String,
-    tipo: String,
-})
+  nombre: String,
+  precio: String,
+  tipo: String,
+  unavailable: Boolean,
+});
 
-const Insumo = model('Insumo', insumoSchema)
+const Insumo = model('Insumo', insumoSchema);
 
-module.exports = Insumo
+module.exports = Insumo;

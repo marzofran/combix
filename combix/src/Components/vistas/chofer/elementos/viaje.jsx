@@ -15,8 +15,6 @@ const ViajeElemento = (props) => {
     dispatch(cargarPasajesViajeSeleccionado(props.item._id, props.item));
   }, []);
 
-  console.log(pasajeros);
-
   return (
     <Row className={'viajes-admin'} style={{ marginBottom: '10px' }}>
       <Col>

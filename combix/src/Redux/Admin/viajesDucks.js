@@ -133,45 +133,40 @@ export const borrarViaje = (id) => (dispatch) => {
   });
 };
 export const editarViaje = (ruta, fecha, precio, idVieja) => (dispatch) => {
-  const viaje = {
-    ruta,
-    fecha,
-    precio,
-  };
-
-  Axios.put('http://localhost:8080/travels/' + idVieja, {
-    params: { id: idVieja },
-    viaje,
-  })
-    .then((response) => {
-      switch (response.status) {
-        case 202:
-          alert(response.data);
-          traerViajes()
+  const viaje = { ruta, fecha, precio,};
+  Axios.get('http://localhost:8080/tickets/viaje/' + idVieja, {idVieja,}).then((response) => {
+    console.log(response.data);
+    switch (response.status) {
+      case 200:
+        if (response.data.length > 0) {
+          alert('No se puede editar el viaje por que tiene pasajes comprados');
+        } else {
+          Axios.put('http://localhost:8080/travels/' + idVieja, {params: { id: idVieja }, viaje,})
             .then((response) => {
               switch (response.status) {
-                case 200:
-                  dispatch({
-                    type: EDITAR_VIAJES,
-                    payload: response.data,
-                  });
+                case 202:
+                  alert(response.data);
+                  traerViajes().then((response) => {
+                    switch (response.status) {
+                      case 200:
+                        dispatch({type: EDITAR_VIAJES, payload: response.data,});
+                        break;
+                    default:
+                      alert(response.data);
+                      break;
+                    }
+                  }).catch(function (err) {alert(err);});
                   break;
                 default:
                   alert(response.data);
-                  break;
+                break;
               }
-            })
-            .catch(function (err) {
-              alert(err);
-            });
-          break;
-        default:
-          alert(response.data);
-          break;
-      }
-    })
-    .catch(function (err) {
-      alert(err);
+            }).catch(function (err) {alert(err);});
+        }
+      break;
+      default:
+        alert('Ocurrio un error');
+        }
     });
 };
 
