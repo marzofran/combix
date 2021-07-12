@@ -312,7 +312,7 @@ export const abrirViaje = (idVieja) => (dispatch, getState) => {
       alert(err);
     });
   } else {
-    alert('Ya hay un viaje En Curso!')
+    alert('Ya hay un viaje Abierto o En Curso!')
   }
 };
 

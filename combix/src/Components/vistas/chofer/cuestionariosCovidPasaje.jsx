@@ -4,6 +4,8 @@ import CuestionarioCovid from './elementos/cuestionarioCovid';
 import { useDispatch } from 'react-redux';
 import { completarTest } from '../../../Redux/choferDucks';
 import { useSelector } from 'react-redux';
+import history from '../../history';
+
 const CuestionariosCovidPasaje = (props) => {
   const dispatch = useDispatch();
   //Cambiar las constantes por las variables pasadas por props
@@ -66,6 +68,7 @@ const CuestionariosCovidPasaje = (props) => {
         pasajeActual.usuario._id
       )
     );
+    history.push('/chofer/viaje/pasajeros')
   }
   return (
     <div>
@@ -94,11 +97,11 @@ const CuestionariosCovidPasaje = (props) => {
         centered
       >
         <Modal.Body>
-          El pasajero
-          {usuariosConCovid[usuariosConCovid.length - 1]?.nombre} y DNI{' '}
+          El pasajero{' '}
+          {usuariosConCovid[usuariosConCovid.length - 1]?.nombre} con DNI{' '}
           {usuariosConCovid[usuariosConCovid.length - 1]?.dni} presenta sintomas
           positivos de COVID-19 y se procedera a penalizar la cuenta del usuario
-          comprador, bloqueando cualquier comprador en los siguientes 15 dias y
+          comprador, bloqueando cualquier compra en los siguientes 15 dias y
           reembolsando todo pasaje ya comprado para ese mismo periodo. ¿Desea
           proceder?
         </Modal.Body>

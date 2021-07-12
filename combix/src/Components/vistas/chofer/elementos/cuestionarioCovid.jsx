@@ -16,7 +16,7 @@ const CuestionarioCovid = (props) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (cantSintomas >= 2 || temperatura >= 37.5) {
+    if (cantSintomas >= 2 || temperatura >= 38) {
       props.agregar(nombre, dni);
     }
     props.sumar();
