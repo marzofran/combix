@@ -7,7 +7,7 @@ const Usuario = (props) => {
 
   let clasesCss = 'db-element-header  ';
 
-  if (props.item.baneado >) {
+  if (props.item.baneado > 0) {
     clasesCss = 'db-element-header-variant ';
   }
 
