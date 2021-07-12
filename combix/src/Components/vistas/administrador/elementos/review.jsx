@@ -27,7 +27,7 @@ const Review = (props) => {
             <div className='row'>
               <div className='col field-admin'>
                 <h5 className='field-display'>
-                  Lo que dijo... {props.item.nombre}
+                  Lo que dijo... {props.item.usuario.nombre}
                 </h5>
               </div>
               <div className='col field-admin'>
@@ -58,7 +58,7 @@ const Review = (props) => {
           </Modal.Header>
 
           <Modal.Body>
-            <p>¿Estas seguro que desea eliminar este review?</p>
+            <p>¿Está seguro que desea eliminar este review?</p>
           </Modal.Body>
 
           <Modal.Footer>
