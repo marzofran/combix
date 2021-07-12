@@ -189,7 +189,9 @@ export const cargarPasajesViajeSeleccionado = (id, viaje) => (dispatch) => {
 
         let totalPasajes = 0;
         response.data.forEach((e) => {
-          totalPasajes = totalPasajes + e.cantidadPasajes;
+          if (e.estado === 'aceptado' || e.estado === 'pendiente') {
+            totalPasajes = totalPasajes + e.cantidadPasajes;
+          }
         });
         let disponibilidad = viaje.ruta.combi.cantidadAsientos;
         disponibilidad = disponibilidad - totalPasajes;
