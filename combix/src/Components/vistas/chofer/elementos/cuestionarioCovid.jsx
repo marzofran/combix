@@ -148,7 +148,7 @@ const CuestionarioCovid = (props) => {
                   >
                     <Row>
                       <Col xs={10}>
-                        <p className='resetP'>Perdida del olfata y/o gusto</p>
+                        <p className='resetP'>Perdida del olfato y/o gusto</p>
                       </Col>
                       <Col>
                         <Form.Check />
