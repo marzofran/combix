@@ -312,7 +312,16 @@ travelsRouter.post('/search', async (request, response) => {
           disponibilidad: viaje.ruta.combi.cantidadAsientos - vendidos,
         };
       });
+
     let viajesMasSuDisponibilidad = await Promise.all(viajesValidos);
+
+    if (viajesMasSuDisponibilidad.length === 0) {
+      response
+      .status(404)
+      .send('No se encontraron viajes para esa ruta y esa fecha')
+      .end();
+    }
+
     let viajesDisponibles = viajesMasSuDisponibilidad.filter((viaje) => {
       return viaje.disponibilidad > 0;
     });

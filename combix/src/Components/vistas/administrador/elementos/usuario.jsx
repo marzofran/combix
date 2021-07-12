@@ -4,12 +4,19 @@ const { dateFormat } = require('../../../../scripts/dateFormat');
 
 //Implementado
 const Usuario = (props) => {
+
+  let clasesCss = 'db-element-header  ';
+
+  if (props.item.baneado > 0) {
+    clasesCss = 'db-element-header-variant ';
+  }
+
   return (
     <Accordion className='row db-element'>
       <Card className='col'>
-        <Card.Header className='db-element-header row'>
+        <Card.Header className={clasesCss + 'row'}>
           <Accordion.Toggle
-            className='db-element-header col'
+            className={clasesCss + 'col'}
             as={Card.Body}
             eventKey='0'
           >
