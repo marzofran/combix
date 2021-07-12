@@ -108,9 +108,6 @@ const Review = (props) => {
                   type='submit'
                   className='btn btn-primary'
                   style={{ backgroundColor: '#145572' }}
-                  onClick={() => {
-                    handleClose();
-                  }}
                 >
                   Guardar review editado.
                 </button>
