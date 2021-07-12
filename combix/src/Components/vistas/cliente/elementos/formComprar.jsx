@@ -149,9 +149,8 @@ const noVencida = (fecha) => {
   let [m, y] = fecha.split('/')
   let today = new Date()
   let month = parseInt(m), year = parseInt(y)
-  if (m > 12) return false
-  else if ( month > today.getMonth()+1 && year >= parseInt(today.getFullYear().toString().substr(-2)) ){
-    return true
-  }
+  if (month > 12 || month < 1) return false
+  if ( year > parseInt(today.getFullYear().toString().substr(-2)) ) return true
+  else if (year === parseInt(today.getFullYear().toString().substr(-2)) && month > today.getMonth()+1 ) return true
   return false
 }
