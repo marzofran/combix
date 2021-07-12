@@ -89,39 +89,48 @@ export const cargarViajes = () => (dispatch, getState) => {
 };
 
 export const borrarViaje = (id) => (dispatch) => {
-  Axios.delete('http://localhost:8080/travels/' + id, {
-    params: { id: id },
-  })
-    .then((response) => {
-      switch (response.status) {
-        case 200:
-          alert(response.data);
-          traerViajes()
-            .then((response) => {
-              switch (response.status) {
-                case 200:
-                  dispatch({
-                    type: BORRAR_VIAJES,
-                    payload: response.data,
-                  });
-                  break;
-                default:
-                  alert(response.data);
-                  break;
-              }
-            })
-            .catch(function (err) {
-              alert(err);
-            });
-          break;
-        default:
-          alert(response.data);
-          break;
-      }
-    })
-    .catch(function (err) {
-      alert(err);
-    });
+  Axios.get('http://localhost:8080/tickets/viaje/' + id, {
+    id,
+  }).then((response) => {
+    console.log(response.data);
+    switch (response.status) {
+      case 200:
+        if (response.data.length > 0) {
+          alert('No se puede dar de baja el viaje por que tiene pasajes comprados');
+        } else {
+          Axios.delete(
+            'http://localhost:8080/travels/' + id
+          ).then((response) => {
+            switch (response.status) {
+              case 200:
+                traerViajes().then((choferes) => {
+                  switch (choferes.status) {
+                    case 200:
+                      dispatch({
+                        type: BORRAR_VIAJES,
+                        payload: choferes.data,
+                      });
+                      alert('El viaje fue dado de baja con exito');
+                      break;
+                    default:
+                      console.log(choferes.data);
+                      break;
+                  }
+                });
+                break;
+              default:
+                alert('Ocurrio un error');
+                break;
+            }
+          });
+        }
+
+        break;
+      default:
+        alert('Ocurrio un error');
+        break;
+    }
+  });
 };
 export const editarViaje = (ruta, fecha, precio, idVieja) => (dispatch) => {
   const viaje = {
