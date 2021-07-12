@@ -19,19 +19,19 @@ const ELIMINAR_REVIEW = 'ELIMINAR_REVIEW';
 export default function reducer(state = configDuck, action) {
   switch (action.type) {
     case BUSCAR_VIAJES:
-      return {...state, resultadoBusqueda: action.payload};
+      return { ...state, resultadoBusqueda: action.payload };
     case CREAR_PASAJE:
       return state;
     case VALIDAR_DISPONIBILIDAD:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case CARGAR_PASAJES:
-      return {...state, elementos: action.payload};
+      return { ...state, elementos: action.payload };
     case RECUPERAR_CONTRASEÑA:
       return state;
     case ELIMINAR_PASAJE:
       return state;
     case OBTENER_REVIEWS_USUARIO:
-      return { ...state, misReviews: action.payload};
+      return { ...state, misReviews: action.payload };
     case CREAR_REVIEW:
       return state;
     case MODIFICAR_REVIEW:
@@ -103,8 +103,6 @@ export const crearPasaje =
             type: CREAR_PASAJE,
           });
           history.push('./compraExitosa');
-
-          alert(response.data);
           break;
         default:
           alert(response.data);
@@ -152,7 +150,7 @@ export const cargarPasajes = (id) => (dispatch) => {
 };
 
 export const cancelarPasaje = (id, _idUsuario) => (dispatch) => {
-  Axios.delete('http://localhost:8080/tickets/' + id, {params: id}).then(
+  Axios.delete('http://localhost:8080/tickets/' + id, { params: id }).then(
     (response) => {
       switch (response.status) {
         case 200:
@@ -196,7 +194,7 @@ export const recuperarContraseña = (mail) => (dispatch) => {
         });
         history.push({
           pathname: '/mailEnviado',
-          state: {mail: mail},
+          state: { mail: mail },
         });
         break;
       default:
@@ -230,55 +228,53 @@ export const crearReview = (contenido, usuario) => (dispatch) => {
   const review = {
     contenido,
     usuario,
-  }
-  Axios.post('http://localhost:8080/reviews/', review).then(
-    (response) => {
-      switch (response.status) {
-        case 200:
-          Axios.get('http://localhost:8080/reviews/' + usuario._id, {
-            id: usuario._id,
-          }).then((response) => {
-            switch (response.status) {
-              case 200:
-                dispatch({
-                  type: OBTENER_REVIEWS_USUARIO,
-                  payload: response.data,
-                });
+  };
+  Axios.post('http://localhost:8080/reviews/', review).then((response) => {
+    switch (response.status) {
+      case 200:
+        Axios.get('http://localhost:8080/reviews/' + usuario._id, {
+          id: usuario._id,
+        }).then((response) => {
+          switch (response.status) {
+            case 200:
+              dispatch({
+                type: OBTENER_REVIEWS_USUARIO,
+                payload: response.data,
+              });
 
-                break;
-              default:
-                alert(response.data);
-                console.log(response);
-                break;
-            }
-          });
-          dispatch({
-            type: CREAR_REVIEW,
-            payload: response.data,
-          });
-          alert('Se guardó el review correctamente');
-          break;
-        default:
-          alert(response.data);
-          break;
-      }
+              break;
+            default:
+              alert(response.data);
+              console.log(response);
+              break;
+          }
+        });
+        dispatch({
+          type: CREAR_REVIEW,
+          payload: response.data,
+        });
+        alert('Se guardó el review correctamente');
+        break;
+      default:
+        alert(response.data);
+        break;
     }
-  );
+  });
 };
 
-export const modificarReview = (contenido, usuario, fecha, id) => (dispatch) => {
-  const review = {
-    contenido,
-    usuario,
-    fecha,
-  }
-  Axios.put('http://localhost:8080/reviews/' + id, {
-    review,
-    params: {
-      id,
-    }
-  }).then(
-    (response) => {
+export const modificarReview =
+  (contenido, usuario, fecha, id) => (dispatch) => {
+    const review = {
+      contenido,
+      usuario,
+      fecha,
+    };
+    Axios.put('http://localhost:8080/reviews/' + id, {
+      review,
+      params: {
+        id,
+      },
+    }).then((response) => {
       switch (response.status) {
         case 200:
           Axios.get('http://localhost:8080/reviews/' + usuario._id, {
@@ -308,13 +304,12 @@ export const modificarReview = (contenido, usuario, fecha, id) => (dispatch) => 
           alert(response.data);
           break;
       }
-    }
-  );
-};
+    });
+  };
 
 export const eliminarReview = (id, usuario) => (dispatch) => {
-  Axios.delete('http://localhost:8080/reviews/' + id, {id}
-  ).then((response) => {
+  Axios.delete('http://localhost:8080/reviews/' + id, { id }).then(
+    (response) => {
       switch (response.status) {
         case 200:
           Axios.get('http://localhost:8080/reviews/' + usuario._id, {

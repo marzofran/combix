@@ -20,7 +20,7 @@ const EstadisticasDeViajes = () => {
     e.preventDefault();
     let inicio = Date.parse(fechaInicio);
     let fin = Date.parse(fechaFin);
-    if (inicio < fin) {
+    if (inicio <= fin) {
       dispatch(cargarEstadisticas(inicio, fin));
       //editarViajesEncontrados(estadisticas);
     } else {
