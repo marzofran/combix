@@ -18,9 +18,11 @@ suppliesRouter.post('/', async (request, response) => {
     nombre: supply.nombre,
     precio: supply.precio,
     tipo: supply.tipo,
+    unavailable: false,
   });
   const foundSupply = await Insumo.find({
     nombre: insumo.nombre,
+    unavailable: false,
   });
   if (Object.entries(foundSupply).length === 0) {
     await insumo.save();
@@ -44,6 +46,7 @@ suppliesRouter.put('/:id', async (req, res) => {
     {
       nombre: insumoExistente.nombre,
       tipo: insumoExistente.tipo,
+      precio: insumoExistente.precio,
     },
     function (err, result) {
       if (!result.length) {
@@ -71,6 +74,22 @@ suppliesRouter.delete('/:id', async (req, res) => {
     }
   );
 });
+suppliesRouter.put('/bajaLogica/:id', async (req, res) => {
+  await Insumo.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      unavailable: false,
+    },
+    { unavailable: true },
+    function (err) {
+      if (!err) {
+        res.status(200).send('Insumo dado de baja con exito').end();
+      } else {
+        res.status(500).send('Se produjo un error').end();
+      }
+    }
+  );
+});
 //delete logico
 // suppliesRouter.delete('/:id', async (req, res) => {
 //   console.log(req.body);
@@ -78,5 +97,30 @@ suppliesRouter.delete('/:id', async (req, res) => {
 //   if(!insumoExistente) throw new HttpError(404, 'Insumo no encontrado');
 //   res.status(200).send('Insumo borrado');
 // })
-
+suppliesRouter.put('/darDeAlta/:id', async (req, res) => {
+  let insumoExistente = req.body.insumo;
+  Insumo.find(
+    {
+      nombre: insumoExistente.nombre,
+      tipo: insumoExistente.tipo,
+      precio: insumoExistente.precio,
+      unavailable: false,
+    },
+    function (err, result) {
+      if (result.length < 1) {
+        Insumo.findOneAndUpdate(
+          { _id: req.params.id },
+          { unavailable: false },
+          function (err, result) {
+            if (result) {
+              res.status(200).send('Insumo dado de alta');
+            }
+          }
+        );
+      } else {
+        res.status(202).send('Ya existe un insumo con esos parametros');
+      }
+    }
+  );
+});
 module.exports = suppliesRouter;
