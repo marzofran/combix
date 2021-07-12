@@ -28,7 +28,7 @@ suppliesRouter.post('/', async (request, response) => {
     await insumo.save();
     response.status(202).send('Insumo creado con exito!').end();
   } else {
-    response.status(203).send('Insumo ya creado').end();
+    response.status(203).send('El nombre ya le pertenece a otro insumo').end();
   }
 });
 
@@ -45,15 +45,14 @@ suppliesRouter.put('/:id', async (req, res) => {
   Insumo.find(
     {
       nombre: insumoExistente.nombre,
-      tipo: insumoExistente.tipo,
-      precio: insumoExistente.precio,
+      unavailable: false,
     },
     function (err, result) {
       if (!result.length) {
         insumoExistente.save();
         res.status(202).send('Insumo modificado con exito!').end();
       } else {
-        res.status(203).send('Ya existe un insumo con esos datos!').end();
+        res.status(203).send('El nombre ya le pertenece a otro insumo').end();
       }
     }
   );
@@ -102,8 +101,6 @@ suppliesRouter.put('/darDeAlta/:id', async (req, res) => {
   Insumo.find(
     {
       nombre: insumoExistente.nombre,
-      tipo: insumoExistente.tipo,
-      precio: insumoExistente.precio,
       unavailable: false,
     },
     function (err, result) {
@@ -118,7 +115,7 @@ suppliesRouter.put('/darDeAlta/:id', async (req, res) => {
           }
         );
       } else {
-        res.status(202).send('Ya existe un insumo con esos parametros');
+        res.status(202).send('El nombre ya le pertenece a otro insumo');
       }
     }
   );
