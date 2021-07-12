@@ -83,7 +83,9 @@ const DetallesDeViaje = (props) => {
                 El viaje es hoy!
               </Col>) : viajeSeleccionado.estado === 'pendiente' && !isToday(new Date(viajeSeleccionado.fecha)) ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
                 Solo puede comenzar el viaje el dia indicado!
-              </Col>) : viajeSeleccionado.estado === 'abierto' ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
+              </Col>) : viajeSeleccionado.estado === 'abierto' && pendientes > 0 ? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
+                Quedan pasajeros pendientes! 
+              </Col>) : viajeSeleccionado.estado === 'abierto' && pendientes === 0? (<Col style={{ color: 'red', textAlign: 'center', padding: '15px 0'}}>
                 El viaje puede comenzar! 
               </Col>) : <Col/>}
               <Col>
@@ -98,14 +100,19 @@ const DetallesDeViaje = (props) => {
                       style={{ maxWidth: '30vw', float: 'right', backgroundColor: 'grey'}}
                   > 
                     Comenzar Check-in
-                  </button>) : viajeSeleccionado.estado === 'abierto' ? (<button //agregar condicion de pendientes 0!!!
-                    onClick={() => dispatch(comenzarViaje(viajeSeleccionado._id))} //poner en curso
+                  </button>) : viajeSeleccionado.estado === 'abierto' && pendientes > 0 ? (<button
+                      className={'btn btn-disabled'}
+                      style={{ maxWidth: '30vw', float: 'right', backgroundColor: 'grey'}}
+                  > 
+                    Comenzar viaje
+                  </button>) : viajeSeleccionado.estado === 'abierto' && pendientes === 0 ? (<button
+                    onClick={() => dispatch(comenzarViaje(viajeSeleccionado._id))}
                       className={'btn btn-login'}
                       style={{ maxWidth: '30vw', float: 'right'}}
                   > 
                     Comenzar viaje
                   </button>) : viajeSeleccionado.estado === 'en curso' ? (<button
-                    onClick={() => dispatch(finalizarViaje(viajeSeleccionado._id))} //cerrar viaje
+                    onClick={() => dispatch(finalizarViaje(viajeSeleccionado._id))}
                       className={'btn btn-login'}
                       style={{ maxWidth: '30vw', float: 'right'}}
                   > 
