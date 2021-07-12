@@ -14,23 +14,27 @@ const Estadistica = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(() => {
+    let aceptados = 0;
+    let cancelados = 0;
+    let ausentes = 0;
+    let recaudacionTotal = 0;
+
     props.item.pasajeros.forEach((e) => {
-      editRecaudacion(recaudacion + parseFloat(e.precioTotal));
-      switch (e.estado) {
-        case 'aceptado':
-          editCantViajeros(cantViajeros + 1);
-          break;
-        case 'cancelado':
-          editCantCancelados(cantCancelados + 1);
-          break;
-        case 'ausente':
-          editCantAusentes(cantAusentes + 1);
-          break;
-        default:
-          console.log(e.estado);
-          break;
+      if (e.estado === 'aceptado') {
+        aceptados = aceptados + parseFloat(e.cantidadPasajes);
+        recaudacionTotal = recaudacionTotal + parseFloat(e.precioTotal);
+      } else if (e.estado === 'cancelado') {
+        cancelados = cancelados + parseFloat(e.cantidadPasajes);
+      } else if (e.estado === 'ausente') {
+        ausentes = ausentes + parseFloat(e.cantidadPasajes);
+        recaudacionTotal = recaudacionTotal + parseFloat(e.precioTotal);
       }
     });
+
+    editCantViajeros(aceptados);
+    editCantCancelados(cancelados);
+    editCantAusentes(ausentes);
+    editRecaudacion(recaudacionTotal);
   }, []);
   return (
     <div className={'mt-2'}>
