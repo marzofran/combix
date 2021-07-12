@@ -62,28 +62,66 @@ usersRouter.put('/:id', async (req, res) => {
     _id: req.params.id,
     unavailable: false,
   });
-  if (!usuarioExistente) throw new HttpError(404, 'Usuario no encontrado');
+
   //if (!hasLegalAge(usuarioNuevo.fechaNacimiento))
   //  throw new Error('Debe ser mayor de edad');
-  const foundUser = Usuario.find({
-    mail: user.mail,
-    unavailable: false,
-    _id: {$ne: req.params.id}
-  });
-  if (Object.entries(foundUser).length > 0)
-    throw new HttpError(203, 'Ya existe un usuario con esos datos');
-  //Object.entries(foundUser).length > 0 && 
-  let update = {
-    nombre: user.nombre,
-    apellido: user.apellido,
-    mail: user.mail,
-    dni: user.dni,
-    clave: user.clave,
-    fechaNacimiento: user.fechaNacimiento,
-    telefono: user.telefono,
-  };
-  let pepe = await Usuario.findOneAndUpdate({ _id: req.params.id }, update, {new: true,});
-  res.status(200).send(pepe).end();
+  Usuario.find(
+    {
+      mail: user.mail,
+      unavailable: false,
+    },
+    function (err, result) {
+      if (result.length > 1) {
+        result.status(203).send('Ya existe un usuario con esos datos').end();
+      } else if (result.length === 1) {
+        if (result[0]._id == req.params.id) {
+          let update = {
+            nombre: user.nombre,
+            apellido: user.apellido,
+            mail: user.mail,
+            dni: user.dni,
+            clave: user.clave,
+            fechaNacimiento: user.fechaNacimiento,
+            telefono: user.telefono,
+          };
+          Usuario.findOneAndUpdate(
+            { _id: req.params.id },
+            update,
+            { new: true },
+            function (err, resultDos) {
+              console.log(resultDos);
+
+              res.status(200).send(resultDos).end();
+            }
+          );
+        } else {
+          res.status(203).send('Ya existe un usuario con esos datos').end();
+        }
+      } else {
+        let update = {
+          nombre: user.nombre,
+          apellido: user.apellido,
+          mail: user.mail,
+          dni: user.dni,
+          clave: user.clave,
+          fechaNacimiento: user.fechaNacimiento,
+          telefono: user.telefono,
+        };
+        Usuario.findOneAndUpdate(
+          { _id: req.params.id },
+          update,
+          { new: true },
+          function (err, result) {
+            if (result) {
+              res.status(200).send(result).end();
+            } else {
+              res.status(203).send('ocurrio un error').end();
+            }
+          }
+        );
+      }
+    }
+  );
 });
 
 usersRouter.put('/:id/gold', async (req, res) => {
